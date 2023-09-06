@@ -296,7 +296,7 @@
 
                         <li>
                             <a class="{{ Route::currentRouteName() == 'calendar' ? 'active' : '' }}"
-                                href="{{ route('calendar') }}"></i><span>Kalender</span></a>
+                                href="{{ route('calendar') }}"><i class="fe fe-calendar"></i><span>Kalender</span></a>
                         </li>
 
                         <li>
