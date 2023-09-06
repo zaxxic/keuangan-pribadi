@@ -98,6 +98,12 @@
 
 
             <ul class="nav nav-tabs user-menu">
+                <li class="me-2">
+                    <span class="d-inline-block">
+                        Uang Dimiliki: Rp 10.000.000
+                    </span>
+                </li>
+            
 
 
                 <li class="nav-item dropdown  flag-nav dropdown-heads">
@@ -219,6 +225,10 @@
                                         <a class="dropdown-item" href="profile.html">Profile</a>
                                     </li>
                                     <li>
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                            data-bs-target="#planModal">Upgrade</a>
+                                    </li>
+                                    <li>
                                         <a class="dropdown-item" href="settings.html">Settings</a>
                                     </li>
                                 </ul>
@@ -296,7 +306,8 @@
 
                         <li>
                             <a class="{{ Route::currentRouteName() == 'calendar' ? 'active' : '' }}"
-                                href="{{ route('calendar') }}"><i class="fe fe-calendar"></i><span>Kalender</span></a>
+                                href="{{ route('calendar') }}"><i
+                                    class="fe fe-calendar"></i><span>Kalender</span></a>
                         </li>
 
                         <li>
@@ -315,6 +326,45 @@
             </div>
         </div>
         @yield('content')
+        <div class="modal fade" id="planModal" tabindex="-1" aria-labelledby="planModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="description-content">
+                            <p>Dapatkan fitur premium untuk akses penuh</p>
+                        </div>
+                        <div class="price-dollar">
+                            <h1 class="d-flex align-items-center mt-2">Rp 90.000,000<span class="ms-1">/monthly</span></h1>
+                        </div>
+                        <div class="plan-description mt-3">
+                            <h6>Apa yang di dapatkan </h6>
+                            <ul>
+                                <li class="mt-2">
+                                    <span class="rounded-circle me-2"><i class="fe fe-check"></i></span>
+                                    Pemasukan Berulang
+                                </li>
+                                <li class="mt-2">
+                                    <span class="rounded-circle me-2"><i class="fe fe-check"></i></span>
+                                    Pengeluaran Berulang
+                                </li>
+                                <li class="mt-2">
+                                    <span class="rounded-circle me-2"><i class="fe fe-check"></i></span>
+                                    Export transaksi ke excel 
+                                </li>
+                                <li class="mt-2">
+                                    <span class="rounded-circle me-2"><i class="fe fe-check"></i></span>
+                                    DLL...
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="plan-button mt-4">
+                            <a class="btn btn-primary d-flex align-items-center justify-content-center" href="#">Mulai Brlangganan<span class="ms-2"><i class="fe fe-arrow-right"></i></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
