@@ -54,8 +54,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -144,18 +142,6 @@
 
                                 </div>
                             </div>
-                            {{-- <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="card-title">Vertical Stacked Bar Chart</div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chartjs-wrapper-demo">
-                                        <canvas id="chartStacked1" class="h-300"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
                             <div id="sales_chart"></div>
 
 

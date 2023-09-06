@@ -81,6 +81,82 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>
+                                                <a href="invoice-details.html" class="invoice-link">Jual mouse</a>
+                                            </td>
+
+                                            <td>Rp 2.000.000</td>
+                                            <td>
+                                               <button class="btn btn-primary">Lihat</button>
+                                            </td>
+                                            <td>Cash</td>
+                                            <td>
+                                                Beli
+                                            </td>
+                                            <td>Lorem ipsum dolor sit consectetur </td>
+
+                                            <td class="d-flex align-items-center">
+                                                <a class="btn-action-icon me-2" href="javascript:void(0);" download><i
+                                                        class="fe fe-download"></i></a>
+                                                <div class="dropdown dropdown-action">
+                                                    <a href="#" class="btn-action-icon" data-bs-toggle="dropdown"
+                                                        aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <ul>
+                                                            <li>
+                                                                <a class="dropdown-item" href="edit-expenses.html"><i
+                                                                        class="far fa-edit me-2"></i>Edit</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="javascript:void(0);"
+                                                                    data-bs-toggle="modal" data-bs-target="#delete_modal"><i
+                                                                        class="far fa-trash-alt me-2"></i>Delete</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>
+                                                <a href="invoice-details.html" class="invoice-link">Jual mouse</a>
+                                            </td>
+
+                                            <td>Rp 2.000.000</td>
+                                            <td>
+                                               <button class="btn btn-primary">Lihat</button>
+                                            </td>
+                                            <td>Cash</td>
+                                            <td>
+                                                Jualan
+                                            </td>
+                                            <td>Lorem ipsum dolor sit consectetur </td>
+
+                                            <td class="d-flex align-items-center">
+                                                <a class="btn-action-icon me-2" href="javascript:void(0);" download><i
+                                                        class="fe fe-download"></i></a>
+                                                <div class="dropdown dropdown-action">
+                                                    <a href="#" class="btn-action-icon" data-bs-toggle="dropdown"
+                                                        aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <ul>
+                                                            <li>
+                                                                <a class="dropdown-item" href="edit-expenses.html"><i
+                                                                        class="far fa-edit me-2"></i>Edit</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" href="javascript:void(0);"
+                                                                    data-bs-toggle="modal" data-bs-target="#delete_modal"><i
+                                                                        class="far fa-trash-alt me-2"></i>Delete</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
 
 
                                     </tbody>

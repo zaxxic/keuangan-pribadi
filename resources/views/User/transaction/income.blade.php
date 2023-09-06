@@ -54,7 +54,8 @@
 
                                             <td>Rp 2.000.000</td>
                                             <td>
-                                               <button class="btn btn-primary">Lihat</button>
+                                                <button data-bs-target="#delete_modal" data-bs-toggle="modal"  class="btn btn-primary">Lihat</button>
+
                                             </td>
                                             <td>Cash</td>
                                             <td>

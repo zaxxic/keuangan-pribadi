@@ -166,6 +166,69 @@ $(document).ready(function () {
             updateChart(jenisTerpilih);
         });
     }
+
+      // // Simple Column
+      if ($('#s-col').length > 0) {
+        var sCol = {
+          chart: {
+            height: 350,
+            type: 'bar',
+            toolbar: {
+              show: false,
+            }
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              columnWidth: '55%',
+              endingShape: 'rounded'
+            },
+          },
+          // colors: ['#888ea8', '#4361ee'],
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+          },
+          series: [{
+            name: 'Net Profit',
+            data: [10, 15, 12, 8, 20, 18, 14, 16, 11, 10, 15, 12, 8, 20, 18, 14, 16, 11, 10, 15, 12, 8, 20, 18, 14, 16, 11, 10, 15, 12, 8, 20]
+          }, {
+            name: 'Revenue',
+            data: [20, 25, 22, 18, 30, 28, 24, 26, 21, 20, 25, 22, 18, 30, 28, 24, 26, 21, 20, 25, 22, 18, 30, 28, 24, 26, 21, 20, 25, 22, 18, 30]
+          }],
+          xaxis: {
+            categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'],
+          },
+          yaxis: {
+            title: {
+              text: '$ (thousands)'
+            }
+          },
+          fill: {
+            opacity: 1
+      
+          },
+          tooltip: {
+            y: {
+              formatter: function (val) {
+                return "$ " + val + " thousands"
+              }
+            }
+          }
+        }
+      
+        var chart = new ApexCharts(
+          document.querySelector("#s-col"),
+          sCol
+        );
+      
+        chart.render();
+      }
+    
     //Pie Chart
     // if($('#invoice_chart').length > 0 ){
     // 	var pieCtx = document.getElementById("invoice_chart"),
@@ -286,68 +349,7 @@ $(document).ready(function () {
     // chart.render();
     // }
 
-    // // Simple Column
-    // if($('#s-col').length > 0 ){
-    // var sCol = {
-    //     chart: {
-    //         height: 350,
-    //         type: 'bar',
-    //         toolbar: {
-    //           show: false,
-    //         }
-    //     },
-    //     plotOptions: {
-    //         bar: {
-    //             horizontal: false,
-    //             columnWidth: '55%',
-    //             endingShape: 'rounded'
-    //         },
-    //     },
-    //     // colors: ['#888ea8', '#4361ee'],
-    //     dataLabels: {
-    //         enabled: false
-    //     },
-    //     stroke: {
-    //         show: true,
-    //         width: 2,
-    //         colors: ['transparent']
-    //     },
-    //     series: [{
-    //         name: 'Net Profit',
-    //         data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-    //     }, {
-    //         name: 'Revenue',
-    //         data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-    //     }],
-    //     xaxis: {
-    //         categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-    //     },
-    //     yaxis: {
-    //         title: {
-    //             text: '$ (thousands)'
-    //         }
-    //     },
-    //     fill: {
-    //         opacity: 1
-
-    //     },
-    //     tooltip: {
-    //         y: {
-    //             formatter: function (val) {
-    //                 return "$ " + val + " thousands"
-    //             }
-    //         }
-    //     }
-    // }
-
-    // var chart = new ApexCharts(
-    //     document.querySelector("#s-col"),
-    //     sCol
-    // );
-
-    // chart.render();
-    // }
-
+  
     // // Simple Column Stacked
     // if($('#s-col-stacked').length > 0 ){
     // var sColStacked = {

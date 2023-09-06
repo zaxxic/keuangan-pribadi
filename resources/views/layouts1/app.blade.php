@@ -308,7 +308,8 @@
         </div>
         @yield('content')
     </div>
-
+    
+    @yield('script')
     <script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
 
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
@@ -324,6 +325,7 @@
 
     <script src="{{ asset('assets/plugins/apexchart/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/apexchart/chart-data.js') }}"></script>
+    
 
     <script src="{{ asset('assets/plugins/summernote/summernote-lite.min.js') }}"></script>
 
@@ -332,6 +334,7 @@
     <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
+    
 </body>
 
 

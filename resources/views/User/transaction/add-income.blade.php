@@ -31,8 +31,8 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-2">
-                                                    <button class="btn btn-secondary" data-toggle="modal"
-                                                        data-target="#tambahModal">
+                                                    <button class="btn btn-secondary" data-bs-target="#tambahModal"
+                                                        data-bs-toggle="modal">
                                                         +
                                                     </button>
                                                 </div>
@@ -40,6 +40,8 @@
                                         </div>
                                     </div>
                                 </div>
+
+
 
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <div class="form-group">
@@ -103,6 +105,36 @@
                         <div class="text-end">
                             <a href="expenses.html" class="btn btn-primary cancel me-2">Batal</a>
                             <a href="expenses.html" class="btn btn-primary">simpan</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal custom-modal fade" id="tambahModal" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-header">
+                        <h3>Tambah Kategori</h3>
+                        <p>Masukan kategori yang di inginkan </p>
+                    </div>
+                    <div class="modal-btn delete-action">
+                        <div class="row">
+                            <form action="">
+                            <input autofocus placeholder="Masukan kategori yang di iginkan" class="form-control" type="text">
+                            <div class="d-flex mt-3">
+                            <div class="col-6 me-2">
+                                <button type="submit"
+                                    class="w-100 btn btn-primary paid-continue-btn">Simpan</button>
+                            </div>
+                            <div class="col-6">
+                                <button data-bs-dismiss="modal"
+                                    class="w-100 btn btn-primary paid-cancel-btn">Batal</button>
+                            </div>
+                        </div>
+                        </form>
                         </div>
                     </div>
                 </div>

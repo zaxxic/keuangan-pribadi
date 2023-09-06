@@ -40,6 +40,14 @@ Route::get('/add-expenditure', function () {
     return view('User.transaction.add-expenditure');
 })->name("add-expenditure");
 
+Route::get('/setting', function () {
+    return view('User.menu.settings');
+})->name("setting");
+
+Route::get('/total', function () {
+    return view('User.menu.total');
+})->name("total");
+
 Route::middleware(['auth'])->group(function () {
 });
 
