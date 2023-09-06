@@ -26,24 +26,45 @@
                     <div class="login-right">
                         <div class="login-right-wrap">
                             <h1>Register</h1>
-                            <p class="account-subtitle">Access to our dashboard</p>
+                            <p class="account-subtitle">Untuk akses layanan kami</p>
 
-                            <form action="https://kanakku.dreamguystech.com/html/template/login.html">
+                            <form method="POST" action="{{ route('register') }}">
+                                @csrf
                                 <div class="form-group">
-                                    <label class="form-control-label">Name</label>
-                                    <input class="form-control" type="text">
+                                    <label class="form-control-label">Nama</label>
+                                    <input id="name" type="text"
+                                        class="form-control @error('name') is-invalid @enderror" name="name"
+                                        value="{{ old('name') }}"  autocomplete="name" autofocus>
+
+                                    @error('name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label">Email Address</label>
-                                    <input class="form-control" type="text">
+                                    <label class="form-control-label">Alamat email</label>
+                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email">
+
+                                    @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Password</label>
-                                    <input class="form-control" type="text">
+                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password"  autocomplete="new-password">
+
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label">Confirm Password</label>
-                                    <input class="form-control" type="text">
+                                    <label class="form-control-label">Konfirmasi Password</label>
+                                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation"  autocomplete="new-password">
                                 </div>
                                 <div class="form-group mb-0">
                                     <button class="btn btn-lg btn-block btn-primary w-100"
@@ -56,9 +77,9 @@
                                 <span class="span-or">or</span>
                             </div>
 
-                           
 
-                            <div class="text-center dont-have">Already have an account? <a href="login.html">Login</a>
+
+                            <div class="text-center dont-have">Sudah punya akun? <a href="{{Route("login")}}">Login</a>
                             </div>
                         </div>
                     </div>

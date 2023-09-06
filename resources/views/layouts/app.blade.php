@@ -19,14 +19,20 @@
 
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables/datatables.min.css') }}">
 
+    <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-lite.min.css') }}" />
+
+
+
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
+    @yield('style')
 </head>
 
 <body>
 
+    @include('layouts.header')
+    @include('layouts.sidebar')
     <div class="main-wrapper">
-        @include('layouts.header')
-        @include('layouts.sidebar')
         <div class="page-wrapper">
             @yield('content')
         </div>
@@ -45,6 +51,22 @@
     <script src="{{ asset('assets/plugins/apexchart/chart-data.js') }}"></script>
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
+
+    <script src="{{ asset('assets/plugins/datatables/datatables.min.js') }}"></script>
+
+    <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+
+    <script src="{{ asset('assets/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+
+    <script src="{{ asset('assets/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+    <script src="{{ asset('assets/plugins/summernote/summernote-lite.min.js') }}"></script>
+
+
+    <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
+
+    @yield('script')
 </body>
 
 

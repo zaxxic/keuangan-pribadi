@@ -1,3 +1,44 @@
+<style>
+    .custom-btn {
+        display: inline-block;
+        font-size: 12px;
+        padding: 5px 8px;
+        border-radius: 4px;
+        border: none;
+        color: #fff;
+        background-color: #007bff;
+        cursor: pointer;
+        margin-top: 5px;
+    }
+
+    .custom-btn:hover {
+        background-color: #0069d9;
+    }
+
+    .edit-btn {
+        background-color: #ffc107;
+    }
+
+    .edit-btn:hover {
+        background-color: #e0a800;
+    }
+
+    .detail-btn {
+        background-color: #6c757d;
+    }
+
+    .detail-btn:hover {
+        background-color: #5a6268;
+    }
+
+    .approve-btn {
+        background-color: #28a745;
+    }
+
+    .approve-btn:hover {
+        background-color: #218838;
+    }
+</style>
 <div class="header header-one">
 
     <a href="javascript:void(0);" id="toggle_btn">
@@ -10,13 +51,6 @@
     </a>
 
 
-    <div class="top-nav-search">
-        <form>
-            <input type="text" class="form-control" placeholder="Search here">
-            <button class="btn" type="submit"><img src="assets/img/icons/search.svg"
-                    alt="img"></button>
-        </form>
-    </div>
 
 
     <a class="mobile_btn" id="mobile_btn">
@@ -26,31 +60,6 @@
 
     <ul class="nav nav-tabs user-menu">
 
-        <li class="nav-item dropdown has-arrow flag-nav">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
-                <img src="assets/img/flags/us1.png" alt height="20"><span>English</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-end">
-                <a href="javascript:void(0);" class="dropdown-item">
-                    <img src="assets/img/flags/us.png" alt height="16"><span>English</span>
-                </a>
-                <a href="javascript:void(0);" class="dropdown-item">
-                    <img src="assets/img/flags/fr.png" alt height="16"><span>French</span>
-                </a>
-                <a href="javascript:void(0);" class="dropdown-item">
-                    <img src="assets/img/flags/es.png" alt height="16"><span>Spanish</span>
-                </a>
-                <a href="javascript:void(0);" class="dropdown-item">
-                    <img src="assets/img/flags/de.png" alt height="16"><span>German</span>
-                </a>
-            </div>
-        </li>
-
-        <li class="nav-item  has-arrow dropdown-heads ">
-            <a href="javascript:void(0);" class="toggle-switch">
-                <i class="fe fe-moon"></i>
-            </a>
-        </li>
         <li class="nav-item dropdown  flag-nav dropdown-heads">
             <a class="nav-link" data-bs-toggle="dropdown" href="#" role="button">
                 <i class="fe fe-bell"></i> <span class="badge rounded-pill"></span>
@@ -63,86 +72,81 @@
                 <div class="noti-content">
                     <ul class="notification-list">
                         <li class="notification-message">
-                            <a href="profile.html">
+                            <a href="javascript:void(0);" style="cursor: default;">
                                 <div class="media d-flex">
-                                    <span class="avatar avatar-sm">
-                                        <img class="avatar-img rounded-circle" alt
-                                            src="assets/img/profiles/avatar-02.jpg">
-                                    </span>
                                     <div class="media-body">
-                                        <p class="noti-details"><span class="noti-title">Brian Johnson</span>
-                                            paid the invoice <span class="noti-title">#DF65485</span></p>
-                                        <p class="noti-time"><span class="notification-time">4 mins ago</span>
+                                        <p class="noti-time">
+                                            <span class="notification-time">4 mins ago</span>
                                         </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="notification-message">
-                            <a href="profile.html">
-                                <div class="media d-flex">
-                                    <span class="avatar avatar-sm">
-                                        <img class="avatar-img rounded-circle" alt
-                                            src="assets/img/profiles/avatar-03.jpg">
-                                    </span>
-                                    <div class="media-body">
-                                        <p class="noti-details"><span class="noti-title">Marie Canales</span>
-                                            has accepted your estimate <span
-                                                class="noti-title">#GTR458789</span></p>
-                                        <p class="noti-time"><span class="notification-time">6 mins ago</span>
+                                        <p class="noti-details">
+                                            <span class="noti-title">Pemasukan</span>
+                                            Gajian bulanan dari kantor A
                                         </p>
+                                        <span class="noti-title">
+                                            <button class="custom-btn edit-btn"
+                                                onclick="editNotification()">Edit</button>
+                                            <button class="custom-btn detail-btn"
+                                                onclick="viewDetails()">Detail</button>
+                                            <button class="custom-btn approve-btn"
+                                                onclick="approveIncome()">Setuju</button>
+                                        </span>
+
                                     </div>
                                 </div>
                             </a>
                         </li>
+
                         <li class="notification-message">
-                            <a href="profile.html">
+                            <a href="javascript:void(0);" style="cursor: default;">
                                 <div class="media d-flex">
-                                    <div class="avatar avatar-sm">
-                                        <span class="avatar-title rounded-circle bg-primary-light"><i
-                                                class="far fa-user"></i></span>
-                                    </div>
                                     <div class="media-body">
-                                        <p class="noti-details"><span class="noti-title">New user
-                                                registered</span></p>
-                                        <p class="noti-time"><span class="notification-time">8 mins ago</span>
+                                        <p class="noti-time">
+                                            <span class="notification-time">40 mins ago</span>
                                         </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="notification-message">
-                            <a href="profile.html">
-                                <div class="media d-flex">
-                                    <span class="avatar avatar-sm">
-                                        <img class="avatar-img rounded-circle" alt
-                                            src="assets/img/profiles/avatar-04.jpg">
-                                    </span>
-                                    <div class="media-body">
-                                        <p class="noti-details"><span class="noti-title">Barbara Moore</span>
-                                            declined the invoice <span class="noti-title">#RDW026896</span></p>
-                                        <p class="noti-time"><span class="notification-time">12 mins
-                                                ago</span></p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="notification-message">
-                            <a href="profile.html">
-                                <div class="media d-flex">
-                                    <div class="avatar avatar-sm">
-                                        <span class="avatar-title rounded-circle bg-info-light"><i
-                                                class="far fa-comment"></i></span>
-                                    </div>
-                                    <div class="media-body">
-                                        <p class="noti-details"><span class="noti-title">You have received a
-                                                new message</span></p>
-                                        <p class="noti-time"><span class="notification-time">2 days ago</span>
+                                        <p class="noti-details">
+                                            <span class="noti-title">Pemasukan</span>
+                                            Gajian bulanan dari kantor HummaTech
+
                                         </p>
+                                        <span class="noti-title">
+                                            <button class="custom-btn edit-btn"
+                                                onclick="editNotification()">Edit</button>
+                                            <button class="custom-btn detail-btn"
+                                                onclick="viewDetails()">Detail</button>
+                                            <button class="custom-btn approve-btn"
+                                                onclick="approveIncome()">Setuju</button>
+                                        </span>
+
                                     </div>
                                 </div>
                             </a>
                         </li>
+
+                        <li class="notification-message">
+                            <a href="javascript:void(0);" style="cursor: default;">
+                                <div class="media d-flex">
+                                    <div class="media-body">
+                                        <p class="noti-time">
+                                            <span class="notification-time">90 mins ago</span>
+                                        </p>
+                                        <p class="noti-details">
+                                            <span class="noti-title">Pemasukan</span>
+                                            Gajian bulanan dari kantor Laaa
+                                        </p>
+                                        <span class="noti-title">
+                                            <button class="custom-btn edit-btn"
+                                                onclick="editNotification()">Edit</button>
+                                            <button class="custom-btn detail-btn"
+                                                onclick="viewDetails()">Detail</button>
+                                            <button class="custom-btn approve-btn"
+                                                onclick="approveIncome()">Setuju</button>
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
                     </ul>
                 </div>
                 <div class="topnav-dropdown-footer">
@@ -182,7 +186,13 @@
                     <div class="subscription-logout">
                         <ul>
                             <li class="pb-0">
-                                <a class="dropdown-item" href="login.html">Log Out</a>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                      document.getElementById('logout-form').submit();">Log
+                                    Out</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
                             </li>
                         </ul>
                     </div>
