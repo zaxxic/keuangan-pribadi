@@ -261,49 +261,20 @@
                     <ul>
                         <li class="menu-title"><span>Dashboard</span></li>
                         <li>
-                            <a class="{{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                            <a class="{{ Route::currentRouteName() == 'admin' ? 'active' : '' }}" href="{{ route('admin') }}">
                                 <i
                                     class="fe fe-home"></i><span>Dashboard</span></a>
                         </li>
                     </ul>
 
                     <ul>
-                        <li class="menu-title"><span>Transaksi</span></li>
-                        <li class="submenu">
-                            <a href="#"><i class="fe fe-trending-up"></i> <span> Pemasukan</span> <span
-                                    class="menu-arrow"></span></a>
-                            <ul>
-                                <li>        <a class="{{ Route::currentRouteName() == 'income' ? 'active' : '' }}" href="{{ route('income') }}">
-                                    Pemasukan</a></li>
-                                <li>        <a class="{{ Route::currentRouteName() == 'income-recurring' ? 'active' : '' }}" href="{{ route('income-recurring') }}">
-                                    Pemasukan Berulang</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="fe fe-trending-down"></i> <span> Pengeluaran</span> <span
-                                    class="menu-arrow"></span></a>
-                            <ul>
-                                <li><a class="{{ Route::currentRouteName() == 'expenditure' ? 'active' : '' }}" href="{{ route('expenditure') }}">Pengeluaran</a></li>
-                                <li><a href="">Pengeluaran Berulang</a></li>
-                            </ul>
+                        <li class="menu-title"><span>Langganan</span></li>
+                        <li>
+                            <a class="{{ Route::currentRouteName() == 'paid-users' ? 'active' : '' }}" href="{{ route('paid-users') }}">
+                                <i
+                                    class="fe fe-home"></i><span>Users</span></a>
                         </li>
                     </ul>
-                    <ul>
-                        <li class="menu-title"><span>Menu</span></li>
-
-                        <li>
-                            <a href="{{ route('calendar') }}"><i class="fe fe-calendar"></i><span>Kalender</span></a>
-                        </li>
-
-                        <li>
-                            <a href="customers.html"><i class="fe fe-percent"></i><span>Total</span></a>
-                        </li>
-                        <li>
-                            <a href="customers.html"><i class="fe fe-settings"></i><span>Settings</span></a>
-                        </li>
-                    </ul>
-
-
 
                 </div>
             </div>
