@@ -64,8 +64,7 @@
                                             <td>Lorem ipsum dolor sit consectetur </td>
 
                                             <td class="d-flex align-items-center">
-                                                <a class="btn-action-icon me-2" href="javascript:void(0);" download><i
-                                                        class="fe fe-download"></i></a>
+                                              
                                                 <div class="dropdown dropdown-action">
                                                     <a href="#" class="btn-action-icon" data-bs-toggle="dropdown"
                                                         aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>

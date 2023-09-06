@@ -261,9 +261,9 @@
                     <ul>
                         <li class="menu-title"><span>Dashboard</span></li>
                         <li>
-                            <a class="{{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}" href="{{ route('dashboard') }}">
-                                <i
-                                    class="fe fe-home"></i><span>Dashboard</span></a>
+                            <a class="{{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}"
+                                href="{{ route('dashboard') }}">
+                                <i class="fe fe-home"></i><span>Dashboard</span></a>
                         </li>
                     </ul>
 
@@ -273,17 +273,20 @@
                             <a href="#"><i class="fe fe-trending-up"></i> <span> Pemasukan</span> <span
                                     class="menu-arrow"></span></a>
                             <ul>
-                                <li>        <a class="{{ Route::currentRouteName() == 'income' ? 'active' : '' }}" href="{{ route('income') }}">
-                                    Pemasukan</a></li>
-                                <li>        <a class="{{ Route::currentRouteName() == 'income-recurring' ? 'active' : '' }}" href="{{ route('income-recurring') }}">
-                                    Pemasukan Berulang</a></li>
+                                <li> <a class="{{ in_array(Route::currentRouteName(), ['income', 'add-income', 'edit-income']) ? 'active' : '' }}"
+                                        href="{{ route('income') }}">
+                                        Pemasukan</a></li>
+                                <li> <a class="{{ Route::currentRouteName() == 'income-recurring' ? 'active' : '' }}"
+                                        href="{{ route('income-recurring') }}">
+                                        Pemasukan Berulang</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
                             <a href="#"><i class="fe fe-trending-down"></i> <span> Pengeluaran</span> <span
                                     class="menu-arrow"></span></a>
                             <ul>
-                                <li><a class="{{ Route::currentRouteName() == 'expenditure' ? 'active' : '' }}" href="{{ route('expenditure') }}">Pengeluaran</a></li>
+                                <li><a class="{{ Route::currentRouteName() == 'expenditure' ? 'active' : '' }}"
+                                        href="{{ route('expenditure') }}">Pengeluaran</a></li>
                                 <li><a href="">Pengeluaran Berulang</a></li>
                             </ul>
                         </li>
@@ -292,14 +295,17 @@
                         <li class="menu-title"><span>Menu</span></li>
 
                         <li>
-                            <a href="{{ route('calendar') }}"><i class="fe fe-calendar"></i><span>Kalender</span></a>
+                            <a class="{{ Route::currentRouteName() == 'calendar' ? 'active' : '' }}"
+                                href="{{ route('calendar') }}"></i><span>Kalender</span></a>
                         </li>
 
                         <li>
-                            <a href="customers.html"><i class="fe fe-percent"></i><span>Total</span></a>
+                            <a class="{{ Route::currentRouteName() == 'total' ? 'active' : '' }}"
+                                href="{{ route('total') }}"><i class="fe fe-percent"></i><span>Total</span></a>
                         </li>
                         <li>
-                            <a href="customers.html"><i class="fe fe-settings"></i><span>Settings</span></a>
+                            <a class="{{ Route::currentRouteName() == 'setting' ? 'active' : '' }}"
+                                href="{{ route('setting') }}"><i class="fe fe-settings"></i><span>Settings</span></a>
                         </li>
                     </ul>
 
@@ -310,8 +316,7 @@
         </div>
         @yield('content')
     </div>
-    
-    @yield('script')
+
     <script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
 
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
@@ -327,7 +332,7 @@
 
     <script src="{{ asset('assets/plugins/apexchart/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/apexchart/chart-data.js') }}"></script>
-    
+
 
     <script src="{{ asset('assets/plugins/summernote/summernote-lite.min.js') }}"></script>
 
@@ -336,7 +341,9 @@
     <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
-    
+
+    @yield('script')
+
 </body>
 
 

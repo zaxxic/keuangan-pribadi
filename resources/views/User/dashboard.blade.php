@@ -121,8 +121,8 @@
                             <div class="dropdown main">
                                 <label for="chart_period_select">Periode:</label>
                                 <select id="chart_period_select">
-                                    <option value="daily" id="option_daily">Harian</option>
                                     <option value="weekly" id="option_weekly">Mingguan</option>
+                                    <option value="daily" id="option_daily">Harian</option>
                                     <option value="monthly" id="option_monthly">Bulanan</option>
                                     <option value="yearly" id="option_yearly">Tahunan</option>
                                 </select>
