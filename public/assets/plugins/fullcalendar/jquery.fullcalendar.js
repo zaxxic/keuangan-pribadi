@@ -15,7 +15,7 @@
 
 
     /* on drop */
-    CalendarApp.prototype.onDrop = function (eventObj, date) { 
+    CalendarApp.prototype.onDrop = function (eventObj, date) {
         var $this = this;
             // retrieve the dropped element's stored Event Object
             var originalEventObject = eventObj.data('eventObject');
@@ -36,25 +36,26 @@
     },
     /* on click on event */
     CalendarApp.prototype.onEventClick =  function (calEvent, jsEvent, view) {
-        var $this = this;
-            var form = $("<form></form>");
-            form.append("<label>Change event name</label>");
-            form.append("<div class='input-group'><input class='form-control' type=text value='" + calEvent.title + "' /><span class='input-group-append'><button type='submit' class='btn btn-success'><i class='fas fa-check'></i> Save</button></span></div>");
-            $this.$modal.modal({
-                backdrop: 'static'
-            });
-            $this.$modal.find('.delete-event').show().end().find('.save-event').hide().end().find('.modal-body').empty().prepend(form).end().find('.delete-event').unbind('click').click(function () {
-                $this.$calendarObj.fullCalendar('removeEvents', function (ev) {
-                    return (ev._id == calEvent._id);
-                });
-                $this.$modal.modal('hide');
-            });
-            $this.$modal.find('form').on('submit', function () {
-                calEvent.title = form.find("input[type=text]").val();
-                $this.$calendarObj.fullCalendar('updateEvent', calEvent);
-                $this.$modal.modal('hide');
-                return false;
-            });
+        $('#modal').modal('show');
+        // var $this = this;
+        //     var form = $("<form></form>");
+        //     form.append("<label>Change event name</label>");
+        //     form.append("<div class='input-group'><input class='form-control' type=text value='" + calEvent.title + "' /><span class='input-group-append'><button type='submit' class='btn btn-success'><i class='fas fa-check'></i> Save</button></span></div>");
+        //     $this.$modal.modal({
+        //         backdrop: 'static'
+        //     });
+        //     $this.$modal.find('.delete-event').show().end().find('.save-event').hide().end().find('.modal-body').empty().prepend(form).end().find('.delete-event').unbind('click').click(function () {
+        //         $this.$calendarObj.fullCalendar('removeEvents', function (ev) {
+        //             return (ev._id == calEvent._id);
+        //         });
+        //         $this.$modal.modal('hide');
+        //     });
+        //     $this.$modal.find('form').on('submit', function () {
+        //         calEvent.title = form.find("input[type=text]").val();
+        //         $this.$calendarObj.fullCalendar('updateEvent', calEvent);
+        //         $this.$modal.modal('hide');
+        //         return false;
+        //     });
     },
     /* on select */
     CalendarApp.prototype.onSelect = function (start, end, allDay) {
@@ -89,14 +90,14 @@
                         end: end,
                         allDay: false,
                         className: categoryClass
-                    }, true);  
+                    }, true);
                     $this.$modal.modal('hide');
                 }
                 else{
                     alert('You have to give a title to your event');
                 }
                 return false;
-                
+
             });
             $this.$calendarObj.fullCalendar('unselect');
     },
@@ -154,10 +155,10 @@
         $this.$calendarObj = $this.$calendar.fullCalendar({
             slotDuration: '00:15:00', /* If we want to split day time each 15minutes */
             minTime: '08:00:00',
-            maxTime: '19:00:00',  
-            defaultView: 'month',  
-            handleWindowResize: true,   
-             
+            maxTime: '19:00:00',
+            defaultView: 'month',
+            handleWindowResize: true,
+
             header: {
                 left: 'prev,next today',
                 center: 'title',
@@ -188,7 +189,7 @@
 
    //init CalendarApp
     $.CalendarApp = new CalendarApp, $.CalendarApp.Constructor = CalendarApp
-    
+
 }(window.jQuery),
 
 //initializing CalendarApp

@@ -71,3 +71,15 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['middleware' => 'admin'], function () {
 });
+
+Route::get('/calendar', function () {
+    return view('User.calendar');
+})->name('calendar');
+
+Route::get('/admin-dashboard', function () {
+    return view('Admin.dashboard');
+})->name('admin');
+
+Route::get('paid-users', function(){
+    return view('Admin.users');
+})->name('paid-users');
