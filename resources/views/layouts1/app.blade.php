@@ -103,7 +103,7 @@
                         Uang Dimiliki: Rp 10.000.000
                     </span>
                 </li>
-            
+
 
 
                 <li class="nav-item dropdown  flag-nav dropdown-heads">
@@ -129,12 +129,9 @@
                                                     Gajian bulanan dari kantor A
                                                 </p>
                                                 <span class="noti-title">
-                                                    <button class="custom-btn edit-btn"
-                                                        onclick="editNotification()">Edit</button>
-                                                    <button class="custom-btn detail-btn"
-                                                        onclick="viewDetails()">Detail</button>
-                                                    <button class="custom-btn approve-btn"
-                                                        onclick="approveIncome()">Setuju</button>
+                                                    <button class="custom-btn edit-btn" onclick="editNotification()">Edit</button>
+                                                    <button class="custom-btn detail-btn" onclick="viewDetails()">Detail</button>
+                                                    <button class="custom-btn approve-btn" onclick="approveIncome()">Setuju</button>
                                                 </span>
 
                                             </div>
@@ -155,12 +152,9 @@
 
                                                 </p>
                                                 <span class="noti-title">
-                                                    <button class="custom-btn edit-btn"
-                                                        onclick="editNotification()">Edit</button>
-                                                    <button class="custom-btn detail-btn"
-                                                        onclick="viewDetails()">Detail</button>
-                                                    <button class="custom-btn approve-btn"
-                                                        onclick="approveIncome()">Setuju</button>
+                                                    <button class="custom-btn edit-btn" onclick="editNotification()">Edit</button>
+                                                    <button class="custom-btn detail-btn" onclick="viewDetails()">Detail</button>
+                                                    <button class="custom-btn approve-btn" onclick="approveIncome()">Setuju</button>
                                                 </span>
 
                                             </div>
@@ -180,12 +174,9 @@
                                                     Gajian bulanan dari kantor Laaa
                                                 </p>
                                                 <span class="noti-title">
-                                                    <button class="custom-btn edit-btn"
-                                                        onclick="editNotification()">Edit</button>
-                                                    <button class="custom-btn detail-btn"
-                                                        onclick="viewDetails()">Detail</button>
-                                                    <button class="custom-btn approve-btn"
-                                                        onclick="approveIncome()">Setuju</button>
+                                                    <button class="custom-btn edit-btn" onclick="editNotification()">Edit</button>
+                                                    <button class="custom-btn detail-btn" onclick="viewDetails()">Detail</button>
+                                                    <button class="custom-btn approve-btn" onclick="approveIncome()">Setuju</button>
                                                 </span>
 
                                             </div>
@@ -225,8 +216,7 @@
                                         <a class="dropdown-item" href="profile.html">Profile</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                            data-bs-target="#planModal">Upgrade</a>
+                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#planModal">Upgrade</a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="settings.html">Settings</a>
@@ -236,12 +226,10 @@
                             <div class="subscription-logout">
                                 <ul>
                                     <li class="pb-0">
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
+                                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                               document.getElementById('logout-form').submit();">Log
                                             Out</a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                            class="d-none">
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                             @csrf
                                         </form>
                                     </li>
@@ -271,8 +259,7 @@
                     <ul>
                         <li class="menu-title"><span>Dashboard</span></li>
                         <li>
-                            <a class="{{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}"
-                                href="{{ route('dashboard') }}">
+                            <a class="{{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}" href="{{ route('dashboard') }}">
                                 <i class="fe fe-home"></i><span>Dashboard</span></a>
                         </li>
                     </ul>
@@ -280,23 +267,18 @@
                     <ul>
                         <li class="menu-title"><span>Transaksi</span></li>
                         <li class="submenu">
-                            <a href="#"><i class="fe fe-trending-up"></i> <span> Pemasukan</span> <span
-                                    class="menu-arrow"></span></a>
+                            <a href="#"><i class="fe fe-trending-up"></i> <span> Pemasukan</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li> <a class="{{ in_array(Route::currentRouteName(), ['income', 'add-income', 'edit-income']) ? 'active' : '' }}"
-                                        href="{{ route('income') }}">
+                                <li> <a class="{{ in_array(Route::currentRouteName(), ['income', 'add-income', 'edit-income']) ? 'active' : '' }}" href="{{ route('income') }}">
                                         Pemasukan</a></li>
-                                <li> <a class="{{ Route::currentRouteName() == 'income-recurring' ? 'active' : '' }}"
-                                        href="{{ route('income-recurring') }}">
+                                <li> <a class="{{ Route::currentRouteName() == 'income-recurring' ? 'active' : '' }}" href="{{ route('income-recurring') }}">
                                         Pemasukan Berulang</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="#"><i class="fe fe-trending-down"></i> <span> Pengeluaran</span> <span
-                                    class="menu-arrow"></span></a>
+                            <a href="#"><i class="fe fe-trending-down"></i> <span> Pengeluaran</span> <span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a class="{{ Route::currentRouteName() == 'expenditure' ? 'active' : '' }}"
-                                        href="{{ route('expenditure') }}">Pengeluaran</a></li>
+                                <li><a class="{{ Route::currentRouteName() == 'expenditure' ? 'active' : '' }}" href="{{ route('expenditure') }}">Pengeluaran</a></li>
                                 <li><a href="">Pengeluaran Berulang</a></li>
                             </ul>
                         </li>
@@ -305,18 +287,14 @@
                         <li class="menu-title"><span>Menu</span></li>
 
                         <li>
-                            <a class="{{ Route::currentRouteName() == 'calendar' ? 'active' : '' }}"
-                                href="{{ route('calendar') }}"><i
-                                    class="fe fe-calendar"></i><span>Kalender</span></a>
+                            <a class="{{ Route::currentRouteName() == 'calendar' ? 'active' : '' }}" href="{{ route('calendar') }}"><i class="fe fe-calendar"></i><span>Kalender</span></a>
                         </li>
 
                         <li>
-                            <a class="{{ Route::currentRouteName() == 'total' ? 'active' : '' }}"
-                                href="{{ route('total') }}"><i class="fe fe-percent"></i><span>Total</span></a>
+                            <a class="{{ Route::currentRouteName() == 'total' ? 'active' : '' }}" href="{{ route('total') }}"><i class="fe fe-percent"></i><span>Total</span></a>
                         </li>
                         <li>
-                            <a class="{{ Route::currentRouteName() == 'setting' ? 'active' : '' }}"
-                                href="{{ route('setting') }}"><i class="fe fe-settings"></i><span>Settings</span></a>
+                            <a class="{{ Route::currentRouteName() == 'setting' ? 'active' : '' }}" href="{{ route('setting') }}"><i class="fe fe-settings"></i><span>Settings</span></a>
                         </li>
                     </ul>
 
@@ -330,35 +308,52 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <div class="description-content">
-                            <p>Dapatkan fitur premium untuk akses penuh</p>
-                        </div>
-                        <div class="price-dollar">
-                            <h1 class="d-flex align-items-center mt-2">Rp 90.000,000<span class="ms-1">/monthly</span></h1>
-                        </div>
-                        <div class="plan-description mt-3">
-                            <h6>Apa yang di dapatkan </h6>
-                            <ul>
-                                <li class="mt-2">
-                                    <span class="rounded-circle me-2"><i class="fe fe-check"></i></span>
-                                    Pemasukan Berulang
-                                </li>
-                                <li class="mt-2">
-                                    <span class="rounded-circle me-2"><i class="fe fe-check"></i></span>
-                                    Pengeluaran Berulang
-                                </li>
-                                <li class="mt-2">
-                                    <span class="rounded-circle me-2"><i class="fe fe-check"></i></span>
-                                    Export transaksi ke excel 
-                                </li>
-                                <li class="mt-2">
-                                    <span class="rounded-circle me-2"><i class="fe fe-check"></i></span>
-                                    DLL...
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="plan-button mt-4">
-                            <a class="btn btn-primary d-flex align-items-center justify-content-center" href="#">Mulai Brlangganan<span class="ms-2"><i class="fe fe-arrow-right"></i></span></a>
+                        <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="price-table-main">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="plan-header">
+                                        <span class="plan-widget-icon">
+                                            <img src="assets/img/icons/plan-price-01.svg" alt>
+                                        </span>
+                                        <div class="plan-title">
+                                            <h6>Member Bulanan</h6>
+                                            <h4 class="plan-name">Gratis 1 Bulan</h4>
+                                        </div>
+                                    </div>
+                                    <div class="description-content">
+                                        <p>Dapatkan fitur premium untuk akses penuh</p>
+                                    </div>
+                                    <div class="price-dollar">
+                                        <h1 class="d-flex align-items-center">Rp 90.000,00<span class="ms-1">/bulan</span>
+                                        </h1>
+                                    </div>
+                                    <div class="plan-description">
+                                        <h6>Apa yang di dapatkan</h6>
+                                        <ul>
+                                            <li class="mt-2">
+                                                <span class="rounded-circle me-2"><i class="fe fe-check"></i></span>
+                                                Pemasukan Berulang
+                                            </li>
+                                            <li class="mt-2">
+                                                <span class="rounded-circle me-2"><i class="fe fe-check"></i></span>
+                                                Pengeluaran Berulang
+                                            </li>
+                                            <li class="mt-2">
+                                                <span class="rounded-circle me-2"><i class="fe fe-check"></i></span>
+                                                Export transaksi ke excel
+                                            </li>
+                                            <li class="mt-2">
+                                                <span class="rounded-circle me-2"><i class="fe fe-check"></i></span>
+                                                DLL...
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="plan-button">
+                                        <a class="btn btn-primary d-flex align-items-center justify-content-center" href="#">Mulai Brlangganan<span class="ms-2"><i class="fe fe-arrow-right"></i></span></a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

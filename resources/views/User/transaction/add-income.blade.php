@@ -31,8 +31,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-2">
-                                                    <button class="btn btn-secondary" data-bs-target="#tambahModal"
-                                                        data-bs-toggle="modal">
+                                                    <button class="btn btn-secondary" data-bs-target="#tambahModal" data-bs-toggle="modal">
                                                         +
                                                     </button>
                                                 </div>
@@ -46,12 +45,11 @@
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label>Jumlah </label>
-                                        <input type="number" class="form-control"
-                                            placeholder="Masukkan jumlah pemasukkan" />
+                                        <input type="number" class="form-control" placeholder="Masukkan jumlah pemasukkan" />
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-lg-3 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label>Metode Pembeyaran</label>
                                         <select class="select">
@@ -61,14 +59,22 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-lg-3 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label>Tanggal</label>
-                                        <input type="text" class="form-control datetimepicker"
-                                            placeholder="Tanggal Mulai Pembayaran" />
+                                        <input type="text" class="form-control datetimepicker" placeholder="Tanggal Mulai Pembayaran" />
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-lg-3 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Tanggal Akhir</label>
+                                        <input type="text" class="form-control datetimepicker" placeholder="Tanggal Akhir Pembayaran" id="tanggalakhir" disabled />
+                                        <label>
+                                            <input type="checkbox" id="stopcheck"> Berhenti
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label>Kategori Berulang</label>
                                         <select class="select">
@@ -77,8 +83,10 @@
                                             <option>Pending</option>
                                             <option>Cancelled</option>
                                         </select>
+
                                     </div>
                                 </div>
+
                                 <div class="col-lg-6 col-md-12 description-box">
                                     <div class="form-group" id="summernote_container">
                                         <label class="form-control-label">Deskripsi</label>
@@ -123,22 +131,36 @@
                     <div class="modal-btn delete-action">
                         <div class="row">
                             <form action="">
-                            <input autofocus placeholder="Masukan kategori yang di iginkan" class="form-control" type="text">
-                            <div class="d-flex mt-3">
-                            <div class="col-6 me-2">
-                                <button type="submit"
-                                    class="w-100 btn btn-primary paid-continue-btn">Simpan</button>
-                            </div>
-                            <div class="col-6">
-                                <button data-bs-dismiss="modal"
-                                    class="w-100 btn btn-primary paid-cancel-btn">Batal</button>
-                            </div>
-                        </div>
-                        </form>
+                                <input autofocus placeholder="Masukan kategori yang di iginkan" class="form-control" type="text">
+                                <div class="d-flex mt-3">
+                                    <div class="col-6 me-2">
+                                        <button type="submit" class="w-100 btn btn-primary paid-continue-btn">Simpan</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button data-bs-dismiss="modal" class="w-100 btn btn-primary paid-cancel-btn">Batal</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $(function() {
+            $('#stopcheck').on('change', function(e) {
+
+                if (e.target.checked) {
+                    $('#tanggalakhir').removeAttr('disabled');
+                } else {
+                    $('#tanggalakhir').attr('disabled', '');
+                    $('#tanggalakhir').val('');
+                }
+            })
+        })
+    </script>
 @endsection
