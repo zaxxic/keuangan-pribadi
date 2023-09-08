@@ -2,17 +2,52 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Ramsey\Uuid\Uuid;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->id = Uuid::uuid4()->toString();
+        });
+    }
+
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'id';
+
+    /**
+     * The "type" of the primary key ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
 
     /**
      * The attributes that are mass assignable.
@@ -44,4 +79,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function incomeCategories()
+    {
+        return $this->hasMany(Income_category::class);
+    }
 }

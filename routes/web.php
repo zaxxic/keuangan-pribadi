@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\IncomeCategoryController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -69,11 +70,9 @@ Route::get('/', function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(['middleware' => 'admin'], function () {
-});
 
 Route::get('/calendar', function () {
-    return view('User.calendar');
+    return view('User.menu.calendar');
 })->name('calendar');
 
 Route::get('/admin-dashboard', function () {
@@ -83,3 +82,15 @@ Route::get('/admin-dashboard', function () {
 Route::get('paid-users', function(){
     return view('Admin.users');
 })->name('paid-users');
+
+Route::group(['middleware' => 'user'], function () {
+    Route::resource('income_category', IncomeCategoryController::class);
+
+});
+
+
+
+
+Route::get('expenditure-category', function(){
+    return view('User.menu.expenditure-category');
+})->name('expenditure.category');

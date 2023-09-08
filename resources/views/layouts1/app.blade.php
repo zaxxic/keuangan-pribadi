@@ -6,6 +6,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Kanakku - Bootstrap Admin HTML Template</title>
 
     <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}">
@@ -22,10 +24,15 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/plugins/datatables/datatables.min.css') }}">
+    
 
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-lite.min.css') }}" />
+
 
     @yield('style')
 
@@ -377,6 +384,7 @@
 
     <script src="{{ asset('assets/plugins/apexchart/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/apexchart/chart-data.js') }}"></script>
+    
 
 
     <script src="{{ asset('assets/plugins/summernote/summernote-lite.min.js') }}"></script>
@@ -386,6 +394,8 @@
     <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
     @yield('script')
 

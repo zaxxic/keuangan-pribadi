@@ -19,8 +19,7 @@ return new class extends Migration
             $table->date('date');
             $table->text('deskripsi', 400);
             $table->string('recruing')->nullable();
-            $table->foreignId('user_id')
-            ->constrained('users');
+            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('income_id')
             ->constrained('incomes');
             $table->foreignId('income_category_id')
