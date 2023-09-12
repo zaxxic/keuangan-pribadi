@@ -118,40 +118,45 @@
                             </div>
                         </form>
 
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-title">
-                                    <h5>Ganti Password</h5>
-                                </div>
-                            </div>
 
-                            <div class="col-lg-6 col-12">
-                                <div class="form-group">
-                                    <label>Masukkan passwrd lama</label>
-                                    <input type="text" class="form-control" placeholder="Masuukan password lama" />
+                        <form id="update-password-form" action="{{ Route('password.update') }}">
+                            @csrf
+                            @method('PUT')
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-title">
+                                        <h5>Ganti Password</h5>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-lg-6 col-12">
-                                <div class="form-group">
-                                    <label>Masukkan Password</label>
-                                    <input type="text" class="form-control" placeholder="Masukkan password baru" />
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <label>Masukkan passwrd lama</label>
+                                        <input type="Password" class="form-control" name="current_password" placeholder="Masuukan password lama" />
+                                    </div>
                                 </div>
-                            </div>
+
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <label>Masukkan Password</label>
+                                        <input type="Password" class="form-control" name="new_password" placeholder="Masukkan password baru" />
+                                    </div>
+                                </div>
 
 
-                            <div class="col-lg-6 col-12">
-                                <div class="form-group">
-                                    <label>Masukkan Konfirmasi password</label>
-                                    <input type="text" class="form-control" placeholder="Konfirmasi password" />
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <label>Masukkan Konfirmasi password</label>
+                                        <input type="Password" class="form-control" name="new_password_confirmation" placeholder="Konfirmasi password" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12 mt-4">
+                                    <div class="btn-path">
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-12 mt-4">
-                                <div class="btn-path">
-                                    <a href="javascript:void(0);" class="btn btn-primary">Simpan</a>
-                                </div>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -173,6 +178,39 @@
                 success: function(response) {
                     if (response.success) {
                         toastr.success('Informasi pribadi berhasil diperbarui.', 'Sukses');
+                        location.reload();
+                    } else if (response.error) {
+                        var errorMessage = response.error.replace(/^"(.*)"$/, '$1');
+                        toastr.error(errorMessage, 'Kesalahan Validasi');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    if (xhr.status === 422) {
+                        var errorMessage = xhr.responseText.replace(/^"(.*)"$/, '$1');
+                        toastr.error(errorMessage, 'Kesalahan Validasi');
+                    } else {
+                        toastr.error('Terjadi kesalahan: ' + error, 'Kesalahan');
+                    }
+                }
+            });
+
+
+
+        });
+
+        $('#update-password-form').submit(function(e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success('Password berhasil diperbarui.', 'Sukses');
                         location.reload();
                     } else if (response.error) {
                         var errorMessage = response.error.replace(/^"(.*)"$/, '$1');

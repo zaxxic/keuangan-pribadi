@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 
 class ProfileController extends Controller
@@ -42,7 +43,7 @@ class ProfileController extends Controller
 
         // Periksa apakah validasi gagal
         if ($validator->fails()) {
-            return response()->json( $validator->errors()->first(), 422);
+            return response()->json($validator->errors()->first(), 422);
         }
 
         // Mengambil data pengguna yang sedang masuk
@@ -68,5 +69,43 @@ class ProfileController extends Controller
 
         // Mengembalikan respons JSON yang sesuai
         return response()->json(['success' => 'Informasi pribadi berhasil diperbarui.']);
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $rules = [
+            'current_password' => 'required',
+            'new_password' => 'required|string|min:8|confirmed',
+        ];
+
+        $messages = [
+            'current_password.required' => 'Kata sandi saat ini wajib diisi.',
+            'new_password.required' => 'Kata sandi baru wajib diisi.',
+            'new_password.string' => 'Kata sandi baru harus berupa teks.',
+            'new_password.min' => 'Kata sandi baru minimal 8 karakter.',
+            'new_password.confirmed' => 'Konfirmasi kata sandi baru tidak cocok.',
+        ];
+
+        
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 422);
+        }
+
+
+        // Mengambil pengguna yang sedang masuk
+        $user = Auth::user();
+
+        // Memeriksa apakah kata sandi saat ini cocok
+        if (!Hash::check($request->input('current_password'), $user->password)) {
+            return response()->json('Kata sandi saat ini salah.', 422);
+        }
+
+        // Mengganti kata sandi pengguna
+        $user->password = Hash::make($request->input('new_password'));
+        $user->save();
+
+        return response()->json(['success' => 'Kata sandi berhasil diperbarui.']);
     }
 }

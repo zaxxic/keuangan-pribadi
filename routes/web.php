@@ -82,6 +82,7 @@ Route::group(['middleware' => 'user'], function () {
     
     Route::get('/profile', [ProfileController::class, 'index'])->name('setting');
     Route::put('/profile.update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/password.update', [ProfileController::class, 'updatePassword'])->name('password.update');
 
     Route::resource('income_category', IncomeCategoryController::class)->except(['show','edit','create']);
     Route::resource('expenditure_category', ExpenditureCategoryController::class)->except(['show','edit','create']);
