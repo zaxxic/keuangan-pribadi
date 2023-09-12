@@ -49,12 +49,15 @@
                 <div class="col-xl-9 col-md-8">
                     <div class="content w-100 pt-0">
                         <div class="d-flex justify-content-between mb-3">
-                            <h5>Pemasukan kategori</h5>
-                            <button class="btn btn-primary" data-bs-target="#tambahModal" data-bs-toggle="modal"><i
-                                    class="fa fa-plus-circle me-2" aria-hidden="true"></i> Tambah
-                                Kategori </button>
-
+                            <h4 class="mb-0">Kategori Pemasukan</h4>
+                            <div class="input-group" style="max-width: 450px;">
+                                <input type="text" class="form-control" placeholder="Cari Kategori" id="searchCategory">
+                                <button class="btn btn-primary" data-bs-target="#tambahModal" data-bs-toggle="modal">
+                                    <i class="fa fa-plus-circle me-2" aria-hidden="true"></i> Tambah Kategori
+                                </button>
+                            </div>
                         </div>
+
                         <div class="card-table">
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -202,6 +205,13 @@
     <script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>
     <script>
         const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+        $("#searchCategory").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("table tbody tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
 
         $('.edit-category-modal').click(function() {
             var categoryId = $(this).data('id');
