@@ -6,24 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('income_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->timestamps();
-        });
-    }
+  /**
+   * Run the migrations.
+   */
+  public function up(): void
+  {
+    Schema::create('income_categories', function (Blueprint $table) {
+      $table->id();
+      $table->string('name');
+      $table->string('type')->default('local');
+      $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+      $table->timestamps();
+    });
+  }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('income_categories');
-    }
+  /**
+   * Reverse the migrations.
+   */
+  public function down(): void
+  {
+    Schema::dropIfExists('income_categories');
+  }
 };

@@ -6,33 +6,31 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('users', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('image')->nullable()->default('default.jpg');
-            $table->integer('amount')->nullable();
-            $table->boolean('premium')->default(0);
-            $table->string('gender')->nullable();
-            $table->date('birthday')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('role')->default('user');
-            $table->rememberToken();
-            $table->timestamps();
-        });
-    }
+  /**
+   * Run the migrations.
+   */
+  public function up(): void
+  {
+    Schema::create('users', function (Blueprint $table) {
+      $table->uuid('id')->primary();
+      $table->string('name');
+      $table->string('email')->unique();
+      $table->string('image')->nullable()->default('default.jpg');
+      $table->string('gender')->nullable();
+      $table->date('birthday')->nullable();
+      $table->timestamp('email_verified_at')->nullable();
+      $table->string('password');
+      $table->string('role')->default('user');
+      $table->rememberToken();
+      $table->timestamps();
+    });
+  }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('users');
-    }
+  /**
+   * Reverse the migrations.
+   */
+  public function down(): void
+  {
+    Schema::dropIfExists('users');
+  }
 };

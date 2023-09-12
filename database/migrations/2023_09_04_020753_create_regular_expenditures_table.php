@@ -11,17 +11,18 @@ return new class extends Migration
    */
   public function up(): void
   {
-    Schema::create('incomes', function (Blueprint $table) {
+    Schema::create('recurring_expenditures', function (Blueprint $table) {
       $table->id();
       $table->string('title');
       $table->integer('amount');
-      $table->string('payment_method');
-      $table->string('evidence')->nullable();
+      $table->string('payment_method')->nullable();
+      $table->string('recurring')->nullable();
+      $table->integer('count');
       $table->date('date');
       $table->text('description', 400);
       $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-      $table->foreignId('income_category_id')
-        ->constrained('income_categories')
+      $table->foreignId('expenditure_category_id')
+        ->constrained('expenditure_categories')
         ->onDelete('cascade')
         ->onUpdate('cascade');
       $table->timestamps();
@@ -33,6 +34,6 @@ return new class extends Migration
    */
   public function down(): void
   {
-    Schema::dropIfExists('incomes');
+    Schema::dropIfExists('recurring_expenditures');
   }
 };

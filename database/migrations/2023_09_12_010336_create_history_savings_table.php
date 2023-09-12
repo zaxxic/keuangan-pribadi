@@ -11,11 +11,11 @@ return new class extends Migration
    */
   public function up(): void
   {
-    Schema::create('expenditure_categories', function (Blueprint $table) {
+    Schema::create('history_savings', function (Blueprint $table) {
       $table->id();
-      $table->string('name');
-      $table->string('type')->default('local');
-      $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+      $table->foreignId('saving_id')->on('savings')
+        ->onDelete('cascade');
+      $table->foreignId('expenditures')->onDelete('cascade');
       $table->timestamps();
     });
   }
@@ -25,6 +25,6 @@ return new class extends Migration
    */
   public function down(): void
   {
-    Schema::dropIfExists('expenditure_categories');
+    Schema::dropIfExists('history_savings');
   }
 };
