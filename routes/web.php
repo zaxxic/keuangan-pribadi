@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ExpenditureCategoryController;
 use App\Http\Controllers\IncomeCategoryController;
 use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -37,9 +38,7 @@ Route::get('/add-expenditure', function () {
     return view('User.transaction.add-expenditure');
 })->name("add-expenditure");
 
-Route::get('/setting', function () {
-    return view('User.menu.settings');
-})->name("setting");
+
 
 Route::get('/total', function () {
     return view('User.menu.total');
@@ -80,6 +79,10 @@ Route::get('paid-users', function(){
 })->name('paid-users');
 
 Route::group(['middleware' => 'user'], function () {
+    
+    Route::get('/profile', [ProfileController::class, 'index'])->name('setting');
+    Route::put('/profile.update', [ProfileController::class, 'update'])->name('profile.update');
+
     Route::resource('income_category', IncomeCategoryController::class)->except(['show','edit','create']);
     Route::resource('expenditure_category', ExpenditureCategoryController::class)->except(['show','edit','create']);
     Route::resource('income', IncomeController::class)->except(['show']);

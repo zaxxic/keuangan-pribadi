@@ -51,23 +51,74 @@
                         <div class="content-page-header">
                             <h5>Account Settings</h5>
                         </div>
-                        <div class="row">
-                            <div class="profile-picture">
-                                <div class="upload-profile me-2">
-                                    <div class="profile-img">
-                                        <img id="blah" class="avatar" src="assets/img/profiles/avatar-10.jpg" alt />
+                        <form id="update-profile-form" action="{{ Route('profile.update') }}">
+                            @csrf
+                            @method('PUT')
+                            <div class="row">
+                                <h5 class="mb-2">Ganti informasi pribadi</h5>
+
+                                <div class="profile-picture">
+                                    <div class="upload-profile me-2">
+                                        <div class="profile-img">
+                                            <img id="blah" class="avatar"
+                                                src="{{ asset('storage/profile/' . Auth::user()->image) }}"
+                                                alt="User Photo">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="img-upload">
-                                    <label class="btn btn-primary">
-                                        Ganti Profile <input type="file" />
-                                    </label>
+                                    <div class="img-upload">
+                                        <label class="btn btn-primary">
+                                            Ganti Profile <input type="file" name="image" id="fileInput"
+                                                accept="image/*" style="display: none;" />
+                                        </label>
+                                    </div>
 
                                     <p class="mt-1">
-                                        Profile minnimal 5Mb
+                                        Profile minimal 5Mb
                                     </p>
                                 </div>
+
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="text" class="form-control" placeholder="Enter Email Address"
+                                            name="email" value="{{ Auth::user()->email }}" />
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group mb-0">
+                                        <label>Gender</label>
+                                        <select name="gender" class="select">
+                                            <option>Select Gender</option>
+                                            <option value="male" {{ Auth::user()->gender === 'male' ? 'selected' : '' }}>
+                                                Laki Laki</option>
+                                            <option value="female"
+                                                {{ Auth::user()->gender === 'female' ? 'selected' : '' }}>Perempuan</option>
+                                            <!-- Menampilkan gender pengguna yang sedang masuk sebagai nilai default -->
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <label>Tanggal ulang tahun</label>
+                                        <div class="cal-icon cal-icon-info">
+                                            <input type="text" class="datetimepicker form-control" name="birthday"
+                                                placeholder="Pilih tanggal" value="{{ Auth::user()->birthday }}" />
+                                            <!-- Menampilkan tanggal ulang tahun pengguna yang sedang masuk sebagai nilai default -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12 mt-4">
+                                    <div class="btn-path">
+                                        <button type="submit" class="btn btn-primary"
+                                            id="update-profile-btn">Simpan</button>
+                                    </div>
+                                </div>
                             </div>
+                        </form>
+
+                        <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-title">
                                     <h5>Ganti Password</h5>
@@ -100,47 +151,60 @@
                                     <a href="javascript:void(0);" class="btn btn-primary">Simpan</a>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
-                                <div class="form-title">
-                                    <h5>Ganti informasi pribadi</h5>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6 col-12">
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="text" class="form-control" placeholder="Enter Email Address" />
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6 col-12">
-                                <div class="form-group mb-0">
-                                    <label>Gender</label>
-                                    <select class="select">
-                                        <option>Select Gender</option>
-                                        <option>Laki Laki</option>
-                                        <option>Perempuan</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-12">
-                                <div class="form-group">
-                                    <label>Tanggal ulang tahun</label>
-                                    <div class="cal-icon cal-icon-info">
-                                        <input type="text" class="datetimepicker form-control"
-                                            placeholder="Pilih tanggal" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-12 mt-4">
-                                <div class="btn-path">
-                                    <a href="javascript:void(0);" class="btn btn-primary">Save Changes</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        $('#update-profile-form').submit(function(e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success('Informasi pribadi berhasil diperbarui.', 'Sukses');
+                        location.reload();
+                    } else if (response.error) {
+                        var errorMessage = response.error.replace(/^"(.*)"$/, '$1');
+                        toastr.error(errorMessage, 'Kesalahan Validasi');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    if (xhr.status === 422) {
+                        var errorMessage = xhr.responseText.replace(/^"(.*)"$/, '$1');
+                        toastr.error(errorMessage, 'Kesalahan Validasi');
+                    } else {
+                        toastr.error('Terjadi kesalahan: ' + error, 'Kesalahan');
+                    }
+                }
+            });
+
+
+
+        });
+
+
+        const fileInput = document.getElementById('fileInput');
+        const imagePreview = document.getElementById('blah');
+
+        fileInput.addEventListener('change', function() {
+            if (fileInput.files.length > 0) {
+                const selectedFile = fileInput.files[0];
+
+                const objectURL = URL.createObjectURL(selectedFile);
+
+                imagePreview.src = objectURL;
+            }
+        });
+    </script>
 @endsection
