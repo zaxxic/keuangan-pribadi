@@ -30,7 +30,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{ Route('expenditure.category') }}" class="nav-link">
+                                        <a href="{{ Route('expenditure_category.index') }}" class="nav-link">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                 viewBox="0 0 32 32">
                                                 <path fill="none" stroke="currentColor" stroke-linecap="round"
@@ -80,9 +80,14 @@
                                                                     class="fas fa-ellipsis-v"></i></a>
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 <ul>
-                                                                    <li><a class="dropdown-item"
-                                                                            href="edit-expenses.html"><i
-                                                                                class="far fa-edit me-2"></i>Edit</a></li>
+                                                                    <li><a class="dropdown-item edit-category-modal"
+                                                                            href="#" data-id="{{ $category->id }}"
+                                                                            data-name="{{ $category->name }}"
+                                                                            data-route="{{ route('income_category.update', $category->id) }}"
+                                                                            data-user-id="{{ $category->user_id }}"><i
+                                                                                class="far fa-edit me-2 btn-action-icon"></i>Edit</a>
+                                                                    </li>
+
                                                                     <li> <a class="dropdown-item delete-category"
                                                                             href="#" data-id="{{ $category->id }}"
                                                                             data-route="{{ route('income_category.destroy', $category->id) }}"
@@ -110,7 +115,48 @@
     </div>
 
 
+    <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCategoryModalLabel">Edit Kategori Pendapatan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editCategoryForm">
+                        <input type="hidden" id="editCategoryId" name="id">
+                        <input type="hidden" id="editCategoryUserId" name="user_id">
 
+                        <div class="mb-3">
+                            <label for="editCategoryName" class="form-label">Nama Kategori:</label>
+                            <input type="text" class="form-control" id="editCategoryName" name="name">
+                        </div>
+
+                        <div class="d-flex mt-3">
+                            <div class="col-6 me-2">
+                                <button id="updateCategoryBtn"
+                                    class="w-100 btn btn-primary paid-continue-btn">Simpan</button>
+                                <div id="loadingIndicator" style="display: none;">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <button type="button" data-bs-dismiss="modal"
+                                    class="w-100 btn btn-primary paid-cancel-btn">Batal</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {{-- <button type="button" class="btn btn-primary paid-cancel-btn me-3" data-bs-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-primary" id="updateCategoryBtn">Simpan Perubahan</button> --}}
 
     <div class="modal custom-modal fade" id="tambahModal" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-md">
@@ -122,10 +168,10 @@
                     </div>
                     <div class="modal-btn delete-action">
                         <div class="row">
-                            <form id="addIncomeCategoryForm" action="{{ 'income_category.store' }}" method="POST">
+                            <form id="addIncomeCategoryForm">
                                 @csrf
-                                @method('DELETE')
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                <input type="hidden" id="deleteCategoryRoute" name="route">
                                 <input name="name" autofocus placeholder="Masukan kategori yang di iginkan"
                                     class="form-control" type="text">
                                 <div class="d-flex mt-3">
@@ -139,7 +185,7 @@
                                         </div>
                                     </div>
                                     <div class="col-6">
-                                        <button data-bs-dismiss="modal"
+                                        <button type="button" data-bs-dismiss="modal"
                                             class="w-100 btn btn-primary paid-cancel-btn">Batal</button>
                                     </div>
                                 </div>
@@ -156,6 +202,60 @@
     <script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>
     <script>
         const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+        $('.edit-category-modal').click(function() {
+            var categoryId = $(this).data('id');
+            var categoryName = $(this).data('name');
+            var userId = $(this).data('user-id');
+            var route = $(this).data('route');
+
+            // Isi nilai dalam modal
+            $('#editCategoryId').val(categoryId);
+            $('#editCategoryName').val(categoryName);
+            $('#editCategoryUserId').val(userId);
+            $('#deleteCategoryRoute').val(route);
+            // Tampilkan modal
+            $('#editCategoryModal').modal('show');
+        });
+
+        $('#updateCategoryBtn').click(function() {
+            var categoryId = $('#editCategoryId').val();
+            var categoryName = $('#editCategoryName').val();
+            var userId = $('#editCategoryUserId').val();
+            var route = $('#deleteCategoryRoute').val(); // Ambil route dari input tersembunyi
+
+            $('#updateCategoryBtn').html('Loading...');
+            $('#updateCategoryBtn').prop('disabled', true);
+            // Kirim permintaan ajax untuk mengupdate data kategori
+            $.ajax({
+                url: route, // Gunakan route yang diambil dari input tersembunyi
+                type: 'PUT', // Gunakan metode PUT
+                data: {
+                    id: categoryId,
+                    name: categoryName,
+                    user_id: userId,
+                    "_token": "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    // Tutup modal
+                    $('#editCategoryModal').modal('hide');
+                    toastr.success(
+                        'Kategori pendapatan berhasil dihapus',
+                        'Sukses');
+
+                    location
+                        .reload();
+
+                    // Refresh halaman atau lakukan tindakan lain yang diperlukan
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        });
+
+
+
         $('#addIncomeCategoryForm').submit(function(e) {
             e.preventDefault();
 
@@ -187,54 +287,40 @@
             });
         });
 
+        $('.delete-category').on('click', function(e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            var route = $(this).data('route');
 
-        $(document).ready(function() {
-            $('.delete-category').on('click', function(e) {
-                e.preventDefault();
-                var id = $(this).data('id');
-                var route = $(this).data('route');
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Anda tidak akan dapat mengembalikan ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: route,
+                        type: 'DELETE',
+                        data: {
+                            "_token": "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                toastr.success(
+                                    'Kategori pendapatan berhasil dihapus',
+                                    'Sukses');
 
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: "Anda tidak akan dapat mengembalikan ini!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: route,
-                            type: 'DELETE',
-                            data: {
-                                "_token": "{{ csrf_token() }}"
-                            },
-                            success: function(response) {
-                                if (response.success) {
-                                    toastr.success(
-                                        'Kategori pendapatan berhasil dihapus',
-                                        'Sukses');
-                                    location
-                                .reload(); // Reload halaman setelah penghapusan
-                                } else if (response.error) {
-                                    toastr.error(response.error, 'Gagal');
-                                }
-                            },
-                            error: function(xhr, status, error) {
-                                if (xhr.status === 500) {
-                                    toastr.error('Terjadi kesalahan server', 'Gagal');
-                                } else if (xhr.status === 404) {
-                                    toastr.error('Halaman tidak ditemukan', 'Gagal');
-                                } else {
-                                    toastr.error('Terjadi kesalahan: ' + xhr
-                                        .responseText, 'Gagal');
-                                }
+                                location
+                                    .reload(); // Reload halaman setelah penghapusan
                             }
-                        });
-                    }
-                });
+                        }
+                    });
+                }
             });
         });
     </script>

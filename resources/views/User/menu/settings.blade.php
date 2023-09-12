@@ -14,32 +14,32 @@
 
                             <div class="widget settings-menu mb-0">
                                 <ul>
-                                  <li class="nav-item">
-                                    <a href="{{Route("setting")}}" class="nav-link active">
-                                        <i class="fe fe-user"></i> <span>Account Settings</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{Route("income.category")}}" class="nav-link">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-                                            viewBox="0 0 32 32">
-                                            <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-width="2"
-                                                d="M4 4h6v6H4zm10 0h6v6h-6zM4 14h6v6H4zm10 3a3 3 0 1 0 6 0a3 3 0 1 0-6 0" />
-                                        </svg> <span>Kategori Pemasukan</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{Route("expenditure.category")}}" class="nav-link">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
-                                            viewBox="0 0 32 32">
-                                            <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-width="2"
-                                                d="M4 4h6v6H4zm10 0h6v6h-6zM4 14h6v6H4zm10 3a3 3 0 1 0 6 0a3 3 0 1 0-6 0" />
-                                        </svg> <span>Kategori Pengeluaran</span>
-                                    </a>
-                                </li>
-                                 
+                                    <li class="nav-item">
+                                        <a href="{{ Route('setting') }}" class="nav-link active">
+                                            <i class="fe fe-user"></i> <span>Account Settings</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ Route('income_category.index') }}" class="nav-link">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                                viewBox="0 0 32 32">
+                                                <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="M4 4h6v6H4zm10 0h6v6h-6zM4 14h6v6H4zm10 3a3 3 0 1 0 6 0a3 3 0 1 0-6 0" />
+                                            </svg> <span>Kategori Pemasukan</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ Route('expenditure_category.index') }}" class="nav-link">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                                viewBox="0 0 32 32">
+                                                <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="M4 4h6v6H4zm10 0h6v6h-6zM4 14h6v6H4zm10 3a3 3 0 1 0 6 0a3 3 0 1 0-6 0" />
+                                            </svg> <span>Kategori Pengeluaran</span>
+                                        </a>
+                                    </li>
+
                                 </ul>
                             </div>
 

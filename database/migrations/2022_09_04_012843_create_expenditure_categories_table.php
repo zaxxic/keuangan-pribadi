@@ -13,8 +13,8 @@ return new class extends Migration
   {
     Schema::create('expenditure_categories', function (Blueprint $table) {
       $table->id();
-      $table->string('name');
       $table->string('type')->default('local');
+      $table->string('name');
       $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
       $table->timestamps();
     });

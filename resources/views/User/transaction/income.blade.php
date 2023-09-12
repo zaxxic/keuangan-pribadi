@@ -16,7 +16,7 @@
                             </li>
 
                             <li>
-                                <a class="btn btn-primary" href="add-expenses.html"><i class="fa fa-plus-circle me-2"
+                                <a class="btn btn-primary" href="{{Route('income.create')}}"><i class="fa fa-plus-circle me-2"
                                         aria-hidden="true"></i>Tambah Pemasukan</a>
                             </li>
                         </ul>

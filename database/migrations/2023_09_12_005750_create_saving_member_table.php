@@ -12,9 +12,8 @@ return new class extends Migration
   public function up(): void
   {
     Schema::create('saving_member', function (Blueprint $table) {
-      $table->integer('user_id')->unsigned();
+      $table->id();
       $table->integer('role_id')->unsigned();
-
       $table->foreignUuid('user_id')->on('users')
         ->onDelete('cascade');
       $table->foreignId('saving_id')->on('savings')

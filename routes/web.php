@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\ExpenditureCategoryController;
 use App\Http\Controllers\IncomeCategoryController;
+use App\Http\Controllers\IncomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,17 +27,11 @@ Route::get('/expenditure', function () {
 })->name("expenditure");
 
 
-Route::get('/income', function () {
-    return view('User.transaction.income');
-})->name("income");
 
 Route::get('/income-recurring', function () {
     return view('User.transaction.income-recurring');
 })->name("income-recurring");
 
-Route::get('/add-income', function () {
-    return view('User.transaction.add-income');
-})->name("add-income");
 
 Route::get('/add-expenditure', function () {
     return view('User.transaction.add-expenditure');
@@ -84,13 +80,13 @@ Route::get('paid-users', function(){
 })->name('paid-users');
 
 Route::group(['middleware' => 'user'], function () {
-    Route::resource('income_category', IncomeCategoryController::class);
-
+    Route::resource('income_category', IncomeCategoryController::class)->except(['show','edit','create']);
+    Route::resource('expenditure_category', ExpenditureCategoryController::class)->except(['show','edit','create']);
+    Route::resource('income', IncomeController::class)->except(['show']);
+    Route::get('/in-category', [IncomeController::class, 'category'])->name('in-category');
+    Route::post('/store-category', [IncomeController::class, 'storeCatgory'])->name('store-category');
 });
 
 
 
 
-Route::get('expenditure-category', function(){
-    return view('User.menu.expenditure-category');
-})->name('expenditure.category');
