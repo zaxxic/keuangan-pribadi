@@ -17,6 +17,7 @@ return new class extends Migration
       $table->integer('amount');
       $table->string('payment_method');
       $table->string('evidence')->nullable();
+      $table->string('type');
       $table->date('date');
       $table->text('description', 400);
       $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
