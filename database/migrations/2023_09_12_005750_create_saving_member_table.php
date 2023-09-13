@@ -11,12 +11,11 @@ return new class extends Migration
    */
   public function up(): void
   {
-    Schema::create('saving_member', function (Blueprint $table) {
+    Schema::create('saving_members', function (Blueprint $table) {
       $table->id();
-      $table->integer('role_id')->unsigned();
-      $table->foreignUuid('user_id')->on('users')
+      $table->foreignUuid('user_id')->constrained()->on('users')
         ->onDelete('cascade');
-      $table->foreignId('saving_id')->on('savings')
+      $table->foreignId('saving_id')->constrained()->on('savings')
         ->onDelete('cascade');
     });
   }
@@ -26,6 +25,6 @@ return new class extends Migration
    */
   public function down(): void
   {
-    Schema::dropIfExists('saving_member');
+    Schema::dropIfExists('saving_members');
   }
 };

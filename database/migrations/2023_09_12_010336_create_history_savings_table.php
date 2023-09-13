@@ -13,9 +13,9 @@ return new class extends Migration
   {
     Schema::create('history_savings', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('saving_id')->on('savings')
+      $table->foreignId('saving_id')->on('savings')->constrained()
         ->onDelete('cascade');
-      $table->foreignId('history_transaction_id')->onDelete('cascade');
+      $table->foreignId('history_transaction_id')->constrained()->onDelete('cascade');
       $table->timestamps();
     });
   }

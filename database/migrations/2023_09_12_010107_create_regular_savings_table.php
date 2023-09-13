@@ -17,7 +17,7 @@ return new class extends Migration
       $table->string('payment_method')->nullable();
       $table->string('recurring');
       $table->date('date');
-      $table->foreignId('saving_id')->on('savings')
+      $table->foreignId('saving_id')->constrained()->on('savings')
         ->onDelete('cascade');
       $table->timestamps();
     });

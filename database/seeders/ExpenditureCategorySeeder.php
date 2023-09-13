@@ -15,7 +15,7 @@ class ExpenditureCategorySeeder extends Seeder
   public function run(): void
   {
     $content = 'expenditure';
-    $defaultCategories = ['Makanan', 'Sosial', 'Kendaraan', 'Kebutuhan Rumah', 'Kesehatan'];
+    $defaultCategories = ['Tabungan', 'Makanan', 'Sosial', 'Kendaraan', 'Kebutuhan Rumah', 'Kesehatan'];
 
     foreach ($defaultCategories as $categories) {
       Category::create([

@@ -30,6 +30,6 @@ class Saving extends Model
 
   public function members()
   {
-    return $this->belongsToMany(SavingMember::class, 'saving_member');
+    return $this->belongsToMany(SavingMember::class, 'saving_members');
   }
 }

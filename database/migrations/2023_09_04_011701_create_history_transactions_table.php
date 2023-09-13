@@ -16,7 +16,7 @@ return new class extends Migration
       $table->string('title');
       $table->integer('amount');
       $table->string('payment_method');
-      $table->string('evidence')->nullable();
+      $table->string('attachment')->nullable();
       $table->string('content');
       $table->date('date');
       $table->text('description', 400);
