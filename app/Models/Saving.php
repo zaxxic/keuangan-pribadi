@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Saving extends Model
 {
   use HasFactory;
 
@@ -18,13 +18,18 @@ class Category extends Model
     return $this->belongsTo(User::class);
   }
 
-  public function regulars()
+  public function regular()
   {
-    return $this->hasMany(RegularTransaction::class);
+    return $this->hasOne(RegularSaving::class);
   }
 
   public function histories()
   {
-    return $this->hasMany(HistoryTransaction::class);
+    return $this->hasMany(HistorySaving::class);
+  }
+
+  public function members()
+  {
+    return $this->belongsToMany(SavingMember::class, 'saving_member');
   }
 }

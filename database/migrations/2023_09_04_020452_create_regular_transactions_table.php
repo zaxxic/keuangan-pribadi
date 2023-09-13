@@ -11,17 +11,19 @@ return new class extends Migration
    */
   public function up(): void
   {
-    Schema::create('expenditures', function (Blueprint $table) {
+    Schema::create('regular_transactions', function (Blueprint $table) {
       $table->id();
       $table->string('title');
       $table->integer('amount');
-      $table->string('payment_method');
-      $table->string('evidence')->nullable();
+      $table->string('payment_method')->nullable();
+      $table->string('recurring');
+      $table->integer('count')->default(1);
+      $table->string('content');
       $table->date('date');
-      $table->text('deskripsi', 400);
+      $table->text('description', 400);
       $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-      $table->foreignId('expenditure_category_id')
-        ->constrained('expenditure_categories')
+      $table->foreignId('category_id')
+        ->constrained('categories')
         ->onDelete('cascade')
         ->onUpdate('cascade');
       $table->timestamps();
@@ -33,6 +35,6 @@ return new class extends Migration
    */
   public function down(): void
   {
-    Schema::dropIfExists('expenditures');
+    Schema::dropIfExists('regular_transactions');
   }
 };
