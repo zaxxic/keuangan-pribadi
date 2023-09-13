@@ -2,30 +2,39 @@
 
 namespace Database\Seeders;
 
-use App\Models\expenditure_category;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ExpenditureCategorySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
-    {
-        $admins = User::where('role', 'admin')->get();
+  /**
+   * Run the database seeds.
+   */
+  public function run(): void
+  {
+    $content = 'expenditure';
+    $defaultCategories = ['Makanan', 'Sosial', 'Kendaraan', 'Kebutuhan Rumah', 'Kesehatan'];
 
-        foreach ($admins as $admin) {
-            $categoryNames = ['kebutuhan', 'urgent', 'hiburan'];
-
-            foreach ($categoryNames as $categoryName) {
-                expenditure_category::create([
-                    'user_id' => $admin->id,
-                    'name' => $categoryName,
-                    'type' => 'default',
-                ]);
-            }
-        }
+    foreach ($defaultCategories as $categories) {
+      Category::create([
+        'name' => $categories,
+        'type' => 'default',
+        'content' => $content,
+        'user_id' => User::where('role', 'admin')->first()->id
+      ]);
     }
+
+    $localCategories = ['Peliharaan', 'Sekolah', 'Seni', 'Pakaian', 'Kecantikan', 'Hadiah'];
+
+    foreach ($localCategories as $categories) {
+      Category::create([
+        'name' => $categories,
+        'type' => 'local',
+        'content' => $content,
+        'user_id' => User::where('role', 'user')->inRandomOrder()->first()->id
+      ]);
+    }
+  }
 }
