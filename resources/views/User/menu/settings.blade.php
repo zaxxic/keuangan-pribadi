@@ -89,7 +89,7 @@
                                     <div class="form-group mb-0">
                                         <label>Gender</label>
                                         <select name="gender" class="select">
-                                            <option>Select Gender</option>
+                                            <option value="none">Pilih Jeis Kelamain</option>
                                             <option value="male" {{ Auth::user()->gender === 'male' ? 'selected' : '' }}>
                                                 Laki Laki</option>
                                             <option value="female"
@@ -102,17 +102,21 @@
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
                                         <label>Tanggal ulang tahun</label>
-                                        <div class="cal-icon cal-icon-info">
-                                            <input type="text" class="datetimepicker form-control" name="birthday"
-                                                placeholder="Pilih tanggal" value="{{ Auth::user()->birthday }}" />
-                                            <!-- Menampilkan tanggal ulang tahun pengguna yang sedang masuk sebagai nilai default -->
-                                        </div>
+
+                                        <input type="date" name="date" class="form-control" name="birthday"
+                                            placeholder="Pilih tanggal" value="{{ Auth::user()->birthday }}" />
+
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12 mt-4">
                                     <div class="btn-path">
-                                        <button type="submit" class="btn btn-primary"
-                                            id="update-profile-btn">Simpan</button>
+                                        <button type="submit" id="saveButton1"
+                                            class="w-100 btn btn-primary paid-continue-btn">Simpan</button>
+                                        <div id="loadingIndicator" style="display: none;">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -132,14 +136,16 @@
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
                                         <label>Masukkan passwrd lama</label>
-                                        <input type="Password" class="form-control" name="current_password" placeholder="Masuukan password lama" />
+                                        <input type="Password" class="form-control" name="current_password"
+                                            placeholder="Masuukan password lama" />
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
                                         <label>Masukkan Password</label>
-                                        <input type="Password" class="form-control" name="new_password" placeholder="Masukkan password baru" />
+                                        <input type="Password" class="form-control" name="new_password"
+                                            placeholder="Masukkan password baru" />
                                     </div>
                                 </div>
 
@@ -147,12 +153,19 @@
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
                                         <label>Masukkan Konfirmasi password</label>
-                                        <input type="Password" class="form-control" name="new_password_confirmation" placeholder="Konfirmasi password" />
+                                        <input type="Password" class="form-control" name="new_password_confirmation"
+                                            placeholder="Konfirmasi password" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12 mt-4">
                                     <div class="btn-path">
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                        <button type="submit" id="saveButton"
+                                            class="w-100 btn btn-primary paid-continue-btn">Simpan</button>
+                                        <div id="loadingIndicator" style="display: none;">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -169,6 +182,8 @@
             e.preventDefault();
 
             var formData = new FormData(this);
+            $('#saveButton1').html('Loading...');
+            $('#saveButton1').prop('disabled', true);
             $.ajax({
                 type: 'POST',
                 url: $(this).attr('action'),
@@ -182,14 +197,20 @@
                     } else if (response.error) {
                         var errorMessage = response.error.replace(/^"(.*)"$/, '$1');
                         toastr.error(errorMessage, 'Kesalahan Validasi');
+                        $('#saveButton1').html('Simpan');
+                        $('#saveButton1').prop('disabled', false);
                     }
                 },
                 error: function(xhr, status, error) {
                     if (xhr.status === 422) {
                         var errorMessage = xhr.responseText.replace(/^"(.*)"$/, '$1');
                         toastr.error(errorMessage, 'Kesalahan Validasi');
+                        $('#saveButton1').html('Simpan');
+                        $('#saveButton1').prop('disabled', false);
                     } else {
                         toastr.error('Terjadi kesalahan: ' + error, 'Kesalahan');
+                        $('#saveButton1').html('Simpan');
+                        $('#saveButton1').prop('disabled', false);
                     }
                 }
             });
@@ -202,6 +223,8 @@
             e.preventDefault();
 
             var formData = new FormData(this);
+            $('#saveButton').html('Loading...');
+            $('#saveButton').prop('disabled', true);
             $.ajax({
                 type: 'POST',
                 url: $(this).attr('action'),
@@ -212,17 +235,18 @@
                     if (response.success) {
                         toastr.success('Password berhasil diperbarui.', 'Sukses');
                         location.reload();
-                    } else if (response.error) {
-                        var errorMessage = response.error.replace(/^"(.*)"$/, '$1');
-                        toastr.error(errorMessage, 'Kesalahan Validasi');
                     }
                 },
                 error: function(xhr, status, error) {
                     if (xhr.status === 422) {
                         var errorMessage = xhr.responseText.replace(/^"(.*)"$/, '$1');
                         toastr.error(errorMessage, 'Kesalahan Validasi');
+                        $('#saveButton').html('Simpan');
+                        $('#saveButton').prop('disabled', false);
                     } else {
                         toastr.error('Terjadi kesalahan: ' + error, 'Kesalahan');
+                        $('#saveButton').html('Simpan');
+                        $('#saveButton').prop('disabled', false);
                     }
                 }
             });

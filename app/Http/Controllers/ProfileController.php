@@ -22,7 +22,7 @@ class ProfileController extends Controller
         // Aturan validasi
         $rules = [
             'email' => 'required|email',
-            'gender' => 'in:male,female',
+            'gender' => 'in:male,female,none',
             'birthday' => 'date',
             'image' => 'image|mimes:jpeg,png,jpg|max:5120',
         ];
