@@ -16,8 +16,8 @@
                             </li>
 
                             <li>
-                                <a class="btn btn-primary" href="{{Route('income.create')}}"><i class="fa fa-plus-circle me-2"
-                                        aria-hidden="true"></i>Tambah Pemasukan</a>
+                                <a class="btn btn-primary" href="{{ Route('income.create') }}"><i
+                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>Tambah Pemasukan</a>
                             </li>
                         </ul>
                     </div>
@@ -46,46 +46,59 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>
-                                                <a href="invoice-details.html" class="invoice-link">Jual mouse</a>
-                                            </td>
-
-                                            <td>Rp 2.000.000</td>
-                                            <td>
-                                                <button data-bs-target="#delete_modal" data-bs-toggle="modal"  class="btn btn-primary">Lihat</button>
-
-                                            </td>
-                                            <td>Cash</td>
-                                            <td>
-                                                Jualan
-                                            </td>
-                                            <td>Lorem ipsum dolor sit consectetur </td>
-
-                                            <td class="d-flex align-items-center">
-                                              
-                                                <div class="dropdown dropdown-action">
-                                                    <a href="#" class="btn-action-icon" data-bs-toggle="dropdown"
-                                                        aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <ul>
-                                                            <li>
-                                                                <a class="dropdown-item" href="edit-expenses.html"><i
-                                                                        class="far fa-edit me-2"></i>Edit</a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item" href="javascript:void(0);"
-                                                                    data-bs-toggle="modal" data-bs-target="#delete_modal"><i
-                                                                        class="far fa-trash-alt me-2"></i>Delete</a>
-                                                            </li>
-                                                        </ul>
+                                        @foreach ($transactions as $transaction)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>
+                                                    <a href="invoice-details.html"
+                                                        class="invoice-link">{{ $transaction->title }}</a>
+                                                </td>
+                                                <td>{{ $transaction->amount }}</td>
+                                                <td>
+                                                    <button data-bs-target="#delete_modal" data-bs-toggle="modal"
+                                                        class="btn btn-primary">Lihat</button>
+                                                </td>
+                                                <td>{{ $transaction->payment_method }}</td>
+                                                <td>{{ $transaction->category->name }}</td>
+                                                <td>
+                                                    @if (strlen($transaction->description) > 60)
+                                                        <span
+                                                            id="description{{ $loop->iteration }}">{{ substr($transaction->description, 0, 60) }}</span>
+                                                        <a href="javascript:void(0);"
+                                                            onclick="showDescription({{ $loop->iteration }})"
+                                                            id="readMoreLink{{ $loop->iteration }}">Read more</a>
+                                                        <span id="fullDescription{{ $loop->iteration }}"
+                                                            style="display:none;">{{ $transaction->description }}</span>
+                                                    @else
+                                                        {{ $transaction->description }}
+                                                    @endif
+                                                </td>
+                                                <td class="d-flex align-items-center">
+                                                    <div class="dropdown dropdown-action">
+                                                        <a href="#" class="btn-action-icon" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            <i class="fas fa-ellipsis-v"></i>
+                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <ul>
+                                                                <li>
+                                                                    <a class="dropdown-item" href="edit-expenses.html">
+                                                                        <i class="far fa-edit me-2"></i>Edit
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item" href="javascript:void(0);"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#delete_modal">
+                                                                        <i class="far fa-trash-alt me-2"></i>Delete
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -355,5 +368,23 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        function showDescription(iteration) {
+            var description = document.getElementById('description' + iteration);
+            var fullDescription = document.getElementById('fullDescription' + iteration);
+            var readMoreLink = document.getElementById('readMoreLink' + iteration);
 
+            if (description.style.display === 'none') {
+                description.style.display = 'inline';
+                fullDescription.style.display = 'none';
+                readMoreLink.innerHTML = 'Read more';
+            } else {
+                description.style.display = 'none';
+                fullDescription.style.display = 'inline';
+                readMoreLink.innerHTML = 'Close';
+            }
+        }
+    </script>
 @endsection

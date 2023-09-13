@@ -5,120 +5,105 @@
             <div class="content-page-header">
                 <h5>Tambah Pemasukan</h5>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card-body">
-                        <div class="form-group-item border-0 pb-0">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label>Judul</label>
-                                        <input type="text" name="title" class="form-control" placeholder="Masukkan judul pemasukan" />
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                <form id="createIncomeForm">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-body">
+                                <div class="form-group-item border-0 pb-0">
                                     <div class="row">
-                                        <div class="form-group col-12">
-                                            <label for="kategori">Kategori</label>
-                                            <div class="row gap-1">
-                                                <div class="col-9">
-                                                    <select name="category" class="select" id="kategori">
-                                                        <option>Pilih kategori</option>
-                                                    </select>
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                                <label>Judul</label>
+                                                <input type="text" name="title" class="form-control"
+                                                    placeholder="Masukkan judul pemasukan" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="row">
+                                                <div class="form-group col-12">
+                                                    <label for="kategori">Kategori</label>
+                                                    <div class="row gap-1">
+                                                        <div class="col-9">
+                                                            <select name="category_id" class="select" id="kategori">
+                                                                <option>Pilih kategori</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <button class="btn btn-secondary" data-bs-target="#tambahModal"
+                                                                data-bs-toggle="modal">
+                                                                +
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="col-2">
-                                                    <button class="btn btn-secondary" data-bs-target="#tambahModal"
-                                                        data-bs-toggle="modal">
-                                                        +
-                                                    </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                                <label>Jumlah </label>
+                                                <input type="number" name="amount" class="form-control"
+                                                    placeholder="Masukkan jumlah pemasukkan" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                                <label>Metode Pembeyaran</label>
+                                                <select name="payment_method" class="select">
+                                                    <option>Pilih Metode Pembayaran</option>
+                                                    <option>Debit</option>
+                                                    <option>Cash</option>
+                                                    <option>E-money</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                                <label>Tanggal</label>
+                                                <input type="date" name="date" class="form-control"
+                                                    placeholder="Tanggal Mulai Pembayaran" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-12 description-box">
+                                                <div class="form-group" id="summernote_container">
+                                                    <label class="form-control-label">Deskripsi</label>
+                                                    <textarea class="summernote form-control" name="description" placeholder="Ketikan deskripsi"></textarea>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-6 col-md-12">
+                                                <div class="form-group">
+                                                    <label>Lampiran</label>
+                                                    <div class="form-group service-upload mb-0">
+                                                        <span><img src="{{ asset('assets/img/icons/drop-icon.svg') }}"
+                                                                alt="upload" /></span>
+                                                        <h6 class="drop-browse align-center">
+                                                            Letakan file disini atau
+                                                            <span class="text-primary ms-1">browse</span>
+                                                        </h6>
+                                                        <p class="text-muted">Ukuran maksimal: 50MB</p>
+                                                        <input type="file" name="attachment" multiple id="image_sign" />
+                                                        <div id="frames"></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-
-
-                                <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label>Jumlah </label>
-                                        <input type="number" name="amount" class="form-control"
-                                            placeholder="Masukkan jumlah pemasukkan" />
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label>Metode Pembeyaran</label>
-                                        <select name="payment_method" class="select">
-                                            <option>Pilih Metode Pembayaran</option>
-                                            <option value="cash">Cash</option>
-                                            <option value="debit">Debit</option>
-                                            <option value="e-money">E-Money</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label>Tanggal</label>
-                                        <input name="date" type="text" class="form-control datetimepicker"
-                                            placeholder="Tanggal Mulai Pembayaran" />
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label>Tanggal Akhir</label>
-                                        <input type="text" name="end_date " class="form-control datetimepicker"
-                                            placeholder="Tanggal Akhir Pembayaran" id="tanggalakhir" disabled />
-                                        <label>
-                                            <input type="checkbox" id="stopcheck"> Berhenti
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label>Kategori Berulang</label>
-                                        <select name="recurring" class="select">
-                                            <option value="tidak ada">Pilih Kategori Berulang</option>
-                                            <option value="tidak ada">Tidak berulang</option>
-                                            <option>Mingguan</option>
-                                            <option>Bulanan</option>
-                                        </select>
-
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6 col-md-12 description-box">
-                                    <div class="form-group" id="summernote_container">
-                                        <label class="form-control-label">Deskripsi</label>
-                                        <textarea name="deskripsi class="summernote form-control" placeholder="Ketikan deskripsi"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="form-group">
-                                        <label>Lapiran</label>
-                                        <div class="form-group service-upload mb-0">
-                                            <span><img src="assets/img/icons/drop-icon.svg" alt="upload" /></span>
-                                            <h6 class="drop-browse align-center">
-                                                Letakan file disini atau
-                                                <span class="text-primary ms-1">browse</span>
-                                            </h6>
-                                            <p class="text-muted">Ukuran maksimal: 50MB</p>
-                                            <input type="file" name="lampiran" multiple id="image_sign" />
-                                            <div id="frames"></div>
-                                        </div>
-                                    </div>
+                                <div class="text-end">
+                                    <a href="expenses.html" class="btn btn-primary cancel me-2">Batal</a>
+                                    <button class="btn btn-primary" id="">Simpan</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="text-end">
-                            <a href="expenses.html" class="btn btn-primary cancel me-2">Batal</a>
-                            <a href="expenses.html" class="btn btn-primary">simpan</a>
-                        </div>
                     </div>
-                </div>
-            </div>
+                </form>
         </div>
     </div>
 
@@ -158,9 +143,35 @@
 @section('script')
     <script>
         $(document).ready(function() {
+
+            $('#createIncomeForm').submit(function(e) {
+                e.preventDefault(); // Mencegah pengiriman formulir biasa
+
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: "{{ route('income.store') }}",
+                    type: 'POST',
+                    data: formData,
+                    processData: false, // Hindari pemrosesan otomatis data
+                    contentType: false, // Hindari pengaturan otomatis tipe konten
+                    success: function(response) {
+                        console.log(response); // Tampilkan respons di konsol
+                        window.location.href = "{{Route('income.index')}}";
+
+                    },
+                    error: function(error) {
+                        // Handle kesalahan (misalnya, tampilkan pesan kesalahan)
+                        console.log(error);
+                    }
+                });
+            });
+
+          
+
             $('#createIncomeCategoryForm').submit(function(event) {
                 event.preventDefault();
-                var formData = $(this).serialize(); // Mengambil data formulir dalam format yang benar
+                var formData = $(this).serialize();
                 $.ajax({
                     url: "{{ route('store-category') }}",
                     method: 'POST',
@@ -169,22 +180,24 @@
                     success: function(response) {
                         var incomeCategory = response.incomeCategory;
                         var selectElement = $('#kategori');
+                        toastr.success(
+                            'Data berhasil di tambah',
+                            'Berhasil');
 
-                        // Tambahkan opsi kategori baru ke dalam elemen <select>
                         selectElement.append('<option value="' + incomeCategory.id + '">' +
                             incomeCategory
                             .name + '</option>');
 
-                        // Tutup modal setelah berhasil
                         $('#tambahModal').modal('hide');
 
-                        // Reset formulir
                         $('#createIncomeCategoryForm')[0].reset();
 
-                        // Jalankan fungsi "get" lagi setelah berhasil menyimpan data
                         getIncomeCategories();
                     },
                     error: function(error) {
+                        toastr.error(
+                            'Anda tidak memiliki izin untuk mengubah kategori ini',
+                            'Error');
                         console.error(error);
                     }
                 });

@@ -39,16 +39,21 @@ class IncomeCategoryController extends Controller
         // Validasi data
         $request->validate([
             'name' => 'required|string|max:255',
-            'user_id' => 'required',
         ]);
 
-        // Proses penyimpanan data
-        $incomeCategory = new Category();
-        $incomeCategory->name = $request->input('name');
-        $incomeCategory->content = ('income');
-        $incomeCategory->user_id = $request->input('user_id');
+        // Pastikan user_id yang disimpan sama dengan id pengguna yang terautentikasi
+        $authenticatedUserId = Auth::user()->id;
+        $user_id = $request->input('user_id');
 
-        $incomeCategory->save();
+        if ($authenticatedUserId !== $user_id) {
+            return response()->json(['message' => 'Anda tidak memiliki izin untuk menyimpan kategori dengan user_id ini'], 403);
+        }
+
+        $expenditureCategory = new Category();
+        $expenditureCategory->name = $request->input('name');
+        $expenditureCategory->user_id = $user_id;
+        $expenditureCategory->content = 'expenditure';
+        $expenditureCategory->save();
 
         // Respon sukses
         return response()->json(['message' => 'Kategori pendapatan berhasil disimpan'], 200);
