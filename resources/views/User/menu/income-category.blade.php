@@ -259,7 +259,14 @@
                     // Refresh halaman atau lakukan tindakan lain yang diperlukan
                 },
                 error: function(error) {
-                    console.error(error);
+                    if (error.status === 403) {
+                        toastr.error(
+                            'Anda tidak memiliki izin untuk menghapus kategori ini',
+                            'Error');
+                    } else {
+                        toastr.error('Terjadi kesalahan saat edit kategori',
+                            'Error');
+                    }
                 }
             });
         });
@@ -320,13 +327,23 @@
                             "_token": "{{ csrf_token() }}"
                         },
                         success: function(response) {
-                            if (response.success) {
-                                toastr.success(
-                                    'Kategori pendapatan berhasil dihapus',
-                                    'Sukses');
+                            // Tutup modal
+                            toastr.success(
+                                'Kategori berhasil hapus',
+                                'Sukses');
 
-                                location
-                                    .reload(); // Reload halaman setelah penghapusan
+                            location
+                                .reload();
+
+                        },
+                        error: function(error) {
+                            if (error.status === 403) {
+                                toastr.error(
+                                    'Anda tidak memiliki izin untuk menghapus kategori ini',
+                                    'Error');
+                            } else {
+                                toastr.error('Terjadi kesalahan saat menghapus kategori',
+                                    'Error');
                             }
                         }
                     });
