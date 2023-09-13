@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\expenditure_category;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -20,10 +21,11 @@ class ExpenditureCategorySeeder extends Seeder
             $categoryNames = ['kebutuhan', 'urgent', 'hiburan'];
 
             foreach ($categoryNames as $categoryName) {
-                expenditure_category::create([
+                Category::create([
                     'user_id' => $admin->id,
                     'name' => $categoryName,
                     'type' => 'default',
+                    'content' => 'expenditure',
                 ]);
             }
         }

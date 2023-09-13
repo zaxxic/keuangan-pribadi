@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\expenditure_category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,14 +16,16 @@ class ExpenditureCategoryController extends Controller
     {
         $user = Auth::user();
 
-        $expenditureCategories = expenditure_category::where(function ($query) use ($user) {
+        $expenditureCategories = Category::where(function ($query) use ($user) {
             $query->where('user_id', $user->id)
                 ->orWhere(function ($query) {
                     $query->where('type', 'default');
                 });
         })
             ->select('id', 'name', 'created_at')
+            ->where('content', 'expenditure')
             ->get();
+
 
         return view('User.menu.expenditure-category', compact('expenditureCategories'));
     }
@@ -45,10 +48,10 @@ class ExpenditureCategoryController extends Controller
             'user_id' => 'required',
         ]);
 
-        // Proses penyimpanan data
-        $expenditureCategory = new expenditure_category();
+        $expenditureCategory = new Category();
         $expenditureCategory->name = $request->input('name');
         $expenditureCategory->user_id = $request->input('user_id');
+        $expenditureCategory->content = ('expenditure');
         $expenditureCategory->save();
 
         // Respon sukses
@@ -76,9 +79,12 @@ class ExpenditureCategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $category = expenditure_category::findOrFail($id);
+        $category = Category::findOrFail($id);
 
-        // Validasi data jika diperlukan
+        if (Auth::user()->id !== $category->user_id) {
+            return response()->json(['message' => 'Anda tidak memiliki izin untuk mengedit kategori ini'], 403);
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -96,7 +102,11 @@ class ExpenditureCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $category = expenditure_category::find($id);
+        $category = Category::find($id);
+
+        if (Auth::user()->id !== $category->user_id) {
+            return response()->json(['message' => 'Anda tidak memiliki izin untuk mengedit kategori ini'], 403);
+        }
 
         if (!$category) {
             return response()->json(['error' => 'Kategori pendapatan tidak ditemukan.'], 404);

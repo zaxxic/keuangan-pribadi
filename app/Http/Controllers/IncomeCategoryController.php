@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Income_category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,32 +16,19 @@ class IncomeCategoryController extends Controller
     {
         $user = Auth::user();
 
-        $incomeCategories = Income_category::where(function ($query) use ($user) {
+        $incomeCategories = Category::where(function ($query) use ($user) {
             $query->where('user_id', $user->id)
                 ->orWhere(function ($query) {
                     $query->where('type', 'default');
                 });
         })
-        ->select('id', 'name','created_at')
-        ->get();
+            ->select('id', 'name', 'created_at')
+            ->where('content', 'income')
+            ->get();
+
 
 
         return view('User.menu.income-category', compact('incomeCategories'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        // $user = Auth::user();
-
-        // if ($user) {
-        //     $incomeCategories = $user->incomeCategories;
-        //     return response()->json($incomeCategories);
-        // } else {
-        //     return response()->json(['message' => 'Pengguna tidak ditemukan'], 404);
-        // }
     }
 
     /**
@@ -55,9 +43,11 @@ class IncomeCategoryController extends Controller
         ]);
 
         // Proses penyimpanan data
-        $incomeCategory = new Income_category();
+        $incomeCategory = new Category();
         $incomeCategory->name = $request->input('name');
+        $incomeCategory->content = ('income');
         $incomeCategory->user_id = $request->input('user_id');
+
         $incomeCategory->save();
 
         // Respon sukses
@@ -86,8 +76,11 @@ class IncomeCategoryController extends Controller
 
     public function update(Request $request, $id)
     {
-        $category = Income_category::findOrFail($id);
+        $category = Category::findOrFail($id);
 
+        if (Auth::user()->id !== $category->user_id) {
+            return response()->json(['message' => 'Anda tidak memiliki izin untuk mengedit kategori ini'], 403);
+        }
         // Validasi data jika diperlukan
         $request->validate([
             'name' => 'required|string|max:255',
@@ -107,7 +100,11 @@ class IncomeCategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Income_category::find($id);
+        $category = Category::find($id);
+
+        if (Auth::user()->id !== $category->user_id) {
+            return response()->json(['message' => 'Anda tidak memiliki izin untuk mengedit kategori ini'], 403);
+        }
 
         if (!$category) {
             return response()->json(['error' => 'Kategori pendapatan tidak ditemukan.'], 404);

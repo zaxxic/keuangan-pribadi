@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Income_category;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,10 +20,11 @@ class IncomeCategorySeeder extends Seeder
             $categoryNames = ['gajian', 'sangu', 'bonus'];
 
             foreach ($categoryNames as $categoryName) {
-                Income_category::create([
+                Category::create([
                     'user_id' => $admin->id,
                     'name' => $categoryName,
                     'type' => 'default',
+                    'content' => 'income',
                 ]);
             }
         }

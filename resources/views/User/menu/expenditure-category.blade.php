@@ -97,7 +97,6 @@
                                                                             data-target="#deleteCategoryModal">
                                                                             <i class="far fa-trash-alt me-2"></i>Delete
                                                                         </a>
-
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -106,6 +105,8 @@
                                                 </tr>
                                             @endforeach
                                         </tbody>
+
+
                                     </table>
                                 </div>
                             </div>
@@ -242,16 +243,21 @@
                     // Tutup modal
                     $('#editCategoryModal').modal('hide');
                     toastr.success(
-                        'Kategori pendapatan berhasil dihapus',
+                        'Kategori pendapatan berhasil rubah',
                         'Sukses');
 
                     location
                         .reload();
 
-                    // Refresh halaman atau lakukan tindakan lain yang diperlukan
                 },
                 error: function(error) {
-                    console.error(error);
+                    $('#updateCategoryBtn').html('Update');
+                    $('#updateCategoryBtn').prop('disabled', false);
+                    if (error.status === 403) {
+                        toastr.error('Anda tidak memiliki izin untuk mengedit kategori ini', 'Error');
+                    } else {
+                        toastr.error('Terjadi kesalahan saat menghapus kategori', 'Error');
+                    }
                 }
             });
         });
@@ -319,13 +325,23 @@
                             "_token": "{{ csrf_token() }}"
                         },
                         success: function(response) {
-                            if (response.success) {
-                                toastr.success(
-                                    'Kategori pendapatan berhasil dihapus',
-                                    'Sukses');
+                            // Tutup modal
+                            toastr.success(
+                                'Kategori berhasil hapus',
+                                'Sukses');
 
-                                location
-                                    .reload(); // Reload halaman setelah penghapusan
+                            location
+                                .reload();
+
+                        },
+                        error: function(error) {
+                            if (error.status === 403) {
+                                toastr.error(
+                                    'Anda tidak memiliki izin untuk menghapus kategori ini',
+                                    'Error');
+                            } else {
+                                toastr.error('Terjadi kesalahan saat menghapus kategori',
+                                    'Error');
                             }
                         }
                     });
