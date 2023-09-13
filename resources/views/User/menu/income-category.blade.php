@@ -259,9 +259,11 @@
                     // Refresh halaman atau lakukan tindakan lain yang diperlukan
                 },
                 error: function(error) {
+                    $('#updateCategoryBtn').html('Ubah');
+                    $('#updateCategoryBtn').prop('disabled', false);
                     if (error.status === 403) {
                         toastr.error(
-                            'Anda tidak memiliki izin untuk menghapus kategori ini',
+                            'Anda tidak memiliki izin untuk mengubah kategori ini',
                             'Error');
                     } else {
                         toastr.error('Terjadi kesalahan saat edit kategori',

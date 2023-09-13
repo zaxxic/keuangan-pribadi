@@ -251,7 +251,7 @@
 
                 },
                 error: function(error) {
-                    $('#updateCategoryBtn').html('Update');
+                    $('#updateCategoryBtn').html('Ubah');
                     $('#updateCategoryBtn').prop('disabled', false);
                     if (error.status === 403) {
                         toastr.error('Anda tidak memiliki izin untuk mengedit kategori ini', 'Error');
