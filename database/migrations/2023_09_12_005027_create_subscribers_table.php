@@ -14,8 +14,7 @@ return new class extends Migration
     Schema::create('subscribers', function (Blueprint $table) {
       $table->id();
       $table->date('expire_date');
-      $table->boolean('status');
-      $table->boolean('recurring')->default(false);
+      $table->string('status');
       $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
       $table->timestamps();
     });

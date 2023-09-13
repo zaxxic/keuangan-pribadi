@@ -11,18 +11,18 @@ return new class extends Migration
    */
   public function up(): void
   {
-    Schema::create('regular_incomes', function (Blueprint $table) {
+    Schema::create('history_transactions', function (Blueprint $table) {
       $table->id();
       $table->string('title');
       $table->integer('amount');
-      $table->string('payment_method')->nullable();
-      $table->string('recurring')->nullable();
-      $table->integer('count');
+      $table->string('payment_method');
+      $table->string('evidence')->nullable();
+      $table->string('content');
       $table->date('date');
       $table->text('description', 400);
       $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-      $table->foreignId('income_category_id')
-        ->constrained('income_categories')
+      $table->foreignId('category_id')
+        ->constrained('categories')
         ->onDelete('cascade')
         ->onUpdate('cascade');
       $table->timestamps();
@@ -34,6 +34,6 @@ return new class extends Migration
    */
   public function down(): void
   {
-    Schema::dropIfExists('regular_incomes');
+    Schema::dropIfExists('history_transactions');
   }
 };

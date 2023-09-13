@@ -15,7 +15,7 @@ return new class extends Migration
       $table->id();
       $table->foreignId('saving_id')->on('savings')
         ->onDelete('cascade');
-      $table->foreignId('expenditures')->onDelete('cascade');
+      $table->foreignId('history_transaction_id')->onDelete('cascade');
       $table->timestamps();
     });
   }

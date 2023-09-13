@@ -12,81 +12,100 @@ use Ramsey\Uuid\Uuid;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+  use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
+  /**
+   * The "booted" method of the model.
+   *
+   * @return void
+   */
+  protected static function boot()
+  {
+    parent::boot();
 
-        static::creating(function ($model) {
-            $model->id = Uuid::uuid4()->toString();
-        });
-    }
+    static::creating(function ($model) {
+      $model->id = Uuid::uuid4()->toString();
+    });
+  }
 
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var bool
-     */
-    public $incrementing = false;
+  /**
+   * Indicates if the IDs are auto-incrementing.
+   *
+   * @var bool
+   */
+  public $incrementing = false;
 
-    /**
-     * The primary key for the model.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id';
+  /**
+   * The primary key for the model.
+   *
+   * @var string
+   */
+  protected $primaryKey = 'id';
 
-    /**
-     * The "type" of the primary key ID.
-     *
-     * @var string
-     */
-    protected $keyType = 'string';
+  /**
+   * The "type" of the primary key ID.
+   *
+   * @var string
+   */
+  protected $keyType = 'string';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+  /**
+   * The attributes that are mass assignable.
+   *
+   * @var array<int, string>
+   */
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+  protected $guarded = [
+    'id'
+  ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+  /**
+   * The attributes that should be hidden for serialization.
+   *
+   * @var array<int, string>
+   */
+  protected $hidden = [
+    'password',
+    'remember_token',
+  ];
 
-    public function incomeCategories()
-    {
-        return $this->hasMany(Income_category::class);
-    }
+  /**
+   * The attributes that should be cast.
+   *
+   * @var array<string, string>
+   */
+  protected $casts = [
+    'email_verified_at' => 'datetime',
+    'password' => 'hashed',
+  ];
 
-    public function expenditureCategories()
-    {
-        return $this->hasMany(expenditure_category::class);
-    }
+  public function categories()
+  {
+    return $this->hasMany(Category::class);
+  }
+
+  public function subscribers()
+  {
+    return $this->hasMany(Subscriber::class);
+  }
+
+  public function savings()
+  {
+    return $this->hasMany(Saving::class);
+  }
+
+  public function regulars()
+  {
+    return $this->hasMany(RegularTransaction::class);
+  }
+
+  public function histories()
+  {
+    return $this->hasMany(HistoryTransaction::class);
+  }
+
+  public function memberOf()
+  {
+    return $this->belongsToMany(SavingMember::class, 'saving_member');
+  }
 }

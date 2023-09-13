@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class RegularTransaction extends Model
 {
   use HasFactory;
 
@@ -18,13 +18,8 @@ class Category extends Model
     return $this->belongsTo(User::class);
   }
 
-  public function regulars()
+  public function category()
   {
-    return $this->hasMany(RegularTransaction::class);
-  }
-
-  public function histories()
-  {
-    return $this->hasMany(HistoryTransaction::class);
+    return $this->belongsTo(Category::class);
   }
 }
