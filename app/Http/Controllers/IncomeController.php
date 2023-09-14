@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\HistoryTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class IncomeController extends Controller
 {
@@ -18,23 +19,23 @@ class IncomeController extends Controller
 
         $transactions = HistoryTransaction::where('user_id', $user->id)
             ->where('content', 'income')
-            
+
             ->get();
 
-        return view('User.transaction.income', compact('transactions'));
+        return view('User.transaction.income.income', compact('transactions'));
     }
 
 
     public function store(Request $request)
     {
         // Validasi data dengan pesan kustom
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'amount' => 'required',
-            'payment_method' => 'required|string|max:255',
+            'payment_method' => 'required|in:E-Wallet,Cash,Debit',
             'attachment' => 'image|mimes:jpeg,png,jpg|max:5120',
-            'date' => 'required|date',
-            'description' => 'nullable|string',
+            'date' => ['required', 'date', 'date_before_today'],
+            'description' => 'string',
             'category_id' => 'required',
         ], [
             'title.required' => 'Judul harus diisi.',
@@ -43,14 +44,20 @@ class IncomeController extends Controller
             'amount.required' => 'Jumlah harus diisi.',
             'payment_method.required' => 'Metode pembayaran harus diisi.',
             'payment_method.string' => 'Metode pembayaran harus berupa teks.',
-            'payment_method.max' => 'Metode pembayaran tidak boleh lebih dari 255 karakter.',
+            'payment_method.in' => 'Metode pembayaran tidak ada.',
             'attachment.required' => 'Bukti pembayaran harus diisi.',
-            'attachment.mimes' => 'Bukti pembayaran harus berupa JPG,PNG atau JPEG.',
+            'attachment.mimes' => 'Bukti pembayaran harus berupa JPG, PNG, atau JPEG.',
             'attachment.max' => 'Bukti pembayaran tidak boleh lebih dari 5 Mb.',
             'date.required' => 'Tanggal harus diisi.',
+            'date.date_before_today' => 'Tanggal harus sebelum hari ini atau hari.',
             'date.date' => 'Tanggal harus berupa tanggal yang valid.',
             'description.string' => 'Deskripsi harus berupa teks.',
+            'category_id.required' => 'Kategori harus diisi.',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
         if ($request->hasFile('attachment')) {
             $attachmentPath = $request->file('attachment')->store('public/income_attachment');
@@ -99,7 +106,7 @@ class IncomeController extends Controller
      */
     public function create()
     {
-        return view('User.transaction.add-income');
+        return view('User.transaction.income.add-income');
     }
 
     /**
@@ -133,9 +140,11 @@ class IncomeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+    // string $id
     public function edit(string $id)
     {
-        //
+        return view('User.transaction.income.edit-income');
+
     }
 
     /**

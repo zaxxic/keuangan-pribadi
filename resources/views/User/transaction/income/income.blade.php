@@ -55,7 +55,8 @@
                                                 </td>
                                                 <td>{{ $transaction->amount }}</td>
                                                 <td>
-                                                    <button data-bs-target="#delete_modal" data-bs-toggle="modal"
+                                                    <button data-bs-target="#modalImage" data-bs-toggle="modal"
+                                                        data-bs-image="{{ asset('storage/income_attachment/' . $transaction->attachment) }}"
                                                         class="btn btn-primary">Lihat</button>
                                                 </td>
                                                 <td>{{ $transaction->payment_method }}</td>
@@ -66,7 +67,7 @@
                                                             id="description{{ $loop->iteration }}">{{ substr($transaction->description, 0, 60) }}</span>
                                                         <a href="javascript:void(0);"
                                                             onclick="showDescription({{ $loop->iteration }})"
-                                                            id="readMoreLink{{ $loop->iteration }}">Read more</a>
+                                                            id="readMoreLink{{ $loop->iteration }}">Selengkapnya</a>
                                                         <span id="fullDescription{{ $loop->iteration }}"
                                                             style="display:none;">{{ $transaction->description }}</span>
                                                     @else
@@ -107,6 +108,20 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalImage" tabindex="-1" aria-labelledby="modalImageLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalImageLabel">Gambar Attachment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="attachmentImage" src="" alt="Attachment">
+                </div>
+            </div>
         </div>
     </div>
 
@@ -371,6 +386,12 @@
 @endsection
 @section('script')
     <script>
+        $(document).on('click', 'button[data-bs-target="#modalImage"]', function() {
+            var imageUrl = $(this).data('bs-image');
+            console.log(imageUrl);
+            $('#attachmentImage').attr('src', imageUrl);
+        });
+
         function showDescription(iteration) {
             var description = document.getElementById('description' + iteration);
             var fullDescription = document.getElementById('fullDescription' + iteration);
@@ -379,11 +400,11 @@
             if (description.style.display === 'none') {
                 description.style.display = 'inline';
                 fullDescription.style.display = 'none';
-                readMoreLink.innerHTML = 'Read more';
+                readMoreLink.innerHTML = 'Selangkapnya';
             } else {
                 description.style.display = 'none';
                 fullDescription.style.display = 'inline';
-                readMoreLink.innerHTML = 'Close';
+                readMoreLink.innerHTML = 'Tutup';
             }
         }
     </script>
