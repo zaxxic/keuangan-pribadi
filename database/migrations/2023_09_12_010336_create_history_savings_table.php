@@ -17,6 +17,7 @@ return new class extends Migration
         ->onDelete('cascade');
       $table->foreignId('history_transaction_id')->constrained()->onDelete('cascade');
       $table->timestamps();
+      $table->unique(['history_transaction_id', 'saving_id']);
     });
   }
 

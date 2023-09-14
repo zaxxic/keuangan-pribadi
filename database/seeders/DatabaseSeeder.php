@@ -4,11 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\HistorySaving;
 use App\Models\HistoryTransaction;
 use App\Models\RegularTransaction;
 use App\Models\Saving;
-use App\Models\SavingMember;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -31,9 +29,10 @@ class DatabaseSeeder extends Seeder
     User::factory(3)->create();
 
     $this->call(IncomeCategorySeeder::class);
+
     $this->call(ExpenditureCategorySeeder::class);
 
-    HistoryTransaction::factory(100)->create();
+    HistoryTransaction::factory(200)->create();
 
     RegularTransaction::factory(5)->create();
 
@@ -41,10 +40,10 @@ class DatabaseSeeder extends Seeder
 
     Saving::factory(4)->create();
 
-    SavingMember::factory(6)->create();
+    $this->call(SavingMemberSeeder::class);
 
     $this->call(RegularSavingSeeder::class);
 
-    HistorySaving::factory(20)->create();
+    $this->call(HistorySavingSeeder::class);
   }
 }

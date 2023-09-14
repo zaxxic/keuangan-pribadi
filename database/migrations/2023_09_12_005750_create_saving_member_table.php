@@ -17,6 +17,7 @@ return new class extends Migration
         ->onDelete('cascade');
       $table->foreignId('saving_id')->constrained()->on('savings')
         ->onDelete('cascade');
+      $table->unique(['user_id', 'saving_id']);
     });
   }
 
