@@ -74,23 +74,23 @@ Route::get('/admin-dashboard', function () {
     return view('Admin.dashboard');
 })->name('admin');
 
-Route::get('paid-users', function(){
+Route::get('paid-users', function () {
     return view('Admin.users');
 })->name('paid-users');
 
 Route::group(['middleware' => 'user'], function () {
-    
+
     Route::get('/profile', [ProfileController::class, 'index'])->name('setting');
     Route::put('/profile.update', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/password.update', [ProfileController::class, 'updatePassword'])->name('password.update');
 
-    Route::resource('income_category', IncomeCategoryController::class)->except(['show','edit','create']);
-    Route::resource('expenditure_category', ExpenditureCategoryController::class)->except(['show','edit','create']);
-    Route::resource('income', IncomeController::class)->except(['show']);
+    Route::resource('income_category', IncomeCategoryController::class)->except(['show', 'edit', 'create']);
+    Route::resource('expenditure_category', ExpenditureCategoryController::class)->except(['show', 'edit', 'create']);
+    Route::resource('income', IncomeController::class)->except(['show,edit']);
+    // Route::get('income/edit/{transaction_id}', 'IncomeController@edit')->name('income.editing');
+    Route::get('/income/edit/{id}', [IncomeController::class, 'editing'])->name('income.editing');
+
+
     Route::get('/in-category', [IncomeController::class, 'category'])->name('in-category');
     Route::post('/store-category', [IncomeController::class, 'storeCatgory'])->name('store-category');
 });
-
-
-
-

@@ -9,19 +9,19 @@
                     <div class="list-btn">
                         <ul class="filter-list">
                             <li>
-                                <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
-                                    data-bs-placement="bottom" title="Filter"><span class="me-2"><img
-                                            src="assets/img/icons/filter-icon.svg" alt="Filter"></span>Filter
-                                </a>
+                                <div class="input-group" style="max-width: 450px;">
+                                    <input type="text" class="form-control" placeholder="Cari Kategori"
+                                        id="searchCategory">
+                                    <a class="btn btn-primary" href="{{ Route('income.create') }}"><i
+                                            class="fa fa-plus-circle me-2" aria-hidden="true"></i>Tambah Pemasukan</a>
+                                </div>
                             </li>
 
-                            <li>
-                                <a class="btn btn-primary" href="{{ Route('income.create') }}"><i
-                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>Tambah Pemasukan</a>
-                            </li>
+
                         </ul>
                     </div>
                 </div>
+
             </div>
 
 
@@ -35,7 +35,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Judul</th>
-
+                                            <th>Tanggal</th>
                                             <th>Jumlah</th>
                                             <th>Bukti</th>
                                             <th>Mode pembayaran</th>
@@ -52,7 +52,9 @@
                                                 <td>
                                                     <a href="invoice-details.html"
                                                         class="invoice-link">{{ $transaction->title }}</a>
+
                                                 </td>
+                                                <td>{{ $transaction->date }}</td>
                                                 <td>{{ $transaction->amount }}</td>
                                                 <td>
                                                     <button data-bs-target="#modalImage" data-bs-toggle="modal"
@@ -83,14 +85,17 @@
                                                         <div class="dropdown-menu dropdown-menu-right">
                                                             <ul>
                                                                 <li>
-                                                                    <a class="dropdown-item" href="edit-expenses.html">
+                                                                    <a class="dropdown-item"
+                                                                        href="{{ route('income.editing', ['id' => $transaction->id]) }}">
                                                                         <i class="far fa-edit me-2"></i>Edit
                                                                     </a>
                                                                 </li>
                                                                 <li>
-                                                                    <a class="dropdown-item" href="javascript:void(0);"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#delete_modal">
+                                                                    <a class="dropdown-item delete-income" href="#"
+                                                                        data-id="{{ $transaction->id }}"
+                                                                        data-route="{{ route('income.destroy', $transaction->id) }}"
+                                                                        data-toggle="modal"
+                                                                        data-target="#deleteCategoryModal">
                                                                         <i class="far fa-trash-alt me-2"></i>Delete
                                                                     </a>
                                                                 </li>
@@ -111,6 +116,9 @@
         </div>
     </div>
 
+
+
+
     <div class="modal fade" id="modalImage" tabindex="-1" aria-labelledby="modalImageLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -124,267 +132,10 @@
             </div>
         </div>
     </div>
-
-
-    <div class="toggle-sidebar">
-        <div class="sidebar-layout-filter">
-            <div class="sidebar-header">
-                <h5>Filter</h5>
-                <a href="#" class="sidebar-closes"><i class="fa-regular fa-circle-xmark"></i></a>
-            </div>
-            <div class="sidebar-body">
-                <form action="#" autocomplete="off">
-
-                    <div class="accordion" id="accordionMain1">
-                        <div class="card-header-new" id="headingOne">
-                            <h6 class="filter-title">
-                                <a href="javascript:void(0);" class="w-100" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Customer
-                                    <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
-                                </a>
-                            </h6>
-                        </div>
-                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                            data-bs-parent="#accordionExample1">
-                            <div class="card-body-chat">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div id="checkBoxes1">
-                                            <div class="form-custom">
-                                                <input type="text" class="form-control" id="member_search1"
-                                                    placeholder="Search here">
-                                                <span><img src="assets/img/icons/search.svg" alt="img"></span>
-                                            </div>
-                                            <div class="selectBox-cont">
-                                                <label class="custom_check w-100">
-                                                    <input type="checkbox" name="username">
-                                                    <span class="checkmark"></span> Brian Johnson
-                                                </label>
-                                                <label class="custom_check w-100">
-                                                    <input type="checkbox" name="username">
-                                                    <span class="checkmark"></span> Russell Copeland
-                                                </label>
-                                                <label class="custom_check w-100">
-                                                    <input type="checkbox" name="username">
-                                                    <span class="checkmark"></span> Greg Lynch
-                                                </label>
-                                                <label class="custom_check w-100">
-                                                    <input type="checkbox" name="username">
-                                                    <span class="checkmark"></span> John Blair
-                                                </label>
-
-                                                <div class="view-content">
-                                                    <div class="viewall-One">
-                                                        <label class="custom_check w-100">
-                                                            <input type="checkbox" name="username">
-                                                            <span class="checkmark"></span> Barbara Moore
-                                                        </label>
-                                                        <label class="custom_check w-100">
-                                                            <input type="checkbox" name="username">
-                                                            <span class="checkmark"></span> Hendry Evan
-                                                        </label>
-                                                        <label class="custom_check w-100">
-                                                            <input type="checkbox" name="username">
-                                                            <span class="checkmark"></span> Richard Miles
-                                                        </label>
-                                                    </div>
-                                                    <div class="view-all">
-                                                        <a href="javascript:void(0);" class="viewall-button-One"><span
-                                                                class="me-2">View
-                                                                All</span><span><i
-                                                                    class="fa fa-circle-chevron-down"></i></span></a>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="accordion" id="accordionMain2">
-                        <div class="card-header-new" id="headingTwo">
-                            <h6 class="filter-title">
-                                <a href="javascript:void(0);" class="w-100 collapsed" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                    Select Date
-                                    <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
-                                </a>
-                            </h6>
-                        </div>
-                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-                            data-bs-parent="#accordionExample2">
-                            <div class="card-body-chat">
-                                <div class="form-group">
-                                    <label class="form-control-label">From</label>
-                                    <div class="cal-icon">
-                                        <input type="email" class="form-control datetimepicker"
-                                            placeholder="DD-MM-YYYY">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-control-label">To</label>
-                                    <div class="cal-icon">
-                                        <input type="email" class="form-control datetimepicker"
-                                            placeholder="DD-MM-YYYY">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="accordion" id="accordionMain3">
-                        <div class="card-header-new" id="headingThree">
-                            <h6 class="filter-title">
-                                <a href="javascript:void(0);" class="w-100 collapsed" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                                    By Status
-                                    <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
-                                </a>
-                            </h6>
-                        </div>
-                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                            data-bs-parent="#accordionExample3">
-                            <div class="card-body-chat">
-                                <div id="checkBoxes2">
-                                    <div class="form-custom">
-                                        <input type="text" class="form-control" id="member_search2"
-                                            placeholder="Search here">
-                                        <span><img src="assets/img/icons/search.svg" alt="img"></span>
-                                    </div>
-                                    <div class="selectBox-cont">
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="bystatus">
-                                            <span class="checkmark"></span> All Invoices
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="bystatus">
-                                            <span class="checkmark"></span> Paid
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="bystatus">
-                                            <span class="checkmark"></span> Overdue
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="bystatus">
-                                            <span class="checkmark"></span> Draft
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="bystatus">
-                                            <span class="checkmark"></span> Recurring
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="bystatus">
-                                            <span class="checkmark"></span> Cancelled
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="accordion accordion-last" id="accordionMain4">
-                        <div class="card-header-new" id="headingFour">
-                            <h6 class="filter-title">
-                                <a href="javascript:void(0);" class="w-100 collapsed" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-                                    Category
-                                    <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
-                                </a>
-                            </h6>
-                        </div>
-                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
-                            data-bs-parent="#accordionExample4">
-                            <div class="card-body-chat">
-                                <div id="checkBoxes3">
-                                    <div class="selectBox-cont">
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="category">
-                                            <span class="checkmark"></span> Advertising
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="category">
-                                            <span class="checkmark"></span> Food
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="category">
-                                            <span class="checkmark"></span> Repairs
-                                        </label>
-                                        <label class="custom_check w-100">
-                                            <input type="checkbox" name="category">
-                                            <span class="checkmark"></span> Software
-                                        </label>
-
-                                        <div class="view-content">
-                                            <div class="viewall-Two">
-                                                <label class="custom_check w-100">
-                                                    <input type="checkbox" name="username">
-                                                    <span class="checkmark"></span> Stationary
-                                                </label>
-                                                <label class="custom_check w-100">
-                                                    <input type="checkbox" name="username">
-                                                    <span class="checkmark"></span> Medical
-                                                </label>
-                                                <label class="custom_check w-100">
-                                                    <input type="checkbox" name="username">
-                                                    <span class="checkmark"></span> Designing
-                                                </label>
-                                            </div>
-                                            <div class="view-all">
-                                                <a href="javascript:void(0);" class="viewall-button-Two"><span
-                                                        class="me-2">View All</span><span><i
-                                                            class="fa fa-circle-chevron-down"></i></span></a>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button type="submit"
-                        class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                        <span><img src="assets/img/icons/chart.svg" class="me-2" alt="Generate report"></span>Generate
-                        report
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal custom-modal fade" id="delete_modal" role="dialog">
-        <div class="modal-dialog modal-dialog-centered modal-md">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="form-header">
-                        <h3>Delete Expenses</h3>
-                        <p>Are you sure want to delete?</p>
-                    </div>
-                    <div class="modal-btn delete-action">
-                        <div class="row">
-                            <div class="col-6">
-                                <button type="reset" data-bs-dismiss="modal"
-                                    class="w-100 btn btn-primary paid-continue-btn">Delete</button>
-                            </div>
-                            <div class="col-6">
-                                <button type="submit" data-bs-dismiss="modal"
-                                    class="w-100 btn btn-primary paid-cancel-btn">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 @section('script')
+    <script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>
     <script>
         $(document).on('click', 'button[data-bs-target="#modalImage"]', function() {
             var imageUrl = $(this).data('bs-image');
@@ -407,5 +158,71 @@
                 readMoreLink.innerHTML = 'Tutup';
             }
         }
+
+        // search by all
+        // $("#searchCategory").on("keyup", function() {
+        //     var value = $(this).val().toLowerCase();
+        //     $("table tbody tr").filter(function() {
+        //         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        //     });
+        // });
+
+        $("#searchCategory").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("table tbody tr").filter(function() {
+                // Mengambil teks dari kolom dengan class "invoice-link"
+                var title = $(this).find(".invoice-link").text().toLowerCase();
+                // Memeriksa apakah teks dalam kolom mengandung nilai pencarian
+                $(this).toggle(title.indexOf(value) > -1);
+            });
+        });
+    </script>
+    <script>
+        $(document).on('click', '.delete-income', function(e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            var route = $(this).data('route');
+
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Anda tidak akan dapat mengembalikan ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: route,
+                        type: 'DELETE',
+                        data: {
+                            "_token": "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            // Tutup modal
+                            toastr.success(
+                                'Kategori berhasil hapus',
+                                'Sukses');
+
+                            location
+                                .reload();
+
+                        },
+                        error: function(error) {
+                            if (error.status === 403) {
+                                toastr.error(
+                                    'Anda tidak memiliki izin untuk menghapus kategori ini',
+                                    'Error');
+                            } else {
+                                toastr.error('Terjadi kesalahan saat menghapus kategori',
+                                    'Error');
+                            }
+                        }
+                    });
+                }
+            });
+        });
     </script>
 @endsection
