@@ -158,6 +158,7 @@
         </div>
     </div>
 </div>
+
 @endsection
 @section('script')
 <script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
@@ -168,7 +169,6 @@
         console.log(imageUrl);
         $('#attachmentImage').attr('src', imageUrl);
     });
-
     // Tampilkan ikon download saat gambar dihover
     $('#attachmentImage').hover(function() {
         $('#downloadIcon').show();
