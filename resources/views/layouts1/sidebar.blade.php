@@ -33,7 +33,7 @@
         <li class="submenu">
           <a href="#"><i class="fe fe-trending-down"></i> <span> Pengeluaran</span> <span class="menu-arrow"></span></a>
           <ul>
-            <li><a class="{{ Route::currentRouteName() == 'expenditure' ? 'active' : '' }}" href="{{ route('expenditure.index') }}">Pengeluaran</a></li>
+            <li><a class="{{ in_array(Route::currentRouteName(), ['expenditure.index', 'expenditure.create', 'expenditure.edit']) ? 'active' : '' }}" href="{{ route('expenditure.index') }}">Pengeluaran</a></li>
             <li><a href="">Pengeluaran Berulang</a></li>
           </ul>
         </li>
