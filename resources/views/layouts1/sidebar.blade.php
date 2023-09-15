@@ -33,7 +33,7 @@
         <li class="submenu">
           <a href="#"><i class="fe fe-trending-down"></i> <span> Pengeluaran</span> <span class="menu-arrow"></span></a>
           <ul>
-            <li><a class="{{ Route::currentRouteName() == 'expenditure' ? 'active' : '' }}" href="">Pengeluaran</a></li>
+            <li><a class="{{ Route::currentRouteName() == 'expenditure' ? 'active' : '' }}" href="{{ route('expenditure.index') }}">Pengeluaran</a></li>
             <li><a href="">Pengeluaran Berulang</a></li>
           </ul>
         </li>
@@ -53,9 +53,6 @@
             <i class="fe fe-settings"></i><span>Settings</span></a>
         </li>
       </ul>
-
-
-
     </div>
   </div>
 </div>
