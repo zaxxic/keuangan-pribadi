@@ -388,8 +388,18 @@
 
             return tanggalData >= firstWeek && tanggalData <= lastWeek && data.content == 'expenditure';
           });
-          console.log(receivedValue);
-          console.log(pendingValue);
+
+          if(receivedValue.length > 0){
+            received.push(receivedValue[0].amount);
+          } else {
+            received.push(0);
+          }
+
+          if(pendingValue.length > 0){
+            pending.push(pendingValue[0].amount);
+          } else {
+            pending.push(0);
+          }
 
           firstWeek.setDate(lastWeek.getDate() + 1);
           minggu++

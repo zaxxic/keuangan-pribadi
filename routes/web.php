@@ -25,15 +25,6 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('/register', [AuthenticationController::class, 'registerIndex']);
 
-<<<<<<< Updated upstream
-=======
-Route::get('/expenditure', function () {
-  return view('User.transaction.expenditure');
-})->name("expenditure");
->>>>>>> Stashed changes
-
-
-
 Route::get('/income-recurring', function () {
   return view('User.transaction.income-recurring');
 })->name("income-recurring");
@@ -75,27 +66,6 @@ Route::get('/admin-dashboard', function () {
 })->name('admin');
 
 Route::get('paid-users', function () {
-<<<<<<< Updated upstream
-    return view('Admin.users');
-})->name('paid-users');
-
-Route::group(['middleware' => 'user'], function () {
-
-    Route::get('/profile', [ProfileController::class, 'index'])->name('setting');
-    Route::put('/profile.update', [ProfileController::class, 'update'])->name('profile.update');
-    Route::put('/password.update', [ProfileController::class, 'updatePassword'])->name('password.update');
-
-    Route::resource('income_category', IncomeCategoryController::class)->except(['show', 'edit', 'create']);
-    Route::resource('expenditure_category', ExpenditureCategoryController::class)->except(['show', 'edit', 'create']);
-    Route::resource('income', IncomeController::class)->except(['show,edit']);
-    Route::get('/income/edit/{id}', [IncomeController::class, 'editing'])->name('income.editing');
-    Route::get('/in-category', [IncomeController::class, 'category'])->name('in-category');
-    Route::post('/store-category', [IncomeController::class, 'storeCatgory'])->name('store-category');
-
-    Route::resource('expenditure', ExpenditureController::class)->except(['show,edit']);
-    Route::get('/get-category', [ExpenditureController::class, 'category'])->name('get-category');
-    Route::post('/post-category', [ExpenditureController::class, 'storeCatgory'])->name('post-category');
-=======
   return view('Admin.users');
 })->name('paid-users');
 
@@ -109,8 +79,12 @@ Route::group(['middleware' => 'user'], function () {
 
   Route::resource('income_category', IncomeCategoryController::class)->except(['show', 'edit', 'create']);
   Route::resource('expenditure_category', ExpenditureCategoryController::class)->except(['show', 'edit', 'create']);
-  Route::resource('income', IncomeController::class)->except(['show']);
+  Route::resource('income', IncomeController::class)->except(['show,edit']);
+  Route::get('/income/edit/{id}', [IncomeController::class, 'editing'])->name('income.editing');
   Route::get('/in-category', [IncomeController::class, 'category'])->name('in-category');
   Route::post('/store-category', [IncomeController::class, 'storeCatgory'])->name('store-category');
->>>>>>> Stashed changes
+
+  Route::resource('/expenditure', ExpenditureController::class)->except(['show,edit']);
+  Route::get('/get-category', [ExpenditureController::class, 'category'])->name('get-category');
+  Route::post('/post-category', [ExpenditureController::class, 'storeCatgory'])->name('post-category');
 });
