@@ -18,18 +18,20 @@ class HistoryTransactionFactory extends Factory
    */
   public function definition(): array
   {
-    $method = ['Cash', 'Kredit', 'E-Wallet'];
     $content = ['income', 'expenditure'];
+    $category = Category::inrandomOrder()->first();
+    $content = ($category->content == 'income') ? $content[0] : $content[1];
+    $method = ['Cash', 'Kredit', 'E-Wallet'];
     return [
       'title' => fake()->sentence(1),
-      'amount' => fake()->randomNumber(5, true),
+      'amount' => fake()->randomNumber(($content == 'expenditure') ? 4 : 5, true),
       'payment_method' => $method[array_rand($method, 1)],
       'attachment' => 'evidence.jpg',
-      'content' => $content[array_rand($content, 1)],
+      'content' => $content,
       'date' => fake()->dateTimeInInterval('-6 months', '+6 months'),
       'description' => fake()->paragraph(1),
       'user_id' => User::where('role', 'user')->inRandomOrder()->first()->id,
-      'category_id' => Category::inrandomOrder()->first()->id
+      'category_id' => $category->id
     ];
   }
 }
