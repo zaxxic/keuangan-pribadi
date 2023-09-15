@@ -6,6 +6,7 @@ use App\Http\Controllers\ExpenditureController;
 use App\Http\Controllers\IncomeCategoryController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -24,22 +25,19 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('/register', [AuthenticationController::class, 'registerIndex']);
 
-
-
-
 Route::get('/income-recurring', function () {
-    return view('User.transaction.income-recurring');
+  return view('User.transaction.income-recurring');
 })->name("income-recurring");
 
 
 Route::get('/add-expenditure', function () {
-    return view('User.transaction.add-expenditure');
+  return view('User.transaction.add-expenditure');
 })->name("add-expenditure");
 
 
 
 Route::get('/total', function () {
-    return view('User.menu.total');
+  return view('User.menu.total');
 })->name("total");
 
 Route::middleware(['auth'])->group(function () {
@@ -47,7 +45,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::get('/login', function () {
-    return view('auth.login');
+  return view('auth.login');
 });
 
 Auth::routes();
@@ -56,40 +54,37 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Auth::routes();
 
-
-Route::get('/', function () {
-    return view('User.dashboard');
-})->name("dashboard");
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 Route::get('/calendar', function () {
-    return view('User.menu.calendar');
+  return view('User.menu.calendar');
 })->name('calendar');
 
 Route::get('/admin-dashboard', function () {
-    return view('Admin.dashboard');
+  return view('Admin.dashboard');
 })->name('admin');
 
 Route::get('paid-users', function () {
-    return view('Admin.users');
+  return view('Admin.users');
 })->name('paid-users');
 
 Route::group(['middleware' => 'user'], function () {
+  Route::get('/', [UserController::class, 'index'])->name('dashboard');
+  Route::post('/gethistory', [UserController::class, 'getHistory'])->name('gethistory');
 
-    Route::get('/profile', [ProfileController::class, 'index'])->name('setting');
-    Route::put('/profile.update', [ProfileController::class, 'update'])->name('profile.update');
-    Route::put('/password.update', [ProfileController::class, 'updatePassword'])->name('password.update');
+  Route::get('/profile', [ProfileController::class, 'index'])->name('setting');
+  Route::put('/profile.update', [ProfileController::class, 'update'])->name('profile.update');
+  Route::put('/password.update', [ProfileController::class, 'updatePassword'])->name('password.update');
 
-    Route::resource('income_category', IncomeCategoryController::class)->except(['show', 'edit', 'create']);
-    Route::resource('expenditure_category', ExpenditureCategoryController::class)->except(['show', 'edit', 'create']);
-    Route::resource('income', IncomeController::class)->except(['show,edit']);
-    Route::get('/income/edit/{id}', [IncomeController::class, 'editing'])->name('income.editing');
-    Route::get('/in-category', [IncomeController::class, 'category'])->name('in-category');
-    Route::post('/store-category', [IncomeController::class, 'storeCatgory'])->name('store-category');
+  Route::resource('income_category', IncomeCategoryController::class)->except(['show', 'edit', 'create']);
+  Route::resource('expenditure_category', ExpenditureCategoryController::class)->except(['show', 'edit', 'create']);
+  Route::resource('income', IncomeController::class)->except(['show,edit']);
+  Route::get('/income/edit/{id}', [IncomeController::class, 'editing'])->name('income.editing');
+  Route::get('/in-category', [IncomeController::class, 'category'])->name('in-category');
+  Route::post('/store-category', [IncomeController::class, 'storeCatgory'])->name('store-category');
 
-    Route::resource('expenditure', ExpenditureController::class)->except(['show,edit']);
-    Route::get('/get-category', [ExpenditureController::class, 'category'])->name('get-category');
-    Route::post('/post-category', [ExpenditureController::class, 'storeCatgory'])->name('post-category');
+  Route::resource('/expenditure', ExpenditureController::class)->except(['show,edit']);
+  Route::get('/get-category', [ExpenditureController::class, 'category'])->name('get-category');
+  Route::post('/post-category', [ExpenditureController::class, 'storeCatgory'])->name('post-category');
 });
