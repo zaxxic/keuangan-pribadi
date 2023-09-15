@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class IncomeController extends Controller
+class ExpenditureController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,14 +19,24 @@ class IncomeController extends Controller
         $user = Auth::user();
 
         $transactions = HistoryTransaction::where('user_id', $user->id)
-            ->where('content', 'income')
+            ->where('content', 'expenditure')
 
             ->get();
 
-        return view('User.transaction.income.income', compact('transactions'));
+        return view('User.transaction.expenditure.expenditure', compact('transactions'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('User.transaction.expenditure.add-expenditure');
+    }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         // Validasi data dengan pesan kustom
@@ -61,7 +71,7 @@ class IncomeController extends Controller
         }
 
         if ($request->hasFile('attachment')) {
-            $attachmentPath = $request->file('attachment')->store('public/income_attachment');
+            $attachmentPath = $request->file('attachment')->store('public/expenditure_attachment');
             $attachmentName = basename($attachmentPath);
         } else {
             $attachmentName = null;
@@ -69,35 +79,22 @@ class IncomeController extends Controller
 
         $user_id = Auth::id();
 
-        $income = new HistoryTransaction();
-        $income->title = $request->input('title');
-        $income->amount = $request->input('amount');
-        $income->payment_method = $request->input('payment_method');
-        $income->content = ('income');
-        $income->date = $request->input('date');
-        $income->description = $request->input('description');
-        $income->category_id = $request->input('category_id');
-        $income->user_id = $user_id;
-        $income->attachment = $attachmentName;
-        $income->save();
+        $expenditure = new HistoryTransaction();
+        $expenditure->title = $request->input('title');
+        $expenditure->amount = $request->input('amount');
+        $expenditure->payment_method = $request->input('payment_method');
+        $expenditure->content = ('expenditure');
+        $expenditure->date = $request->input('date');
+        $expenditure->description = $request->input('description');
+        $expenditure->category_id = $request->input('category_id');
+        $expenditure->user_id = $user_id;
+        $expenditure->attachment = $attachmentName;
+        $expenditure->save();
 
         // Respon sukses
         return response()->json(['message' => 'Kategori pendapatan berhasil disimpan'], 200);
     }
 
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('User.transaction.income.add-income');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function storeCatgory(Request $request)
     {
         // Validasi data yang dikirim oleh formulir
@@ -105,14 +102,14 @@ class IncomeController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        $incomeCategory = new Category();
-        $incomeCategory->name = $request->input('name');
-        $incomeCategory->content = 'income';
-        $incomeCategory->type = 'local';
-        $incomeCategory->user_id = auth()->id();
-        $incomeCategory->save();
+        $expenditureCategory = new Category();
+        $expenditureCategory->name = $request->input('name');
+        $expenditureCategory->content = 'expenditure';
+        $expenditureCategory->type = 'local';
+        $expenditureCategory->user_id = auth()->id();
+        $expenditureCategory->save();
 
-        return response()->json(['incomeCategory' => $incomeCategory]);
+        return response()->json(['expenditureCategory' => $expenditureCategory]);
     }
 
     public function category()
@@ -120,17 +117,19 @@ class IncomeController extends Controller
 
         $user = Auth::user();
 
-        $incomeCategories = Category::where(function ($query) use ($user) {
+        $expenditureCategories = Category::where(function ($query) use ($user) {
             $query->where('user_id', $user->id)
                 ->orWhere(function ($query) {
                     $query->where('type', 'default');
                 });
         })
             ->select('id', 'name', 'created_at')
-            ->where('content', 'income')
+            ->where('content', 'expenditure')
             ->get();
-        return response()->json(['incomeCategories' => $incomeCategories]);
+        return response()->json(['expenditureCategories' => $expenditureCategories]);
     }
+
+
 
     /**
      * Display the specified resource.
@@ -143,11 +142,8 @@ class IncomeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    // string $id
-
-    public function editing($id)
+    public function edit(string $id)
     {
-
         $transaction = HistoryTransaction::find($id); // Mengambil data transaksi berdasarkan ID
 
         if (!$transaction) {
@@ -157,9 +153,12 @@ class IncomeController extends Controller
         if ($transaction->user_id !== Auth::id()) {
             dd('forbiden');
         }
-        return view('User.transaction.income.edit-income', compact('transaction'));
+        return view('User.transaction.expenditure.edit-expenditure', compact('transaction'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, $id)
     {
         // Validasi data dengan pesan kustom
@@ -193,38 +192,35 @@ class IncomeController extends Controller
         }
 
         // Cari transaksi berdasarkan ID
-        $income = HistoryTransaction::find($id);
+        $expenditure = HistoryTransaction::find($id);
 
-        if (!$income) {
+        if (!$expenditure) {
             return response()->json(['error' => 'Transaksi tidak ditemukan'], 404);
         }
 
         if ($request->hasFile('attachment')) {
             // Menghapus lampiran lama jika ada
-            if ($income->attachment) {
-                Storage::delete('public/income_attachment/' . $income->attachment);
+            if ($expenditure->attachment) {
+                Storage::delete('public/expenditure_attachment/' . $expenditure->attachment);
             }
             // Simpan lampiran baru
-            $attachmentPath = $request->file('attachment')->store('public/income_attachment');
+            $attachmentPath = $request->file('attachment')->store('public/expenditure_attachment');
             $attachmentName = basename($attachmentPath);
-            $income->attachment = $attachmentName;
+            $expenditure->attachment = $attachmentName;
         }
 
-        $income->title = $request->input('title');
-        $income->amount = $request->input('amount');
-        $income->payment_method = $request->input('payment_method');
-        $income->content = 'income'; // Ini harus disesuaikan dengan kebutuhan Anda
-        $income->date = $request->input('date');
-        $income->description = $request->input('description');
-        $income->category_id = $request->input('category_id');
-        $income->save();
+        $expenditure->title = $request->input('title');
+        $expenditure->amount = $request->input('amount');
+        $expenditure->payment_method = $request->input('payment_method');
+        $expenditure->content = 'expenditure'; // Ini harus disesuaikan dengan kebutuhan Anda
+        $expenditure->date = $request->input('date');
+        $expenditure->description = $request->input('description');
+        $expenditure->category_id = $request->input('category_id');
+        $expenditure->save();
 
         // Respon sukses
         return response()->json(['message' => 'Transaksi berhasil diperbarui'], 200);
     }
-
-
-
 
     /**
      * Remove the specified resource from storage.
@@ -232,20 +228,20 @@ class IncomeController extends Controller
     public function destroy(string $id)
     {
         // Cari transaksi berdasarkan ID
-        $income = HistoryTransaction::find($id);
+        $expenditure = HistoryTransaction::find($id);
 
-        if (!$income) {
+        if (!$expenditure) {
             return response()->json(['error' => 'Transaksi tidak ditemukan'], 404);
         }
 
         // Hapus gambar lampiran jika ada
-        if ($income->attachment) {
+        if ($expenditure->attachment) {
             // Hapus gambar dari storage
-            Storage::delete('public/income_attachment/' . $income->attachment);
+            Storage::delete('public/expenditure_attachment/' . $expenditure->attachment);
         }
 
         // Hapus transaksi dari database
-        $income->delete();
+        $expenditure->delete();
 
         return response()->json(['success' => true]);
     }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ExpenditureCategoryController;
+use App\Http\Controllers\ExpenditureController;
 use App\Http\Controllers\IncomeCategoryController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\ProfileController;
@@ -23,9 +24,6 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('/register', [AuthenticationController::class, 'registerIndex']);
 
-Route::get('/expenditure', function () {
-    return view('User.transaction.expenditure');
-})->name("expenditure");
 
 
 
@@ -87,10 +85,11 @@ Route::group(['middleware' => 'user'], function () {
     Route::resource('income_category', IncomeCategoryController::class)->except(['show', 'edit', 'create']);
     Route::resource('expenditure_category', ExpenditureCategoryController::class)->except(['show', 'edit', 'create']);
     Route::resource('income', IncomeController::class)->except(['show,edit']);
-    // Route::get('income/edit/{transaction_id}', 'IncomeController@edit')->name('income.editing');
     Route::get('/income/edit/{id}', [IncomeController::class, 'editing'])->name('income.editing');
-
-
     Route::get('/in-category', [IncomeController::class, 'category'])->name('in-category');
     Route::post('/store-category', [IncomeController::class, 'storeCatgory'])->name('store-category');
+
+    Route::resource('expenditure', ExpenditureController::class)->except(['show,edit']);
+    Route::get('/get-category', [ExpenditureController::class, 'category'])->name('get-category');
+    Route::post('/post-category', [ExpenditureController::class, 'storeCatgory'])->name('post-category');
 });

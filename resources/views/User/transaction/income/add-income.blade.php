@@ -5,7 +5,7 @@
             <div class="content-page-header">
                 <h5>Tambah Pemasukan</h5>
             </div>
-            <form id="createIncomeForm">
+            <form id="createExpenditureForm">
                 @csrf
                 <div class="row">
                     <div class="col-md-12">
@@ -35,7 +35,7 @@
 
                                                     </div>
                                                     <div class="col-2">
-                                                        <button class="btn btn-secondary" data-bs-target="#tambahModal"
+                                                        <button type="button" class="btn btn-secondary" data-bs-target="#tambahModal"
                                                             data-bs-toggle="modal">
                                                             +
                                                         </button>
@@ -161,13 +161,13 @@
     <script>
         $(document).ready(function() {
 
-            $('#createIncomeForm').submit(function(e) {
+            $('#createExpenditureForm').submit(function(e) {
                 e.preventDefault(); // Mencegah pengiriman formulir biasa
 
                 var formData = new FormData(this);
 
                 $.ajax({
-                    url: "{{ route('income.store') }}",
+                    url: "{{ route('expenditure.store') }}",
                     type: 'POST',
                     data: formData,
                     processData: false, // Hindari pemrosesan otomatis data
@@ -177,7 +177,7 @@
                         toastr.success(
                             'Data berhasil di tambah',
                             'Berhasil');
-                        window.location.href = "{{ Route('income.index') }}";
+                        window.location.href = "{{ Route('expenditure.index') }}";
 
                     },
                     error: function(xhr) {

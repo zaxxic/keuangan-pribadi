@@ -10,7 +10,7 @@
                         <ul class="filter-list">
                             <li>
                                 <div class="input-group" style="max-width: 450px;">
-                                    <input type="text" class="form-control" placeholder="Cari Kategori"
+                                    <input type="text" class="form-control" placeholder="Cari Pemasukan"
                                         id="searchCategory">
                                     <a class="btn btn-primary" href="{{ Route('income.create') }}"><i
                                             class="fa fa-plus-circle me-2" aria-hidden="true"></i>Tambah Pemasukan</a>
@@ -203,7 +203,7 @@
                         success: function(response) {
                             // Tutup modal
                             toastr.success(
-                                'Kategori berhasil hapus',
+                                'Pemasukan berhasil hapus',
                                 'Sukses');
 
                             location
