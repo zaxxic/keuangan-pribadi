@@ -79,6 +79,13 @@ class User extends Authenticatable
     'password' => 'hashed',
   ];
 
+  public function total()
+  {
+    $income = $this->histories()->get()->where('content', 'income')->sum('amount');
+    $expenditure = $this->histories()->get()->where('content', 'expenditure')->sum('amount');
+    return $income - $expenditure;
+  }
+
   public function categories()
   {
     return $this->hasMany(Category::class);
