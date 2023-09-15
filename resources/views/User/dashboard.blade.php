@@ -133,11 +133,11 @@
                 <div class="w-md-100 d-flex align-items-center mb-3 flex-wrap flex-md-nowrap">
                   <div>
                     <span>Pemasukan</span>
-                    <p class="h3 text-primary me-5" id="periode_pemasukan">Rp</p>
+                    <p class="h3 text-primary me-5" id="periode_pemasukan">Rp 0,00</p>
                   </div>
                   <div>
                     <span>Pengeluaran</span>
-                    <p class="h3 text-warning me-5" id="periode_pengeluaran">Rp</p>
+                    <p class="h3 text-warning me-5" id="periode_pengeluaran">Rp 0,00</p>
                   </div>
 
                 </div>
@@ -270,33 +270,20 @@
     if ($("#sales_chart").length > 0) {
       var columnCtx = document.getElementById("sales_chart");
       var columnChart;
+      const pemasukan = document.getElementById("periode_pemasukan");
+      const pengeluaran = document.getElementById("periode_pengeluaran");
+      const rupiah = (number)=>{
+        return new Intl.NumberFormat("id-ID", {
+          style: "currency",
+          currency: "IDR"
+        }).format(number);
+      }
 
       var data = {
         daily: generateDaily(transactions),
         weekly: generateWeekly(transactions),
-        monthly: {
-          labels: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "Mei",
-            "Jun",
-            "Jul",
-            "Agu",
-            "Sep",
-            "Okt",
-            "Nov",
-            "Des",
-          ],
-          received: [70, 150, 80, 180, 150, 175, 201, 60, 200, 120, 190, 160],
-          pending: [23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16],
-        },
-        yearly: {
-          labels: ["2020", "2021", "2022", "2023"],
-          received: [1200, 1500, 1800, 1600],
-          pending: [400, 600, 500, 700],
-        },
+        monthly: generateMonthly(transactions),
+        yearly: generateYearly(transactions),
       };
 
       function generateDaily(transactions) {
@@ -315,6 +302,7 @@
 
           let receivedValue = transactions.filter(data => {
             let tanggalData = new Date(data.date);
+            tanggalData.setHours(0,0,0,0);
             tanggalData = tanggalData.toLocaleDateString("id-ID", {
               dateStyle: "short"
             });
@@ -326,6 +314,7 @@
 
           let pendingValue = transactions.filter(data => {
             let tanggalData = new Date(data.date);
+            tanggalData.setHours(0,0,0,0);
             tanggalData = tanggalData.toLocaleDateString("id-ID", {
               dateStyle: "short"
             });
@@ -379,24 +368,38 @@
           labels.push(label);
 
           receivedValue = transactions.filter(data => {
-            tanggalData = new Date(data.date);
+            let tanggalData = new Date(data.date);
+            tanggalData.setHours(0,0,0,0);
 
             return tanggalData >= firstWeek && tanggalData <= lastWeek && data.content == 'income';
           });
           pendingValue = transactions.filter(data => {
-            tanggalData = new Date(data.date);
+            let tanggalData = new Date(data.date);
+            tanggalData.setHours(0,0,0,0);
 
             return tanggalData >= firstWeek && tanggalData <= lastWeek && data.content == 'expenditure';
           });
 
           if(receivedValue.length > 0){
-            received.push(receivedValue[0].amount);
+            if(receivedValue.length == 1){
+              received.push(receivedValue[0].amount);
+            } else if (receivedValue.length > 1){
+              let value = receivedValue.map(val => val.amount);
+              let total = value.reduce((a, c) => a + c);
+              received.push(total);
+            }
           } else {
             received.push(0);
           }
 
           if(pendingValue.length > 0){
-            pending.push(pendingValue[0].amount);
+            if(pendingValue.length == 1){
+              pending.push(pendingValue[0].amount);
+            } else if (pendingValue.length > 1){
+              let value = pendingValue.map(val => val.amount);
+              let total = value.reduce((a, c) => a + c);
+              pending.push(total);
+            }
           } else {
             pending.push(0);
           }
@@ -408,6 +411,129 @@
           }
         }
 
+        return {
+          labels: labels,
+          received: received,
+          pending: pending,
+        }
+      }
+
+      function generateMonthly(transactions){
+        let labels = [];
+        let received = [];
+        let pending = [];
+
+        let sekarang = new Date();
+        sekarang.setHours(0,0,0,0);
+        sekarang.setDate(1);
+        for(let i = 0;i < 12;i++){
+          sekarang.setMonth(i);
+          let first = new Date(sekarang);
+          first.setDate(1);
+          let last = new Date(sekarang);
+          last.setMonth(sekarang.getMonth() + 1);
+          last.setDate(sekarang.getDate() - 1);
+
+          let label = sekarang.toLocaleDateString("id-ID", {month: "short"});
+          labels.push(label);
+
+          let receivedValue = transactions.filter(data => {
+            tanggalData = new Date(data.date);
+            tanggalData.setHours(0,0,0,0);
+
+            return tanggalData >= first && tanggalData <= last && data.content == 'income';
+          });
+          let pendingValue = transactions.filter(data => {
+            tanggalData = new Date(data.date);
+            tanggalData.setHours(0,0,0,0);
+
+            return tanggalData >= first && tanggalData <= last && data.content == 'expenditure';
+          });
+
+          if(receivedValue.length > 0){
+            if(receivedValue.length == 1){
+              received.push(receivedValue[0].amount);
+            } else if (receivedValue.length > 1){
+              let value = receivedValue.map(val => val.amount);
+              let total = value.reduce((a, c) => a + c);
+              received.push(total);
+            }
+          } else {
+            received.push(0);
+          }
+
+          if(pendingValue.length > 0){
+            if(pendingValue.length == 1){
+              pending.push(pendingValue[0].amount);
+            } else if (pendingValue.length > 1){
+              let value = pendingValue.map(val => val.amount);
+              let total = value.reduce((a, c) => a + c);
+              pending.push(total);
+            }
+          } else {
+            pending.push(0);
+          }
+        }
+
+        return {
+          labels: labels,
+          received: received,
+          pending: pending,
+        }
+      }
+
+      function generateYearly(transactions){
+        let labels = [];
+        let received = [];
+        let pending = [];
+
+        for(let i = 4; i > 0; i--){
+          let sekarang = new Date();
+
+          let tahun = new Date(sekarang);
+          tahun.setFullYear(sekarang.getFullYear() + 1 - i);
+
+          let label = tahun.toLocaleDateString("id-ID", {year: "numeric"});
+          labels.push(label);
+
+          let receivedValue = transactions.filter(value => {
+            let tahunValue = new Date(value.date);
+            let labelValue = tahunValue.toLocaleDateString("id-ID", {year: "numeric"});
+
+            return labelValue == label && value.content == 'income';
+          });
+
+          let pendingValue = transactions.filter(value => {
+            let tahunValue = new Date(value.date);
+            let labelValue = tahunValue.toLocaleDateString("id-ID", {year: "numeric"});
+
+            return labelValue == label && value.content == 'expenditure';
+          });
+
+          if(receivedValue.length > 0){
+            if(receivedValue.length == 1){
+              received.push(receivedValue[0].amount);
+            } else if (receivedValue.length > 1){
+              let value = receivedValue.map(val => val.amount);
+              let total = value.reduce((a, c) => a + c);
+              received.push(total);
+            }
+          } else {
+            received.push(0);
+          }
+
+          if(pendingValue.length > 0){
+            if(pendingValue.length == 1){
+              pending.push(pendingValue[0].amount);
+            } else if (pendingValue.length > 1){
+              let value = pendingValue.map(val => val.amount);
+              let total = value.reduce((a, c) => a + c);
+              pending.push(total);
+            }
+          } else {
+            pending.push(0);
+          }
+        }
         return {
           labels: labels,
           received: received,
@@ -488,11 +614,47 @@
         columnChart.render();
       };
 
+      function total(array = []){
+        return array.reduce((a,c) => a+c);
+      }
+
+      function updateTulisan(jenis){
+        switch (jenis) {
+          case "daily":
+            let nilaiPemasukanDaily = total(data.daily.received);
+            let nilaiPengeluaranDaily = total(data.daily.pending);
+            pemasukan.innerHTML = rupiah(nilaiPemasukanDaily);
+            pengeluaran.innerHTML = rupiah(nilaiPengeluaranDaily);
+            break;
+          case "weekly":
+            let nilaiPemasukanWeekly = total(data.weekly.received);
+            let nilaiPengeluaranWeekly = total(data.weekly.pending);
+            pemasukan.innerHTML = rupiah(nilaiPemasukanWeekly);
+            pengeluaran.innerHTML = rupiah(nilaiPengeluaranWeekly);
+            break;
+          case "monthly":
+            let nilaiPemasukanMonthly = total(data.monthly.received);
+            let nilaiPengeluaranMonthly = total(data.monthly.pending);
+            pemasukan.innerHTML = rupiah(nilaiPemasukanMonthly);
+            pengeluaran.innerHTML = rupiah(nilaiPengeluaranMonthly);
+            break;
+          case "yearly":
+            let nilaiPemasukanYearly = total(data.yearly.received);
+            let nilaiPengeluaranYearly = total(data.yearly.pending);
+            pemasukan.innerHTML = rupiah(nilaiPemasukanYearly);
+            pengeluaran.innerHTML = rupiah(nilaiPengeluaranYearly);
+            break;
+        }
+      }
+
       updateChart("daily");
+      updateTulisan("daily");
+
 
       $("#chart_period_select").on("change", function () {
         var jenisTerpilih = $(this).val();
         updateChart(jenisTerpilih);
+        updateTulisan(jenisTerpilih);
       });
     }
 
