@@ -57,10 +57,14 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/savings', function () {
+  return view('User.transaction.savings.index');
+})->name('savings');
+Route::get('/savings/create', function () {
+  return view('User.transaction.savings.add-savings');
+})->name('savings.create');
 
-Route::get('/calendar', function () {
-  return view('User.menu.calendar');
-})->name('calendar');
+
 
 Route::get('/admin-dashboard', function () {
   return view('Admin.dashboard');
@@ -89,5 +93,4 @@ Route::group(['middleware' => 'user'], function () {
   Route::get('/get-category', [ExpenditureController::class, 'category'])->name('get-category');
   Route::post('/post-category', [ExpenditureController::class, 'storeCatgory'])->name('post-category');
   Route::resource('/reguler_income', RegulerIncomeController::class)->except(['show']);
-
 });

@@ -21,6 +21,7 @@
 
       <ul>
         <li class="menu-title"><span>Transaksi</span></li>
+       
         <li class="submenu">
           <a href="#"><i class="fe fe-trending-up"></i> <span> Pemasukan</span> <span class="menu-arrow"></span></a>
           <ul>
@@ -37,13 +38,13 @@
             <li><a href="">Pengeluaran Berulang</a></li>
           </ul>
         </li>
+        <li>
+          <a class="{{ Route::currentRouteName() == 'savings' ? 'active' : '' }}" href="{{ route('savings') }}"><i class="fe fe-save"></i><span>Tabungan</span></a>
+        </li>
       </ul>
       <ul>
         <li class="menu-title"><span>Menu</span></li>
 
-        <li>
-          <a class="{{ Route::currentRouteName() == 'calendar' ? 'active' : '' }}" href="{{ route('calendar') }}"><i class="fe fe-calendar"></i><span>Kalender</span></a>
-        </li>
 
         <li>
           <a class="{{ Route::currentRouteName() == 'total' ? 'active' : '' }}" href="{{ route('total') }}"><i class="fe fe-percent"></i><span>Total</span></a>
