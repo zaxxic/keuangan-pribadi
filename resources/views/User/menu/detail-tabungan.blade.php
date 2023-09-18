@@ -76,7 +76,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -84,7 +84,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -92,7 +92,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -100,7 +100,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -108,7 +108,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -151,7 +151,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -159,7 +159,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -167,7 +167,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -175,7 +175,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -183,7 +183,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -226,7 +226,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -234,7 +234,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -242,7 +242,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -250,7 +250,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -258,7 +258,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -301,7 +301,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -309,7 +309,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -317,7 +317,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -325,7 +325,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -333,7 +333,7 @@
                                 <td>23 Nov 2020</td>
                                 <td>Rp 12.000</td>
                                 <td>
-                                  <button class="btn btn-primary">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-success-light">Dibayar</span></td>
                               </tr>
@@ -372,6 +372,22 @@
 
   </div>
 </div>
+
+<div class="modal fade" id="modalImage" tabindex="-1" aria-labelledby="modalImageLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalImageLabel">Gambar Attachment</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img style="width: 100%" id="attachmentImage" src="{{ asset('assets/img/product-list-img-2.jpg') }}" alt="Attachment" data-filename="">
+      </div>
+    </div>
+  </div>
+</div>
+
+
 @endsection
 
 @section('script')
