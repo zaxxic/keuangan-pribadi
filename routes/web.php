@@ -94,3 +94,7 @@ Route::group(['middleware' => 'user'], function () {
   Route::post('/post-category', [ExpenditureController::class, 'storeCatgory'])->name('post-category');
   Route::resource('/reguler_income', RegulerIncomeController::class)->except(['show']);
 });
+
+Route::get('/detail-tabungan', function () {
+  return view('User.menu.detail-tabungan');
+});
