@@ -27,7 +27,14 @@ class AppServiceProvider extends ServiceProvider
             $date = \Carbon\Carbon::parse($value);
             return $date->isBefore(\Carbon\Carbon::now());
         });
-        
+
+        Validator::extend('date_after_or_today', function ($attribute, $value, $parameters, $validator) {
+            $selectedDate = \Carbon\Carbon::parse($value);
+            $today = \Carbon\Carbon::now();
+
+            return $selectedDate->isSameDayOrAfter($today);
+        });
+
         User::observe(UserObserver::class);
     }
 }

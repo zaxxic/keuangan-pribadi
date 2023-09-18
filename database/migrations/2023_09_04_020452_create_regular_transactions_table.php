@@ -19,6 +19,7 @@ return new class extends Migration
       $table->string('recurring');
       $table->integer('count')->default(1);
       $table->string('content');
+      $table->string('attachment')->nullable();
       $table->date('date');
       $table->text('description', 400);
       $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();

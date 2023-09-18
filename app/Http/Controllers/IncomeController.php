@@ -81,6 +81,8 @@ class IncomeController extends Controller
         $income->attachment = $attachmentName;
         $income->save();
 
+        
+
         // Respon sukses
         return response()->json(['message' => 'Kategori pendapatan berhasil disimpan'], 200);
     }

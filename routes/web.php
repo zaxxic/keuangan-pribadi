@@ -6,6 +6,7 @@ use App\Http\Controllers\ExpenditureController;
 use App\Http\Controllers\IncomeCategoryController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegulerIncomeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -84,7 +85,9 @@ Route::group(['middleware' => 'user'], function () {
   Route::get('/in-category', [IncomeController::class, 'category'])->name('in-category');
   Route::post('/store-category', [IncomeController::class, 'storeCatgory'])->name('store-category');
 
-  Route::resource('/expenditure', ExpenditureController::class)->except(['show,edit']);
+  Route::resource('/expenditure', ExpenditureController::class)->except(['show']);
   Route::get('/get-category', [ExpenditureController::class, 'category'])->name('get-category');
   Route::post('/post-category', [ExpenditureController::class, 'storeCatgory'])->name('post-category');
+  Route::resource('/reguler_income', RegulerIncomeController::class)->except(['show']);
+
 });

@@ -3,7 +3,7 @@
     <div class="page-wrapper">
         <div class="content container-fluid">
             <div class="content-page-header">
-                <h5>Tambah Pemasukan</h5>
+                <h5>Tambah Pemasukan Berencana</h5>
             </div>
             <form id="createIncomeForm">
                 @csrf
@@ -55,7 +55,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="col-lg-3 col-md-6 col-sm-12">
                                         <div class="form-group">
                                             <label>Metode Pembeyaran</label>
                                             <select name="payment_method" class="select">
@@ -69,15 +69,41 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="col-lg-3 col-md-6 col-sm-12">
                                         <div class="form-group">
-                                            <label>Tanggal</label>
+                                            <label>Jenis metode</label>
+                                            <select name="recurring" class="select">
+                                                <option value="once">sekali</option> 
+                                                <option value="week">Mingguan</option> 
+                                                <option value="month">Bulanan</option> 
+                                                <option value="year">Tahunan</option> 
+                                            </select>
+                                            <span id="recurring-error" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Tanggal mulai transaksi</label>
                                             <input type="date" name="date" class="form-control"
                                                 placeholder="Tanggal Mulai Pembayaran"
-                                                max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" />
+                                                min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" />
                                             <span id="date-error" class="text-danger"></span>
                                         </div>
                                     </div>
+
+                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Total trnsaksi</label>
+                                            <input type="text" name="count" class="form-control"
+                                                placeholder="Masukkan judul pemasukan" />
+                                            <span id="count-error" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+
+                                    
 
 
                                     <div class="row">
@@ -167,7 +193,7 @@
                 var formData = new FormData(this);
 
                 $.ajax({
-                    url: "{{ route('income.store') }}",
+                    url: "{{ route('reguler_income.store') }}",
                     type: 'POST',
                     data: formData,
                     processData: false, // Hindari pemrosesan otomatis data
