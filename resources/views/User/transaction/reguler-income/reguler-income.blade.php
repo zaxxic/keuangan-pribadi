@@ -30,14 +30,14 @@
 
         <div class="page-header">
             <div class="content-page-header">
-                <h5>Pemasukan</h5>
+                <h5>Pemasukan Berencana</h5>
                 <div class="list-btn">
                     <ul class="filter-list">
                         <li>
                             <div class="input-group" style="max-width: 450px;">
                                 <input type="text" class="form-control" placeholder="Cari Pemasukan"
                                     id="searchCategory">
-                                <a class="btn btn-primary" href="{{ Route('income.create') }}"><i
+                                <a class="btn btn-primary" href="{{ Route('reguler_income.create') }}"><i
                                         class="fa fa-plus-circle me-2" aria-hidden="true"></i>Tambah Pemasukan</a>
                             </div>
                         </li>

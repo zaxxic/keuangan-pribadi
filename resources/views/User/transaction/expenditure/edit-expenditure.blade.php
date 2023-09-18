@@ -15,7 +15,7 @@
                                 <div class="row">
 
 
-                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
                                         <div class="form-group">
                                             <label>Judul</label>
                                             <input value="{{ $transaction->title }}" type="text" name="title"
@@ -38,8 +38,8 @@
 
                                                     </div>
                                                     <div class="col-2">
-                                                        <button type="button" class="btn btn-secondary" data-bs-target="#tambahModal"
-                                                            data-bs-toggle="modal">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-target="#tambahModal" data-bs-toggle="modal">
                                                             +
                                                         </button>
                                                     </div>

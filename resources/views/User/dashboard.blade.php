@@ -159,7 +159,7 @@
                   <h5 class="card-title">Pengeluaran terakhir</h5>
                 </div>
                 <div class="col-auto">
-                  <a href="/income" class="btn-right btn btn-sm btn-outline-primary">
+                  <a href="{{Route('expenditure.index')}}" class="btn-right btn btn-sm btn-outline-primary">
                     Lihat semua
                   </a>
                 </div>
@@ -209,7 +209,7 @@
                   <h5 class="card-title">Pemasukan Terakhir</h5>
                 </div>
                 <div class="col-auto">
-                  <a href="/expenditure" class="btn-right btn btn-sm btn-outline-primary">
+                  <a href="{{Route('income.index')}}" class="btn-right btn btn-sm btn-outline-primary">
                     Lihat semua
                   </a>
                 </div>

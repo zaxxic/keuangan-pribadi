@@ -70,16 +70,17 @@
                                     </div>
 
                                     <div class="col-lg-3 col-md-6 col-sm-12">
-                                            <div class="form-group">
-                                                <label>Jenis metode</label>
-                                                <select name="recurring" class="select">
-                                                    <option value="once">sekali</option> 
-                                                    <option value="week">Mingguan</option> 
-                                                    <option value="month">Bulanan</option> 
-                                                    <option value="year">Tahunan</option> 
-                                                </select>
-                                                <span id="recurring-error" class="text-danger"></span>
-                                            </div>
+                                        <div class="form-group">
+                                            <label>Jenis metode</label>
+                                            <select name="recurring" class="select">
+                                                <option value="once">sekali</option> 
+                                                <option value="week">Mingguan</option> 
+                                                <option value="month">Bulanan</option> 
+                                                <option value="year">Tahunan</option> 
+                                            </select>
+                                            <span id="recurring-error" class="text-danger"></span>
+
+                                        </div>
                                     </div>
 
                                     <div class="col-lg-3 col-md-6 col-sm-12">
@@ -202,7 +203,7 @@
                         toastr.success(
                             'Data berhasil di tambah',
                             'Berhasil');
-                        window.location.href = "{{ Route('income.index') }}";
+                        window.location.href = "{{ Route('reguler_income.index') }}";
 
                     },
                     error: function(xhr) {

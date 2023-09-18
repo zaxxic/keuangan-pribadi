@@ -14,7 +14,7 @@
                             <div class="input-group" style="max-width: 450px;">
                                 <input type="text" class="form-control" placeholder="Cari Pemasukan"
                                     id="searchCategory">
-                                <a class="btn btn-primary" href="{{ Route('income.create') }}"><i
+                                <a class="btn btn-primary" href="{{ Route('savings.create') }}"><i
                                         class="fa fa-plus-circle me-2" aria-hidden="true"></i>Tambah Tabungan</a>
                             </div>
                         </li>
@@ -62,7 +62,7 @@
                             <a href="javascript:void(0);" id="readMoreLink" onclick="toggleDescription()">Read More</a>
                         </p>
                         <div class="d-flex justify-content-between mt-1">
-                            <a class="btn btn-primary" href="#">Lihat</a>
+                            <a class="btn btn-primary" href="{{Route("savings.detail")}}">Lihat</a>
                             <button class="btn btn-success"><i class="fe fe-edit"></i></button>
                             <button class="btn btn-danger"><i class="fe fe-trash"></i></button>
                         </div>

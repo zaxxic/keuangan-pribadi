@@ -57,12 +57,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/savings', function () {
-  return view('User.transaction.savings.index');
-})->name('savings');
-Route::get('/savings/create', function () {
-  return view('User.transaction.savings.add-savings');
-})->name('savings.create');
+
 
 
 
@@ -96,5 +91,11 @@ Route::group(['middleware' => 'user'], function () {
 });
 
 Route::get('/detail-tabungan', function () {
-  return view('User.menu.detail-tabungan');
-});
+  return view('User.transaction.savings.detail-tabungan');
+})->name('savings.detail');
+Route::get('/savings', function () {
+  return view('User.transaction.savings.index');
+})->name('savings');
+Route::get('/savings/create', function () {
+  return view('User.transaction.savings.add-savings');
+})->name('savings.create');

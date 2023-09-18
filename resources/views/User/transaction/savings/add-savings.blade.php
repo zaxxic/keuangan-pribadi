@@ -106,18 +106,18 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="billing-btn">
-                                            <h5 class="form-title mb-0">Shipping Address</h5>
-                                            <a href="#" class="btn btn-primary">Copy from Billing</a>
+                                        <div class="billing-btn mb-2">
+                                            <h5 style="color: #f7f8f9" class="form-title">a</h5>
                                         </div>
                                         <div class="form-group">
-                                            <label>Tanggal mulai transaksi</label>
+                                            <label >Tanggal mulai transaksi</label>
                                             <input type="date" name="date" class="form-control"
                                                 placeholder="Tanggal Mulai Pembayaran"
                                                 min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" />
                                         </div>
+                                    
                                         <div class="form-group">
-                                            <label>Email yang anda ingin ajak ( Untuk tabungan bersama ) </label>
+                                            <label>Email yang anda ingin ajak ( opsional ) </label>
                                             <div id="inputContainer">
                                                 <!-- Input dinamis akan ditambahkan di sini -->
                                             </div>
@@ -125,8 +125,10 @@
                                                 onclick="addInput()">Tambah
                                                 Input</button>
                                         </div>
-
-
+                                        <div class="form-group">
+                                            <label class="form-control-label">Deskripsi</label>
+                                            <textarea class="form-control" name="description" placeholder="Ketikan deskripsi"></textarea>
+                                        </div>x
                                     </div>
                                 </div>
                             </div>
