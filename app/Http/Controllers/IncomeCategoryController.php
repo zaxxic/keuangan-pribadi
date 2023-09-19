@@ -115,6 +115,10 @@ class IncomeCategoryController extends Controller
             return response()->json(['error' => 'Kategori pendapatan tidak ditemukan.'], 404);
         }
 
+        if(count($category->histories) > 0 || count($category->regulars) > 0){
+          return response()->json(['message' => 'Kategori sedang digunakan.'], 403);
+        }
+
         $category->delete();
 
         return response()->json(['success' => true]);
