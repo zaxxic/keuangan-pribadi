@@ -215,7 +215,8 @@ class IncomeController extends Controller
         $income->title = $request->input('title');
         $income->amount = $request->input('amount');
         $income->payment_method = $request->input('payment_method');
-        $income->content = 'income'; // Ini harus disesuaikan dengan kebutuhan Anda
+        $income->content = 'income'; 
+        $income->status = 'paid'; 
         $income->date = $request->input('date');
         $income->description = $request->input('description');
         $income->category_id = $request->input('category_id');

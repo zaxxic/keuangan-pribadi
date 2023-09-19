@@ -18,8 +18,9 @@ return new class extends Migration
       $table->string('payment_method');
       $table->string('attachment')->nullable();
       $table->string('content');
+      $table->string('status')->nullable();
       $table->date('date');
-      $table->text('description', 400);
+      $table->text('description', 400)->nullable();
       $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
       $table->foreignId('category_id')
         ->constrained('categories')

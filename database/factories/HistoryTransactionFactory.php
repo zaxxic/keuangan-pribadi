@@ -27,6 +27,7 @@ class HistoryTransactionFactory extends Factory
       'amount' => fake()->randomNumber(($content == 'expenditure') ? 4 : 5, true),
       'payment_method' => $method[array_rand($method, 1)],
       'attachment' => 'evidence.jpg',
+      'status' => 'paid',
       'content' => $content,
       'date' => fake()->dateTimeInInterval('-6 months', '+6 months'),
       'description' => fake()->paragraph(1),

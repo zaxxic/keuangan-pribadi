@@ -111,6 +111,8 @@
                                             <div class="form-group" id="summernote_container">
                                                 <label class="form-control-label">Deskripsi</label>
                                                 <textarea class="form-control" name="description" placeholder="Ketikan deskripsi"></textarea>
+                                                <span id="count-error" class="text-danger"></span>
+
                                             </div>
 
                                         </div>
