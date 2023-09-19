@@ -89,7 +89,7 @@
                                             <td>{{ $transaction->recurring }}</td>
                                             <td>
                                                 <button data-bs-target="#modalImage" data-bs-toggle="modal"
-                                                    data-bs-image="{{ asset('storage/income_attachment/' . $transaction->attachment) }}"
+                                                    data-bs-image="{{ asset('storage/reguler_income_attachment/' . $transaction->attachment) }}"
                                                     class="btn btn-primary">Lihat</button>
                                             </td>
                                             <td>{{ $transaction->payment_method }}</td>
@@ -124,7 +124,7 @@
                                                             <li>
                                                                 <a class="dropdown-item delete-income" href="#"
                                                                     data-id="{{ $transaction->id }}"
-                                                                    data-route="{{ route('income.destroy', $transaction->id) }}"
+                                                                    data-route="{{ route('reguler_income.destroy', $transaction->id) }}"
                                                                     data-toggle="modal"
                                                                     data-target="#deleteCategoryModal">
                                                                     <i class="far fa-trash-alt me-2"></i>Delete
@@ -163,7 +163,7 @@
                         $transaction = $transactions->first();
                     @endphp
                     <img id="attachmentImage"
-                        src="{{ asset('storage/income_attachment/' . $transaction->attachment) }}" alt="Attachment"
+                        src="{{ asset('storage/reguler_income_attachment/' . $transaction->attachment) }}" alt="Attachment"
                         data-filename="{{ $transaction->attachment }}">
                 @else
                     <!-- Tambahkan kode atau pesan yang ingin Anda tampilkan jika tidak ada transaksi -->

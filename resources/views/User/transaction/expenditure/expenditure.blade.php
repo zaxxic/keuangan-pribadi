@@ -155,7 +155,7 @@
                         $transaction = $transactions->first();
                     @endphp
                     <img id="attachmentImage"
-                        src="{{ asset('storage/income_attachment/' . $transaction->attachment) }}" alt="Attachment"
+                        src="{{ asset('storage/expenditure_attachment/' . $transaction->attachment) }}" alt="Attachment"
                         data-filename="{{ $transaction->attachment }}">
                 @else
                     <!-- Tambahkan kode atau pesan yang ingin Anda tampilkan jika tidak ada transaksi -->

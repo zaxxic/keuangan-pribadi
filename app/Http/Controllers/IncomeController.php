@@ -20,7 +20,7 @@ class IncomeController extends Controller
 
         $transactions = HistoryTransaction::where('user_id', $user->id)
             ->where('content', 'income')
-
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return view('User.transaction.income.income', compact('transactions'));
