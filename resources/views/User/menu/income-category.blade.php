@@ -341,7 +341,7 @@
                         error: function(error) {
                             if (error.status === 403) {
                                 toastr.error(
-                                    'Anda tidak memiliki izin untuk menghapus kategori ini',
+                                    error.responseJSON.message,
                                     'Error');
                             } else {
                                 toastr.error('Terjadi kesalahan saat menghapus kategori',
