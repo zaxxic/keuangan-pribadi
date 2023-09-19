@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\RegularTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -20,7 +21,7 @@ class RegulerIncomeController extends Controller
 
         $transactions = RegularTransaction::where('user_id', $user->id)
             ->where('content', 'income')
-
+            ->orderBy('created_at', 'desc')
             ->get();
         // dd($transactions);
 
@@ -75,7 +76,7 @@ class RegulerIncomeController extends Controller
         }
 
         if ($request->hasFile('attachment')) {
-            $attachmentPath = $request->file('attachment')->store('public/income_attachment');
+            $attachmentPath = $request->file('attachment')->store('public/reguler_income_attachment');
             $attachmentName = basename($attachmentPath);
         } else {
             $attachmentName = null;
@@ -133,6 +134,22 @@ class RegulerIncomeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Cari transaksi berdasarkan ID
+        $income = RegularTransaction::find($id);
+
+        if (!$income) {
+            return response()->json(['error' => 'Transaksi tidak ditemukan'], 404);
+        }
+
+        // Hapus gambar lampiran jika ada
+        if ($income->attachment) {
+            // Hapus gambar dari storage
+            Storage::delete('public/reguler_income_attachment' . $income->attachment);
+        }
+
+        // Hapus transaksi dari database
+        $income->delete();
+
+        return response()->json(['success' => true]);
     }
 }
