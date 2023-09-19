@@ -150,7 +150,7 @@
 
 
 
-{{-- <div class="modal fade" id="modalImage" tabindex="-1" aria-labelledby="modalImageLabel" aria-hidden="true">
+<div class="modal fade" id="modalImage" tabindex="-1" aria-labelledby="modalImageLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -158,13 +158,22 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <img id="attachmentImage" src="{{ asset('storage/income_attachment/' . $transaction->attachment) }}"
-                    alt="Attachment" data-filename="{{ $transaction->attachment }}">
+                @if ($transactions->count() > 0)
+                    @php
+                        $transaction = $transactions->first();
+                    @endphp
+                    <img id="attachmentImage"
+                        src="{{ asset('storage/income_attachment/' . $transaction->attachment) }}" alt="Attachment"
+                        data-filename="{{ $transaction->attachment }}">
+                @else
+                    <!-- Tambahkan kode atau pesan yang ingin Anda tampilkan jika tidak ada transaksi -->
+                    <p>Tidak ada transaksi yang tersedia.</p>
+                @endif
                 <i id="downloadIcon" class="fas fa-download"></i>
             </div>
         </div>
     </div>
-</div> --}}
+</div>
 @endsection
 @section('script')
 <script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
