@@ -329,34 +329,31 @@
         let received = [];
         let pending = [];
 
-        let sekarang = new Date("May 01 2023");
+        let sekarang = new Date();
         bulanIni = sekarang.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"})
 
         firstWeek = new Date();
         firstWeek.setDate(1)
-        firstWeek.setHours(0,0,0,0)
-        if(firstWeek.getDay() != 1){
-          firstWeek.setDate(firstWeek.getDate() + (7 - firstWeek.getDay()) + 1);
-        }
-        let awal = firstWeek.getDate();
+        firstWeek.setHours(0,0,0,0);
+
         let loop = true;
         let minggu = 1;
         while(loop){
           lastWeek = new Date(firstWeek);
+          lastWeek.setHours(0,0,0,0);
           lastWeek.setDate(firstWeek.getDate() + 6);
 
-          label = `Minggu ke ${minggu}`;
-          labels.push(label);
+          let cek = new Date(lastWeek);
 
-          let coba = new Date(firstWeek);
-          coba.setDate(coba.getDate() - awal);
+          cek.setDate(cek.getDate() + 6)
 
-          if(coba.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) != bulanIni){
-            console.log('hahaha');
+          if(cek.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) != bulanIni){
+            lastWeek.setDate(1);
+            lastWeek.setDate(lastWeek.getDate() - 1);
           }
 
-          console.log(firstWeek);
-          console.log(lastWeek);
+          label = `${firstWeek.toLocaleDateString("id-ID", {day: "numeric"})} - ${lastWeek.toLocaleDateString("id-ID", {day: "numeric"})} (${sekarang.toLocaleDateString("id-ID", {month: "short"})})`;
+          labels.push(label);
 
           receivedValue = transactions.filter(data => {
             let tanggalData = new Date(data.date);
