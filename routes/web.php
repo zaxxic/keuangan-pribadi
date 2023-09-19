@@ -51,7 +51,7 @@ Route::get('/login', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
@@ -70,7 +70,7 @@ Route::get('paid-users', function () {
 })->name('paid-users');
 
 Route::group(['middleware' => 'user'], function () {
-  Route::get('/', [UserController::class, 'index'])->name('dashboard');
+  Route::get('/', [UserController::class, 'index'])->name('home');
   Route::post('/gethistory', [UserController::class, 'getHistory'])->name('gethistory');
 
   Route::get('/profile', [ProfileController::class, 'index'])->name('setting');

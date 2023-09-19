@@ -78,10 +78,7 @@
                                 <button class="btn btn-lg btn-block btn-primary w-100" type="submit">
                                     Login
                                 </button>
-                                <div class="login-or">
-                                    <span class="or-line"></span>
-                                    <span class="span-or">or</span>
-                                </div>
+                               
 
                                 <div class="text-center dont-have">
                                     Tidak punya akun?

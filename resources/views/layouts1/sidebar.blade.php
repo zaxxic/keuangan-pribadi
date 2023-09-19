@@ -14,8 +14,8 @@
             <ul>
                 <li class="menu-title"><span>Dashboard</span></li>
                 <li>
-                    <a class="{{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}"
-                        href="{{ route('dashboard') }}">
+                    <a class="{{ Route::currentRouteName() == 'home' ? 'active' : '' }}"
+                        href="{{ route('home') }}">
                         <i class="fe fe-home"></i><span>Dashboard</span></a>
                 </li>
             </ul>

@@ -72,13 +72,6 @@
                                 </div>
                             </form>
 
-                            <div class="login-or">
-                                <span class="or-line"></span>
-                                <span class="span-or">or</span>
-                            </div>
-
-
-
                             <div class="text-center dont-have">Sudah punya akun? <a href="{{Route("login")}}">Login</a>
                             </div>
                         </div>
