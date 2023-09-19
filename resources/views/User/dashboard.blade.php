@@ -174,7 +174,6 @@
                       <th>Judul</th>
                       <th>Jumlah</th>
                       <th>Tanggal</th>
-                      <th class="text-right">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -185,14 +184,6 @@
                       </td>
                       <td>Rp {{ number_format($expenditure['amount'], 0, '', '.') }}</td>
                       <td>{{ date('d M Y', strtotime($expenditure['date'])) }}</td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a>
-                          </div>
-                        </div>
-                      </td>
                     </tr>
                     @endforeach
                   </tbody>
@@ -224,7 +215,6 @@
                       <th>Judul</th>
                       <th>Jumlah</th>
                       <th>Tanggal</th>
-                      <th class="text-right">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -235,14 +225,6 @@
                       </td>
                       <td>Rp {{ number_format($income['amount'], 0, '', '.') }}</td>
                       <td>{{ date('d M Y', strtotime($income['date'])) }}</td>
-                      <td class="text-right">
-                        <div class="dropdown dropdown-action">
-                          <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a>
-                          </div>
-                        </div>
-                      </td>
                     </tr>
                     @endforeach
                   </tbody>
@@ -302,7 +284,6 @@
 
           let receivedValue = transactions.filter(data => {
             let tanggalData = new Date(data.date);
-            tanggalData.setHours(0,0,0,0);
             tanggalData = tanggalData.toLocaleDateString("id-ID", {
               dateStyle: "short"
             });
@@ -314,7 +295,6 @@
 
           let pendingValue = transactions.filter(data => {
             let tanggalData = new Date(data.date);
-            tanggalData.setHours(0,0,0,0);
             tanggalData = tanggalData.toLocaleDateString("id-ID", {
               dateStyle: "short"
             });
@@ -349,7 +329,7 @@
         let received = [];
         let pending = [];
 
-        let sekarang = new Date();
+        let sekarang = new Date("May 01 2023");
         bulanIni = sekarang.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"})
 
         firstWeek = new Date();
@@ -358,6 +338,7 @@
         if(firstWeek.getDay() != 1){
           firstWeek.setDate(firstWeek.getDate() + (7 - firstWeek.getDay()) + 1);
         }
+        let awal = firstWeek.getDate();
         let loop = true;
         let minggu = 1;
         while(loop){
@@ -366,6 +347,16 @@
 
           label = `Minggu ke ${minggu}`;
           labels.push(label);
+
+          let coba = new Date(firstWeek);
+          coba.setDate(coba.getDate() - awal);
+
+          if(coba.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) != bulanIni){
+            console.log('hahaha');
+          }
+
+          console.log(firstWeek);
+          console.log(lastWeek);
 
           receivedValue = transactions.filter(data => {
             let tanggalData = new Date(data.date);
