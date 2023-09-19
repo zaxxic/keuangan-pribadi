@@ -52,7 +52,7 @@ class IncomeCategoryController extends Controller
         $expenditureCategory = new Category();
         $expenditureCategory->name = $request->input('name');
         $expenditureCategory->user_id = $user_id;
-        $expenditureCategory->content = 'expenditure';
+        $expenditureCategory->content = 'income';
         $expenditureCategory->save();
 
         // Respon sukses
