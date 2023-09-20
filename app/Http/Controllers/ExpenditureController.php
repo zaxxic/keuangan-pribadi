@@ -66,6 +66,16 @@ class ExpenditureController extends Controller
             'category_id.required' => 'Kategori harus diisi.',
         ]);
 
+        $user_id = Auth::id();
+        $totalAmountSpent = HistoryTransaction::where('user_id', $user_id)->sum('amount');
+
+        // Melakukan validasi total uang
+        $requestedAmount = $request->input('amount');
+        if ($requestedAmount > $totalAmountSpent) {
+            // Jumlah yang dimasukkan melebihi total uang yang telah digunakan
+            return response()->json(['errors' => ['amount' => 'Total uang tidak cukup']], 422);
+        }
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
@@ -212,7 +222,8 @@ class ExpenditureController extends Controller
         $expenditure->title = $request->input('title');
         $expenditure->amount = $request->input('amount');
         $expenditure->payment_method = $request->input('payment_method');
-        $expenditure->content = 'expenditure'; // Ini harus disesuaikan dengan kebutuhan Anda
+        $expenditure->content = 'expenditure';
+        $expenditure->status = 'paid';
         $expenditure->date = $request->input('date');
         $expenditure->description = $request->input('description');
         $expenditure->category_id = $request->input('category_id');

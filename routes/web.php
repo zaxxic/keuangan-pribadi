@@ -55,7 +55,7 @@ Auth::routes();
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 
@@ -71,6 +71,7 @@ Route::get('paid-users', function () {
 
 Route::group(['middleware' => 'user'], function () {
   Route::get('/', [UserController::class, 'index'])->name('home');
+  Route::get('/home', [UserController::class, 'index'])->name('home');
   Route::post('/gethistory', [UserController::class, 'getHistory'])->name('gethistory');
   Route::get('/export/{bulan}', [UserController::class, 'export'])->name('export');
 
