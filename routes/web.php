@@ -1,15 +1,18 @@
 <?php
 
-use App\Http\Controllers\AuthenticationController;
-use App\Http\Controllers\ExpenditureCategoryController;
-use App\Http\Controllers\ExpenditureController;
-use App\Http\Controllers\IncomeCategoryController;
-use App\Http\Controllers\IncomeController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RegulerIncomeController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\RegisteredController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ExpenditureController;
+use App\Http\Controllers\RegulerIncomeController;
+use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\IncomeCategoryController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\ExpenditureCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +25,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Auth::routes(['verify' => true]);
 
 
-// Route::get('/register', [AuthenticationController::class, 'registerIndex']);
+Route::get('/registered', [RegisteredController::class, 'index'])->name('register.home');
+Route::post('/registered', [RegisteredController::class, 'registerProses'])->name('register.proses');
+
+Route::get('/emailed/verify', function () {
+  return view('auth.verify-email');
+})->middleware(['auth'])->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+  $request->fulfill();
+  return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
 
 Route::get('/income-recurring', function () {
   return view('User.transaction.income-recurring');
@@ -41,8 +56,6 @@ Route::get('/total', function () {
   return view('User.menu.total');
 })->name("total");
 
-Route::middleware(['auth'])->group(function () {
-});
 
 
 Route::get('/login', function () {
@@ -50,14 +63,6 @@ Route::get('/login', function () {
 });
 
 Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
 
 
 
@@ -69,6 +74,7 @@ Route::get('paid-users', function () {
   return view('Admin.users');
 })->name('paid-users');
 
+// Route::group(['middleware' => 'user', 'verified'], function () {
 Route::group(['middleware' => 'user'], function () {
   Route::get('/', [UserController::class, 'index'])->name('home');
   Route::get('/home', [UserController::class, 'index'])->name('home');

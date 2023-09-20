@@ -37,6 +37,17 @@ class ScheduleController extends Controller
 
                     // Kurangkan nilai count pada data pemasukan
                     $income->count--;
+
+                    if ($income->recurring === 'weekly') {
+                        $income->date = $incomeDate->addWeek(); // Tambah 1 minggu
+                    } elseif ($income->recurring === 'daily') {
+                        $income->date = $incomeDate->addDay(); // Tambah 1 hari
+                    } elseif ($income->recurring === 'monthly') {
+                        $income->date = $incomeDate->addMonth(); // Tambah 1 bulan
+                    } elseif ($income->recurring === 'yearly') {
+                        $income->date = $incomeDate->addYear(); // Tambah 1 tahun
+                    }
+
                     $income->save();
                 }
             }

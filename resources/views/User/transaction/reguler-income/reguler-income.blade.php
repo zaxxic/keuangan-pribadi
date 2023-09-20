@@ -117,7 +117,7 @@
                                                         <ul>
                                                             <li>
                                                                 <a class="dropdown-item"
-                                                                    href="{{ route('income.editing', ['id' => $transaction->id]) }}">
+                                                                    href="{{ route('reguler_income.edit', $transaction->id) }}">
                                                                     <i class="far fa-edit me-2"></i>Edit
                                                                 </a>
                                                             </li>

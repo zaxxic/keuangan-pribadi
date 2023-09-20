@@ -7,6 +7,7 @@
             </div>
             <form id="createIncomeForm">
                 @csrf
+                @method('PUT')
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card-body">
@@ -15,8 +16,8 @@
                                     <div class="col-lg-4 col-md-6 col-sm-12">
                                         <div class="form-group">
                                             <label>Judul</label>
-                                            <input type="text" name="title" class="form-control"
-                                                placeholder="Masukkan judul pemasukan" />
+                                            <input type="text" value="{{ $transaction->title }}" name="title"
+                                                class="form-control" placeholder="Masukkan judul pemasukan" />
                                             <span id="title-error" class="text-danger"></span>
 
                                         </div>
@@ -35,8 +36,8 @@
 
                                                     </div>
                                                     <div class="col-2">
-                                                        <button type="button" class="btn btn-secondary" data-bs-target="#tambahModal"
-                                                            data-bs-toggle="modal">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-target="#tambahModal" data-bs-toggle="modal">
                                                             +
                                                         </button>
                                                     </div>
@@ -48,8 +49,8 @@
                                     <div class="col-lg-4 col-md-6 col-sm-12">
                                         <div class="form-group">
                                             <label>Jumlah </label>
-                                            <input type="number" name="amount" class="form-control"
-                                                placeholder="Masukkan jumlah pemasukkan" />
+                                            <input type="number" value="{{ $transaction->amount }}" name="amount"
+                                                class="form-control" placeholder="Masukkan jumlah pemasukkan" />
                                             <span id="amount-error" class="text-danger"></span>
 
                                         </div>
@@ -60,9 +61,12 @@
                                             <label>Metode Pembeyaran</label>
                                             <select name="payment_method" class="select">
                                                 <option value="">Pilih Metode Pembayaran</option>
-                                                <option value="Debit">Debit</option>
-                                                <option value="Cash">Cash</option>
-                                                <option value="E-Wallet">E-Wallet</option>
+                                                <option value="Debit" @if ($transaction->payment_method == 'Debit') selected @endif>
+                                                    Debit</option>
+                                                <option value="Cash" @if ($transaction->payment_method == 'Cash') selected @endif>
+                                                    Cash</option>
+                                                <option value="E-Wallet" @if ($transaction->payment_method == 'E-Wallet') selected @endif>
+                                                    E-Wallet</option>
                                             </select>
                                             <span id="payment_method-error" class="text-danger"></span>
 
@@ -73,11 +77,14 @@
                                         <div class="form-group">
                                             <label>Jenis metode</label>
                                             <select name="recurring" class="select">
-                                                <option value="once">Sekali</option> 
-                                                <option value="daily">Haria</option> 
-                                                <option value="weekly">Mingguan</option> 
-                                                <option value="monthly">Bulanan</option> 
-                                                <option value="year">Tahunan</option> 
+                                                <option value="once" @if ($transaction->recurring == 'once') selected @endif>
+                                                    Sekali</option>
+                                                <option value="weakly" @if ($transaction->recurring == 'weakly') selected @endif>
+                                                    Mingguan</option>
+                                                <option value="monthly" @if ($transaction->recurring == 'montly') selected @endif>
+                                                    Bulanan</option>
+                                                <option value="yearly" @if ($transaction->recurring == 'yearly') selected @endif>
+                                                    Tahunan</option>
                                             </select>
                                             <span id="recurring-error" class="text-danger"></span>
 
@@ -87,8 +94,8 @@
                                     <div class="col-lg-3 col-md-6 col-sm-12">
                                         <div class="form-group">
                                             <label>Tanggal mulai transaksi</label>
-                                            <input type="date" name="date" class="form-control"
-                                                placeholder="Tanggal Mulai Pembayaran"
+                                            <input type="date" value="{{ $transaction->date }}" name="date"
+                                                class="form-control" placeholder="Tanggal Mulai Pembayaran"
                                                 min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" />
                                             <span id="date-error" class="text-danger"></span>
                                         </div>
@@ -97,21 +104,21 @@
                                     <div class="col-lg-3 col-md-6 col-sm-12">
                                         <div class="form-group">
                                             <label>Total trnsaksi</label>
-                                            <input type="text" name="count" class="form-control"
-                                                placeholder="Masukkan judul pemasukan" />
+                                            <input type="number" value="{{ $transaction->count }}" name="count"
+                                                class="form-control" placeholder="Masukkan judul pemasukan" />
                                             <span id="count-error" class="text-danger"></span>
 
                                         </div>
                                     </div>
 
-                                    
+
 
 
                                     <div class="row">
                                         <div class="col-lg-6 col-md-12 description-box">
                                             <div class="form-group" id="summernote_container">
                                                 <label class="form-control-label">Deskripsi</label>
-                                                <textarea class="form-control" name="description" placeholder="Ketikan deskripsi"></textarea>
+                                                <textarea class="form-control" style="height: 180px" name="description" placeholder="Ketikan deskripsi">{{$transaction->description}}</textarea>
                                                 <span id="count-error" class="text-danger"></span>
 
                                             </div>
@@ -122,12 +129,17 @@
                                             <div class="form-group">
                                                 <label>Lampiran</label>
                                                 <div class="form-group service-upload mb-0">
-                                                    <span><img src="{{ asset('assets/img/icons/drop-icon.svg') }}"
-                                                            alt="upload" /></span>
-                                                    <h6 class="drop-browse align-center">
-                                                        Letakan file disini atau
-                                                        <span class="text-primary ms-1">browse</span>
-                                                    </h6>
+                                                    @if (!empty($transaction->attachment))
+                                                        <img src="{{ asset('storage/reguler_income_attachment/' . $transaction->attachment) }}"
+                                                            alt="Lampiran Sebelumnya" />
+                                                    @else
+                                                        <span><img src="{{ asset('assets/img/icons/drop-icon.svg') }}"
+                                                                alt="upload" /></span>
+                                                        <h6 class="drop-browse align-center">
+                                                            Letakan file disini atau
+                                                            <span class="text-primary ms-1">browse</span>
+                                                        </h6>
+                                                    @endif
                                                     <p class="text-muted">Ukuran maksimal: 50MB</p>
                                                     <input type="file" name="attachment" multiple id="image_sign" />
                                                     <div id="frames"></div>
@@ -138,7 +150,8 @@
                                 </div>
                             </div>
                             <div class="text-end">
-                                <a href="{{ Route('income.index') }}" class="btn btn-primary cancel me-2">Batal</a>
+                                <a href="{{ Route('reguler_income.index') }}"
+                                    class="btn btn-primary cancel me-2">Batal</a>
                                 <button type="submit" class="btn btn-primary" id="buttonSave">Simpan</button>
                                 <div id="loadingIndicator" style="display: none;">
                                     <div class="spinner-border text-primary" role="status">
@@ -196,7 +209,7 @@
                 var formData = new FormData(this);
 
                 $.ajax({
-                    url: "{{ route('reguler_income.store') }}",
+                    url: "{{ route('reguler_income.update', ['reguler_income' => $transaction->id]) }}",
                     type: 'POST',
                     data: formData,
                     processData: false, // Hindari pemrosesan otomatis data
@@ -273,11 +286,21 @@
                         // Tambahkan opsi "Pilih kategori" pertama
                         selectElement.append('<option value="">Pilih kategori</option>');
 
+                        // Simpan nilai category_id dari transaksi dalam variabel
+                        var transactionCategoryId = "{{ $transaction->category_id }}";
+
                         // Tambahkan opsi-opsi kategori pendapatan dari data yang diterima
                         $.each(incomeCategories, function(index, category) {
-                            selectElement.append('<option value="' + category.id + '">' +
-                                category
-                                .name + '</option>');
+                            var option = '<option value="' + category.id + '">' +
+                                category.name + '</option>';
+
+                            // Jika category_id dari transaksi cocok dengan ID kategori saat ini, maka atur sebagai terpilih
+                            if (category.id == transactionCategoryId) {
+                                option = '<option value="' + category.id + '" selected>' +
+                                    category.name + '</option>';
+                            }
+
+                            selectElement.append(option);
                         });
                     },
                     error: function(error) {
