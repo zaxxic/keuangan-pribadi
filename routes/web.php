@@ -79,6 +79,7 @@ Route::group(['middleware' => 'user'], function () {
   Route::get('/', [UserController::class, 'index'])->name('home');
   Route::get('/home', [UserController::class, 'index'])->name('home');
   Route::post('/gethistory', [UserController::class, 'getHistory'])->name('gethistory');
+  Route::get('/export/{bulan}', [UserController::class, 'export'])->name('export');
 
   Route::get('/profile', [ProfileController::class, 'index'])->name('setting');
   Route::put('/profile.update', [ProfileController::class, 'update'])->name('profile.update');
