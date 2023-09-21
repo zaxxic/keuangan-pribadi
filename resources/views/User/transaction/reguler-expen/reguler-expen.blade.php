@@ -30,14 +30,14 @@
 
         <div class="page-header">
             <div class="content-page-header">
-                <h5>Pemasukan Berencana</h5>
+                <h5>Pengeluaran Berencana</h5>
                 <div class="list-btn">
                     <ul class="filter-list">
                         <li>
                             <div class="input-group" style="max-width: 450px;">
                                 <input type="text" class="form-control" placeholder="Cari Pemasukan"
                                     id="searchCategory">
-                                <a class="btn btn-primary" href="{{ Route('reguler-income.create') }}"><i
+                                <a class="btn btn-primary" href="{{ Route('reguler-expenditure.create') }}"><i
                                         class="fa fa-plus-circle me-2" aria-hidden="true"></i>Tambah Pemasukan</a>
                             </div>
                         </li>
@@ -88,7 +88,7 @@
                                             <td>{{ $transaction->recurring }}</td>
                                             <td>
                                                 <button data-bs-target="#modalImage" data-bs-toggle="modal"
-                                                    data-bs-image="{{ asset('storage/reguler_income_attachment/' . $transaction->attachment) }}"
+                                                    data-bs-image="{{ asset('storage/reguler_expenditure_attachment/' . $transaction->attachment) }}"
                                                     class="btn btn-primary">Lihat</button>
                                             </td>
                                             <td>{{ $transaction->payment_method }}</td>
@@ -116,14 +116,14 @@
                                                         <ul>
                                                             <li>
                                                                 <a class="dropdown-item"
-                                                                    href="{{ route('reguler-income.edit', ['reguler_income' => $transaction->id]) }}">
+                                                                    href="{{ route('reguler-expenditure.edit', ['reguler_expenditure' => $transaction->id]) }}">
                                                                     <i class="far fa-edit me-2"></i>Edit
                                                                 </a>
                                                             </li>
                                                             <li>
                                                                 <a class="dropdown-item delete-income" href="#"
                                                                     data-id="{{ $transaction->id }}"
-                                                                    data-route="{{ route('reguler-income.destroy', $transaction->id) }}"
+                                                                    data-route="{{ route('reguler-expenditure.destroy', $transaction->id) }}"
                                                                     data-toggle="modal"
                                                                     data-count="{{ $transaction->count }}"
                                                                     data-target="#deleteCategoryModal">
@@ -163,7 +163,7 @@
                         $transaction = $transactions->first();
                     @endphp
                     <img id="attachmentImage"
-                        src="{{ asset('storage/reguler_income_attachment/' . $transaction->attachment) }}"
+                        src="{{ asset('storage/reguler_expenditure_attachment/' . $transaction->attachment) }}"
                         alt="Attachment" data-filename="{{ $transaction->attachment }}">
                 @else
                     <!-- Tambahkan kode atau pesan yang ingin Anda tampilkan jika tidak ada transaksi -->

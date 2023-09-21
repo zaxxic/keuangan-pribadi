@@ -2,31 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RegularTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\RegularTransaction;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-
-
-class RegulerIncomeController extends Controller
+class RegulerExpenController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
         $user = Auth::user();
 
         $transactions = RegularTransaction::where('user_id', $user->id)
-            ->where('content', 'income')
+            ->where('content', 'expenditure')
             ->orderBy('created_at', 'desc')
             ->get();
         // dd($transactions);
 
-        return view('User.transaction.reguler-income.reguler-income', compact('transactions'));
+        return view('User.transaction.reguler-expen.reguler-expen', compact('transactions'));
     }
 
     /**
@@ -34,7 +31,7 @@ class RegulerIncomeController extends Controller
      */
     public function create()
     {
-        return view('User.transaction.reguler-income.add-reguler');
+        return view('User.transaction.reguler-expen.add-reguler');
     }
 
     /**
@@ -76,7 +73,7 @@ class RegulerIncomeController extends Controller
         }
 
         if ($request->hasFile('attachment')) {
-            $attachmentPath = $request->file('attachment')->store('public/reguler_income_attachment');
+            $attachmentPath = $request->file('attachment')->store('public/reguler_expenditure_attachment');
             $attachmentName = basename($attachmentPath);
         } else {
             $attachmentName = null;
@@ -84,26 +81,25 @@ class RegulerIncomeController extends Controller
 
         $user_id = Auth::id();
 
-        $income = new RegularTransaction();
-        $income->title = $request->input('title');
-        $income->amount = $request->input('amount');
-        $income->recurring = $request->input('recurring');
-        $income->count = $request->input('count');
-        $income->payment_method = $request->input('payment_method');
-        $income->content = ('income');
-        $income->date = $request->input('date');
-        $income->description = $request->input('description');
-        $income->category_id = $request->input('category_id');
-        $income->user_id = $user_id;
-        $income->attachment = $attachmentName;
-        $income->save();
+        $expenditure = new RegularTransaction();
+        $expenditure->title = $request->input('title');
+        $expenditure->amount = $request->input('amount');
+        $expenditure->recurring = $request->input('recurring');
+        $expenditure->count = $request->input('count');
+        $expenditure->payment_method = $request->input('payment_method');
+        $expenditure->content = ('expenditure');
+        $expenditure->date = $request->input('date');
+        $expenditure->description = $request->input('description');
+        $expenditure->category_id = $request->input('category_id');
+        $expenditure->user_id = $user_id;
+        $expenditure->attachment = $attachmentName;
+        $expenditure->save();
 
 
 
         // Respon sukses
         return response()->json(['message' => 'Kategori pendapatan berhasil disimpan'], 200);
     }
-
 
     /**
      * Display the specified resource.
@@ -126,7 +122,7 @@ class RegulerIncomeController extends Controller
         if ($transaction->user_id !== Auth::id()) {
             dd('forbiden');
         }
-        return view('User.transaction.reguler-income.edit-reguler-income', compact('transaction'));
+        return view('User.transaction.reguler-expen.edit-reguler-expen', compact('transaction'));
     }
 
     /**
@@ -166,20 +162,20 @@ class RegulerIncomeController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $income = RegularTransaction::find($id);
+        $expenditure = RegularTransaction::find($id);
 
-        if (!$income) {
+        if (!$expenditure) {
             return response()->json(['error' => 'Transaksi tidak ditemukan'], 404);
         }
 
         if ($request->hasFile('attachment')) {
-            if ($income->attachment) {
-                Storage::delete('public/reguler_income_attachment/' . $income->attachment);
+            if ($expenditure->attachment) {
+                Storage::delete('public/reguler_expenditure_attachment/' . $expenditure->attachment);
             }
 
-            $attachmentPath = $request->file('attachment')->store('public/reguler_income_attachment');
+            $attachmentPath = $request->file('attachment')->store('public/reguler_expenditure_attachment');
             $attachmentName = basename($attachmentPath);
-            $income->attachment = $attachmentName;
+            $expenditure->attachment = $attachmentName;
         } else {
 
             $attachmentName = null;
@@ -188,18 +184,18 @@ class RegulerIncomeController extends Controller
         $user_id = Auth::id();
 
 
-        $income->title = $request->input('title');
-        $income->amount = $request->input('amount');
-        $income->recurring = $request->input('recurring');
-        $income->count = $request->input('count');
-        $income->payment_method = $request->input('payment_method');
-        $income->content = ('income');
-        $income->date = $request->input('date');
-        $income->description = $request->input('description');
-        $income->category_id = $request->input('category_id');
-        $income->user_id = $user_id;
-        $income->attachment = $attachmentName;
-        $income->save();
+        $expenditure->title = $request->input('title');
+        $expenditure->amount = $request->input('amount');
+        $expenditure->recurring = $request->input('recurring');
+        $expenditure->count = $request->input('count');
+        $expenditure->payment_method = $request->input('payment_method');
+        $expenditure->content = ('expenditure');
+        $expenditure->date = $request->input('date');
+        $expenditure->description = $request->input('description');
+        $expenditure->category_id = $request->input('category_id');
+        $expenditure->user_id = $user_id;
+        $expenditure->attachment = $attachmentName;
+        $expenditure->save();
 
         return response()->json(['message' => 'Transaksi berhasil diperbarui'], 200);
     }
@@ -218,7 +214,7 @@ class RegulerIncomeController extends Controller
         }
 
         if ($income->attachment) {
-            Storage::delete('public/reguler_income_attachment/' . $income->attachment);
+            Storage::delete('public/reguler_expenditure_attachment/' . $income->attachment);
         }
 
         $income->delete();

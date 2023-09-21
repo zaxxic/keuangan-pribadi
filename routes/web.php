@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\RegisteredController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -13,6 +12,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\IncomeCategoryController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ExpenditureCategoryController;
+use App\Http\Controllers\RegulerExpenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,8 +28,8 @@ use App\Http\Controllers\ExpenditureCategoryController;
 Auth::routes(['verify' => true]);
 
 
-Route::get('/registered', [RegisteredController::class, 'index'])->name('register.home');
-Route::post('/registered', [RegisteredController::class, 'registerProses'])->name('register.proses');
+// Route::get('/registered', [RegisteredController::class, 'index'])->name('register.home');
+// Route::post('/registered', [RegisteredController::class, 'registerProses'])->name('register.proses');
 
 Route::get('/emailed/verify', function () {
   return view('auth.verify-email');
@@ -95,7 +95,8 @@ Route::group(['middleware' => 'user'], function () {
   Route::resource('/expenditure', ExpenditureController::class)->except(['show']);
   Route::get('/get-category', [ExpenditureController::class, 'category'])->name('get-category');
   Route::post('/post-category', [ExpenditureController::class, 'storeCatgory'])->name('post-category');
-  Route::resource('/reguler_income', RegulerIncomeController::class)->except(['show']);
+  Route::resource('/reguler-income', RegulerIncomeController::class)->except(['show']);
+  Route::resource('/reguler-expenditure', RegulerExpenController::class)->except(['show']);
 });
 
 Route::get('/detail-tabungan', function () {

@@ -150,7 +150,7 @@
                                 </div>
                             </div>
                             <div class="text-end">
-                                <a href="{{ Route('reguler_income.index') }}"
+                                <a href="{{ Route('reguler-income.index') }}"
                                     class="btn btn-primary cancel me-2">Batal</a>
                                 <button type="submit" class="btn btn-primary" id="buttonSave">Simpan</button>
                                 <div id="loadingIndicator" style="display: none;">
@@ -209,7 +209,7 @@
                 var formData = new FormData(this);
 
                 $.ajax({
-                    url: "{{ route('reguler_income.update', ['reguler_income' => $transaction->id]) }}",
+                    url: "{{ route('reguler-income.update', ['reguler_income' => $transaction->id]) }}",
                     type: 'POST',
                     data: formData,
                     processData: false, // Hindari pemrosesan otomatis data
@@ -219,7 +219,7 @@
                         toastr.success(
                             'Data berhasil di tambah',
                             'Berhasil');
-                        window.location.href = "{{ Route('reguler_income.index') }}";
+                        window.location.href = "{{ Route('reguler-income.index') }}";
 
                     },
                     error: function(xhr) {

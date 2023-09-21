@@ -35,8 +35,8 @@
 
                                                     </div>
                                                     <div class="col-2">
-                                                        <button type="button" class="btn btn-secondary" data-bs-target="#tambahModal"
-                                                            data-bs-toggle="modal">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-target="#tambahModal" data-bs-toggle="modal">
                                                             +
                                                         </button>
                                                     </div>

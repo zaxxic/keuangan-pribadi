@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('app:create-recurring-transactions')->dailyAt('11:55');
+        $schedule->command('app:create-recurring-transactions')->dailyAt('22:17');
     }
 
     /**

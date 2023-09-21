@@ -26,5 +26,6 @@ class CreateRecurringTransactions extends Command
     public function handle()
     {
         $this->info(app('App\Http\Controllers\ScheduleController')->createRecurringTransactions());
+        $this->info(app('App\Http\Controllers\ScheduleController')->createExpenditureTransaction());
     }
 }

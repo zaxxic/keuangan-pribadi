@@ -245,7 +245,7 @@
             // Fungsi untuk mengambil kategori pendapatan
             function getIncomeCategories() {
                 $.ajax({
-                    url: "{{ route('in-category') }}",
+                    url: "{{ route('get-category') }}",
                     method: 'GET',
                     dataType: 'json',
                     success: function(response) {
