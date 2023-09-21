@@ -136,7 +136,7 @@ class ExpenditureController extends Controller
             ->select('id', 'name', 'created_at')
             ->where('content', 'expenditure')
             ->get();
-        return response()->json(['expenditureCategories' => $expenditureCategories]);
+        return response()->json(['incomeCategories' => $expenditureCategories]);
     }
 
 
@@ -224,6 +224,7 @@ class ExpenditureController extends Controller
         $expenditure->payment_method = $request->input('payment_method');
         $expenditure->content = 'expenditure';
         $expenditure->status = 'paid';
+        $expenditure->source = 'noermal';
         $expenditure->date = $request->input('date');
         $expenditure->description = $request->input('description');
         $expenditure->category_id = $request->input('category_id');

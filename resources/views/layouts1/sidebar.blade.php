@@ -14,8 +14,7 @@
             <ul>
                 <li class="menu-title"><span>Dashboard</span></li>
                 <li>
-                    <a class="{{ Route::currentRouteName() == 'home' ? 'active' : '' }}"
-                        href="{{ route('home') }}">
+                    <a class="{{ Route::currentRouteName() == 'home' ? 'active' : '' }}" href="{{ route('home') }}">
                         <i class="fe fe-home"></i><span>Dashboard</span></a>
                 </li>
             </ul>
@@ -30,8 +29,8 @@
                         <li> <a class="{{ in_array(Route::currentRouteName(), ['income.index', 'income.create', 'income.editing']) ? 'active' : '' }}"
                                 href="{{ route('income.index') }}">
                                 Pemasukan</a></li>
-                        <li> <a class="{{ in_array(Route::currentRouteName(), ['reguler_income.index', 'reguler_income.create', 'reguler_income.edit']) ? 'active' : '' }}"
-                                href="{{ route('reguler_income.index') }}">
+                        <li> <a class="{{ in_array(Route::currentRouteName(), ['reguler-income.index', 'reguler-income.create', 'reguler-income.edit']) ? 'active' : '' }}"
+                                href="{{ route('reguler-income.index') }}">
                                 Pemasukan Berencana</a></li>
                     </ul>
                 </li>
@@ -41,7 +40,8 @@
                     <ul>
                         <li><a class="{{ in_array(Route::currentRouteName(), ['expenditure.index', 'expenditure.create', 'expenditure.edit']) ? 'active' : '' }}"
                                 href="{{ route('expenditure.index') }}">Pengeluaran</a></li>
-                        <li><a href="">Pengeluaran Berulang</a></li>
+                        <li><a class="{{ in_array(Route::currentRouteName(), ['reguler-expenditure.index', 'reguler-expenditure.create', 'reguler-expenditure.edit']) ? 'active' : '' }}"
+                                href="{{ route('reguler-expenditure.index') }}">Pengeluaran Berencana</a></li>
                     </ul>
                 </li>
                 <li>

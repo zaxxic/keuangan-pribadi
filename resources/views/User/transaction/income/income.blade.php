@@ -83,8 +83,8 @@
                                             <td>{{ $transaction->amount }}</td>
                                             <td>
                                                 <button data-bs-target="#modalImage" data-bs-toggle="modal"
-                                                    data-bs-image="{{ asset('storage/income_attachment/' . $transaction->attachment) }}"
-                                                    class="btn btn-primary">Lihat</button>
+                                                data-bs-image="{{ asset('storage/' . ($transaction->source === 'reguler' ? 'reguler_income_attachment/' : 'income_attachment/') . $transaction->attachment) }}"
+                                                class="btn btn-primary">Lihat</button>
                                             </td>
                                             <td>{{ $transaction->payment_method }}</td>
                                             <td>{{ $transaction->category->name }}</td>

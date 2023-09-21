@@ -18,6 +18,7 @@ return new class extends Migration
       $table->string('payment_method');
       $table->string('attachment')->nullable();
       $table->string('content');
+      $table->string('source')->default('normal');
       $table->string('status')->nullable();
       $table->date('date');
       $table->text('description', 400)->nullable();

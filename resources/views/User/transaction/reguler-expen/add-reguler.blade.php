@@ -3,7 +3,7 @@
     <div class="page-wrapper">
         <div class="content container-fluid">
             <div class="content-page-header">
-                <h5>Tambah Pemasukan Berencana</h5>
+                <h5>Tambah Pengeluaran Berencana</h5>
             </div>
             <form id="createIncomeForm">
                 @csrf
@@ -35,8 +35,8 @@
 
                                                     </div>
                                                     <div class="col-2">
-                                                        <button type="button" class="btn btn-secondary" data-bs-target="#tambahModal"
-                                                            data-bs-toggle="modal">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-target="#tambahModal" data-bs-toggle="modal">
                                                             +
                                                         </button>
                                                     </div>
@@ -73,11 +73,11 @@
                                         <div class="form-group">
                                             <label>Jenis metode</label>
                                             <select name="recurring" class="select">
-                                                <option value="once">Sekali</option> 
-                                                <option value="daily">Haria</option> 
-                                                <option value="weekly">Mingguan</option> 
-                                                <option value="monthly">Bulanan</option> 
-                                                <option value="year">Tahunan</option> 
+                                                <option value="once">Sekali</option>
+                                                <option value="daily">Haria</option>
+                                                <option value="weekly">Mingguan</option>
+                                                <option value="monthly">Bulanan</option>
+                                                <option value="year">Tahunan</option>
                                             </select>
                                             <span id="recurring-error" class="text-danger"></span>
 
@@ -104,7 +104,7 @@
                                         </div>
                                     </div>
 
-                                    
+
 
 
                                     <div class="row">
@@ -138,7 +138,7 @@
                                 </div>
                             </div>
                             <div class="text-end">
-                                <a href="{{ Route('income.index') }}" class="btn btn-primary cancel me-2">Batal</a>
+                                <a href="{{ Route('reguler-expenditure.index') }}" class="btn btn-primary cancel me-2">Batal</a>
                                 <button type="submit" class="btn btn-primary" id="buttonSave">Simpan</button>
                                 <div id="loadingIndicator" style="display: none;">
                                     <div class="spinner-border text-primary" role="status">
@@ -196,7 +196,7 @@
                 var formData = new FormData(this);
 
                 $.ajax({
-                    url: "{{ route('reguler-income.store') }}",
+                    url: "{{ route('reguler-expenditure.store') }}",
                     type: 'POST',
                     data: formData,
                     processData: false, // Hindari pemrosesan otomatis data
@@ -206,7 +206,7 @@
                         toastr.success(
                             'Data berhasil di tambah',
                             'Berhasil');
-                        window.location.href = "{{ Route('reguler-income.index') }}";
+                        window.location.href = "{{ Route('reguler-expenditure.index') }}";
 
                     },
                     error: function(xhr) {
@@ -228,26 +228,26 @@
                 event.preventDefault();
                 var formData = $(this).serialize();
                 $.ajax({
-                    url: "{{ route('store-category') }}",
+                    url: "{{ route('post-category') }}",
                     method: 'POST',
                     dataType: 'json',
                     data: formData,
                     success: function(response) {
-                        var incomeCategory = response.incomeCategory;
+                        var expenditureCategory = response.expenditureCategory;
                         var selectElement = $('#kategori');
                         toastr.success(
                             'Data berhasil di tambah',
                             'Berhasil');
 
-                        selectElement.append('<option value="' + incomeCategory.id + '">' +
-                            incomeCategory
+                        selectElement.append('<option value="' + expenditureCategory.id + '">' +
+                            expenditureCategory
                             .name + '</option>');
 
                         $('#tambahModal').modal('hide');
 
-                        $('#createIncomeCategoryForm')[0].reset();
+                        $('#createExpenditureCategoryForm')[0].reset();
 
-                        getIncomeCategories();
+                        getExpenditureCategories();
                     },
                     error: function(error) {
                         toastr.error(
@@ -261,11 +261,11 @@
             // Fungsi untuk mengambil kategori pendapatan
             function getIncomeCategories() {
                 $.ajax({
-                    url: "{{ route('in-category') }}",
+                    url: "{{ route('get-category') }}",
                     method: 'GET',
                     dataType: 'json',
                     success: function(response) {
-                        var incomeCategories = response.incomeCategories;
+                        var expenditureCategories = response.expenditureCategories;
                         var selectElement = $('#kategori');
 
                         selectElement.empty(); // Kosongkan elemen <select>
@@ -274,7 +274,7 @@
                         selectElement.append('<option value="">Pilih kategori</option>');
 
                         // Tambahkan opsi-opsi kategori pendapatan dari data yang diterima
-                        $.each(incomeCategories, function(index, category) {
+                        $.each(expenditureCategories, function(index, category) {
                             selectElement.append('<option value="' + category.id + '">' +
                                 category
                                 .name + '</option>');
