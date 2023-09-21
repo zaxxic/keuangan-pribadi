@@ -18,6 +18,7 @@ return new class extends Migration
       $table->string('payment_method')->nullable();
       $table->string('recurring');
       $table->integer('count')->default(1);
+      $table->integer('real');
       $table->string('content');
       $table->string('attachment')->nullable();
       $table->date('date');

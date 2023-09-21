@@ -89,6 +89,7 @@ class RegulerIncomeController extends Controller
         $income->amount = $request->input('amount');
         $income->recurring = $request->input('recurring');
         $income->count = $request->input('count');
+        $income->real = $request->input('count');
         $income->payment_method = $request->input('payment_method');
         $income->content = ('income');
         $income->date = $request->input('date');

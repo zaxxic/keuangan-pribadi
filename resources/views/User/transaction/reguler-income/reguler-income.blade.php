@@ -84,7 +84,7 @@
                                             </td>
                                             <td>{{ $transaction->date }}</td>
                                             <td>{{ $transaction->amount }}</td>
-                                            <td>{{ $transaction->count }}</td>
+                                            <td>{{ $transaction->count }}/{{ $transaction->real }}</td>
                                             <td>{{ $transaction->recurring }}</td>
                                             <td>
                                                 <button data-bs-target="#modalImage" data-bs-toggle="modal"

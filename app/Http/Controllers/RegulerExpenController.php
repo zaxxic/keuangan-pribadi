@@ -86,6 +86,7 @@ class RegulerExpenController extends Controller
         $expenditure->amount = $request->input('amount');
         $expenditure->recurring = $request->input('recurring');
         $expenditure->count = $request->input('count');
+        $expenditure->real = $request->input('count');
         $expenditure->payment_method = $request->input('payment_method');
         $expenditure->content = ('expenditure');
         $expenditure->date = $request->input('date');

@@ -24,10 +24,16 @@ class ScheduleController extends Controller
 
             if ($incomeDate->isSameDay($today)) {
                 if ($income->count > 0) {
+                    // Hitung perbedaan antara real dan count
+                    $difference = $income->real - $income->count;
+
+                    // Buat title dengan imbuhan "#" berdasarkan perbedaan
+                    $title = $income->title . " #" . ($difference + 1);
+
                     // Buat entri dalam HistoryTransaction
                     $historyTransaction = HistoryTransaction::create([
                         'user_id' => $income->user_id,
-                        'title' => $income->title,
+                        'title' => $title,
                         'amount' => $income->amount,
                         'category_id' => $income->category_id,
                         'payment_method' => $income->payment_method,
@@ -65,6 +71,8 @@ class ScheduleController extends Controller
 
         return "Transaksi berulang berhasil dibuat.";
     }
+
+
 
 
     // public function createExpenditureTransaction()
