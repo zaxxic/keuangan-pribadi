@@ -7,6 +7,7 @@ use App\Http\Controllers\IncomeCategoryController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegulerIncomeController;
+use App\Http\Controllers\Saving\SavingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -75,6 +76,8 @@ Route::group(['middleware' => 'user'], function () {
   Route::post('/gethistory', [UserController::class, 'getHistory'])->name('gethistory');
   Route::get('/export/{bulan}', [UserController::class, 'export'])->name('export');
 
+  Route::resource('/savings', SavingController::class);
+
   Route::get('/profile', [ProfileController::class, 'index'])->name('setting');
   Route::put('/profile.update', [ProfileController::class, 'update'])->name('profile.update');
   Route::put('/password.update', [ProfileController::class, 'updatePassword'])->name('password.update');
@@ -91,13 +94,3 @@ Route::group(['middleware' => 'user'], function () {
   Route::post('/post-category', [ExpenditureController::class, 'storeCatgory'])->name('post-category');
   Route::resource('/reguler_income', RegulerIncomeController::class)->except(['show']);
 });
-
-Route::get('/detail-tabungan', function () {
-  return view('User.transaction.savings.detail-tabungan');
-})->name('savings.detail');
-Route::get('/savings', function () {
-  return view('User.transaction.savings.index');
-})->name('savings');
-Route::get('/savings/create', function () {
-  return view('User.transaction.savings.add-savings');
-})->name('savings.create');

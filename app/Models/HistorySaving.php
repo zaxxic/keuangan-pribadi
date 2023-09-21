@@ -15,7 +15,7 @@ class HistorySaving extends Model
 
   public function history()
   {
-    return $this->belongsTo(HistoryTransaction::class);
+    return $this->belongsTo(HistoryTransaction::class, 'history_transaction_id');
   }
 
   public function savingOf()

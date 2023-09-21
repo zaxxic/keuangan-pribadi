@@ -13,6 +13,8 @@ class Saving extends Model
     'id'
   ];
 
+  protected $with = ['members'];
+
   public function user()
   {
     return $this->belongsTo(User::class);
@@ -30,6 +32,6 @@ class Saving extends Model
 
   public function members()
   {
-    return $this->belongsToMany(SavingMember::class, 'saving_members');
+    return $this->belongsToMany(User::class, 'saving_members', 'saving_id', 'user_id');
   }
 }
