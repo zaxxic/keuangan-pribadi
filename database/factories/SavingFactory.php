@@ -19,8 +19,9 @@ class SavingFactory extends Factory
   {
     return [
       'title' => fake()->sentence(1),
+      'cover' => "Savings1.png",
       'description' => fake()->paragraph(1),
-      'target_balance' => fake()->randomNumber(8, true),
+      'target_balance' => fake()->randomNumber(6, true),
       'status' => true,
       'user_id' => User::where('role', 'user')->inRandomOrder()->first()->id
     ];

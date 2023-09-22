@@ -114,6 +114,7 @@
                       <th>Jumlah</th>
                       <th>Tanggal</th>
                       <th>Metode Pembayaran</th>
+                      <th>Aksi</th>
                     </tr>
                   </thead>
                   <tbody id="body_pemasukan">
@@ -142,6 +143,7 @@
                       <th>Jumlah</th>
                       <th>Tanggal</th>
                       <th>Metode Pembayaran</th>
+                      <th>Aksi</th>
                     </tr>
                   </thead>
                   <tbody id="body_pengeluaran">
@@ -164,6 +166,8 @@
 </div>
 @endsection
 @section('script')
+<script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>
 <script>
   // Mendapatkan tanggal saat ini
         var today = new Date();
@@ -362,8 +366,13 @@
               return dataBulan.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) == date.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) && data.content == 'expenditure';
             });
 
+
             let teksPemasukan = "";
             pemasukan.forEach(data => {
+              let urlIncome = '{{ route("income.editing", ":id") }}'
+              let urlDestroy = "{{ route('income.destroy', ':id') }}";
+              urlIncome = urlIncome.replace(':id', data.id);
+              urlDestroy = urlDestroy.replace(':id', data.id);
               teksPemasukan += /*html*/
               `
               <tr>
@@ -371,12 +380,43 @@
                 <td>${data.amount}</td>
                 <td>${data.date}</td>
                 <td>${data.payment_method}</td>
+                <td class="d-flex align-items-center">
+                    <div class="dropdown dropdown-action">
+                        <a href="#" class="btn-action-icon" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <ul>
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="${urlIncome}">
+                                        <i class="far fa-edit me-2"></i>Edit
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item delete-income" href="#"
+                                        data-id="${data.id}"
+                                        data-route="${urlDestroy}"
+                                        data-toggle="modal"
+                                        data-target="#deleteCategoryModal">
+                                        <i class="far fa-trash-alt me-2"></i>Delete
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
               </tr>
               `;
             });
 
             let teksPengeluaran = "";
             pengeluaran.forEach(data => {
+              let urlIncome = '{{ route("income.editing", ":id") }}'
+              let urlDestroy = "{{ route('income.destroy', ':id') }}";
+              urlIncome = urlIncome.replace(':id', data.id);
+              urlDestroy = urlDestroy.replace(':id', data.id);
               teksPengeluaran += /*html*/
               `
               <tr>
@@ -384,6 +424,33 @@
                 <td>${data.amount}</td>
                 <td>${data.date}</td>
                 <td>${data.payment_method}</td>
+                <td class="d-flex align-items-center">
+                    <div class="dropdown dropdown-action">
+                        <a href="#" class="btn-action-icon" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <ul>
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="${urlIncome}">
+                                        <i class="far fa-edit me-2"></i>Edit
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item delete-income" href="#"
+                                        data-id="${data.id}"
+                                        data-route="${urlDestroy}"
+                                        data-toggle="modal"
+                                        data-target="#deleteCategoryModal">
+                                        <i class="far fa-trash-alt me-2"></i>Delete
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
               </tr>
               `;
             });
@@ -448,6 +515,56 @@
           }
         });
 
+</script>
+<script>
+  $(document).on('click', '.delete-income', function(e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        var route = $(this).data('route');
+        console.log(route);
+        console.log(id);
+
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Anda tidak akan dapat mengembalikan ini!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: route,
+                    type: 'DELETE',
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        // Tutup modal
+                        toastr.success(
+                            'Pemasukan berhasil hapus',
+                            'Sukses');
+
+                        location
+                            .reload();
+
+                    },
+                    error: function(error) {
+                        if (error.status === 403) {
+                            toastr.error(
+                                'Anda tidak memiliki izin untuk menghapus kategori ini',
+                                'Error');
+                        } else {
+                            toastr.error('Terjadi kesalahan saat menghapus kategori',
+                                'Error');
+                        }
+                    }
+                });
+            }
+        });
+    });
 </script>
 
 {{-- <script src="{{ asset('assets/plugins/chartjs/chart.min.js') }}"></script>

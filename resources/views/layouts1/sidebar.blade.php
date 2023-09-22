@@ -45,8 +45,8 @@
                     </ul>
                 </li>
                 <li>
-                    <a class="{{ in_array(Route::currentRouteName(), ['savings', 'savings.create', 'savings.detail']) ? 'active' : '' }}"
-                        href="{{ route('savings') }}"><i class="fe fe-save"></i><span>Tabungan</span></a>
+                    <a class="{{ in_array(Route::currentRouteName(), ['savings.index', 'savings.create', 'savings.show']) ? 'active' : '' }}"
+                        href="{{ route('savings.index') }}"><i class="fe fe-save"></i><span>Tabungan</span></a>
                 </li>
             </ul>
             <ul>

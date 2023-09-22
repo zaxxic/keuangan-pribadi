@@ -14,6 +14,7 @@ return new class extends Migration
     Schema::create('savings', function (Blueprint $table) {
       $table->id();
       $table->string('title');
+      $table->string('cover');
       $table->text('description', 400);
       $table->integer('target_balance');
       $table->string('status');
