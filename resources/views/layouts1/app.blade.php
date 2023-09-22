@@ -32,6 +32,15 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/summernote/summernote-lite.min.css') }}" />
 
     <style>
+        .notification-message.no-notification {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100px;
+            /* Adjust the height as needed */
+        }
+
         .custom-btn {
             display: inline-block;
             font-size: 12px;
@@ -175,58 +184,136 @@
     <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
 
     <script>
-        // Fungsi untuk mengambil data notifikasi
         function fetchNotifications() {
             $.ajax({
-                url: "{{Route('notif.index')}}",
+                url: "{{ Route('notif.index') }}",
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
                     // Bersihkan daftar notifikasi yang ada
                     $('.notification-list').empty();
 
-                    // Iterasi melalui data notifikasi dan tambahkan ke dalam daftar
-                    $.each(data, function(index, notification) {
-                        var notificationItem = `
-                    <li class="notification-message">
-                        <a href="javascript:void(0);" style="cursor: default;">
-                            <div class="media d-flex">
-                                <div class="media-body">
-                                    <p class="noti-time">
-                                        <span class="notification-time">${notification.time}</span>
-                                    </p>
-                                    <p class="noti-details">
-                                        <span class="noti-title">${notification.title}</span>
-                                        ${notification.message}
-                                    </p>
-                                    <span class="noti-title">
-                                        <button class="custom-btn edit-btn" onclick="editNotification()">Edit</button>
-                                        <button class="custom-btn detail-btn" onclick="viewDetails()">Detail</button>
-                                        <button class="custom-btn approve-btn" onclick="approveIncome()">Setuju</button>
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                `;
+                    // Dapatkan data notifikasi dari properti 'notif'
+                    var notifications = data.notif;
 
-                        $('.notification-list').append(notificationItem);
-                    });
+                    // Fungsi untuk mengubah format tanggal
+                    function formatDate(dateString) {
+                        var options = {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        };
+                        return new Date(dateString).toLocaleDateString('id-ID', options);
+                    }
+
+                    // Check if there are no notifications
+                    if (notifications.length === 0) {
+                        // If no notifications, display a message
+                        var noNotificationMessage = `
+                        <li class="notification-message no-notification">
+                            <p class="noti-title">Tidak ada notifikasi</p>
+                        </li>
+                        `;
+                        $('.notification-list').append(noNotificationMessage);
+                    } else {
+                        // Iterasi melalui data notifikasi dan tambahkan ke dalam daftar
+                        $.each(notifications, function(index, notification) {
+                            var notificationItem = `
+        <li class="notification-message">
+          <a style="cursor: default;">
+            <div class="media d-flex">
+              <div class="media-body">
+                <p class="noti-time">
+                  <span class="notification-time">${formatDate(notification.created_at)}</span>
+                </p>
+                <p class="noti-details">
+                  <span class="noti-title">${notification.content}</span>
+                  Dari ${notification.history_transaction.title} 
+                </p>
+                <span class="noti-title">
+                  <button class="custom-btn edit-btn"  data-id="...">Edit</button>
+                  <button class="custom-btn detail-btn" type="button" id="detail" onclick="showDetailModal(this)"
+                    data-toggle="modal"
+                    data-target="#myModal"
+                    data-foto="${notification.history_transaction.attachment}"
+                    data-amount="${notification.history_transaction.amount}"
+                    data-title="${notification.history_transaction.title}"
+                    data-content="${notification.history_transaction.content}"
+                    data-description="${notification.history_transaction.description}" 
+                    data-category="${notification.history_transaction.category.name}"
+                    data-payment_method="${notification.history_transaction.payment_method}">
+                    Detail
+                  </button>
+                  <button class="custom-btn approve-btn" onclick="approveIncome()">Setuju</button>
+                </span>
+              </div>
+            </div>
+          </a>
+        </li>
+      `;
+
+                            // Tambahkan notifikasi ke dalam daftar
+                            $('.notification-list').append(notificationItem);
+                        });
+                    }
                 },
-                error: function() {
-                    // Handle error jika terjadi kesalahan saat mengambil data notifikasi
-                }
+
+
+                error: function() {}
             });
         }
 
-        // Panggil fungsi fetchNotifications untuk pertama kali
         fetchNotifications();
 
-        // Selanjutnya, Anda dapat mengatur interval untuk mengambil data notifikasi secara berkala
-        setInterval(fetchNotifications, 60000); // Contoh: mengambil data setiap 60 detik
+        setInterval(fetchNotifications, 60000);
+
+        function showDetailModal(button) {
+            const foto = button.getAttribute('data-foto');
+            const amount = button.getAttribute('data-amount');
+            const title = button.getAttribute('data-title');
+            const description = button.getAttribute('data-description');
+            const category = button.getAttribute('data-category');
+            const content = button.getAttribute('data-content');
+            const paymentMethod = button.getAttribute('data-payment_method');
+
+            // Determine the base URL based on the content
+            let baseUrl = '';
+            if (content === 'expenditure') {
+                baseUrl = '/storage/reguler_expenditure_attachment/';
+            } else {
+                baseUrl = '/storage/reguler_income_attachment/';
+            }
+
+            // Construct the full URL for the image
+            const imageUrl = baseUrl + foto;
+
+            // Populate the modal with data
+            const modal = document.getElementById('myModal');
+            const modalFoto = modal.querySelector('#modal-foto');
+            const modalAmount = modal.querySelector('#modal-amount');
+            const modalTitle = modal.querySelector('#modal-title');
+            const modalDescription = modal.querySelector('#modal-description');
+            const modalCategory = modal.querySelector('#modal-category');
+            const modalPaymentMethod = modal.querySelector('#modal-payment-method');
+
+            modalFoto.src = imageUrl; // Set the image source
+            modalAmount.textContent = amount;
+            modalTitle.textContent = title;
+            modalDescription.textContent = description;
+            modalCategory.textContent = category;
+            modalPaymentMethod.textContent = paymentMethod;
+
+            // Show the modal
+            $(modal).modal('show');
+        }
     </script>
 
+
     <script src="{{ asset('assets/js/script.js') }}"></script>
+
+    <script></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 

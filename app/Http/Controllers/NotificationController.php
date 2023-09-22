@@ -15,7 +15,11 @@ class NotificationController extends Controller
     {
         $user = Auth::user();
 
-        $notif = Notification::where('user_id', $user->id)->get();
+        $notif = Notification::where('user_id', $user->id)
+        ->with('historyTransaction.category')
+        ->get();
+
+        // dd($notif);
 
         return response()->json(['notif' => $notif]);
     }

@@ -38,6 +38,7 @@ class ScheduleController extends Controller
                         'payment_method' => $income->payment_method,
                         'attachment' => $income->attachment,
                         'source' => 'reguler',
+                        'status' => 'pending',
                         'content' => $income->content,
                         'description' => $income->description,
                         'date' => $today,
