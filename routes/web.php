@@ -12,6 +12,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\IncomeCategoryController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ExpenditureCategoryController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RegulerExpenController;
 
 /*
@@ -76,6 +77,12 @@ Route::get('paid-users', function () {
 
 // Route::group(['middleware' => 'user', 'verified'], function () {
 Route::group(['middleware' => 'user'], function () {
+
+  //notifikasi
+  Route::resource('/notif', NotificationController::class);
+
+
+
   Route::get('/', [UserController::class, 'index'])->name('home');
   Route::get('/home', [UserController::class, 'index'])->name('home');
   Route::post('/gethistory', [UserController::class, 'getHistory'])->name('gethistory');

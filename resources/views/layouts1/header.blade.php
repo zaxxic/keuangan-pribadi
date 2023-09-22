@@ -57,50 +57,7 @@
               </a>
             </li>
 
-            <li class="notification-message">
-              <a href="javascript:void(0);" style="cursor: default;">
-                <div class="media d-flex">
-                  <div class="media-body">
-                    <p class="noti-time">
-                      <span class="notification-time">40 mins ago</span>
-                    </p>
-                    <p class="noti-details">
-                      <span class="noti-title">Pemasukan</span>
-                      Gajian bulanan dari kantor HummaTech
-
-                    </p>
-                    <span class="noti-title">
-                      <button class="custom-btn edit-btn" onclick="editNotification()">Edit</button>
-                      <button class="custom-btn detail-btn" onclick="viewDetails()">Detail</button>
-                      <button class="custom-btn approve-btn" onclick="approveIncome()">Setuju</button>
-                    </span>
-
-                  </div>
-                </div>
-              </a>
-            </li>
-
-            <li class="notification-message">
-              <a href="javascript:void(0);" style="cursor: default;">
-                <div class="media d-flex">
-                  <div class="media-body">
-                    <p class="noti-time">
-                      <span class="notification-time">90 mins ago</span>
-                    </p>
-                    <p class="noti-details">
-                      <span class="noti-title">Pemasukan</span>
-                      Gajian bulanan dari kantor Laaa
-                    </p>
-                    <span class="noti-title">
-                      <button class="custom-btn edit-btn" onclick="editNotification()">Edit</button>
-                      <button class="custom-btn detail-btn" onclick="viewDetails()">Detail</button>
-                      <button class="custom-btn approve-btn" onclick="approveIncome()">Setuju</button>
-                    </span>
-
-                  </div>
-                </div>
-              </a>
-            </li>
+           
 
           </ul>
         </div>
