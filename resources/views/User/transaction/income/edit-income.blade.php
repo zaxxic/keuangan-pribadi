@@ -14,7 +14,7 @@
                             <div class="form-group-item border-0 pb-0">
                                 <div class="row">
 
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
                                         <div class="form-group">
                                             <label>Judul</label>
                                             <input value="{{ $transaction->title }}" type="text" name="title"
@@ -24,12 +24,12 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
                                         <div class="row">
                                             <div class="form-group col-12">
                                                 <label for="kategori">Kategori</label>
-                                                <div class="row gap-1">
-                                                    <div class="col-9">
+                                                <div class="row">
+                                                    <div class="col-10">
                                                         <select name="category_id" class="select" id="kategori">
                                                             <option>Pilih kategori</option>
                                                         </select>
@@ -47,7 +47,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
                                         <div class="form-group">
                                             <label>Jumlah </label>
                                             <input value="{{ $transaction->amount }}" type="number" name="amount"
@@ -85,40 +85,37 @@
                                         </div>
                                     </div>
 
-
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-12 description-box">
-                                            <div class="form-group" id="summernote_container">
-                                                <label class="form-control-label">Deskripsi</label>
-                                                <textarea class="form-control" name="description" placeholder="Ketikan deskripsi">{{ $transaction->description }}</textarea>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="col-lg-6 col-md-12">
-                                            <div class="form-group">
-                                                <label>Lampiran</label>
-                                                <div class="form-group service-upload mb-0">
-                                                    @if (!empty($transaction->attachment))
-                                                        <img src="{{ asset('storage/income_attachment/' . $transaction->attachment) }}"
-                                                            alt="Lampiran Sebelumnya" />
-                                                    @else
-                                                        <span><img src="{{ asset('assets/img/icons/drop-icon.svg') }}"
-                                                                alt="upload" /></span>
-                                                        <h6 class="drop-browse align-center">
-                                                            Letakan file disini atau
-                                                            <span class="text-primary ms-1">browse</span>
-                                                        </h6>
-                                                    @endif
-                                                    <p class="text-muted">Ukuran maksimal: 50MB</p>
-                                                    <input type="file" name="attachment" multiple id="image_sign" />
-                                                    <div id="frames"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
+                                </div>
+                                <div class="row">
+                                  <div class="col-lg-6 col-md-12 col-sm-12 description-box">
+                                    <div class="form-group" id="summernote_container">
+                                        <label class="form-control-label">Deskripsi</label>
+                                        <textarea class="form-control" name="description" placeholder="Ketikan deskripsi">{{ $transaction->description }}</textarea>
                                     </div>
+
+                                </div>
+
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label>Lampiran</label>
+                                        <div class="form-group service-upload mb-0">
+                                            @if (!empty($transaction->attachment))
+                                                <img src="{{ asset('storage/income_attachment/' . $transaction->attachment) }}"
+                                                    alt="Lampiran Sebelumnya" />
+                                            @else
+                                                <span><img src="{{ asset('assets/img/icons/drop-icon.svg') }}"
+                                                        alt="upload" /></span>
+                                                <h6 class="drop-browse align-center">
+                                                    Letakan file disini atau
+                                                    <span class="text-primary ms-1">browse</span>
+                                                </h6>
+                                            @endif
+                                            <p class="text-muted">Ukuran maksimal: 50MB</p>
+                                            <input type="file" name="attachment" multiple id="image_sign" />
+                                            <div id="frames"></div>
+                                        </div>
+                                    </div>
+                                </div>
                                 </div>
                             </div>
                             <div class="text-end">
