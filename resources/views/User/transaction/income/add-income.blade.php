@@ -35,8 +35,8 @@
 
                                                     </div>
                                                     <div class="col-2">
-                                                        <button type="button" class="btn btn-secondary" data-bs-target="#tambahModal"
-                                                            data-bs-toggle="modal">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-target="#tambahModal" data-bs-toggle="modal">
                                                             +
                                                         </button>
                                                     </div>
@@ -229,7 +229,6 @@
                 });
             });
 
-            // Fungsi untuk mengambil kategori pendapatan
             function getIncomeCategories() {
                 $.ajax({
                     url: "{{ route('in-category') }}",
@@ -257,7 +256,6 @@
                 });
             }
 
-            // Panggil fungsi "get" pertama kali saat halaman dimuat
             getIncomeCategories();
         });
 

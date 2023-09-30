@@ -229,14 +229,13 @@
                 });
             });
 
-            // Fungsi untuk mengambil kategori pendapatan
             function getExpenditureCategories() {
                 $.ajax({
                     url: "{{ route('get-category') }}",
                     method: 'GET',
                     dataType: 'json',
                     success: function(response) {
-                        var expenditureCategories = response.expenditureCategories;
+                        var incomeCategories = response.incomeCategories;
                         var selectElement = $('#kategori');
 
                         selectElement.empty(); // Kosongkan elemen <select>
@@ -245,7 +244,7 @@
                         selectElement.append('<option value="">Pilih kategori</option>');
 
                         // Tambahkan opsi-opsi kategori pendapatan dari data yang diterima
-                        $.each(expenditureCategories, function(index, category) {
+                        $.each(incomeCategories, function(index, category) {
                             selectElement.append('<option value="' + category.id + '">' +
                                 category
                                 .name + '</option>');
@@ -257,7 +256,6 @@
                 });
             }
 
-            // Panggil fungsi "get" pertama kali saat halaman dimuat
             getExpenditureCategories();
         });
 

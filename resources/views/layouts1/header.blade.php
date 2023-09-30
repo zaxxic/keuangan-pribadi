@@ -11,6 +11,7 @@
 
     <a class="mobile_btn" id="mobile_btn">
         <i class="fas fa-bars"></i>
+
     </a>
 
 
@@ -34,30 +35,6 @@
                 </div>
                 <div class="noti-content">
                     <ul class="notification-list">
-                        {{-- <li class="notification-message">
-              <a href="javascript:void(0);" style="cursor: default;">
-                <div class="media d-flex">
-                  <div class="media-body">
-                    <p class="noti-time">
-                      <span class="notification-time">4 mins ago</span>
-                    </p>
-                    <p class="noti-details">
-                      <span class="noti-title">Pemasukan</span>
-                      Gajian bulanan dari kantor A
-                    </p>
-                    <span class="noti-title">
-                      <button class="custom-btn edit-btn" onclick="editNotification()">Edit</button>
-                      <button class="custom-btn detail-btn" onclick="viewDetails()">Detail</button>
-                      <button class="custom-btn approve-btn" onclick="approveIncome()">Setuju</button>
-                    </span>
-
-                  </div>
-                </div>
-              </a>
-            </li> --}}
-
-
-
                     </ul>
                 </div>
             </div>
@@ -67,6 +44,21 @@
             <a href="javascript:void(0);" class="win-maximize">
                 <i class="fe fe-maximize"></i>
             </a>
+        </li>
+        <li class="nav-item  has-arrow dropdown-heads ">
+            <a class="nav-link" data-bs-toggle="dropdown" href="#" role="button">
+                <i class="fe fe-bell"></i> <span class="badge rounded-pill"></span>
+            </a>
+            <div class="dropdown-menu notifications">
+                <div class="topnav-dropdown-header">
+                    <span class="notification-title">Notifications</span>
+                    <a href="javascript:void(0)" class="clear-noti"> Clear All</a>
+                </div>
+                <div class="noti-content">
+                    <ul class="notification-list">
+                    </ul>
+                </div>
+            </div>
         </li>
 
         <li class="nav-item dropdown">
@@ -120,27 +112,32 @@
 <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Detail Transaksi</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <img id="modal-foto" src="" alt="" class="img-fluid">
-                    </div>
-                    <div class="col-md-6">
-                        <div><strong>Amount:</strong> <span id="modal-amount"></span></div>
-                        <div><strong>Title:</strong> <span id="modal-title"></span></div>
-                        <div><strong>Description:</strong> <span id="modal-description"></span></div>
-                        <div><strong>Payment Method:</strong> <span id="modal-payment-method"></span></div>
-                        <div><strong>Category:</strong> <span id="modal-category"></span></div>
+            <form action="">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Detail Transaksi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img id="modal-foto" src="" alt="" class="img-fluid">
+                        </div>
+                        <div class="col-md-6">
+                            <div><strong>Amount:</strong> <span id="modal-amount"></span></div>
+                            <div><strong>Title:</strong> <span id="modal-title"></span></div>
+                            <div><strong>Description:</strong> <span id="modal-description"></span></div>
+                            <div><strong>Payment Method:</strong> <span id="modal-payment-method"></span></div>
+                            <div><strong>Category:</strong> <span id="modal-category"></span></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn me-2 btn-primary paid-cancel-btn"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary paid-continue-btn" id="btn-approve"
+                        data-notification-id="">Setuju</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

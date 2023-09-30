@@ -16,12 +16,17 @@ class UserMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role === 'user') {
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            // Check if the user is a 'user' role and has not verified their email
+            if ($user->role === 'user' && $user->email_verified_at === null) {
+                return redirect('email/verify');
+            }
+
             return $next($request);
-        } elseif (!Auth::check()) {
-            return redirect('/login');
         }
 
-        abort(403, 'Unauthorized');
+        return redirect('/login');
     }
 }

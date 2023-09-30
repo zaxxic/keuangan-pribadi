@@ -184,6 +184,11 @@
     <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
 
     <script>
+    $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
         function fetchNotifications() {
             $.ajax({
                 url: "{{ Route('notif.index') }}",
@@ -221,38 +226,39 @@
                         // Iterasi melalui data notifikasi dan tambahkan ke dalam daftar
                         $.each(notifications, function(index, notification) {
                             var notificationItem = `
-        <li class="notification-message">
-          <a style="cursor: default;">
-            <div class="media d-flex">
-              <div class="media-body">
-                <p class="noti-time">
-                  <span class="notification-time">${formatDate(notification.created_at)}</span>
-                </p>
-                <p class="noti-details">
-                  <span class="noti-title">${notification.content}</span>
-                  Dari ${notification.history_transaction.title} 
-                </p>
-                <span class="noti-title">
-                  <button class="custom-btn edit-btn"  data-id="...">Edit</button>
-                  <button class="custom-btn detail-btn" type="button" id="detail" onclick="showDetailModal(this)"
-                    data-toggle="modal"
-                    data-target="#myModal"
-                    data-foto="${notification.history_transaction.attachment}"
-                    data-amount="${notification.history_transaction.amount}"
-                    data-title="${notification.history_transaction.title}"
-                    data-content="${notification.history_transaction.content}"
-                    data-description="${notification.history_transaction.description}" 
-                    data-category="${notification.history_transaction.category.name}"
-                    data-payment_method="${notification.history_transaction.payment_method}">
-                    Detail
-                  </button>
-                  <button class="custom-btn approve-btn" onclick="approveIncome()">Setuju</button>
-                </span>
-              </div>
-            </div>
-          </a>
-        </li>
-      `;
+                                <li class="notification-message">
+                                <a style="cursor: default;">
+                                    <div class="media d-flex">
+                                    <div class="media-body">
+                                        <p class="noti-time">
+                                        <span class="notification-time">${formatDate(notification.created_at)}</span>
+                                        </p>
+                                        <p class="noti-details">
+                                        <span class="noti-title">${notification.content}</span>
+                                        Dari ${notification.history_transaction.title} 
+                                        </p>
+                                        <span class="noti-title">
+                                        <button class="custom-btn edit-btn"  data-id="...">Edit</button>
+                                        <button class="custom-btn detail-btn" type="button" id="detail" onclick="showDetailModal(this)"
+                                            data-toggle="modal"
+                                            data-target="#myModal"
+                                            data-foto="${notification.history_transaction.attachment}"
+                                            data-amount="${notification.history_transaction.amount}"
+                                            data-title="${notification.history_transaction.title}"
+                                            data-id-transaction="${notification.id}"
+                                            data-content="${notification.history_transaction.content}"
+                                            data-description="${notification.history_transaction.description}" 
+                                            data-category="${notification.history_transaction.category.name}"
+                                            data-payment_method="${notification.history_transaction.payment_method}">
+                                            Detail
+                                        </button>
+                                        <button class="custom-btn approve-btn" onclick="approveIncome()">Setuju</button>
+                                        </span>
+                                    </div>
+                                    </div>
+                                </a>
+                                </li>
+                            `;
 
                             // Tambahkan notifikasi ke dalam daftar
                             $('.notification-list').append(notificationItem);
@@ -277,6 +283,7 @@
             const category = button.getAttribute('data-category');
             const content = button.getAttribute('data-content');
             const paymentMethod = button.getAttribute('data-payment_method');
+            const notificationId = button.getAttribute('data-id-transaction');
 
             // Determine the base URL based on the content
             let baseUrl = '';
@@ -298,6 +305,10 @@
             const modalCategory = modal.querySelector('#modal-category');
             const modalPaymentMethod = modal.querySelector('#modal-payment-method');
 
+            // Set data ID notifikasi ke dalam tombol "Setuju"
+            const btnApprove = modal.querySelector('#btn-approve');
+            btnApprove.setAttribute('data-notification-id', notificationId);
+
             modalFoto.src = imageUrl; // Set the image source
             modalAmount.textContent = amount;
             modalTitle.textContent = title;
@@ -308,6 +319,25 @@
             // Show the modal
             $(modal).modal('show');
         }
+        $('#btn-approve').on('click', function() {
+            var notificationId = $(this).data('notification-id');
+
+            $.ajax({
+                url: '/accept/' + notificationId,
+                type: 'POST',
+                dataType: 'json',
+                success: function(data) {
+                    // Handle respons sukses di sini, jika diperlukan
+                    console.log(data);
+                    // Tutup modal atau lakukan tindakan lainnya setelah berhasil
+                    $('#myModal').modal('hide');
+                },
+                error: function(xhr) {
+                    // Handle respons error di sini, jika diperlukan
+                    console.log(xhr.responseText);
+                }
+            });
+        });
     </script>
 
 

@@ -33,14 +33,14 @@ Auth::routes(['verify' => true]);
 // Route::get('/registered', [RegisteredController::class, 'index'])->name('register.home');
 // Route::post('/registered', [RegisteredController::class, 'registerProses'])->name('register.proses');
 
-Route::get('/emailed/verify', function () {
-  return view('auth.verify-email');
-})->middleware(['auth'])->name('verification.notice');
-
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-  $request->fulfill();
-  return redirect('/home');
-})->middleware(['auth', 'signed'])->name('verification.verify');
+// Route::get('/email/verify', function () {
+//   return view('auth.verifikasi');
+// })->name('verification.notice');
+Route::group(['middleware' => ['auth']], function () {
+  Route::get('/email/verify', [UserController::class, 'indexVerify'])->name('verification.notice');
+  Route::post('/verif', [UserController::class, 'verify'])->name('verif');
+  Route::get('/resend', [UserController::class, 'resend'])->name('resended');
+});
 
 
 Route::get('/income-recurring', function () {
@@ -77,15 +77,17 @@ Route::get('paid-users', function () {
 })->name('paid-users');
 
 // Route::group(['middleware' => 'user', 'verified'], function () {
-Route::group(['middleware' => 'user'], function () {
+
+Route::group(['middleware' => ['verif', 'user']], function () {
+  Route::get('/', [UserController::class, 'index'])->name('home');
 
   //notifikasi
-  Route::resource('/notif', NotificationController::class);
+  // Route::resource('/notif', NotificationController::class);
+  Route::get('/notif', [NotificationController::class, 'index'])->name('notif.index');
+  Route::post('/accept/{id}', [NotificationController::class, 'accept'])->name('accept.notifikasi');
+  Route::post('/confirmation/{id}', [NotificationController::class, 'confirmation'])->name('confirmation.notifikasi');
 
-
-
-  Route::get('/', [UserController::class, 'index'])->name('home');
-  Route::get('/home', [UserController::class, 'index'])->name('home');
+  // Route::get('/', [UserController::class, 'index'])->name('home');
   Route::post('/gethistory', [UserController::class, 'getHistory'])->name('gethistory');
   Route::get('/export/{bulan}', [UserController::class, 'export'])->name('export');
 
@@ -93,7 +95,7 @@ Route::group(['middleware' => 'user'], function () {
 
   Route::get('/profile', [ProfileController::class, 'index'])->name('setting');
   Route::put('/profile.update', [ProfileController::class, 'update'])->name('profile.update');
-  Route::put('/password.update', [ProfileController::class, 'updatePassword'])->name('password.update');
+  Route::put('/password.update', [ProfileController::class, 'updatePassword'])->name('password.updatee');
 
   Route::resource('income_category', IncomeCategoryController::class)->except(['show', 'edit', 'create']);
   Route::resource('expenditure_category', ExpenditureCategoryController::class)->except(['show', 'edit', 'create']);
