@@ -13,7 +13,7 @@ class Saving extends Model
     'id'
   ];
 
-  protected $with = ['members'];
+  protected $with = ['members', 'regular'];
 
   public function user()
   {

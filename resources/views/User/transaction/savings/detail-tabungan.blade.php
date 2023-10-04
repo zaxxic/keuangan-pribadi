@@ -48,9 +48,9 @@ $progress = intval(round($progress));
                   <h5 class="card-title">{{ $saving->title }}</h5>
                 </div>
                 <div class="col-auto">
-                  <a href="#" class="btn-right btn btn-sm btn-outline-primary"> Edit </a>
-                  <a href="#" class="btn-right btn btn-sm btn-outline-danger"> Keluar </a>
-                  <a href="#" class="btn-right btn btn-sm btn-outline-success"> Invite </a>
+                  <a href="#" class="btn-right btn btn-sm btn-outline-success"> Edit </a>
+                  <a href="#" class="btn-right btn btn-sm btn-outline-danger" id="keluar"> Keluar </a>
+                  <a href="#" class="btn-right btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#inviteModal"> Invite </a>
                 </div>
               </div>
               <div class="dash-widget-header mb-4">
@@ -91,7 +91,7 @@ $progress = intval(round($progress));
                             </a>
                             @php
                             $histories = $allHistories->filter(function ($item) use ($member){
-                              return $item->user_id == $member->id;
+                            return $item->user_id == $member->id;
                             });
                             @endphp
                             <p class="text-muted text-small">
@@ -126,7 +126,7 @@ $progress = intval(round($progress));
                           </table>
                           <div class="d-flex justify-content-between">
                             <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".collapseExample{{ $loop->index }}" aria-expanded="false" aria-controls="collapseExample{{ $loop->index }}">Show more...</button>
-                            <a href="#" class="btn btn-danger">Kick</a>
+                            <a href="#" class="btn btn-danger kick" data-id="{{ $member->id }}">Kick</a>
                           </div>
                         </div>
                       </div>
@@ -174,12 +174,44 @@ $progress = intval(round($progress));
   </div>
 </div>
 
+<div class="modal custom-modal fade" id="inviteModal" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="form-header">
+          <h3>Undang Pengguna</h3>
+          <p>Masukkan email yang ingin anda undang </p>
+        </div>
+        <div class="modal-btn delete-action">
+          <div class="row">
+            <form id="inviteForm">
+              @csrf
+              <input type="hidden" name="saving" value="{{ $saving->id }}">
+              <input autofocus placeholder="example@mail.com" class="form-control" type="text" name="email" id="email">
+              <div class="d-flex mt-3">
+                <div class="col-6 me-2">
+                  @csrf
+                  <button type="submit" class="w-100 btn btn-primary paid-continue-btn">Undang</button>
+                </div>
+                <div class="col-6">
+                  <button type="button" data-bs-dismiss="modal" class="w-100 btn btn-primary paid-cancel-btn">Batal</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 @endsection
 
 @section('script')
 <script src="{{ asset('assets/plugins/chartjs/chart.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/chartjs/chart-data.js') }}"></script>
+<script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
 <script>
   $(function(){
     $("#accordion").on("click", function(e){
@@ -187,6 +219,78 @@ $progress = intval(round($progress));
         if($(".tableRowCollapse").hasClass("show"));
         $(".tableRowCollapse").removeClass("show");
       }
+    });
+    $('#keluar').on('click', function () {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch("{{ route('out', $saving->id) }}")
+          .then(async function(response){
+            let json = await response.json();
+            if(!response.ok){
+              return Promise.reject(json);
+            }
+            return json;
+          })
+          .then(response => {
+            toastr.success(response.message, 'Sukses');
+            location.href = "{{ route('savings.index') }}";
+          })
+          .catch(error => {
+            toastr.error(error.message, 'Error');
+          });
+        }
+      })
+    });
+
+    $('#anggota').on('click', '.kick', function (e) {
+      const csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
+      let user_id = this.dataset.id;
+      let member = e.target.parentElement.parentElement.parentElement.parentElement;
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch("{{ route('kick') }}", {
+            method: "post",
+            headers:{
+              'Content-Type': 'application/json',
+              "X-CSRF-Token": csrfToken,
+            },
+            body: JSON.stringify({
+              'saving_id': "{{ $saving->id }}",
+              'user_id': user_id
+            })
+          })
+          .then(async function(response){
+            let json = await response.json();
+            if(!response.ok){
+              return Promise.reject(json);
+            }
+            return json;
+          })
+          .then(response => {
+            toastr.success(response.message, 'Sukses');
+            member.style.display = "none";
+          })
+          .catch(error => {
+            toastr.error(error.message, 'Error');
+          });
+        }
+      })
     });
   });
   $(document).on('click', 'button[data-bs-target="#modalImage"]', function() {
@@ -210,6 +314,25 @@ $progress = intval(round($progress));
       link.download = 'Attachment'; // Gunakan nama file dari atribut data
       link.click();
   });
+
+  $('#inviteForm').submit(function(event) {
+    event.preventDefault();
+    var formData = $(this).serialize();
+    $.ajax({
+      url: "{{ route('invite') }}",
+      method: 'POST',
+      dataType: 'json',
+      data: formData,
+      success: function(response) {
+        toastr.success(response.message, 'Sukses');
+        $('#inviteModal').modal('hide');
+        $('#email').val('')
+      },
+      error: function(error) {
+        toastr.error(error.responseJSON.message.email[0], 'Error');
+      }
+    });
+});
 </script>
 <script>
   let chartData = @json($chartData);

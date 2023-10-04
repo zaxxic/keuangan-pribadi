@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -27,6 +28,17 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+    protected function redirectTo()
+    {
+        if (Session::get('saving_id') && Session::get('saving_key')) {
+            $id = Session::get('saving_id');
+            $key = Session::get('saving_key');
+            Session::forget('saving_id');
+            Session::forget('saving_key');
+            return '/join?id=' . $id . '&key=' . $key;
+        }
+        return RouteServiceProvider::HOME;
+    }
 
     /**
      * Create a new controller instance.

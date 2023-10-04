@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,6 +24,7 @@ class SavingFactory extends Factory
       'description' => fake()->paragraph(1),
       'target_balance' => fake()->randomNumber(6, true),
       'status' => true,
+      'key' => Str::random(10),
       'user_id' => User::where('role', 'user')->inRandomOrder()->first()->id
     ];
   }

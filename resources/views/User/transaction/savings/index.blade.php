@@ -67,8 +67,8 @@ use App\Models\HistorySaving;
             <p id="fullDescription{{ $loop->iteration }}" style="display:none;">{{ $saving->description }}</p>
             <div class="d-flex justify-content-between mt-1">
               <a class="btn btn-primary" href="{{ route('savings.show', $saving->id) }}">Lihat</a>
-              <button class="btn btn-success"><i class="fe fe-edit"></i></button>
-              <button class="btn btn-danger"><i class="fe fe-trash"></i></button>
+              <a href="{{ route('savings.edit', $saving->id) }}" class="btn btn-success"><i class="fe fe-edit"></i></a>
+              <a href="#" class="btn btn-danger delete-saving" data-id="{{ $saving->id }}" data-route="{{ route('savings.destroy', $saving->id) }}"><i class="fe fe-trash"></i></a>
             </div>
           </div>
         </div>
@@ -82,6 +82,8 @@ use App\Models\HistorySaving;
 </div>
 @endsection
 @section('script')
+<script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/sweetalert/sweetalerts.min.js') }}"></script>
 <script>
   $("#searchCategory").on("keyup", function() {
     var value = $(this).val().toLowerCase();
@@ -105,23 +107,40 @@ use App\Models\HistorySaving;
     }
   }
 </script>
-{{-- <script>
-  var isDescriptionExpanded = false;
+<script>
+$(document).on('click', '.delete-saving', function(e) {
+  e.preventDefault();
+  var id = $(this).data('id');
+  var route = $(this).data('route');
 
-    function toggleDescription() {
-        var descriptionElement = document.getElementById("description");
-        var readMoreLink = document.getElementById("readMoreLink");
-
-        if (isDescriptionExpanded) {
-            descriptionElement.innerHTML = descriptionElement.innerHTML.substring(0, 60) + '...';
-            readMoreLink.textContent = "Read More";
-        } else {
-            descriptionElement.innerHTML =
-                "Some quick example text to build on the card title and make up the bulk of the card's content.";
-            readMoreLink.textContent = "Read Less";
+  Swal.fire({
+    title: 'Apakah Anda yakin?',
+    text: "Anda tidak akan dapat mengembalikan ini!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Ya, hapus!',
+    cancelButtonText: 'Batal'
+  }).then((result) => {
+    if (result.isConfirmed) {
+        $.ajax({
+          url: route,
+          type: 'DELETE',
+          data: {"_token": "{{ csrf_token() }}"
+        },
+        success: function(response) {
+          // Tutup modal
+          toastr.success(response.message, 'Sukses');
+          location.reload();
+        },
+        error: function(error) {
+          console.log(error);
+          toastr.error(error.responseJSON.message, 'Error');
         }
-
-        isDescriptionExpanded = !isDescriptionExpanded;
+      });
     }
-</script> --}}
+  });
+});
+</script>
 @endsection

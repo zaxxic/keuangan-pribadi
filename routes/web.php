@@ -90,6 +90,10 @@ Route::group(['middleware' => 'user'], function () {
   Route::get('/export/{bulan}', [UserController::class, 'export'])->name('export');
 
   Route::resource('/savings', SavingController::class);
+  Route::post('/invite', [SavingController::class, 'invite'])->name('invite');
+  Route::get('/join', [SavingController::class, 'join'])->name('join');
+  Route::get('/out/{saving}', [SavingController::class, 'out'])->name('out');
+  Route::post('/kick', [SavingController::class, 'kick'])->name('kick');
 
   Route::get('/profile', [ProfileController::class, 'index'])->name('setting');
   Route::put('/profile.update', [ProfileController::class, 'update'])->name('profile.update');

@@ -18,6 +18,7 @@ return new class extends Migration
       $table->text('description', 400);
       $table->integer('target_balance');
       $table->string('status');
+      $table->string('key');
       $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
       $table->timestamps();
     });
