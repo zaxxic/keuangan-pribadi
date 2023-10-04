@@ -29,7 +29,9 @@
 @php
 use App\Models\HistorySaving;
 use App\Models\HistoryTransaction;
-$now = HistorySaving::where('saving_id', $saving->id)->withSum('history', 'amount')->get();
+$now = HistorySaving::where('saving_id', $saving->id)->whereHas('history', function ($q) {
+  $q->where('status', 'paid');
+})->withSum('history', 'amount')->get();
 $progress = $now->sum('history_sum_amount') / $saving->target_balance * 100;
 $progress = intval(round($progress));
 @endphp
