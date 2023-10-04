@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('content');
             $table->string('status');
             $table->foreignId('history_transaction_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            
+
             $table->timestamps();
         });
     }

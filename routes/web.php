@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\ExpenditureCategoryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RegulerExpenController;
 use App\Http\Controllers\SubscribController;
+use App\Http\Controllers\ScheduleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,15 +69,11 @@ Route::get('/login', function () {
 
 Auth::routes();
 
-
-
-Route::get('/admin-dashboard', function () {
-  return view('Admin.dashboard');
-})->name('admin');
-
-Route::get('paid-users', function () {
-  return view('Admin.users');
-})->name('paid-users');
+Route::group(['middleware' => ['verif', 'admin']], function () {
+  Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+  Route::get('/paidUsers', [AdminController::class, 'paidUsers'])->name('paid-users');
+  Route::get('/getMonthly', [AdminController::class, 'getMonthly'])->name('admin-data');
+});
 
 // Route::group(['middleware' => 'user', 'verified'], function () {
 
@@ -97,6 +95,10 @@ Route::group(['middleware' => ['verif', 'user']], function () {
   Route::get('/export/{bulan}', [UserController::class, 'export'])->name('export');
 
   Route::resource('/savings', SavingController::class);
+  Route::post('/invite', [SavingController::class, 'invite'])->name('invite');
+  Route::get('/join', [SavingController::class, 'join'])->name('join');
+  Route::get('/out/{saving}', [SavingController::class, 'out'])->name('out');
+  Route::post('/kick', [SavingController::class, 'kick'])->name('kick');
 
   Route::get('/profile', [ProfileController::class, 'index'])->name('setting');
   Route::put('/profile.update', [ProfileController::class, 'update'])->name('profile.update');
