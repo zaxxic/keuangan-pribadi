@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -67,15 +68,11 @@ Route::get('/login', function () {
 
 Auth::routes();
 
-
-
-Route::get('/admin-dashboard', function () {
-  return view('Admin.dashboard');
-})->name('admin');
-
-Route::get('paid-users', function () {
-  return view('Admin.users');
-})->name('paid-users');
+Route::group(['middleware' => ['verif', 'admin']], function () {
+  Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+  Route::get('/paidUsers', [AdminController::class, 'paidUsers'])->name('paid-users');
+  Route::get('/getMonthly', [AdminController::class, 'getMonthly'])->name('admin-data');
+});
 
 // Route::group(['middleware' => 'user', 'verified'], function () {
 

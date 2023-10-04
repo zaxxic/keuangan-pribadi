@@ -3,18 +3,18 @@
 @section('content')
 <div class="page-wrapper">
   <div class="content container-fluid">
-    <div class="row d-flex justify-content-center">
+    <div class="row d-flex justify-content-evenly">
       <div class="col-xl-3 col-sm-6 col-12">
         <div class="card">
           <div class="card-body">
             <div class="dash-widget-header">
-              <span class="dash-widget-icon bg-1">
-                <i class="fas fa-dollar-sign"></i>
+              <span class="dash-widget-icon bg-2">
+                <i class="fa-regular fa-user"></i>
               </span>
               <div class="dash-count">
-                <div class="dash-title">Amount Due</div>
+                <div class="dash-title">Pengguna saat ini</div>
                 <div class="dash-counts">
-                  <p>1,642</p>
+                  <p>113</p>
                 </div>
               </div>
             </div>
@@ -26,12 +26,12 @@
           <div class="card-body">
             <div class="dash-widget-header">
               <span class="dash-widget-icon bg-1">
-                <i class="fas fa-dollar-sign"></i>
+                <i class="fa-solid fa-gear"></i>
               </span>
               <div class="dash-count">
-                <div class="dash-title">Amount Due</div>
+                <div class="dash-title">Pengguna baru bulan ini</div>
                 <div class="dash-counts">
-                  <p>1,642</p>
+                  <p>5</p>
                 </div>
               </div>
             </div>
@@ -42,13 +42,13 @@
         <div class="card">
           <div class="card-body">
             <div class="dash-widget-header">
-              <span class="dash-widget-icon bg-1">
-                <i class="fas fa-dollar-sign"></i>
+              <span class="dash-widget-icon bg-3">
+                <i class="fa-solid fa-gift"></i>
               </span>
               <div class="dash-count">
-                <div class="dash-title">Amount Due</div>
+                <div class="dash-title">Pengguna Premium</div>
                 <div class="dash-counts">
-                  <p>1,642</p>
+                  <p>12</p>
                 </div>
               </div>
             </div>
@@ -63,14 +63,8 @@
             <div class="d-flex justify-content-between align-items-center">
               <h5 class="card-title">Analisa keungan</h5>
 
-              <div class="dropdown main">
-                <label for="chart_period_select">Periode:</label>
-                <select id="chart_period_select">
-                  <option value="weekly" id="option_weekly">Mingguan</option>
-                  <option value="daily" id="option_daily">Harian</option>
-                  <option value="monthly" id="option_monthly">Bulanan</option>
-                  <option value="yearly" id="option_yearly">Tahunan</option>
-                </select>
+              <div>
+                <input type="month" class="form-control w-100" id="bulanTahunInput" value="">
               </div>
             </div>
             <div class="card-body">
@@ -97,7 +91,7 @@
                 <h5 class="card-title">Berlangganan Terakhir</h5>
               </div>
               <div class="col-auto">
-                <a href="invoice-details.html" class="btn-right btn btn-sm btn-outline-primary">
+                <a href="{{ route('paid-users') }}" class="btn-right btn btn-sm btn-outline-primary">
                   Lihat semua
                 </a>
               </div>
@@ -109,33 +103,20 @@
               <table class="table table-hover">
                 <thead class="thead-light">
                   <tr>
-                    <th>Judul</th>
-                    <th>Tanggal</th>
-                    <th>Jumlah</th>
-                    <th>Kategori</th>
-                    <th class="text-right">Action</th>
+                    <th>#</th>
+                    <th>Nama Pengguna</th>
+                    <th>Email</th>
+                    <th>Bulan</th>
+                    <th>Metode Pembayaran</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>
-                      <h2 class="table-avatar">
-                        <a href="profile.html"> Dapat sangu</a>
-                      </h2>
-                    </td>
-                    <td>5 Nov 2020</td>
-                    <td>Rp 50.000</td>
-                    <td>Bonus</td>
-                    <td class="text-right">
-                      <div class="dropdown dropdown-action">
-                        <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                          <a class="dropdown-item" href="edit-invoice.html"><i class="far fa-edit me-2"></i>Edit</a>
-                          <a class="dropdown-item" href="invoice-details.html"><i class="far fa-eye me-2"></i>View</a>
-                          <a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a>
-                        </div>
-                      </div>
-                    </td>
+                    <td>1</td>
+                    <td>Surya Ramadhani</td>
+                    <td>suryaramadhani@mail.com</td>
+                    <td>September 2023</td>
+                    <td>GoPay</td>
                   </tr>
                 </tbody>
               </table>
@@ -145,4 +126,117 @@
       </div>
     </div>
   </div>
-  @endsection
+@endsection
+
+@section('script')
+<script>
+  const today = new Date();
+
+  let tahun = today.getFullYear();
+  let bulan = (today.getMonth() + 1).toString().padStart(2, '0');
+  let bulanTahun = tahun + "-" + bulan
+
+  document.getElementById("bulanTahunInput").value = bulanTahun;
+
+
+</script>
+<script>
+  if ($("#admin_chart").length > 0) {
+    const columnCtx = document.getElementById("admin_chart");
+    let columnChart;
+
+    let data = {
+      labels: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "Mei",
+        "Jun",
+        "Jul",
+        "Agu",
+        "Sep",
+        "Okt",
+        "Nov",
+        "Des",
+      ],
+      received: [70, 150, 80, 180, 150, 175, 201, 60, 200, 120, 190, 160],
+    };
+
+    let columnConfig = {
+      colors: ["#7638ff"],
+      series: [
+        {
+          name: "Pendapatan",
+          type: "column",
+          data: data.received,
+        },
+      ],
+      chart: {
+        type: "bar",
+        fontFamily: "Poppins, sans-serif",
+        height: 350,
+        toolbar: {
+          show: false,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: "60%",
+          endingShape: "rounded",
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        show: true,
+        width: 2,
+        colors: ["transparent"],
+      },
+      xaxis: {
+        categories: data.labels,
+      },
+      yaxis: {
+        title: {
+          text: "Rp (ribuan)",
+        },
+        labels: {
+          formatter: function (value) {
+            return "Rp " + value.toLocaleString("id-ID");
+          },
+        },
+      },
+      fill: {
+        opacity: 1,
+      },
+      tooltip: {
+        y: {
+          formatter: function (val) {
+            return "Rp " + val.toLocaleString("id-ID") + " ribu";
+          },
+        },
+      },
+    };
+
+    let updateChart = async function (bulanTahun) {
+      // let received = await fetch(`{{ route('admin-data') }}?bulan=${bulanTahun}`);
+
+      if (columnChart) {
+        columnChart.destroy();
+      }
+
+      columnChart = new ApexCharts(columnCtx, columnConfig);
+      columnChart.render();
+    };
+
+    updateChart(bulanTahun);
+
+    $("#bulanTahunInput").on("change", function () {
+      bulanTahun = $(this).val();
+      updateChart(bulanTahun);
+    });
+  }
+</script>
+@endsection

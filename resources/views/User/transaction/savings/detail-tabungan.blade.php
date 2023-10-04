@@ -56,7 +56,7 @@ $progress = intval(round($progress));
                 </div>
               </div>
               <div class="dash-widget-header mb-4">
-                <span class="dash-widget-icon bg-1">
+                <span class="dash-widget-icon bg-2">
                   <i class="fas fa-dollar-sign"></i>
                 </span>
                 <div class="dash-count" style="width: 60%">
@@ -64,7 +64,7 @@ $progress = intval(round($progress));
                     <p>Rp {{ number_format($now->sum('history_sum_amount'), 0, '', '.') }} / Rp {{ number_format($saving->target_balance, 0, '', '.') }}</p>
                   </div>
                   <div class="progress progress-sm mt-3">
-                    <div class="progress-bar bg-5" role="progressbar" style="width: {{ $progress }}%" aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar" role="progressbar" style="width: {{ $progress }}%" aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                 </div>
               </div>
