@@ -15,6 +15,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ExpenditureCategoryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RegulerExpenController;
+use App\Http\Controllers\ScheduleController;
 
 /*
 |--------------------------------------------------------------------------

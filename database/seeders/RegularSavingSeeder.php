@@ -20,10 +20,11 @@ class RegularSavingSeeder extends Seeder
 
     foreach ($savings as $saving) {
       RegularSaving::create([
-        'amount' => fake()->randomNumber(5, true),
+        'amount' => fake()->randomNumber(4, true),
         'payment_method' => $method[array_rand($method, 1)],
         'recurring' => $recurring[array_rand($recurring, 1)],
         'date' => fake()->dateTimeInInterval('+ 1 week', '+4 weeks'),
+        'count' => 0,
         'saving_id' => $saving->id
       ]);
     }

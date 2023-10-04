@@ -168,7 +168,7 @@ class SavingController extends Controller
     foreach ($data['members'] as $member) {
       array_push($data['chartData']['labels'], explode(' ', $member->name)[0]);
       $histories = $data['allHistories']->filter(function ($item) use ($member) {
-        return $item->user_id == $member->id;
+        return $item->user_id == $member->id && $item->status == 'paid';
       });
       array_push($data['chartData']['data'], count($histories));
       array_push($data['chartData']['backgroundColor'], '#' . dechex(mt_rand(0, 16777215)));

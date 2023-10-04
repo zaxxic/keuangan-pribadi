@@ -119,7 +119,7 @@ $progress = intval(round($progress));
                                 <td>
                                   <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal" data-bs-image="{{ asset('storage/income_attachment/' . $history->attachment) }}">Lihat</button>
                                 </td>
-                                <td><span class="badge bg-success-light">{{ $history->status }}</span></td>
+                                <td><span class="badge bg-{{ ($history->status == 'paid') ? 'success' : 'danger' }}-light">{{ $history->status }}</span></td>
                               </tr>
                               @endforeach
                             </tbody>
