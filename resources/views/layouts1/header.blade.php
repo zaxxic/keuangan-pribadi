@@ -24,9 +24,9 @@
 
 
 
-        <li class="nav-item dropdown  flag-nav dropdown-heads">
+        <li class="nav-item  has-arrow dropdown-heads ">
             <a class="nav-link" data-bs-toggle="dropdown" href="#" role="button">
-                <i class="fe fe-bell"></i> <span class="badge rounded-pill"></span>
+                <i class="fe fe-bell"></i>
             </a>
             <div class="dropdown-menu notifications">
                 <div class="topnav-dropdown-header">
@@ -45,21 +45,7 @@
                 <i class="fe fe-maximize"></i>
             </a>
         </li>
-        <li class="nav-item  has-arrow dropdown-heads ">
-            <a class="nav-link" data-bs-toggle="dropdown" href="#" role="button">
-                <i class="fe fe-bell"></i> <span class="badge rounded-pill"></span>
-            </a>
-            <div class="dropdown-menu notifications">
-                <div class="topnav-dropdown-header">
-                    <span class="notification-title">Notifications</span>
-                    <a href="javascript:void(0)" class="clear-noti"> Clear All</a>
-                </div>
-                <div class="noti-content">
-                    <ul class="notification-list">
-                    </ul>
-                </div>
-            </div>
-        </li>
+
 
         <li class="nav-item dropdown">
             <a href="javascript:void(0)" class="user-link  nav-link" data-bs-toggle="dropdown">
@@ -141,3 +127,87 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCategoryModalLabel">Edit Transaksi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateNotification" enctype="multipart/form-data">
+                    <input type="hidden" id="modal-transaction-id" name="id">
+                    <div class="mb-3">
+                        <label for="modal-judul" class="form-label">Judul:</label>
+                        <span id="modal-judul"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="modal-amount" class="form-label">Amount:</label>
+                        <span id="modal-amount"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="modal-category" class="form-label">Category:</label>
+                        <span id="modal-category"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label>Bukti transaksi</label>
+                        <img id="modal-foto" src="" alt="" class="img-fluid mb-3">
+                        <input type="file" id="modal-foto" name="attachment" class="form-control mb-3">
+                    </div>
+                    <div class="mb-3">
+                        <label for="modal-description" class="form-label">Description:</label>
+                        <textarea class="form-control" name="description" id="modal-description" cols="30" rows="5"></textarea>
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="modal-description" class="form-label">Metode Pembayaran Saat ini:</label>
+                        <span id="modal-payment-method"></span>
+                        <span>
+                    </div>
+                    </span>
+
+                    <div class="mb-3">
+                        {{-- <input type="text" id="modal-payment-method" name="payment_method"> --}}
+                        <select name="payment_method" class="select">
+                            <option id="modal-payment-method" name="payment_method" value="">Pilih Metode
+                                Pembayaran Baru</option>
+                            <option value="Debit">Debit</option>
+                            <option value="Cash">Cash</option>
+                            <option value="E-Wallet">E-Wallet</option>
+                        </select>
+                    </div>
+
+                    <input type="hidden" id="modal-transaction-id">
+                    <div class="d-flex mt-3">
+                        <div class="col-6 me-2">
+                            <button id="updateCategoryBtn" type="submit"
+                                class="w-100 btn btn-primary paid-continue-btn">Simpan</button>
+
+                            <div id="loadingIndicator" style="display: none;">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" data-bs-dismiss="modal"
+                                class="w-100 btn btn-primary paid-cancel-btn">Batal</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Ambil nilai dari elemen dengan id "modal-payment-method"
+    var modalPaymentMethodValue = $('#modal-payment-method').text();
+
+    // Setel nilai pilihan dalam elemen <select> dengan nama "payment_method"
+    $('select[name="payment_method"]').val(modalPaymentMethodValue);
+</script>

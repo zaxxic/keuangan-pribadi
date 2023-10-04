@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HistoryTransaction;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class NotificationController extends Controller
 {
@@ -21,13 +24,97 @@ class NotificationController extends Controller
         return response()->json(['notif' => $notif]);
     }
 
+    public function update(Request $request, $id)
+    {
+        $notification = Notification::findOrFail($id);
+
+        $transaction = HistoryTransaction::find($notification->history_transaction_id);
+        $paymentBefore = $transaction->payment_method;
+
+        $user_id = Auth::id();
+        $totalAmountSpent = HistoryTransaction::where('user_id', $user_id)->sum('amount');
+
+        $requiredAmount = $notification->historyTransaction->amount;
+
+        if ($totalAmountSpent > $requiredAmount) {
+            return response()->json(['message' => 'Saldo tidak mencukupi untuk melakukan transaksi'], 422);
+        }
+
+        $paymentMethod = $request->filled('payment_method') ? $request->input('payment_method') : $paymentBefore;
+
+        $validator = Validator::make($request->all(), [
+            'payment_method' => 'nullable|in:E-Wallet,Cash,Debit',
+            'attachment' => 'image|mimes:jpeg,png,jpg|max:5120',
+            'description' => 'string',
+        ], [
+            'payment_method.string' => 'Metode pembayaran harus berupa teks.',
+            'payment_method.in' => 'Metode pembayaran tidak ada.',
+            'attachment.mimes' => 'Bukti pembayaran harus berupa JPG, PNG, atau JPEG.',
+            'attachment.max' => 'Bukti pembayaran tidak boleh lebih dari 5 Mb.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+        ]);
+
+
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+
+        if (!$transaction) {
+            return response()->json(['error' => 'Transaksi tidak ditemukan'], 404);
+        }
+
+
+        $transactionType = $transaction->content;
+
+        $storageDirectory = ($transactionType === 'expenditure') ? 'public/expenditure_attachment' : 'public/income_attachment';
+
+        if ($request->hasFile('attachment')) {
+            if ($transaction->attachment) {
+                Storage::delete($storageDirectory . '/' . $transaction->attachment);
+            }
+            $attachmentPath = $request->file('attachment')->store($storageDirectory);
+            $attachmentName = basename($attachmentPath);
+            $transaction->attachment = $attachmentName;
+        }
+
+
+
+
+        $transaction->payment_method = $paymentMethod;
+        $transaction->description = $request->input('description');
+        $transaction->save();
+
+        // Update status notifikasi menjadi 'done'
+        $notification->update([
+            'status' => 'done',
+        ]);
+
+        // Jika notifikasi terkait dengan transaksi, perbarui status transaksi menjadi 'paid'
+        if ($notification->historyTransaction) {
+            $transaction->update([
+                'status' => 'paid',
+            ]);
+        }
+
+        return response()->json(['message' => 'Notifikasi berhasil diperbarui']);
+    }
+
 
 
     public function accept($id)
     {
         $notification = Notification::find($id);
+        $user_id = Auth::id();
+        $totalAmountSpent = HistoryTransaction::where('user_id', $user_id)->sum('amount');
 
-        // Periksa apakah notifikasi ditemukan
+        $requiredAmount = $notification->historyTransaction->amount;
+
+        if ($totalAmountSpent > $requiredAmount) {
+            return response()->json(['message' => 'Saldo tidak mencukupi untuk melakukan transaksi'], 422);
+        }
+
         if (!$notification) {
             return response()->json(['message' => 'Notifikasi tidak ditemukan'], 404);
         }

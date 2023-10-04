@@ -211,9 +211,13 @@
 
                     },
                     error: function(xhr) {
+                        if (xhr.status === 421) {
+                            toastr.error(
+                                'Anda hanya dapat membuat maksimal 3 entri pengeluaran berencana',
+                                'Error');
+                        }
                         if (xhr.status === 422) {
                             var errors = xhr.responseJSON.errors;
-                            // Reset pesan kesalahan sebelum menambahkan yang baru
                             $('.text-danger').text('');
                             $.each(errors, function(field, messages) {
                                 var errorMessage = messages[
@@ -271,10 +275,8 @@
 
                         selectElement.empty(); // Kosongkan elemen <select>
 
-                        // Tambahkan opsi "Pilih kategori" pertama
                         selectElement.append('<option value="">Pilih kategori</option>');
 
-                        // Tambahkan opsi-opsi kategori pendapatan dari data yang diterima
                         $.each(incomeCategories, function(index, category) {
                             selectElement.append('<option value="' + category.id + '">' +
                                 category

@@ -116,6 +116,11 @@ class User extends Authenticatable
     return $this->hasMany(HistoryTransaction::class);
   }
 
+  function subscribe()
+  {
+    return $this->hasMany(Subscriber::class);
+  }
+
   public function memberOf()
   {
     return $this->belongsToMany(Saving::class, 'saving_members', 'user_id', 'saving_id');

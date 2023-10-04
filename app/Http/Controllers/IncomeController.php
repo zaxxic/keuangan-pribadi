@@ -20,6 +20,7 @@ class IncomeController extends Controller
 
         $transactions = HistoryTransaction::where('user_id', $user->id)
             ->where('content', 'income')
+            ->where('status', 'paid')
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -81,7 +82,7 @@ class IncomeController extends Controller
         $income->attachment = $attachmentName;
         $income->save();
 
-        
+
 
         // Respon sukses
         return response()->json(['message' => 'Kategori pendapatan berhasil disimpan'], 200);
@@ -215,9 +216,9 @@ class IncomeController extends Controller
         $income->title = $request->input('title');
         $income->amount = $request->input('amount');
         $income->payment_method = $request->input('payment_method');
-        $income->content = 'income'; 
-        $income->status = 'paid'; 
-        $income->source = 'normal'; 
+        $income->content = 'income';
+        $income->status = 'paid';
+        $income->source = 'normal';
         $income->date = $request->input('date');
         $income->description = $request->input('description');
         $income->category_id = $request->input('category_id');

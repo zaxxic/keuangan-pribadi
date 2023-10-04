@@ -300,7 +300,6 @@
                 complete: function() {
                     $('#saveButton').html('Simpan');
                     $('#saveButton').prop('disabled', false);
-
                     $('#loadingIndicator').hide();
                 }
             });

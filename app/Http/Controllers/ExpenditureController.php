@@ -20,7 +20,7 @@ class ExpenditureController extends Controller
 
         $transactions = HistoryTransaction::where('user_id', $user->id)
             ->where('content', 'expenditure')
-
+            ->where('status', 'paid')
             ->get();
 
         return view('User.transaction.expenditure.expenditure', compact('transactions'));
@@ -68,16 +68,15 @@ class ExpenditureController extends Controller
 
         $user_id = Auth::id();
         $totalAmountSpent = HistoryTransaction::where('user_id', $user_id)->sum('amount');
-
-        // Melakukan validasi total uang
         $requestedAmount = $request->input('amount');
-        if ($requestedAmount > $totalAmountSpent) {
-            // Jumlah yang dimasukkan melebihi total uang yang telah digunakan
-            return response()->json(['errors' => ['amount' => 'Total uang tidak cukup']], 422);
-        }
+        if ($validator->fails() || $requestedAmount < $totalAmountSpent) {
+            $errors = $validator->errors();
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            if ($requestedAmount < $totalAmountSpent) {
+                $errors->add('amount', 'Total uang tidak cukup');
+            }
+
+            return response()->json(['errors' => $errors], 422);
         }
 
         if ($request->hasFile('attachment')) {
@@ -197,8 +196,17 @@ class ExpenditureController extends Controller
             'category_id.required' => 'Kategori harus diisi.',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+        $user_id = Auth::id();
+        $totalAmountSpent = HistoryTransaction::where('user_id', $user_id)->sum('amount');
+        $requestedAmount = $request->input('amount');
+        if ($validator->fails() || $requestedAmount < $totalAmountSpent) {
+            $errors = $validator->errors();
+
+            if ($requestedAmount < $totalAmountSpent) {
+                $errors->add('amount', 'Total uang tidak cukup');
+            }
+
+            return response()->json(['errors' => $errors], 422);
         }
 
         // Cari transaksi berdasarkan ID

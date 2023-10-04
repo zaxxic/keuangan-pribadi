@@ -145,9 +145,12 @@
                                         </ul>
                                     </div>
                                     <div class="plan-button">
-                                        <a class="btn btn-primary d-flex align-items-center justify-content-center"
-                                            href="#">Mulai Brlangganan<span class="ms-2"><i
-                                                    class="fe fe-arrow-right"></i></span></a>
+                                        <form action="{{ Route('subs') }}" method="POST">
+                                            @csrf
+                                            <button
+                                                class="btn btn-primary d-flex align-items-center justify-content-center"
+                                                type="submit">Mulai Berlangganan</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -183,12 +186,16 @@
 
     <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+
     <script>
-    $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
         function fetchNotifications() {
             $.ajax({
                 url: "{{ Route('notif.index') }}",
@@ -238,7 +245,18 @@
                                         Dari ${notification.history_transaction.title} 
                                         </p>
                                         <span class="noti-title">
-                                        <button class="custom-btn edit-btn"  data-id="...">Edit</button>
+                                        <button class="custom-btn edit-btn"  onclick="showEditModal(this)"
+                                            data-toggle="modal"
+                                            data-target="#myModalEdit"
+                                            data-foto="${notification.history_transaction.attachment}"
+                                            data-amount="${notification.history_transaction.amount}"
+                                            data-title="${notification.history_transaction.title}"
+                                            data-id-transaction="${notification.id}"
+                                            data-content="${notification.history_transaction.content}"
+                                            data-description="${notification.history_transaction.description}" 
+                                            data-category="${notification.history_transaction.category.name}"
+                                            data-payment_method="${notification.history_transaction.payment_method}" >Edit</button>
+                                            
                                         <button class="custom-btn detail-btn" type="button" id="detail" onclick="showDetailModal(this)"
                                             data-toggle="modal"
                                             data-target="#myModal"
@@ -252,7 +270,7 @@
                                             data-payment_method="${notification.history_transaction.payment_method}">
                                             Detail
                                         </button>
-                                        <button class="custom-btn approve-btn" onclick="approveIncome()">Setuju</button>
+                                        <button class="custom-btn approve-btn" id="btn-approve" data-notification-id="${notification.id}" onclick="approveIncome(${notification.id})">Setuju</button>
                                         </span>
                                     </div>
                                     </div>
@@ -273,7 +291,6 @@
 
         fetchNotifications();
 
-        setInterval(fetchNotifications, 60000);
 
         function showDetailModal(button) {
             const foto = button.getAttribute('data-foto');
@@ -305,6 +322,7 @@
             const modalCategory = modal.querySelector('#modal-category');
             const modalPaymentMethod = modal.querySelector('#modal-payment-method');
 
+
             // Set data ID notifikasi ke dalam tombol "Setuju"
             const btnApprove = modal.querySelector('#btn-approve');
             btnApprove.setAttribute('data-notification-id', notificationId);
@@ -327,25 +345,161 @@
                 type: 'POST',
                 dataType: 'json',
                 success: function(data) {
-                    // Handle respons sukses di sini, jika diperlukan
-                    console.log(data);
-                    // Tutup modal atau lakukan tindakan lainnya setelah berhasil
+                    toastr.success(
+                        'Data berhasil update');
                     $('#myModal').modal('hide');
+                    location.reload();
                 },
                 error: function(xhr) {
-                    // Handle respons error di sini, jika diperlukan
-                    console.log(xhr.responseText);
+                    if (xhr.status === 422) {
+                        toastr.error('Saldo tidak cukup untuk melakukan trnasaksi ini', 'Error');
+                    }
                 }
             });
         });
+
+        function approveIncome(notificationId) {
+            $.ajax({
+                url: '/accept/' + notificationId,
+                type: 'POST',
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data);
+                    toastr.success(
+                        'Data berhasil di update');
+                    $('#myModal').modal('hide');
+                    location.reload();
+                },
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        toastr.error('Saldo tidak cukup untuk melakukan trnasaksi ini', 'Error');
+                    }
+                }
+            });
+        }
+
+        function showEditModal(button) {
+            const foto = button.getAttribute('data-foto');
+            const amount = button.getAttribute('data-amount');
+            const title = button.getAttribute('data-title');
+            const content = button.getAttribute('data-content');
+            const description = button.getAttribute('data-description');
+            const category = button.getAttribute('data-category');
+            const paymentMethod = button.getAttribute('data-payment_method');
+            const transactionID = button.getAttribute('data-id-transaction');
+
+            // Isi nilai modal dengan data yang diberikan
+            const modal = document.getElementById('editCategoryModal');
+            const editCategoryId = modal.querySelector('#editCategoryId');
+            const editCategoryUserId = modal.querySelector('#editCategoryUserId');
+            const modalTitle = modal.querySelector('#modal-judul');
+            const modalTransactionID = modal.querySelector('#modal-transaction-id');
+            const modalAmount = modal.querySelector('#modal-amount');
+            const modalDescription = modal.querySelector('#modal-description');
+            const modalCategory = modal.querySelector('#modal-category');
+            const modalPaymentMethod = modal.querySelector('#modal-payment-method');
+            const modalFoto = modal.querySelector('#modal-foto');
+
+
+
+
+
+            let baseUrl = '';
+            if (content === 'expenditure') {
+                baseUrl = '/storage/reguler_expenditure_attachment/';
+            } else {
+                baseUrl = '/storage/reguler_income_attachment/';
+            }
+
+            // Construct the full URL for the image
+            const imageUrl = baseUrl + foto;
+
+            modalTitle.textContent = title;
+            modalTransactionID.textContent = transactionID;
+            modalAmount.textContent = amount;
+            modalDescription.textContent = description;
+            modalCategory.textContent = category;
+            modalPaymentMethod.textContent = paymentMethod;
+            modalFoto.src = imageUrl;
+
+
+
+            // Menampilkan modal
+            $(modal).modal('show');
+        }
+
+
+
+        $('#updateNotification').submit(function(event) {
+            event.preventDefault();
+            var attachment = $('input[name="attachment"]').val();
+            console.log('File Attachment: ' + attachment);
+            var formData = new FormData(this);
+            var id = document.getElementById("modal-transaction-id").textContent;
+            console.log(id);
+
+
+            $.ajax({
+                url: '/update/notif/' + id,
+                method: 'POST',
+                data: formData,
+                processData: false, // Jangan memproses data (FormData akan menangani semua)
+                contentType: false, //
+                beforeSend: function() {
+                    $('#loadingIndicator').show();
+                },
+                success: function(response) {
+                    $('#loadingIndicator').hide();
+                    toastr.success(
+                        'Data berhasil update');
+                    location.reload();
+                    $('#editCategoryModal').modal('hide');
+                },
+                error: function(error) {
+                    $('#loadingIndicator').hide();
+                    if (error.status === 422) {
+                        toastr.error('Saldo tidak cukup untuk melakukan transaksi ini', 'Error');
+                    } else {
+                        alert('Terjadi kesalahan saat menyimpan data.');
+                        console.error(error);
+                    }
+                }
+            });
+        });
+
+
+        // $('#updateNotification').submit(function(event) {
+        //     event.preventDefault(); // Prevent the default form submission behavior
+
+        //     // Your AJAX code here
+        //     const formData = $(this).serialize();
+        //     const modalTransactionIdElement = document.getElementById('modal-transaction-id');
+        //     const transactionId = modalTransactionIdElement.value;
+        //     console.log(formData);
+
+        //     // $.ajax({
+        //     //     url: '/update/notif/' + notificationId, // Adjust the URL according to your needs
+        //     //     method: 'POST',
+        //     //     data: formData,
+        //     //     beforeSend: function() {
+        //     //         $('#loadingIndicator').show();
+        //     //     },
+        //     //     success: function(response) {
+        //     //         $('#loadingIndicator').hide();
+        //     //         alert(response.message);
+        //     //         $('#editCategoryModal').modal('hide');
+        //     //     },
+        //     //     error: function(error) {
+        //     //         $('#loadingIndicator').hide();
+        //     //         alert('Terjadi kesalahan saat menyimpan data.');
+        //     //         console.error(error);
+        //     //     }
+        //     // });
+        // });
     </script>
 
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
-
-    <script></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
     @yield('script')
 

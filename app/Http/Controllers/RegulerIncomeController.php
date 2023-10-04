@@ -70,6 +70,19 @@ class RegulerIncomeController extends Controller
             'category_id.required' => 'Kategori harus diisi.',
         ]);
 
+        $user = Auth::user();
+        $subscribe = $user->subscribers->where('status', 'active')->first();
+
+        if (!$subscribe) {
+            $incomeCount = RegularTransaction::where('user_id', $user->id)
+                ->where('content', 'income')
+                ->count();
+
+            if ($incomeCount >= 3) {
+                return response()->json(['error' => 'Anda hanya dapat membuat maksimal 3 entri pendapatan berencana'], 422);
+            }
+        }
+
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
@@ -101,7 +114,6 @@ class RegulerIncomeController extends Controller
 
 
 
-        // Respon sukses
         return response()->json(['message' => 'Kategori pendapatan berhasil disimpan'], 200);
     }
 
@@ -212,7 +224,7 @@ class RegulerIncomeController extends Controller
     {
         $income = RegularTransaction::find($id);
 
-        
+
 
         if (!$income) {
             return response()->json(['error' => 'Transaksi tidak ditemukan'], 404);

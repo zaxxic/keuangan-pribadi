@@ -15,6 +15,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\ExpenditureCategoryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RegulerExpenController;
+use App\Http\Controllers\SubscribController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,11 +82,15 @@ Route::get('paid-users', function () {
 Route::group(['middleware' => ['verif', 'user']], function () {
   Route::get('/', [UserController::class, 'index'])->name('home');
 
+  Route::post('subs/', [SubscribController::class, 'store'])->name('subs');
+
+
+
   //notifikasi
   // Route::resource('/notif', NotificationController::class);
   Route::get('/notif', [NotificationController::class, 'index'])->name('notif.index');
   Route::post('/accept/{id}', [NotificationController::class, 'accept'])->name('accept.notifikasi');
-  Route::post('/confirmation/{id}', [NotificationController::class, 'confirmation'])->name('confirmation.notifikasi');
+  Route::post('/update/notif/{id}', [NotificationController::class, 'update'])->name('update.notifikasi');
 
   // Route::get('/', [UserController::class, 'index'])->name('home');
   Route::post('/gethistory', [UserController::class, 'getHistory'])->name('gethistory');

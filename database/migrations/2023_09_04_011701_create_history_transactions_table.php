@@ -21,7 +21,7 @@ return new class extends Migration
       $table->string('source')->default('normal');
       $table->string('status')->nullable();
       $table->date('date');
-      $table->text('description', 400)->nullable();
+      $table->text('description', 400)->nullable()->default('nothing');
       $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
       $table->foreignId('category_id')
         ->constrained('categories')
