@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('content');
+            $table->string('status');
             $table->foreignId('history_transaction_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             
             $table->timestamps();

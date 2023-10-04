@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -13,6 +14,7 @@ use Ramsey\Uuid\Uuid;
 class User extends Authenticatable
 {
   use HasApiTokens, HasFactory, Notifiable;
+
 
   /**
    * The "booted" method of the model.
@@ -41,6 +43,7 @@ class User extends Authenticatable
    * @var string
    */
   protected $primaryKey = 'id';
+
 
   /**
    * The "type" of the primary key ID.
@@ -77,6 +80,8 @@ class User extends Authenticatable
   protected $casts = [
     'email_verified_at' => 'datetime',
     'password' => 'hashed',
+    'last_verification_sent_time' => 'datetime',
+
   ];
 
   public function total()

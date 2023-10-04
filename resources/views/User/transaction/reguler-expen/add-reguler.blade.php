@@ -134,7 +134,8 @@
                               </div>
                             </div>
                             <div class="text-end">
-                                <a href="{{ Route('reguler-expenditure.index') }}" class="btn btn-primary cancel me-2">Batal</a>
+                                <a href="{{ Route('reguler-expenditure.index') }}"
+                                    class="btn btn-primary cancel me-2">Batal</a>
                                 <button type="submit" class="btn btn-primary" id="buttonSave">Simpan</button>
                                 <div id="loadingIndicator" style="display: none;">
                                     <div class="spinner-border text-primary" role="status">
@@ -255,13 +256,13 @@
             });
 
             // Fungsi untuk mengambil kategori pendapatan
-            function getIncomeCategories() {
+            function getExpenditureCategories() {
                 $.ajax({
                     url: "{{ route('get-category') }}",
                     method: 'GET',
                     dataType: 'json',
                     success: function(response) {
-                        var expenditureCategories = response.expenditureCategories;
+                        var incomeCategories = response.incomeCategories;
                         var selectElement = $('#kategori');
 
                         selectElement.empty(); // Kosongkan elemen <select>
@@ -270,7 +271,7 @@
                         selectElement.append('<option value="">Pilih kategori</option>');
 
                         // Tambahkan opsi-opsi kategori pendapatan dari data yang diterima
-                        $.each(expenditureCategories, function(index, category) {
+                        $.each(incomeCategories, function(index, category) {
                             selectElement.append('<option value="' + category.id + '">' +
                                 category
                                 .name + '</option>');
@@ -282,8 +283,7 @@
                 });
             }
 
-            // Panggil fungsi "get" pertama kali saat halaman dimuat
-            getIncomeCategories();
+            getExpenditureCategories();
         });
 
 

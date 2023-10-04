@@ -8,63 +8,48 @@ use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $user = Auth::user();
 
-        $notif = Notification::where('user_id', $user->id)->get();
+        $notif = Notification::where('user_id', $user->id)
+            ->where('status', 'aktif')
+            ->with('historyTransaction.category')
+            ->get();
+
 
         return response()->json(['notif' => $notif]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function accept($id)
     {
-        //
-    }
+        $notification = Notification::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        // Periksa apakah notifikasi ditemukan
+        if (!$notification) {
+            return response()->json(['message' => 'Notifikasi tidak ditemukan'], 404);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+        // Pastikan hanya pemilik notifikasi yang dapat memperbarui statusnya
+        if ($notification->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        // Update status notifikasi menjadi 'done'
+        $notification->update([
+            'status' => 'done',
+        ]);
+
+        // Jika notifikasi terkait dengan transaksi, maka juga perbarui status transaksi menjadi 'paid'
+        if ($notification->historyTransaction) {
+            $transaction = $notification->historyTransaction;
+            $transaction->update([
+                'status' => 'paid',
+            ]);
+        }
+
+        return response()->json(['message' => 'Status notifikasi dan transaksi berhasil diperbarui']);
     }
 }
