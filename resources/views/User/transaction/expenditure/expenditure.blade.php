@@ -81,7 +81,15 @@
                                             <td>{{ $transaction->amount }}</td>
                                             <td>
                                                 <button data-bs-target="#modalImage" data-bs-toggle="modal"
-                                                    data-bs-image="{{ asset('storage/expenditure_attachment/' . $transaction->attachment) }}"
+                                                    data-bs-image="{{ asset(
+                                                        'storage/' .
+                                                            ($transaction->source === 'reguler'
+                                                                ? 'reguler_expenditure_attachment/'
+                                                                : ($transaction->source === 'tabungan'
+                                                                    ? 'reguler_expenditure_attachment/'
+                                                                    : 'expenditure_attachment/')) .
+                                                            $transaction->attachment,
+                                                    ) }}"
                                                     class="btn btn-primary">Lihat</button>
                                             </td>
                                             <td>{{ $transaction->payment_method }}</td>
@@ -155,8 +163,8 @@
                         $transaction = $transactions->first();
                     @endphp
                     <img id="attachmentImage"
-                        src="{{ asset('storage/expenditure_attachment/' . $transaction->attachment) }}" alt="Attachment"
-                        data-filename="{{ $transaction->attachment }}">
+                        src="{{ asset('storage/expenditure_attachment/' . $transaction->attachment) }}"
+                        alt="Attachment" data-filename="{{ $transaction->attachment }}">
                 @else
                     <!-- Tambahkan kode atau pesan yang ingin Anda tampilkan jika tidak ada transaksi -->
                     <p>Tidak ada transaksi yang tersedia.</p>

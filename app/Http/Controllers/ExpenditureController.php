@@ -69,10 +69,12 @@ class ExpenditureController extends Controller
         $user_id = Auth::id();
         $totalAmountSpent = HistoryTransaction::where('user_id', $user_id)->sum('amount');
         $requestedAmount = $request->input('amount');
-        if ($validator->fails() || $requestedAmount < $totalAmountSpent) {
+        // dd($totalAmountSpent, $requestedAmount);
+
+        if ($validator->fails() || $requestedAmount > $totalAmountSpent) {
             $errors = $validator->errors();
 
-            if ($requestedAmount < $totalAmountSpent) {
+            if ($requestedAmount > $totalAmountSpent) {
                 $errors->add('amount', 'Total uang tidak cukup');
             }
 
@@ -97,6 +99,7 @@ class ExpenditureController extends Controller
         $expenditure->description = $request->input('description');
         $expenditure->category_id = $request->input('category_id');
         $expenditure->user_id = $user_id;
+        $expenditure->status = 'paid';
         $expenditure->attachment = $attachmentName;
         $expenditure->save();
 
@@ -199,10 +202,11 @@ class ExpenditureController extends Controller
         $user_id = Auth::id();
         $totalAmountSpent = HistoryTransaction::where('user_id', $user_id)->sum('amount');
         $requestedAmount = $request->input('amount');
-        if ($validator->fails() || $requestedAmount < $totalAmountSpent) {
+
+        if ($validator->fails() || $requestedAmount > $totalAmountSpent) {
             $errors = $validator->errors();
 
-            if ($requestedAmount < $totalAmountSpent) {
+            if ($requestedAmount > $totalAmountSpent) {
                 $errors->add('amount', 'Total uang tidak cukup');
             }
 

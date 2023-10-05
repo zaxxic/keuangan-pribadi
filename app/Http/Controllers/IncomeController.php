@@ -79,6 +79,7 @@ class IncomeController extends Controller
         $income->description = $request->input('description');
         $income->category_id = $request->input('category_id');
         $income->user_id = $user_id;
+        $expenditure->status = 'paid';
         $income->attachment = $attachmentName;
         $income->save();
 

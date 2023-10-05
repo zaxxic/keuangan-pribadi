@@ -129,7 +129,7 @@ class ScheduleController extends Controller
 
           if (!empty($income->content)) {
 
-            Mail::to($income->user->email, $income->amount, $income->user->name)->send(new TransactionNotification($income->content, $income->amount, $income->user->name));
+            // Mail::to($income->user->email, $income->amount, $income->user->name)->send(new TransactionNotification($income->content, $income->amount, $income->user->name));
           }
         }
       }

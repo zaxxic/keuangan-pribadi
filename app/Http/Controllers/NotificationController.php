@@ -32,13 +32,16 @@ class NotificationController extends Controller
         $paymentBefore = $transaction->payment_method;
 
         $user_id = Auth::id();
-        $totalAmountSpent = HistoryTransaction::where('user_id', $user_id)->sum('amount');
+        $totalAmountSpent = HistoryTransaction::where('user_id', $user_id)
+            ->where('status', 'paid')
+            ->sum('amount');
 
         $requiredAmount = $notification->historyTransaction->amount;
 
-        if ($totalAmountSpent > $requiredAmount) {
+        if ($totalAmountSpent < $requiredAmount) {
             return response()->json(['message' => 'Saldo tidak mencukupi untuk melakukan transaksi'], 422);
         }
+        // dd("bisa");
 
         $paymentMethod = $request->filled('payment_method') ? $request->input('payment_method') : $paymentBefore;
 
@@ -68,16 +71,25 @@ class NotificationController extends Controller
 
         $transactionType = $transaction->content;
 
-        $storageDirectory = ($transactionType === 'expenditure') ? 'public/expenditure_attachment' : 'public/income_attachment';
+        $storageDirectory = ($transactionType === 'expenditure') ? 'public/reguler_expenditure_attachment' : 'public/reguler    _income_attachment';
 
-        if ($request->hasFile('attachment')) {
+        if ($request->hasFile('attachment')) {  
+            $newAttachment = $request->file('attachment');
+
             if ($transaction->attachment) {
-                Storage::delete($storageDirectory . '/' . $transaction->attachment);
+                // Hapus baris berikut karena tidak perlu menghapus file yang ada
+                // Storage::delete($storageDirectory . '/' . $transaction->attachment);
             }
-            $attachmentPath = $request->file('attachment')->store($storageDirectory);
+
+            // Simpan file yang baru diunggah
+            $attachmentPath = $newAttachment->store($storageDirectory);
             $attachmentName = basename($attachmentPath);
+
+            // Update nama attachment di model transaksi
             $transaction->attachment = $attachmentName;
+            $transaction->save(); // Simpan perubahan ke database
         }
+
 
 
 
@@ -107,13 +119,16 @@ class NotificationController extends Controller
     {
         $notification = Notification::find($id);
         $user_id = Auth::id();
-        $totalAmountSpent = HistoryTransaction::where('user_id', $user_id)->sum('amount');
+        $totalAmountSpent = HistoryTransaction::where('user_id', $user_id)
+            ->where('status', 'paid')
+            ->sum('amount');
 
         $requiredAmount = $notification->historyTransaction->amount;
 
-        if ($totalAmountSpent > $requiredAmount) {
+        if ($totalAmountSpent < $requiredAmount) {
             return response()->json(['message' => 'Saldo tidak mencukupi untuk melakukan transaksi'], 422);
         }
+        // dd("bisa");
 
         if (!$notification) {
             return response()->json(['message' => 'Notifikasi tidak ditemukan'], 404);
