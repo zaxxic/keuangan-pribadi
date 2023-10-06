@@ -47,6 +47,7 @@ class RegulerIncomeController extends Controller
             'amount' => 'required',
             'recurring' => 'required',
             'count' => 'required',
+            'description' => 'required',
             'payment_method' => 'required|in:E-Wallet,Cash,Debit',
             'attachment' => 'image|mimes:jpeg,png,jpg|max:5120',
             'date' => ['required', 'date'],
@@ -54,6 +55,7 @@ class RegulerIncomeController extends Controller
         ], [
             'title.required' => 'Judul harus diisi.',
             'title.string' => 'Judul harus berupa teks.',
+            'description.required' => 'Deskripsi harus diisi.',
             'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
             'amount.required' => 'Jumlah harus diisi.',
             'recurring.required' => 'Perulangan harus di isi.',
@@ -136,8 +138,8 @@ class RegulerIncomeController extends Controller
         if (!$transaction) {
         }
 
-        if ($transaction->user_id !== Auth::id()) {
-            dd('forbiden');
+        if ($transaction === null || $transaction->user_id !== Auth::id()) {
+            abort(404);
         }
         return view('User.transaction.reguler-income.edit-reguler-income', compact('transaction'));
     }

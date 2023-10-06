@@ -37,13 +37,14 @@ class IncomeController extends Controller
             'payment_method' => 'required|in:E-Wallet,Cash,Debit',
             'attachment' => 'image|mimes:jpeg,png,jpg|max:5120',
             'date' => ['required', 'date', 'date_before_today'],
-            'description' => 'string',
+            'description' => 'required|string',
             'category_id' => 'required',
         ], [
             'title.required' => 'Judul harus diisi.',
             'title.string' => 'Judul harus berupa teks.',
             'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
             'amount.required' => 'Jumlah harus diisi.',
+            'description.required' => 'Deskripsi harus diisi.',
             'payment_method.required' => 'Metode pembayaran harus diisi.',
             'payment_method.string' => 'Metode pembayaran harus berupa teks.',
             'payment_method.in' => 'Metode pembayaran tidak ada.',
@@ -158,8 +159,8 @@ class IncomeController extends Controller
         }
 
         // Memeriksa apakah pengguna yang saat ini masuk adalah pemilik data yang ingin diubah
-        if ($transaction->user_id !== Auth::id()) {
-            dd('forbiden');
+        if ($transaction === null || $transaction->user_id !== Auth::id()) {
+            abort(404);
         }
         return view('User.transaction.income.edit-income', compact('transaction'));
     }
@@ -173,7 +174,7 @@ class IncomeController extends Controller
             'payment_method' => 'required|in:E-Wallet,Cash,Debit',
             'attachment' => 'image|mimes:jpeg,png,jpg|max:5120',
             'date' => ['required', 'date', 'date_before_today'],
-            'description' => 'string',
+            'description' => 'required|string',
             'category_id' => 'required',
         ], [
             'title.required' => 'Judul harus diisi.',

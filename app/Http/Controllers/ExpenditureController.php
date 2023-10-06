@@ -46,7 +46,7 @@ class ExpenditureController extends Controller
             'payment_method' => 'required|in:E-Wallet,Cash,Debit',
             'attachment' => 'image|mimes:jpeg,png,jpg|max:5120',
             'date' => ['required', 'date', 'date_before_today'],
-            'description' => 'string',
+            'description' => 'required|string',
             'category_id' => 'required',
         ], [
             'title.required' => 'Judul harus diisi.',
@@ -62,6 +62,7 @@ class ExpenditureController extends Controller
             'date.required' => 'Tanggal harus diisi.',
             'date.date_before_today' => 'Tanggal harus sebelum hari ini atau hari.',
             'date.date' => 'Tanggal harus berupa tanggal yang valid.',
+            'description.required' => 'Deskripsi harus diisi.',
             'description.string' => 'Deskripsi harus berupa teks.',
             'category_id.required' => 'Kategori harus diisi.',
         ]);
@@ -162,8 +163,8 @@ class ExpenditureController extends Controller
         }
 
         // Memeriksa apakah pengguna yang saat ini masuk adalah pemilik data yang ingin diubah
-        if ($transaction->user_id !== Auth::id()) {
-            dd('forbiden');
+        if ($transaction === null || $transaction->user_id !== Auth::id()) {
+            abort(404);
         }
         return view('User.transaction.expenditure.edit-expenditure', compact('transaction'));
     }
@@ -180,11 +181,12 @@ class ExpenditureController extends Controller
             'payment_method' => 'required|in:E-Wallet,Cash,Debit',
             'attachment' => 'image|mimes:jpeg,png,jpg|max:5120',
             'date' => ['required', 'date', 'date_before_today'],
-            'description' => 'string',
+            'description' => 'required|string',
             'category_id' => 'required',
         ], [
             'title.required' => 'Judul harus diisi.',
             'title.string' => 'Judul harus berupa teks.',
+            'description.required' => 'Deskripsi harus diisi.',
             'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
             'amount.required' => 'Jumlah harus diisi.',
             'payment_method.required' => 'Metode pembayaran harus diisi.',

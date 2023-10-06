@@ -109,6 +109,8 @@
                                     <div class="form-group" id="summernote_container">
                                         <label class="form-control-label">Deskripsi</label>
                                         <textarea class="form-control" name="description" placeholder="Ketikan deskripsi"></textarea>
+                                        <span id="date-description" class="text-danger"></span>
+
                                         <span id="count-error" class="text-danger"></span>
 
                                     </div>
@@ -122,10 +124,10 @@
                                             <span><img src="{{ asset('assets/img/icons/drop-icon.svg') }}"
                                                     alt="upload" /></span>
                                             <h6 class="drop-browse align-center">
-                                                Letakan file disini atau
-                                                <span class="text-primary ms-1">browse</span>
+                                                Letakan photo bukti trnasksi 
+                                                <span class="text-primary ms-1">disini</span>
                                             </h6>
-                                            <p class="text-muted">Ukuran maksimal: 50MB</p>
+                                            <p class="text-muted">Ukuran maksimal: 5MB</p>
                                             <input type="file" name="attachment" multiple id="image_sign" />
                                             <div id="frames"></div>
                                         </div>

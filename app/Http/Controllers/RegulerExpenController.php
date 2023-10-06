@@ -44,12 +44,14 @@ class RegulerExpenController extends Controller
             'amount' => 'required',
             'recurring' => 'required',
             'count' => 'required',
+            'description' => 'required',
             'payment_method' => 'required|in:E-Wallet,Cash,Debit',
             'attachment' => 'image|mimes:jpeg,png,jpg|max:5120',
             'date' => ['required', 'date'],
             'category_id' => 'required',
         ], [
             'title.required' => 'Judul harus diisi.',
+            'description.required' => 'Deskripsi harus diisi.',
             'title.string' => 'Judul harus berupa teks.',
             'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
             'amount.required' => 'Jumlah harus diisi.',
@@ -133,8 +135,8 @@ class RegulerExpenController extends Controller
         if (!$transaction) {
         }
 
-        if ($transaction->user_id !== Auth::id()) {
-            dd('forbiden');
+        if ($transaction === null || $transaction->user_id !== Auth::id()) {
+            abort(404);
         }
         return view('User.transaction.reguler-expen.edit-reguler-expen', compact('transaction'));
     }
@@ -149,6 +151,7 @@ class RegulerExpenController extends Controller
             'amount' => 'required',
             'recurring' => 'required',
             'count' => 'required',
+            'description' => 'required',
             'payment_method' => 'required|in:E-Wallet,Cash,Debit',
             'attachment' => 'image|mimes:jpeg,png,jpg|max:5120',
             'date' => ['required', 'date'],
@@ -162,6 +165,7 @@ class RegulerExpenController extends Controller
             'count.required' => 'Jumlah perulangan harus diisi.',
             'payment_method.required' => 'Metode pembayaran harus diisi.',
             'payment_method.string' => 'Metode pembayaran harus berupa teks.',
+            'description.required' => 'Deskripsi harus diisi.',
             'payment_method.in' => 'Metode pembayaran tidak ada.',
             'attachment.required' => 'Bukti pembayaran harus diisi.',
             'attachment.mimes' => 'Bukti pembayaran harus berupa JPG, PNG, atau JPEG.',

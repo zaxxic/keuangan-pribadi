@@ -82,9 +82,12 @@
                                             <td>{{ $transaction->date }}</td>
                                             <td>{{ $transaction->amount }}</td>
                                             <td>
-                                                <button data-bs-target="#modalImage" data-bs-toggle="modal"
+                                                <button data-bs-toggle="modal"
+                                                    @if ($transaction->attachment) data-bs-target="#modalImage"
                                                 data-bs-image="{{ asset('storage/' . ($transaction->source === 'reguler' ? 'reguler_income_attachment/' : 'income_attachment/') . $transaction->attachment) }}"
-                                                class="btn btn-primary">Lihat</button>
+                                                @else
+                                                data-bs-target="#modalImageEmptyAttachment" @endif
+                                                    class="btn btn-primary">Lihat</button>
                                             </td>
                                             <td>{{ $transaction->payment_method }}</td>
                                             <td>{{ $transaction->category->name }}</td>
@@ -142,6 +145,26 @@
 </div>
 
 
+<div class="modal fade" id="modalImageEmptyAttachment" tabindex="-1" aria-labelledby="modalImageEmptyAttachmentLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalImageEmptyAttachmentLabel">Gambar Attachment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Tidak ada gambar di lampiran ini.
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 
 
 <div class="modal fade" id="modalImage" tabindex="-1" aria-labelledby="modalImageLabel" aria-hidden="true">
@@ -176,10 +199,8 @@
 <script>
     $(document).on('click', 'button[data-bs-target="#modalImage"]', function() {
         var imageUrl = $(this).data('bs-image');
-        console.log(imageUrl);
         $('#attachmentImage').attr('src', imageUrl);
     });
-    // Tampilkan ikon download saat gambar dihover
     $('#attachmentImage').hover(function() {
         $('#downloadIcon').show();
     }, function() {
