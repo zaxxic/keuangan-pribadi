@@ -3,23 +3,26 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class Verified extends Mailable
+class Subscriber extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $verificationCode;
+    public $userName;
+    public $expireDate;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($verificationCode)
+    public function __construct($userName, $expireDate)
     {
-        $this->verificationCode  = $verificationCode;
+        $this->userName = $userName;
+        $this->expireDate = $expireDate;
     }
 
     /**
@@ -28,7 +31,7 @@ class Verified extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Verified',
+            subject: 'Berlangganan Web kannaku',
         );
     }
 
@@ -38,7 +41,7 @@ class Verified extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.verified',
+            view: 'emails.subscriber',
         );
     }
 

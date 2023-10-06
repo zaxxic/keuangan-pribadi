@@ -110,7 +110,7 @@
           </form>
 
 
-          <form id="update-password-form" action="{{ Route('password.update') }}">
+          <form id="update-password-form" action="{{ Route('password.updatee') }}">
             @csrf
             @method('PUT')
             <div class="row">

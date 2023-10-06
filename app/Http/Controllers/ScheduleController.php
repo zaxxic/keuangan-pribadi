@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ExpireSubscriber;
 use App\Mail\TransactionNotification;
 use App\Models\Category;
 use App\Models\HistoryTransaction;
@@ -149,5 +150,22 @@ class ScheduleController extends Controller
       $subscriber->save();
     }
     return "non aktif subscriber.";
+  }
+
+  public function lastExpire()
+  {
+    $upcomingExpirySubscribers = Subscriber::where('status', 'active')
+      ->where('expire_date', '>', Carbon::now())
+      ->where('expire_date', '<', Carbon::now()->addWeek()) // Kurang dari satu minggu dari sekarang
+      ->get();
+
+    foreach ($upcomingExpirySubscribers as $subscriber) {
+      // Kirim email notifikasi ke pelanggan
+        Mail::to($subscriber->user->email)->send(new ExpireSubscriber($subscriber));
+
+       
+    }
+
+    return "Email notifikasi dikirim kepada pelanggan yang akan segera berakhir langganan.";
   }
 }
