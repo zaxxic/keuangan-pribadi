@@ -18,8 +18,8 @@ class NotificationController extends Controller
         $notif = Notification::where('user_id', $user->id)
             ->where('status', 'aktif')
             ->with('historyTransaction.category')
+            ->orderBy('created_at', 'desc')
             ->get();
-
 
         return response()->json(['notif' => $notif]);
     }
@@ -73,7 +73,7 @@ class NotificationController extends Controller
 
         $storageDirectory = ($transactionType === 'expenditure') ? 'public/reguler_expenditure_attachment' : 'public/reguler    _income_attachment';
 
-        if ($request->hasFile('attachment')) {  
+        if ($request->hasFile('attachment')) {
             $newAttachment = $request->file('attachment');
 
             if ($transaction->attachment) {

@@ -27,5 +27,6 @@ class CreateRecurringTransactions extends Command
     {
         $this->info(app('App\Http\Controllers\ScheduleController')->createRecurringTransactions());
         $this->info(app('App\Http\Controllers\ScheduleController')->expire());
+        $this->info(app('App\Http\Controllers\ScheduleController')->lastExpire());
     }
 }

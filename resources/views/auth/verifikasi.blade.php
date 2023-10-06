@@ -139,7 +139,7 @@
                 {{ session('success') }}
             </div>
         @endif
-        <p>Masukkan kode verifikasi 6 digit yang telah dikirimkan ke email Anda.</p>
+        <p>Masukkan kode verifikasi 6 digit yang telah dikirimkan ke email {{ Auth::user()->email }}.</p>
         <form action="{{ Route('verif') }}" method="POST" onsubmit="combineInputs()">
             @csrf
             <div class="otp-input">
