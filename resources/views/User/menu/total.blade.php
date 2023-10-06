@@ -170,401 +170,390 @@
 <script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>
 <script>
   // Mendapatkan tanggal saat ini
-        var today = new Date();
+  let today = new Date();
 
-        // Mengambil tahun saat ini dalam format YYYY-MM
-        var tahun = today.getFullYear();
-        var bulan = (today.getMonth() + 1).toString().padStart(2, '0'); // Menambahkan 0 di depan jika bulan kurang dari 10
+  // Mengambil tahun saat ini dalam format YYYY-MM
+  let tahun = today.getFullYear();
+  let bulan = (today.getMonth() + 1).toString().padStart(2, '0'); // Menambahkan 0 di depan jika bulan kurang dari 10
 
-        // Mengatur nilai input bulan
-        document.getElementById("bulanTahunInput").value = tahun + "-" + bulan;
+  // Mengatur nilai input bulan
+  document.getElementById("bulanTahunInput").value = tahun + "-" + bulan;
 
-        let month = document.getElementById("bulanTahunInput").value;
+  let month = document.getElementById("bulanTahunInput").value;
 
-        $("#exportMonthly").attr("href", `/export/${month}`);
+  $("#exportMonthly").attr("href", `/export/${month}`);
 
-        let bulanIni = new Date(document.getElementById("bulanTahunInput").value);
+  let bulanIni = new Date(document.getElementById("bulanTahunInput").value);
 
-        $(async function(){
-          var chart;
-          const rupiah = (number)=>{
-            return new Intl.NumberFormat("id-ID", {
-              style: "currency",
-              currency: "IDR"
-            }).format(number);
-          }
-          const csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
-          const transactions = await fetch("{{ route('gethistory') }}", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-CSRF-Token": csrfToken,
-            }
-          }).then(response => response.json());
+  $(async function(){
+    var chart;
+    const rupiah = (number)=>{
+      return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR"
+      }).format(number);
+    }
+    const csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
+    const transactions = await fetch("{{ route('gethistory') }}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": csrfToken,
+      }
+    }).then(response => response.json());
 
-          function jalankanChart(data, bulan){
-            if ($("#s-col").length > 0) {
-              let sCol = {
-                chart: {
-                  height: 350,
-                  type: "bar",
-                  toolbar: {
-                    show: false,
-                  },
-                },
-                plotOptions: {
-                  bar: {
-                    horizontal: false,
-                    columnWidth: "55%",
-                    endingShape: "rounded",
-                  },
-                },
-                // colors: ['#888ea8', '#4361ee'],
-                dataLabels: {
-                  enabled: false,
-                },
-                stroke: {
-                  show: true,
-                  width: 2,
-                  colors: ["transparent"],
-                },
-                series: [
-                  {
-                    name: "Pemasukan",
-                    data: generatePemasukan(data, bulan),
-                  },
-                  {
-                    name: "Pengeluaran",
-                    data: generatePengeluaran(data, bulan),
-                  },
-                ],
-                xaxis: {
-                  categories: generateHari(bulan),
-                },
-                yaxis: {
-                  title: {
-                    text: "Rp",
-                  },
-                  labels: {
-                    formatter: function (value) {
-                      return "Rp " + value.toLocaleString("id-ID");
-                    },
-                  },
-                },
-                fill: {
-                  opacity: 1,
-                },
-                tooltip: {
-                  y: {
-                    formatter: function (val) {
-                      return "Rp " + val.toLocaleString("id-ID");
-                    },
-                  },
-                },
-              };
-              if(chart){
-                chart.destroy();
-              }
+    function jalankanChart(data, bulan){
+      if ($("#s-col").length > 0) {
+        let sCol = {
+          chart: {
+            height: 350,
+            type: "bar",
+            toolbar: {
+              show: false,
+            },
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              columnWidth: "55%",
+              endingShape: "rounded",
+            },
+          },
+          // colors: ['#888ea8', '#4361ee'],
+          dataLabels: {
+            enabled: false,
+          },
+          stroke: {
+            show: true,
+            width: 2,
+            colors: ["transparent"],
+          },
+          series: [
+            {
+              name: "Pemasukan",
+              data: generatePemasukan(data, bulan),
+            },
+            {
+              name: "Pengeluaran",
+              data: generatePengeluaran(data, bulan),
+            },
+          ],
+          xaxis: {
+            categories: generateHari(bulan),
+          },
+          yaxis: {
+            title: {
+              text: "Rp",
+            },
+            labels: {
+              formatter: function (value) {
+                return "Rp " + value.toLocaleString("id-ID");
+              },
+            },
+          },
+          fill: {
+            opacity: 1,
+          },
+          tooltip: {
+            y: {
+              formatter: function (val) {
+                return "Rp " + val.toLocaleString("id-ID");
+              },
+            },
+          },
+        };
+        if(chart){
+          chart.destroy();
+        }
 
-              chart = new ApexCharts(document.querySelector("#s-col"), sCol);
+        chart = new ApexCharts(document.querySelector("#s-col"), sCol);
 
-              chart.render();
-            }
-          }
+        chart.render();
+      }
+    }
 
-          function generateHari(bulan){
-            let date = new Date(bulan);
-            let days = [];
-            while(date.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) == bulan.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"})){
-              days.push(date.getDate().toString());
-              date.setDate(date.getDate() + 1);
-            }
-            return days;
-          }
+    function generateHari(bulan){
+      let date = new Date(bulan);
+      let days = [];
+      while(date.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) == bulan.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"})){
+        days.push(date.getDate().toString());
+        date.setDate(date.getDate() + 1);
+      }
+      return days;
+    }
 
-          function generatePemasukan(data, bulan){
-            let bulanIni = new Date(bulan);
-            bulanIni.setDate(1);
-            bulanIni.setHours(0,0,0,0);
+    function generatePemasukan(data, bulan){
+      let bulanIni = new Date(bulan);
+      bulanIni.setDate(1);
+      bulanIni.setHours(0,0,0,0);
 
-            let hasil = [];
+      let hasil = [];
 
-            while(bulanIni.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) == bulan.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"})){
+      while(bulanIni.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) == bulan.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"})){
 
-              let pemasukan = data.filter(data => {
-                let dataBulan = new Date(data.date);
-                dataBulan.setHours(0,0,0,0);
+        let pemasukan = data.filter(data => {
+          let dataBulan = new Date(data.date);
+          dataBulan.setHours(0,0,0,0);
 
-                return dataBulan.toLocaleDateString("id-ID", {month: "numeric", year: "numeric", day: "numeric"}) == bulanIni.toLocaleDateString("id-ID", {month: "numeric", year: "numeric", day: "numeric"}) && data.content == 'income';
-              });
-
-              if(pemasukan.length > 0){
-                if(pemasukan.length == 1){
-                  hasil.push(pemasukan[0].amount);
-                } else if (pemasukan.length > 1){
-                  let value = pemasukan.map(val => val.amount);
-                  let total = value.reduce((a, c) => a + c);
-                  hasil.push(total);
-                }
-              } else {
-                hasil.push(0);
-              }
-
-              bulanIni.setDate(bulanIni.getDate() + 1);
-            }
-            return hasil;
-
-          }
-
-          function generatePengeluaran(data, bulan){
-            let bulanIni = new Date(bulan);
-            bulanIni.setDate(1);
-            bulanIni.setHours(0,0,0,0);
-
-            let hasil = [];
-
-            while(bulanIni.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) == bulan.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"})){
-
-              let pengeluaran = data.filter(data => {
-                let dataBulan = new Date(data.date);
-                dataBulan.setHours(0,0,0,0);
-
-                return dataBulan.toLocaleDateString("id-ID", {month: "numeric", year: "numeric", day: "numeric"}) == bulanIni.toLocaleDateString("id-ID", {month: "numeric", year: "numeric", day: "numeric"}) && data.content == 'expenditure';
-              });
-
-              if(pengeluaran.length > 0){
-                if(pengeluaran.length == 1){
-                  hasil.push(pengeluaran[0].amount);
-                } else if (pengeluaran.length > 1){
-                  let value = pengeluaran.map(val => val.amount);
-                  let total = value.reduce((a, c) => a + c);
-                  hasil.push(total);
-                }
-              } else {
-                hasil.push(0);
-              }
-
-              bulanIni.setDate(bulanIni.getDate() + 1);
-            }
-            return hasil;
-          }
-
-          function generateTable(data, bulan){
-            let date = new Date(bulan);
-
-            let pemasukan = data.filter(data => {
-              let dataBulan = new Date(data.date);
-              dataBulan.setHours(0,0,0,0);
-
-              return dataBulan.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) == date.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) && data.content == 'income';
-            });
-
-            let pengeluaran = data.filter(data => {
-              let dataBulan = new Date(data.date);
-              dataBulan.setHours(0,0,0,0);
-
-              return dataBulan.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) == date.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) && data.content == 'expenditure';
-            });
-
-
-            let teksPemasukan = "";
-            pemasukan.forEach(data => {
-              let urlIncome = '{{ route("income.editing", ":id") }}'
-              let urlDestroy = "{{ route('income.destroy', ':id') }}";
-              urlIncome = urlIncome.replace(':id', data.id);
-              urlDestroy = urlDestroy.replace(':id', data.id);
-              teksPemasukan += /*html*/
-              `
-              <tr>
-                <td>${data.title}</td>
-                <td>${data.amount}</td>
-                <td>${data.date}</td>
-                <td>${data.payment_method}</td>
-                <td class="d-flex align-items-center">
-                    <div class="dropdown dropdown-action">
-                        <a href="#" class="btn-action-icon" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <ul>
-                                <li>
-                                    <a class="dropdown-item"
-                                        href="${urlIncome}">
-                                        <i class="far fa-edit me-2"></i>Edit
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item delete-income" href="#"
-                                        data-id="${data.id}"
-                                        data-route="${urlDestroy}"
-                                        data-toggle="modal"
-                                        data-target="#deleteCategoryModal">
-                                        <i class="far fa-trash-alt me-2"></i>Delete
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </td>
-              </tr>
-              `;
-            });
-
-            let teksPengeluaran = "";
-            pengeluaran.forEach(data => {
-              let urlIncome = '{{ route("income.editing", ":id") }}'
-              let urlDestroy = "{{ route('income.destroy', ':id') }}";
-              urlIncome = urlIncome.replace(':id', data.id);
-              urlDestroy = urlDestroy.replace(':id', data.id);
-              teksPengeluaran += /*html*/
-              `
-              <tr>
-                <td>${data.title}</td>
-                <td>${data.amount}</td>
-                <td>${data.date}</td>
-                <td>${data.payment_method}</td>
-                <td class="d-flex align-items-center">
-                    <div class="dropdown dropdown-action">
-                        <a href="#" class="btn-action-icon" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fas fa-ellipsis-v"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <ul>
-                                <li>
-                                    <a class="dropdown-item"
-                                        href="${urlIncome}">
-                                        <i class="far fa-edit me-2"></i>Edit
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item delete-income" href="#"
-                                        data-id="${data.id}"
-                                        data-route="${urlDestroy}"
-                                        data-toggle="modal"
-                                        data-target="#deleteCategoryModal">
-                                        <i class="far fa-trash-alt me-2"></i>Delete
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </td>
-              </tr>
-              `;
-            });
-
-            document.getElementById("body_pemasukan").innerHTML = teksPemasukan;
-            document.getElementById("body_pengeluaran").innerHTML = teksPengeluaran;
-          }
-
-
-          jalankanChart(transactions, bulanIni);
-
-          updateTulisan(chart, transactions, bulanIni);
-
-          generateTable(transactions, bulanIni);
-
-          $("#bulanTahunInput").on("change", function(e){
-            let bulanIni = new Date(e.target.value);
-
-            jalankanChart(transactions, bulanIni);
-
-            updateTulisan(chart, transactions, bulanIni);
-
-            generateTable(transactions, bulanIni);
-
-            let month = e.target.value;
-
-            $("#exportMonthly").attr("href", `/export/${month}`);
-          });
-
-          function updateTulisan(chart, transactions, bulan){
-            let pemasukan = chart.opts.series[0].data.reduce((a,c) => a + c);
-            let pengeluaran = chart.opts.series[1].data.reduce((a,c) => a + c);
-            document.getElementById("pemasukan").innerHTML = rupiah(pemasukan);
-            document.getElementById("pengeluaran").innerHTML = rupiah(pengeluaran);
-
-            let date = new Date(bulan);
-            date.setMonth(date.getMonth() - 1)
-
-            let bulanLaluPemasukan = transactions.filter(data => {
-              let tanggal = new Date(data.date);
-
-              return tanggal.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) == date.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) && data.content == 'income';
-            });
-
-            let bulanLaluPengeluaran = transactions.filter(data => {
-              let tanggal = new Date(data.date);
-
-              return tanggal.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) == date.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) && data.content == 'expenditure';
-            });
-
-            let pemasukanLalu = bulanLaluPemasukan.map(data => data.amount).reduce((a,c) => a+c);
-            let pengeluaranLalu = bulanLaluPengeluaran.map(data => data.amount).reduce((a,c) => a+c);
-
-            let bulanLalu = pemasukanLalu - pengeluaranLalu;
-            let sekarang = pemasukan - pengeluaran;
-
-            document.getElementById("perbandingan").innerHTML = rupiah(sekarang) + " : " + rupiah(bulanLalu);
-
-            let selisih = sekarang - bulanLalu;
-
-            document.getElementById("persentase").innerHTML = Math.ceil(selisih / bulanLalu * 100) + "%";
-          }
+          return dataBulan.toLocaleDateString("id-ID", {month: "numeric", year: "numeric", day: "numeric"}) == bulanIni.toLocaleDateString("id-ID", {month: "numeric", year: "numeric", day: "numeric"}) && data.content == 'income';
         });
 
+        if(pemasukan.length > 0){
+          if(pemasukan.length == 1){
+            hasil.push(pemasukan[0].amount);
+          } else if (pemasukan.length > 1){
+            let value = pemasukan.map(val => val.amount);
+            let total = value.reduce((a, c) => a + c);
+            hasil.push(total);
+          }
+        } else {
+          hasil.push(0);
+        }
+
+        bulanIni.setDate(bulanIni.getDate() + 1);
+      }
+      return hasil;
+
+    }
+
+    function generatePengeluaran(data, bulan){
+      let bulanIni = new Date(bulan);
+      bulanIni.setDate(1);
+      bulanIni.setHours(0,0,0,0);
+
+      let hasil = [];
+
+      while(bulanIni.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) == bulan.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"})){
+
+        let pengeluaran = data.filter(data => {
+          let dataBulan = new Date(data.date);
+          dataBulan.setHours(0,0,0,0);
+
+          return dataBulan.toLocaleDateString("id-ID", {month: "numeric", year: "numeric", day: "numeric"}) == bulanIni.toLocaleDateString("id-ID", {month: "numeric", year: "numeric", day: "numeric"}) && data.content == 'expenditure';
+        });
+
+        if(pengeluaran.length > 0){
+          if(pengeluaran.length == 1){
+            hasil.push(pengeluaran[0].amount);
+          } else if (pengeluaran.length > 1){
+            let value = pengeluaran.map(val => val.amount);
+            let total = value.reduce((a, c) => a + c);
+            hasil.push(total);
+          }
+        } else {
+          hasil.push(0);
+        }
+
+        bulanIni.setDate(bulanIni.getDate() + 1);
+      }
+      return hasil;
+    }
+
+    function generateTable(data, bulan){
+      let date = new Date(bulan);
+
+      let pemasukan = data.filter(data => {
+        let dataBulan = new Date(data.date);
+        dataBulan.setHours(0,0,0,0);
+
+        return dataBulan.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) == date.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) && data.content == 'income';
+      });
+
+      let pengeluaran = data.filter(data => {
+        let dataBulan = new Date(data.date);
+        dataBulan.setHours(0,0,0,0);
+
+        return dataBulan.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) == date.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) && data.content == 'expenditure';
+      });
+
+
+      let teksPemasukan = "";
+      pemasukan.forEach(data => {
+        let urlIncome = '{{ route("income.editing", ":id") }}'
+        let urlDestroy = "{{ route('income.destroy', ':id') }}";
+        urlIncome = urlIncome.replace(':id', data.id);
+        urlDestroy = urlDestroy.replace(':id', data.id);
+        teksPemasukan += /*html*/
+        `
+        <tr>
+          <td>${data.title}</td>
+          <td>${data.amount}</td>
+          <td>${data.date}</td>
+          <td>${data.payment_method}</td>
+          <td class="d-flex align-items-center">
+              <div class="dropdown dropdown-action">
+                  <a href="#" class="btn-action-icon" data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                      <i class="fas fa-ellipsis-v"></i>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right">
+                      <ul>
+                          <li>
+                              <a class="dropdown-item"
+                                  href="${urlIncome}">
+                                  <i class="far fa-edit me-2"></i>Edit
+                              </a>
+                          </li>
+                          <li>
+                              <a class="dropdown-item delete-income" href="#"
+                                  data-id="${data.id}"
+                                  data-route="${urlDestroy}"
+                                  data-toggle="modal"
+                                  data-target="#deleteCategoryModal">
+                                  <i class="far fa-trash-alt me-2"></i>Delete
+                              </a>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+          </td>
+        </tr>
+        `;
+      });
+
+      let teksPengeluaran = "";
+      pengeluaran.forEach(data => {
+        let urlIncome = '{{ route("income.editing", ":id") }}'
+        let urlDestroy = "{{ route('income.destroy', ':id') }}";
+        urlIncome = urlIncome.replace(':id', data.id);
+        urlDestroy = urlDestroy.replace(':id', data.id);
+        teksPengeluaran += /*html*/
+        `
+        <tr>
+          <td>${data.title}</td>
+          <td>${data.amount}</td>
+          <td>${data.date}</td>
+          <td>${data.payment_method}</td>
+          <td class="d-flex align-items-center">
+              <div class="dropdown dropdown-action">
+                  <a href="#" class="btn-action-icon" data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                      <i class="fas fa-ellipsis-v"></i>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right">
+                      <ul>
+                          <li>
+                              <a class="dropdown-item"
+                                  href="${urlIncome}">
+                                  <i class="far fa-edit me-2"></i>Edit
+                              </a>
+                          </li>
+                          <li>
+                              <a class="dropdown-item delete-income" href="#"
+                                  data-id="${data.id}"
+                                  data-route="${urlDestroy}"
+                                  data-toggle="modal"
+                                  data-target="#deleteCategoryModal">
+                                  <i class="far fa-trash-alt me-2"></i>Delete
+                              </a>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+          </td>
+        </tr>
+        `;
+      });
+
+      document.getElementById("body_pemasukan").innerHTML = teksPemasukan;
+      document.getElementById("body_pengeluaran").innerHTML = teksPengeluaran;
+    }
+
+
+    jalankanChart(transactions, bulanIni);
+
+    updateTulisan(chart, transactions, bulanIni);
+
+    generateTable(transactions, bulanIni);
+
+    $("#bulanTahunInput").on("change", function(e){
+      let bulanIni = new Date(e.target.value);
+
+      jalankanChart(transactions, bulanIni);
+
+      updateTulisan(chart, transactions, bulanIni);
+
+      generateTable(transactions, bulanIni);
+
+      let month = e.target.value;
+
+      $("#exportMonthly").attr("href", `/export/${month}`);
+    });
+
+    function updateTulisan(chart, transactions, bulan){
+      let pemasukan = chart.opts.series[0].data.reduce((a,c) => a + c);
+      let pengeluaran = chart.opts.series[1].data.reduce((a,c) => a + c);
+      document.getElementById("pemasukan").innerHTML = rupiah(pemasukan);
+      document.getElementById("pengeluaran").innerHTML = rupiah(pengeluaran);
+
+      let date = new Date(bulan);
+      date.setMonth(date.getMonth() - 1)
+
+      let bulanLaluPemasukan = transactions.filter(data => {
+        let tanggal = new Date(data.date);
+
+        return tanggal.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) == date.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) && data.content == 'income';
+      });
+
+      let bulanLaluPengeluaran = transactions.filter(data => {
+        let tanggal = new Date(data.date);
+
+        return tanggal.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) == date.toLocaleDateString("id-ID", {month: "numeric", year: "numeric"}) && data.content == 'expenditure';
+      });
+
+      let pemasukanLalu = bulanLaluPemasukan.map(data => data.amount).reduce((a,c) => a+c);
+      let pengeluaranLalu = bulanLaluPengeluaran.map(data => data.amount).reduce((a,c) => a+c);
+
+      let bulanLalu = pemasukanLalu - pengeluaranLalu;
+      let sekarang = pemasukan - pengeluaran;
+
+      document.getElementById("perbandingan").innerHTML = rupiah(sekarang) + " : " + rupiah(bulanLalu);
+
+      let selisih = sekarang - bulanLalu;
+
+      document.getElementById("persentase").innerHTML = Math.ceil(selisih / bulanLalu * 100) + "%";
+    }
+  });
 </script>
 <script>
   $(document).on('click', '.delete-income', function(e) {
-        e.preventDefault();
-        var id = $(this).data('id');
-        var route = $(this).data('route');
-        console.log(route);
-        console.log(id);
+    e.preventDefault();
+    var id = $(this).data('id');
+    var route = $(this).data('route');
 
-        Swal.fire({
-            title: 'Apakah Anda yakin?',
-            text: "Anda tidak akan dapat mengembalikan ini!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, hapus!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: route,
-                    type: 'DELETE',
-                    data: {
-                        "_token": "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        // Tutup modal
-                        toastr.success(
-                            'Pemasukan berhasil hapus',
-                            'Sukses');
-
-                        location
-                            .reload();
-
-                    },
-                    error: function(error) {
-                        if (error.status === 403) {
-                            toastr.error(
-                                'Anda tidak memiliki izin untuk menghapus kategori ini',
-                                'Error');
-                        } else {
-                            toastr.error('Terjadi kesalahan saat menghapus kategori',
-                                'Error');
-                        }
-                    }
-                });
+    Swal.fire({
+      title: 'Apakah Anda yakin?',
+      text: "Anda tidak akan dapat mengembalikan ini!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, hapus!',
+      cancelButtonText: 'Batal'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: route,
+          type: 'DELETE',
+          data: {
+            "_token": "{{ csrf_token() }}"
+          },
+          success: function(response) {
+            // Tutup modal
+            toastr.success('Pemasukan berhasil hapus','Sukses');
+            location.reload();
+          },
+          error: function(error) {
+            if (error.status === 403) {
+              toastr.error('Anda tidak memiliki izin untuk menghapus kategori ini', 'Error');
+            } else {
+              toastr.error('Terjadi kesalahan saat menghapus kategori', 'Error');
             }
+          }
         });
+      }
     });
+  });
 </script>
 
 {{-- <script src="{{ asset('assets/plugins/chartjs/chart.min.js') }}"></script>

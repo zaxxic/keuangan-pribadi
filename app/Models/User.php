@@ -86,8 +86,8 @@ class User extends Authenticatable
 
   public function total()
   {
-    $income = $this->histories()->get()->where('content', 'income')->sum('amount');
-    $expenditure = $this->histories()->get()->where('content', 'expenditure')->sum('amount');
+    $income = $this->histories()->get()->where('content', 'income')->where('status', 'paid')->sum('amount');
+    $expenditure = $this->histories()->get()->where('content', 'expenditure')->where('status', 'paid')->sum('amount');
     return $income - $expenditure;
   }
 
