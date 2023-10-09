@@ -71,7 +71,7 @@ class NotificationController extends Controller
 
         $transactionType = $transaction->content;
 
-        $storageDirectory = ($transactionType === 'expenditure') ? 'public/reguler_expenditure_attachment' : 'public/reguler    _income_attachment';
+        $storageDirectory = ($transactionType === 'expenditure') ? 'public/reguler_expenditure_attachment' : 'public/reguler_income_attachment';
 
         if ($request->hasFile('attachment')) {
             $newAttachment = $request->file('attachment');

@@ -95,6 +95,7 @@
                                       <div class="form-group" id="summernote_container">
                                           <label class="form-control-label">Deskripsi</label>
                                           <textarea class="form-control" name="description" placeholder="Ketikan deskripsi">{{ $transaction->description }}</textarea>
+                                          <span id="description-error" class="text-danger"></span>
                                       </div>
 
                                   </div>

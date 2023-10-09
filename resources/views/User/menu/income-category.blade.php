@@ -76,36 +76,39 @@
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $category->name }}</td>
                                                     <td>{{ $category->created_at->toDateString() }}</td>
-                                                    <td class="d-flex align-items-center">
-                                                        <div class="dropdown dropdown-action">
-                                                            <a href="#" class="btn-action-icon"
-                                                                data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                                    class="fas fa-ellipsis-v"></i></a>
-                                                            <div class="dropdown-menu dropdown-menu-right">
-                                                                <ul>
-                                                                    <li><a class="dropdown-item edit-category-modal"
-                                                                            href="#" data-id="{{ $category->id }}"
-                                                                            data-name="{{ $category->name }}"
-                                                                            data-route="{{ route('income_category.update', $category->id) }}"
-                                                                            data-user-id="{{ $category->user_id }}"><i
-                                                                                class="far fa-edit me-2 btn-action-icon"></i>Edit</a>
-                                                                    </li>
-
-                                                                    <li> <a class="dropdown-item delete-category"
-                                                                            href="#" data-id="{{ $category->id }}"
-                                                                            data-route="{{ route('income_category.destroy', $category->id) }}"
-                                                                            data-toggle="modal"
-                                                                            data-target="#deleteCategoryModal">
-                                                                            <i class="far fa-trash-alt me-2"></i>Delete
-                                                                        </a>
-
-                                                                    </li>
-                                                                </ul>
+                                                    @if ($index >= 3)
+                                                        <td class="d-flex align-items-center">
+                                                            <div class="dropdown dropdown-action">
+                                                                <a href="#" class="btn-action-icon"
+                                                                    data-bs-toggle="dropdown" aria-expanded="false"><i
+                                                                        class="fas fa-ellipsis-v"></i></a>
+                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                    <ul>
+                                                                        <li><a class="dropdown-item edit-category-modal"
+                                                                                href="#" data-id="{{ $category->id }}"
+                                                                                data-name="{{ $category->name }}"
+                                                                                data-route="{{ route('income_category.update', $category->id) }}"
+                                                                                data-user-id="{{ $category->user_id }}"><i
+                                                                                    class="far fa-edit me-2 btn-action-icon"></i>Edit</a>
+                                                                        </li>
+                                                                        <li><a class="dropdown-item delete-category"
+                                                                                href="#"
+                                                                                data-id="{{ $category->id }}"
+                                                                                data-route="{{ route('income_category.destroy', $category->id) }}"
+                                                                                data-toggle="modal"
+                                                                                data-target="#deleteCategoryModal"><i
+                                                                                    class="far fa-trash-alt me-2"></i>Delete</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
+                                                        </td>
+                                                    @else
+                                                        <td></td>
+                                                    @endif
                                                 </tr>
                                             @endforeach
+
                                         </tbody>
                                     </table>
                                 </div>

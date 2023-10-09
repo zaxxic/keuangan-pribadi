@@ -4,27 +4,88 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\HistoryTransaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
+
 
 class ExpenditureController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = Auth::user();
+        if ($request->ajax()) {
+            $user = Auth::user();
 
-        $transactions = HistoryTransaction::where('user_id', $user->id)
-            ->where('content', 'expenditure')
-            ->where('status', 'paid')
-            ->get();
+            // Dapatkan transaksi pengeluaran untuk pengguna yang diautentikasi
+            $transactions = HistoryTransaction::with('category')
+                ->where('user_id', $user->id)
+                ->where('content', 'expenditure')
+                ->where('status', 'paid')
+                ->orderBy('created_at', 'desc')
+                ->get();
 
-        return view('User.transaction.expenditure.expenditure', compact('transactions'));
+            $transactions->transform(function ($transaction) {
+                $attachmentPath = $transaction->source === 'reguler' ? 'reguler_expenditure_attachment/' : 'expenditure_attachment/';
+                $transaction->attachmentUrl = asset('storage/' . $attachmentPath . $transaction->attachment);
+                return $transaction;
+            });
+
+            return Datatables::of($transactions)
+                ->addIndexColumn()
+                ->addColumn('attachment', function ($row) {
+                    $modalTarget = $row->attachment ? '#modalImage' : '#modalImageEmptyAttachment';
+                    return '<button data-bs-toggle="modal" data-bs-target="' . $modalTarget . '" 
+                    data-bs-image="' . $row->attachmentUrl . '" 
+                    class="btn btn-primary attachment-button">Lihat</button>';
+                })
+                ->addColumn('date', function ($row) {
+                    $formattedDate = Carbon::parse($row->created_at)->format('d F Y');
+                    // Ubah nama bulan dalam bahasa Indonesia
+                    $formattedDate = str_replace(
+                        ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                        ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+                        $formattedDate
+                    );
+                    return $formattedDate;
+                })
+                ->addColumn('description', function ($row) {
+                    $shortDescription = $row->description;
+                    $showMoreLink = '';
+
+                    if (strlen($row->description) > 45) {
+                        $shortDescription = substr($row->description, 0, 45);
+                        $showMoreLink = '<a href="javascript:void(0);" class="show-more-link">Selengkapnya</a>';
+                    }
+
+                    return '<div class="description-container">
+                                <span class="description-text">' . $shortDescription . '</span>
+                                <span class="description-full" style="display: none;">' . $row->description . '</span>
+                                ' . $showMoreLink . '
+                            </div>';
+                })
+                ->addColumn('action', function ($row) {
+                    return '<div class="dropdown dropdown-action">
+                                <a href="#" class="btn-action-icon" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item edit-expenditure" href="' . route('expenditure.edit', ['expenditure' => $row->id]) . '">Edit</a>
+                                    <a class="dropdown-item delete-expenditure" href="#" data-id="' . $row->id . '" data-route="' . route('expenditure.destroy', $row->id) . '">Delete</a>
+                                </div>
+                            </div>';
+                })
+                ->rawColumns(['attachment', 'action', 'description'])
+                ->make(true);
+        }
+        return view('User.transaction.expenditure.expenditure');
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -46,7 +107,7 @@ class ExpenditureController extends Controller
             'payment_method' => 'required|in:E-Wallet,Cash,Debit',
             'attachment' => 'image|mimes:jpeg,png,jpg|max:5120',
             'date' => ['required', 'date', 'date_before_today'],
-            'description' => 'string',
+            'description' => 'required|string',
             'category_id' => 'required',
         ], [
             'title.required' => 'Judul harus diisi.',
@@ -62,6 +123,7 @@ class ExpenditureController extends Controller
             'date.required' => 'Tanggal harus diisi.',
             'date.date_before_today' => 'Tanggal harus sebelum hari ini atau hari.',
             'date.date' => 'Tanggal harus berupa tanggal yang valid.',
+            'description.required' => 'Deskripsi harus diisi.',
             'description.string' => 'Deskripsi harus berupa teks.',
             'category_id.required' => 'Kategori harus diisi.',
         ]);
@@ -162,8 +224,8 @@ class ExpenditureController extends Controller
         }
 
         // Memeriksa apakah pengguna yang saat ini masuk adalah pemilik data yang ingin diubah
-        if ($transaction->user_id !== Auth::id()) {
-            dd('forbiden');
+        if ($transaction === null || $transaction->user_id !== Auth::id()) {
+            abort(404);
         }
         return view('User.transaction.expenditure.edit-expenditure', compact('transaction'));
     }
@@ -180,11 +242,12 @@ class ExpenditureController extends Controller
             'payment_method' => 'required|in:E-Wallet,Cash,Debit',
             'attachment' => 'image|mimes:jpeg,png,jpg|max:5120',
             'date' => ['required', 'date', 'date_before_today'],
-            'description' => 'string',
+            'description' => 'required|string',
             'category_id' => 'required',
         ], [
             'title.required' => 'Judul harus diisi.',
             'title.string' => 'Judul harus berupa teks.',
+            'description.required' => 'Deskripsi harus diisi.',
             'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
             'amount.required' => 'Jumlah harus diisi.',
             'payment_method.required' => 'Metode pembayaran harus diisi.',

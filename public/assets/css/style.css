@@ -5131,12 +5131,12 @@ table .badge {
     color: #3f4254;
 }
 .dataTables_length label:before {
-    content: "Show";
+    content: "";
     margin-right: 5px;
     font-size: 12px;
 }
 .dataTables_length label:after {
-    content: "Entries";
+    content: "";
     margin-left: 5px;
     font-size: 12px;
 }
