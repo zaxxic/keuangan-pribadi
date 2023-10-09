@@ -50,9 +50,13 @@ $progress = intval(round($progress));
                   <h5 class="card-title">{{ $saving->title }}</h5>
                 </div>
                 <div class="col-auto">
-                  <a href="#" class="btn-right btn btn-sm btn-outline-success"> Edit </a>
-                  <a href="#" class="btn-right btn btn-sm btn-outline-danger" id="keluar"> Keluar </a>
-                  <a href="#" class="btn-right btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#inviteModal"> Invite </a>
+                  @can('owner', $saving)
+                  <a href="{{ route('savings.edit', $saving->id) }}" class="btn-right btn btn-sm btn-outline-success"> Edit </a>
+                  <a href="javascript:void(0)" class="btn-right btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#inviteModal"> Invite </a>
+                  @endcan
+                  @cannot('owner', $saving)
+                  <a href="javascript:void(0)" class="btn-right btn btn-sm btn-outline-danger" id="keluar"> Keluar </a>
+                  @endcannot
                 </div>
               </div>
               <div class="dash-widget-header mb-4">
@@ -127,8 +131,14 @@ $progress = intval(round($progress));
                             </tbody>
                           </table>
                           <div class="d-flex justify-content-between">
-                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".collapseExample{{ $loop->index }}" aria-expanded="false" aria-controls="collapseExample{{ $loop->index }}">Show more...</button>
+                            @if (count($histories) > 3)
+                            <button class="btn btn-primary inCollapse" type="button" data-bs-toggle="collapse" data-bs-target=".collapseExample{{ $loop->index }}" aria-expanded="false" aria-controls="collapseExample{{ $loop->index }}">Show more...</button>
+                            @endif
+                            @can('owner', $saving)
+                            @can('notSame', $member->id)
                             <a href="#" class="btn btn-danger kick" data-id="{{ $member->id }}">Kick</a>
+                            @endcan
+                            @endcan
                           </div>
                         </div>
                       </div>
@@ -216,10 +226,21 @@ $progress = intval(round($progress));
 <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
 <script>
   $(function(){
+    $(document).on("click", ".inCollapse", function(e){
+      if(!e.target.value){
+        e.target.value = "show";
+        e.target.innerHTML = "Show Less..."
+      } else {
+        e.target.value = "";
+        e.target.innerHTML = "Show More..."
+      }
+    });
     $("#accordion").on("click", function(e){
       if($(e.target).hasClass("buttonRowCollapse")){
         if($(".tableRowCollapse").hasClass("show"));
         $(".tableRowCollapse").removeClass("show");
+        $(".inCollapse").val("");
+        $(".inCollapse").html("Show More...")
       }
     });
     $('#keluar').on('click', function () {

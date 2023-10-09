@@ -57,12 +57,6 @@ Route::get('/add-expenditure', function () {
 
 
 
-Route::get('/total', function () {
-  return view('User.menu.total');
-})->name("total");
-
-
-
 Route::get('/login', function () {
   return view('auth.login');
 });
@@ -91,7 +85,8 @@ Route::group(['middleware' => ['verif', 'user']], function () {
   Route::post('/update/notif/{id}', [NotificationController::class, 'update'])->name('update.notifikasi');
 
   // Route::get('/', [UserController::class, 'index'])->name('home');
-  Route::post('/gethistory', [UserController::class, 'getHistory'])->name('gethistory');
+  Route::get('/total', [UserController::class, 'total'])->name('total');
+  Route::post('/filterTotal/{month}', [UserController::class, 'filterTotal'])->name('filterTotal');
   Route::get('/export/{bulan}', [UserController::class, 'export'])->name('export');
 
   Route::resource('/savings', SavingController::class);

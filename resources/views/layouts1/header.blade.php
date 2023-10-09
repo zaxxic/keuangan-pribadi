@@ -17,7 +17,7 @@
 
     <ul class="nav nav-tabs user-menu">
         <li class="me-2">
-            <span class="d-inline-block">
+            <span class="badge badge-soft-primary fs-6">
                 Saldo: Rp {{ number_format(Auth::user()->total(), 0, '', '.') }}
             </span>
         </li>

@@ -12,6 +12,7 @@ use App\Models\Saving;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -41,7 +42,7 @@ class SavingController extends Controller
 
 
     $data = [
-      'savings' => collect([Auth::user()->savings->sortByDesc('created_at'), Auth::user()->memberOf->sortByDesc('created_at')])->flatten(1)
+      'savings' => collect([Auth::user()->savings->sortByDesc('created_at'), Auth::user()->memberOf->sortByDesc('created_at')])->flatten(1)->paginate(8)
     ];
     return view('User.transaction.savings.index', $data);
   }
@@ -80,7 +81,7 @@ class SavingController extends Controller
 
       'date.required' => 'Tanggal harus diisi.',
       'date.date' => 'Tanggal harus berupa tanggal yang valid.',
-      'date.after_or_equal:today' => 'Tanggal harus setelah hari ini atau hari ini.',
+      'date.after_or_equal' => 'Tanggal harus setelah hari ini atau hari ini.',
       'payment_method.required' => 'Metode pembayaran harus diisi.',
       'payment_method.string' => 'Metode pembayaran harus berupa teks.',
       'payment_method.in' => 'Metode pembayaran tidak ada.',
@@ -144,13 +145,8 @@ class SavingController extends Controller
    */
   public function show(Saving $saving)
   {
-    $members = [];
-    foreach($saving->members as $member){
-      $members[] = $member['id'];
-    }
-    $members[] = $saving->user_id;
-    if(!in_array(Auth::user()->id, $members)){
-      return redirect(route('savings.index'));
+    if (Gate::denies('members', $saving)) {
+      return abort(401);
     }
     $data = [
       'saving' => $saving,
@@ -182,8 +178,8 @@ class SavingController extends Controller
    */
   public function edit(Saving $saving)
   {
-    if ($saving->user_id != Auth::user()->id) {
-      return redirect(route('savings.index'));
+    if (Gate::denies('owner', $saving)) {
+      return abort(401);
     }
     return view('User.transaction.savings.edit-savings', ['saving' => $saving]);
   }
@@ -214,7 +210,7 @@ class SavingController extends Controller
 
       'date.required' => 'Tanggal harus diisi.',
       'date.date' => 'Tanggal harus berupa tanggal yang valid.',
-      'date.after_or_equal:today' => 'Tanggal harus setelah hari ini atau hari ini.',
+      'date.after_or_equal' => 'Tanggal harus setelah hari ini atau hari ini.',
       'payment_method.required' => 'Metode pembayaran harus diisi.',
       'payment_method.string' => 'Metode pembayaran harus berupa teks.',
       'payment_method.in' => 'Metode pembayaran tidak ada.',
@@ -250,7 +246,7 @@ class SavingController extends Controller
   public function destroy(Saving $saving)
   {
     if ($saving) {
-      if ($saving->user_id == Auth::user()->id) {
+      if (Gate::allows('owner', $saving)) {
         $saving->delete();
 
         return response()->json([
@@ -317,16 +313,11 @@ class SavingController extends Controller
   public function out(Saving $saving)
   {
     $user_id = Auth::user()->id;
-    if($user_id == $saving->user_id){
+    if(Gate::allows('owner', $saving)){
       return response()->json(['message' => 'Anda adalah pemilik tabungan ini'], 422);
     }
 
-    $members = [];
-    foreach($saving->members as $member){
-      $members[] = $member['id'];
-    }
-
-    if(in_array($user_id, $members)){
+    if(Gate::allows('members', $saving)){
       $saving->members()->detach($user_id);
       return response()->json(['message' => 'Anda berhasil keluar']);
     }
@@ -339,11 +330,11 @@ class SavingController extends Controller
     $user = $request->post('user_id');
     $user_id = Auth::user()->id;
 
-    if($user_id != $saving->user_id){
+    if(Gate::denies('owner')){
       return response()->json(['message' => 'Anda tidak memiliki akses'], 422);
     }
 
-    if($user == $user_id){
+    if(Gate::allows('owner')){
       return response()->json(['message' => 'Anda adalah ketua'], 422);
     }
 

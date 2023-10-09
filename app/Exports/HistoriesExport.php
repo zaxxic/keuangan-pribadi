@@ -33,6 +33,6 @@ class HistoriesExport implements FromCollection, WithCustomStartCell, WithHeadin
 
   public function headings(): array
   {
-    return ['Judul', 'Metode Pembayaran', 'Jenis', 'Sumber', 'Tanggal', 'Deskripsi'];
+    return ['Judul', 'Jumlah', 'Metode Pembayaran', 'Jenis', 'Sumber', 'Tanggal', 'Deskripsi'];
   }
 }

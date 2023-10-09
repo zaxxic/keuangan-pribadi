@@ -14,7 +14,7 @@ use App\Models\HistorySaving;
           <ul class="filter-list">
             <li>
               <div class="input-group" style="max-width: 450px;">
-                <input type="text" class="form-control" placeholder="Cari Pemasukan" id="searchCategory">
+                <input type="text" class="form-control" placeholder="Cari Tabungan" id="searchCategory">
                 <a class="btn btn-primary" href="{{ route('savings.create') }}"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Tambah Tabungan</a>
               </div>
             </li>
@@ -69,8 +69,10 @@ use App\Models\HistorySaving;
             <p id="fullDescription{{ $loop->iteration }}" style="display:none;">{{ $saving->description }}</p>
             <div class="d-flex justify-content-between mt-1">
               <a class="btn btn-primary" href="{{ route('savings.show', $saving->id) }}">Lihat</a>
+              @can('owner', $saving)
               <a href="{{ route('savings.edit', $saving->id) }}" class="btn btn-success"><i class="fe fe-edit"></i></a>
               <a href="#" class="btn btn-danger delete-saving" data-id="{{ $saving->id }}" data-route="{{ route('savings.destroy', $saving->id) }}"><i class="fe fe-trash"></i></a>
+              @endcan
             </div>
           </div>
         </div>
@@ -79,6 +81,8 @@ use App\Models\HistorySaving;
       @endforeach
 
     </div>
+
+    {{ $savings->links() }}
 
   </div>
 </div>
