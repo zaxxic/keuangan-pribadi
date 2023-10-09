@@ -70,7 +70,7 @@ return [
     |
     */
 
-    'timezone' => 'Asia/Jakarta',
+  'timezone' => 'Asia/Jakarta',
 
   /*
     |--------------------------------------------------------------------------
@@ -165,6 +165,8 @@ return [
          */
     App\Providers\AppServiceProvider::class,
     App\Providers\AuthServiceProvider::class,
+    Yajra\DataTables\DataTablesServiceProvider::class,
+
     // App\Providers\BroadcastServiceProvider::class,
     App\Providers\EventServiceProvider::class,
     App\Providers\RouteServiceProvider::class,
@@ -185,6 +187,10 @@ return [
   'aliases' => Facade::defaultAliases()->merge([
     // 'Example' => App\Facades\Example::class,
     'Excel' => \Maatwebsite\Excel\Facades\Excel::class,
+    'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+
   ])->toArray(),
+
+
 
 ];

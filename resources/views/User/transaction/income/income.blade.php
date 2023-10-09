@@ -2,6 +2,10 @@
 @section('content')
 @section('style')
     <style>
+        .hidden {
+            display: none;
+        }
+
         #attachmentImage {
             transition: filter 0.3s;
         }
@@ -35,8 +39,7 @@
                     <ul class="filter-list">
                         <li>
                             <div class="input-group" style="max-width: 450px;">
-                                <input type="text" class="form-control" placeholder="Cari Pemasukan"
-                                    id="searchCategory">
+
                                 <a class="btn btn-primary" href="{{ Route('income.create') }}"><i
                                         class="fa fa-plus-circle me-2" aria-hidden="true"></i>Tambah Pemasukan</a>
                             </div>
@@ -55,7 +58,7 @@
                 <div class="card-table">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-stripped table-hover datatable">
+                            <table class="table table-stripped table-hover data-table">
                                 <thead class="thead-light">
                                     <tr>
                                         <th>#</th>
@@ -71,7 +74,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($transactions as $transaction)
+                                    {{-- @foreach ($transactions as $transaction)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>
@@ -132,7 +135,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @endforeach --}}
                                 </tbody>
                             </table>
                         </div>
@@ -150,7 +153,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalImageEmptyAttachmentLabel">Gambar Attachment</h5>
+                <h5 class="modal-title" id="modalImageEmptyAttachmentLabel">Gambar Lampiran</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -168,32 +171,168 @@
 
 
 <div class="modal fade" id="modalImage" tabindex="-1" aria-labelledby="modalImageLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal-dialog d-flex align-items-center">
+        <div class="modal-content text-center">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalImageLabel">Gambar Attachment</h5>
+                <h5 class="modal-title" id="modalImageEmptyAttachmentLabel">Gambar Lampiran</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                @if ($transactions->count() > 0)
-                    @php
-                        $transaction = $transactions->first();
-                    @endphp
-                    <img id="attachmentImage"
-                        src="{{ asset('storage/income_attachment/' . $transaction->attachment) }}" alt="Attachment"
-                        data-filename="{{ $transaction->attachment }}">
-                @else
-                    <!-- Tambahkan kode atau pesan yang ingin Anda tampilkan jika tidak ada transaksi -->
-                    <p>Tidak ada transaksi yang tersedia.</p>
-                @endif
-                <i id="downloadIcon" class="fas fa-download"></i>
+                <img id="attachmentImage" class="img-fluid">
+            </div>
+            <div class="modal-footer">
+                <a id="downloadLink" href="#" class="btn btn-primary" download>Download</a>
             </div>
         </div>
     </div>
 </div>
 
+
 @endsection
 @section('script')
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.data-table').on('click', '.show-more-link', function() {
+            var descriptionContainer = $(this).closest('.description-container');
+            var descriptionText = descriptionContainer.find('.description-text');
+            var descriptionFull = descriptionContainer.find('.description-full');
+
+            if (descriptionFull.is(':hidden')) {
+                descriptionText.hide();
+                descriptionFull.show();
+                $(this).text('Tutup');
+            } else {
+                descriptionFull.hide();
+                descriptionText.show();
+                $(this).text('Selengkapnya');
+            }
+        });
+    });
+
+
+
+
+
+
+
+    $(document).ready(function() {
+        var attachmentImage = $('#attachmentImage');
+        var downloadLink = $('#downloadLink');
+        var modal = $('#modalImage');
+
+        $('.data-table').on('click', 'button[data-bs-target="#modalImage"]', function() {
+            var imageUrl = $(this).data('bs-image');
+
+            attachmentImage.attr('src', imageUrl);
+            downloadLink.attr('href', imageUrl); // Atur tautan unduh
+            downloadLink.attr('download', 'attachment.jpg'); // Tetapkan nama file unduhan
+
+            // Buka modal
+            modal.modal('show');
+        });
+    });
+
+
+
+
+    $(document).ready(function() {
+        var table = $('.data-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('income.index') }}",
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'title',
+                    name: 'title'
+                },
+                {
+                    data: 'date',
+                    name: 'date',
+                    searchable: false
+                },
+                {
+                    data: 'amount',
+                    name: 'amount',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'attachment',
+                    name: 'attachment',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row) {
+                        return data;
+                    }
+                },
+                {
+                    data: 'payment_method',
+                    name: 'payment_method',
+                    searchable: false,
+                },
+                {
+                    data: 'category.name',
+                    name: 'category.name'
+                },
+                {
+                    data: 'description',
+                    name: 'description',
+                    orderable: false,
+                    searchable: false,
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false,
+                    className: 'text-end'
+                },
+            ],
+            "columnDefs": [{
+                    "width": "15%",
+                    "targets": 1
+                }, // Judul
+                {
+                    "width": "10%",
+                    "targets": 2
+                }, // Tanggal
+                {
+                    "width": "10%",
+                    "targets": 3
+                }, // Jumlah
+                {
+                    "width": "15%",
+                    "targets": 4
+                }, // Bukti
+                {
+                    "width": "10%",
+                    "targets": 5
+                }, // Mode pembayaran
+                {
+                    "width": "10%",
+                    "targets": 6
+                }, // Kategori
+                {
+                    "width": "15%",
+                    "targets": 7
+                }, // Deskripsi
+                {
+                    "width": "10%",
+                    "targets": 8
+                } // Action
+            ],
+            "order": [
+                [0, 'desc']
+            ] // Order by ID column in descending order by default
+        });
+    });
+</script>
+
 <script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
 <script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>
 <script>
@@ -232,24 +371,6 @@
             readMoreLink.innerHTML = 'Tutup';
         }
     }
-
-    // search by all
-    // $("#searchCategory").on("keyup", function() {
-    //     var value = $(this).val().toLowerCase();
-    //     $("table tbody tr").filter(function() {
-    //         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    //     });
-    // });
-
-    $("#searchCategory").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("table tbody tr").filter(function() {
-            // Mengambil teks dari kolom dengan class "invoice-link"
-            var title = $(this).find(".invoice-link").text().toLowerCase();
-            // Memeriksa apakah teks dalam kolom mengandung nilai pencarian
-            $(this).toggle(title.indexOf(value) > -1);
-        });
-    });
 </script>
 <script>
     $(document).on('click', '.delete-income', function(e) {
