@@ -50,7 +50,8 @@
               <div class="dash-count">
                 <div class="dash-title">Total uang pemasukkan</div>
                 <div class="dash-counts">
-                  <p>Rp {{ number_format($incomes->filter(fn ($item) => $item->status === 'paid')->sum('amount'), 0, '', '.') }}</p>
+                  {{-- <p>Rp {{ number_format($incomes->filter(fn ($item) => $item->status === 'paid')->sum('amount'), 0, '', '.') }}</p> --}}
+                  <p>Rp {{ number_format($inAmount, 0, '', '.') }}</p>
                 </div>
               </div>
             </div>
@@ -67,7 +68,8 @@
               <div class="dash-count">
                 <div class="dash-title">Total uang Pengeluaran</div>
                 <div class="dash-counts">
-                  <p>Rp {{ number_format($expenditures->filter(fn ($item) => $item->status === 'paid')->sum('amount'), 0, '', '.') }}</p>
+                  {{-- <p>Rp {{ number_format($expenditures->filter(fn ($item) => $item->status === 'paid')->sum('amount'), 0, '', '.') }}</p> --}}
+                  <p>Rp {{ number_format($exAmount, 0, '', '.') }}</p>
                 </div>
               </div>
             </div>
@@ -84,7 +86,8 @@
               <div class="dash-count">
                 <div class="dash-title">Total Pemasukan</div>
                 <div class="dash-counts">
-                  <p>{{ count($incomes) }}</p>
+                  {{-- <p>{{ count($incomes) }}</p> --}}
+                  <p>{{ $inCount }}</p>
                 </div>
               </div>
             </div>
@@ -102,7 +105,8 @@
               <div class="dash-count">
                 <div class="dash-title">Total Pengeluaran</div>
                 <div class="dash-counts">
-                  <p>{{ count($expenditures) }}</p>
+                  {{-- <p>{{ count($expenditures) }}</p> --}}
+                  <p>{{ $exCount }}</p>
                 </div>
               </div>
             </div>

@@ -42,7 +42,8 @@ class SavingController extends Controller
 
 
     $data = [
-      'savings' => collect([Auth::user()->savings->sortByDesc('created_at'), Auth::user()->memberOf->sortByDesc('created_at')])->flatten(1)->paginate(8)
+      // 'savings' => collect([Auth::user()->savings->sortByDesc('created_at'), Auth::user()->memberOf->sortByDesc('created_at')])->flatten(1)->paginate(8)
+      'savings' => collect([Auth::user()->savings->sortByDesc('created_at'), Auth::user()->memberOf->sortByDesc('created_at')])->flatten(1)
     ];
     return view('User.transaction.savings.index', $data);
   }
@@ -66,7 +67,7 @@ class SavingController extends Controller
       'target_balance' => 'required',
       'description' => 'required|string|max:400',
       'inviteEmail.*' => 'required|email',
-      'date' => 'required|date|after_or_equal:today',
+      'date' => 'required|date|after:today',
       'payment_method' => 'required|string|in:E-Wallet,Cash,Debit',
       'recurring' => 'required|in:week,month,year',
       'amount' => 'required',
@@ -81,7 +82,7 @@ class SavingController extends Controller
 
       'date.required' => 'Tanggal harus diisi.',
       'date.date' => 'Tanggal harus berupa tanggal yang valid.',
-      'date.after_or_equal' => 'Tanggal harus setelah hari ini atau hari ini.',
+      'date.after' => 'Tanggal harus setelah hari ini.',
       'payment_method.required' => 'Metode pembayaran harus diisi.',
       'payment_method.string' => 'Metode pembayaran harus berupa teks.',
       'payment_method.in' => 'Metode pembayaran tidak ada.',
@@ -92,6 +93,17 @@ class SavingController extends Controller
 
     if ($validator->fails()) {
       return response()->json(['errors' => $validator->errors()], 422);
+    }
+
+    $subscribe = Auth::user()->subscribers->where('status', 'active')->first();
+
+    if (!$subscribe) {
+      $count = Auth::user()->memberOf->where('status', true)->count() + Auth::user()->savings->where('status', true)->count();
+
+
+      if ($count >= 3) {
+        return response()->json(['message' => 'Anda hanya dapat memiliki maksimal 3 tabungan bersama'], 422);
+      }
     }
 
     // $saving = Saving::create([
@@ -130,8 +142,8 @@ class SavingController extends Controller
 
     $emails = $request->input('inviteEmail');
 
-    if($emails > 0){
-      foreach($emails as $email){
+    if ($emails > 0) {
+      foreach ($emails as $email) {
         Mail::to($email)->send(new Invitation(Auth::user()->name, $saving->id, $saving->key));
       }
     }
@@ -195,7 +207,7 @@ class SavingController extends Controller
       'target_balance' => 'required',
       'description' => 'required|string|max:400',
       'inviteEmail.*' => 'required|email',
-      'date' => 'required|date|after_or_equal:today',
+      'date' => 'required|date|after:today',
       'payment_method' => 'required|string|in:E-Wallet,Cash,Debit',
       'recurring' => 'required|in:week,month,year',
       'amount' => 'required',
@@ -210,7 +222,7 @@ class SavingController extends Controller
 
       'date.required' => 'Tanggal harus diisi.',
       'date.date' => 'Tanggal harus berupa tanggal yang valid.',
-      'date.after_or_equal' => 'Tanggal harus setelah hari ini atau hari ini.',
+      'date.after' => 'Tanggal harus setelah hari ini.',
       'payment_method.required' => 'Metode pembayaran harus diisi.',
       'payment_method.string' => 'Metode pembayaran harus berupa teks.',
       'payment_method.in' => 'Metode pembayaran tidak ada.',
@@ -227,7 +239,8 @@ class SavingController extends Controller
       'title' => $request->input('title'),
       'cover' => $request->input('cover'),
       'description' => $request->input('description'),
-      'target_balance' => $request->input('target_balance')
+      'target_balance' => $request->input('target_balance'),
+      'status' => $request->input('status'),
     ]);
 
     $saving->regular()->update([
@@ -285,19 +298,29 @@ class SavingController extends Controller
   public function join(Request $request)
   {
     $saving = Saving::where('id', $request->get('id'))->first();
-    if($request->get('key') == $saving->key){
+    if ($request->get('key') == $saving->key) {
       $user_id = Auth::user()->id;
-      if($user_id == $saving->user_id){
-        return redirect(route('savings.index'));
+      if ($user_id == $saving->user_id) {
+        return redirect(route('savings.show', $saving->id));
       }
 
       $members = [];
-      foreach($saving->members->toArray() as $member){
+      foreach ($saving->members->toArray() as $member) {
         $members[] = $member['id'];
       }
 
-      if(in_array($user_id, $members)){
-        return redirect(route('savings.index'));
+      if (in_array($user_id, $members)) {
+        return redirect(route('savings.show', $saving->id));
+      }
+
+      $subscribe = Auth::user()->subscribers->where('status', 'active')->first();
+
+      if (!$subscribe) {
+        $count = Auth::user()->memberOf->where('status', true)->count() + Auth::user()->savings->where('status', true)->count();
+
+        if ($count > 3) {
+          return abort(401, 'Anda sudah mencapai maksimum tabungan');
+        }
       }
 
       $saving->members()->attach([
@@ -306,18 +329,18 @@ class SavingController extends Controller
 
       return redirect(route('savings.show', $saving->id));
     } else {
-      return redirect(route('savings.index'));
+      return abort(401);
     }
   }
 
   public function out(Saving $saving)
   {
     $user_id = Auth::user()->id;
-    if(Gate::allows('owner', $saving)){
+    if (Gate::allows('owner', $saving)) {
       return response()->json(['message' => 'Anda adalah pemilik tabungan ini'], 422);
     }
 
-    if(Gate::allows('members', $saving)){
+    if (Gate::allows('members', $saving)) {
       $saving->members()->detach($user_id);
       return response()->json(['message' => 'Anda berhasil keluar']);
     }
@@ -330,11 +353,11 @@ class SavingController extends Controller
     $user = $request->post('user_id');
     $user_id = Auth::user()->id;
 
-    if(Gate::denies('owner')){
+    if (Gate::denies('owner')) {
       return response()->json(['message' => 'Anda tidak memiliki akses'], 422);
     }
 
-    if(Gate::allows('owner')){
+    if (Gate::allows('owner')) {
       return response()->json(['message' => 'Anda adalah ketua'], 422);
     }
 

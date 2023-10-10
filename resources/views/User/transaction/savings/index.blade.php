@@ -18,8 +18,6 @@ use App\Models\HistorySaving;
                 <a class="btn btn-primary" href="{{ route('savings.create') }}"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Tambah Tabungan</a>
               </div>
             </li>
-
-
           </ul>
         </div>
       </div>
@@ -38,6 +36,9 @@ use App\Models\HistorySaving;
         <div class="card flex-fill bg-white">
           <img alt="Card Image" src="assets/img/{{ $saving->cover }}" class="card-img-top">
           <div class="card-header">
+            @if ($saving->status == false)
+              <span class="badge rounded-pill text-bg-danger">Terkunci</span>
+            @endif
             <h5 class="card-title mb-0">{{ $saving->title }}</h5>
             <div class="progress">
               <div class="progress-bar" role="progressbar" style="width: {{ $progress }}%" aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100"></div>
@@ -58,15 +59,13 @@ use App\Models\HistorySaving;
 
               <div class="icon-text-container ms-4 mt-1">
                 <div class="text-right">
-                  <small>Tanggal: {{ date("d-m-Y", strtotime($saving->created_at)) }}</small>
+                  <small>Tanggal: {{ date("d, M Y", strtotime($saving->created_at)) }}</small>
                 </div>
               </div>
             </div>
-            <p id="description{{ $loop->iteration }}" class="card-text mt-2" id="description">
+            <p class="card-text mt-2" id="description">
               {{ mb_strimwidth($saving->description, 0, 50, '...') }}
             </p>
-            <a href="javascript:void(0);" onclick="showDescription({{ $loop->iteration }})" id="readMoreLink{{ $loop->iteration }}">Selengkapnya</a>
-            <p id="fullDescription{{ $loop->iteration }}" style="display:none;">{{ $saving->description }}</p>
             <div class="d-flex justify-content-between mt-1">
               <a class="btn btn-primary" href="{{ route('savings.show', $saving->id) }}">Lihat</a>
               @can('owner', $saving)
@@ -82,7 +81,7 @@ use App\Models\HistorySaving;
 
     </div>
 
-    {{ $savings->links() }}
+    {{-- {{ $savings->links() }} --}}
 
   </div>
 </div>
@@ -97,21 +96,6 @@ use App\Models\HistorySaving;
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
     });
   });
-  function showDescription(iteration) {
-    var description = document.getElementById('description' + iteration);
-    var fullDescription = document.getElementById('fullDescription' + iteration);
-    var readMoreLink = document.getElementById('readMoreLink' + iteration);
-
-    if (description.style.display === 'none') {
-      description.style.display = 'inline-block';
-      fullDescription.style.display = 'none';
-      readMoreLink.innerHTML = 'Selangkapnya';
-    } else {
-      description.style.display = 'none';
-      fullDescription.style.display = 'inline-block';
-      readMoreLink.innerHTML = 'Tutup';
-    }
-  }
 </script>
 <script>
 $(document).on('click', '.delete-saving', function(e) {

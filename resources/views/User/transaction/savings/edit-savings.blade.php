@@ -94,6 +94,15 @@
                     <span id="amount-error" class="text-danger"></span>
                   </div>
 
+                  <div class="form-group">
+                    <label>Status</label>
+                    <select name="status" class="select">
+                      <option value="1" {{ ($saving->status == true) ? 'selected' : '' }}>Aktif</option>
+                      <option value="0" {{ ($saving->status == false) ? 'selected' : '' }}>Terkunci</option>
+                    </select>
+                    <span id="status-error" class="text-danger"></span>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -115,6 +124,9 @@
   $(function(){
     $('#editSavingForm').submit(function(e) {
       e.preventDefault(); // Mencegah pengiriman formulir biasa
+      let button = e.target.querySelector("button[type=submit]");
+      button.innerHTML = /*html*/ `<span class="spinner-border spinner-border-sm me-2"></span> Menyimpan...`
+      button.setAttribute("disabled", "");
 
       let formData = new FormData(this);
 
@@ -138,6 +150,8 @@
               let errorMessage = messages[0]; // Ambil pesan kesalahan pertama
               $('#' + field + '-error').text(errorMessage);
             });
+            button.innerHTML = /*html*/ `Ubah`
+            button.removeAttribute("disabled");
           }
         }
       });

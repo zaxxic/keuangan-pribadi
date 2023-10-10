@@ -14,6 +14,7 @@ return new class extends Migration
     Schema::create('subscribers', function (Blueprint $table) {
       $table->id();
       $table->date('expire_date');
+      $table->integer('amount');
       $table->string('status');
       $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
       $table->timestamps();

@@ -20,7 +20,7 @@ class ScheduleController extends Controller
   {
     $today = Carbon::today();
 
-    $savings = Saving::with(['user', 'histories' => function ($q) {
+    $savings = Saving::where('status', true)->with(['user', 'histories' => function ($q) {
       $q->withSum('history', 'amount');
     }])->get();
 
@@ -163,7 +163,7 @@ class ScheduleController extends Controller
       // Kirim email notifikasi ke pelanggan
         Mail::to($subscriber->user->email)->send(new ExpireSubscriber($subscriber));
 
-       
+
     }
 
     return "Email notifikasi dikirim kepada pelanggan yang akan segera berakhir langganan.";

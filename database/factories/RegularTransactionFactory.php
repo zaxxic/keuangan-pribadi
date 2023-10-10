@@ -18,7 +18,7 @@ class RegularTransactionFactory extends Factory
    */
   public function definition(): array
   {
-    $method = [null, 'Cash', 'Kredit', 'E-Wallet'];
+    $method = ['Cash', 'Debit', 'E-Wallet'];
     $content = ['income', 'expenditure'];
     $recurring = ['once', 'week', 'month', 'year'];
     return [
@@ -26,7 +26,7 @@ class RegularTransactionFactory extends Factory
       'amount' => fake()->randomNumber(5, true),
       'payment_method' => $method[array_rand($method, 1)],
       'recurring' => $recurring[array_rand($recurring, 1)],
-      'count' => $count = fake()->randomDigitNotNull(), 
+      'count' => $count = fake()->randomDigitNotNull(),
       'real' => $count,
       'content' => $content[array_rand($content, 1)],
       'date' => fake()->dateTimeInInterval('+ 1 week', '+4 weeks'),

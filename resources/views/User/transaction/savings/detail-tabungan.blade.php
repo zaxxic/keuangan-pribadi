@@ -52,7 +52,7 @@ $progress = intval(round($progress));
                 <div class="col-auto">
                   @can('owner', $saving)
                   <a href="{{ route('savings.edit', $saving->id) }}" class="btn-right btn btn-sm btn-outline-success"> Edit </a>
-                  <a href="javascript:void(0)" class="btn-right btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#inviteModal"> Invite </a>
+                  <a href="javascript:void(0)" class="btn-right btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#inviteModal"> Undang </a>
                   @endcan
                   @cannot('owner', $saving)
                   <a href="javascript:void(0)" class="btn-right btn btn-sm btn-outline-danger" id="keluar"> Keluar </a>
@@ -123,7 +123,7 @@ $progress = intval(round($progress));
                                 <td>{{ date("d Y M", strtotime($history->date)) }}</td>
                                 <td>Rp {{ number_format($history->amount, 0, '', '.') }}</td>
                                 <td>
-                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal" data-bs-image="{{ asset('storage/income_attachment/' . $history->attachment) }}">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal" data-avaible="{{ $history->attachment }}" data-bs-image="{{ asset('storage/income_attachment/' . $history->attachment) }}">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-{{ ($history->status == 'paid') ? 'success' : 'danger' }}-light">{{ $history->status }}</span></td>
                               </tr>
@@ -132,11 +132,11 @@ $progress = intval(round($progress));
                           </table>
                           <div class="d-flex justify-content-between">
                             @if (count($histories) > 3)
-                            <button class="btn btn-primary inCollapse" type="button" data-bs-toggle="collapse" data-bs-target=".collapseExample{{ $loop->index }}" aria-expanded="false" aria-controls="collapseExample{{ $loop->index }}">Show more...</button>
+                            <button class="btn btn-primary inCollapse" type="button" data-bs-toggle="collapse" data-bs-target=".collapseExample{{ $loop->index }}" aria-expanded="false" aria-controls="collapseExample{{ $loop->index }}">Selengkapnya...</button>
                             @endif
                             @can('owner', $saving)
                             @can('notSame', $member->id)
-                            <a href="#" class="btn btn-danger kick" data-id="{{ $member->id }}">Kick</a>
+                            <a href="#" class="btn btn-danger kick" data-id="{{ $member->id }}">Keluarkan</a>
                             @endcan
                             @endcan
                           </div>
@@ -153,7 +153,7 @@ $progress = intval(round($progress));
         <div class="col-md-4 col-sm-4">
           <div class="card">
             <div class="card-header">
-              <div class="card-title">Pie Chart</div>
+              <div class="card-title">Kontribusi</div>
             </div>
             <div class="card-body">
               <div class="chartjs-wrapper-demo">
@@ -229,10 +229,10 @@ $progress = intval(round($progress));
     $(document).on("click", ".inCollapse", function(e){
       if(!e.target.value){
         e.target.value = "show";
-        e.target.innerHTML = "Show Less..."
+        e.target.innerHTML = "Tutup..."
       } else {
         e.target.value = "";
-        e.target.innerHTML = "Show More..."
+        e.target.innerHTML = "Selengkapnya..."
       }
     });
     $("#accordion").on("click", function(e){
@@ -240,13 +240,13 @@ $progress = intval(round($progress));
         if($(".tableRowCollapse").hasClass("show"));
         $(".tableRowCollapse").removeClass("show");
         $(".inCollapse").val("");
-        $(".inCollapse").html("Show More...")
+        $(".inCollapse").html("Selengkapnya...")
       }
     });
     $('#keluar').on('click', function () {
       Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'Apakah anda yakin?',
+        text: "Anda tidak dapat mengembalikan aksi ini!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -278,8 +278,8 @@ $progress = intval(round($progress));
       let user_id = this.dataset.id;
       let member = e.target.parentElement.parentElement.parentElement.parentElement;
       Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'Apakah anda yakin?',
+        text: "Anda tidak dapat mengembalikan aksi ini!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -317,9 +317,13 @@ $progress = intval(round($progress));
     });
   });
   $(document).on('click', 'button[data-bs-target="#modalImage"]', function() {
-      var imageUrl = $(this).data('bs-image');
-      // console.log(imageUrl);
-      $('#attachmentImage').attr('src', imageUrl);
+      let imageUrl = $(this).data('bs-image');
+      let avaible = $(this).data('avaible');
+      if(!avaible){
+        document.getElementById("attachmentImage").parentElement.innerHTML = "Tidak ada gambar";
+      } else {
+        $('#attachmentImage').attr('src', imageUrl);
+      }
   });
   // Tampilkan ikon download saat gambar dihover
   $('#attachmentImage').hover(function() {
@@ -330,9 +334,9 @@ $progress = intval(round($progress));
 
   // Fungsi untuk mengunduh gambar saat gambar diklik
   $('#attachmentImage').click(function() {
-      var imgSrc = $(this).attr('src');
-      var fileName = $(this).data('filename'); // Ambil nama file dari atribut data
-      var link = document.createElement('a');
+      let imgSrc = $(this).attr('src');
+      let fileName = $(this).data('filename'); // Ambil nama file dari atribut data
+      let link = document.createElement('a');
       link.href = imgSrc;
       link.download = 'Attachment'; // Gunakan nama file dari atribut data
       link.click();
@@ -340,7 +344,10 @@ $progress = intval(round($progress));
 
   $('#inviteForm').submit(function(event) {
     event.preventDefault();
-    var formData = $(this).serialize();
+    let button = event.target.querySelector("button[type=submit]");
+    button.innerHTML = /*html*/ `<span class="spinner-border spinner-border-sm me-2"></span> Mengundang...`
+    button.setAttribute("disabled", "");
+    let formData = $(this).serialize();
     $.ajax({
       url: "{{ route('invite') }}",
       method: 'POST',
@@ -353,6 +360,8 @@ $progress = intval(round($progress));
       },
       error: function(error) {
         toastr.error(error.responseJSON.message.email[0], 'Error');
+        button.innerHTML = /*html*/ `Undang`
+        button.removeAttribute("disabled");
       }
     });
 });

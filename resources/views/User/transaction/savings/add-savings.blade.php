@@ -156,6 +156,9 @@
   $(function(){
     $('#createSavingForm').submit(function(e) {
       e.preventDefault(); // Mencegah pengiriman formulir biasa
+      let button = e.target.querySelector("button[type=submit]");
+      button.innerHTML = /*html*/ `<span class="spinner-border spinner-border-sm me-2"></span> Menyimpan...`
+      button.setAttribute("disabled", "");
 
       let formData = new FormData(this);
 
@@ -172,6 +175,10 @@
         },
         error: function(xhr) {
           if (xhr.status === 422) {
+            if(xhr.responseJSON.message){
+              toastr.error(xhr.responseJSON.message, 'Gagal');
+              window.location.href = "{{ route('savings.index') }}";
+            }
             let errors = xhr.responseJSON.errors;
             // Reset pesan kesalahan sebelum menambahkan yang baru
             $('.text-danger').text('');
@@ -179,6 +186,8 @@
               let errorMessage = messages[0]; // Ambil pesan kesalahan pertama
               $('#' + field + '-error').text(errorMessage);
             });
+            button.innerHTML = /*html*/ `Tambah`
+            button.removeAttribute("disabled");
           }
         }
       });

@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
 
     $this->call(ExpenditureCategorySeeder::class);
 
-    HistoryTransaction::factory(9000)->create();
+    HistoryTransaction::factory(999)->create();
 
     RegularTransaction::factory(5)->create();
 
