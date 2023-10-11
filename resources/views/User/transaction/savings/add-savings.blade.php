@@ -46,22 +46,32 @@
         <form id="createSavingForm">
           @csrf
           <div class="card-body">
-            <div class="form-group-item">
-              <h5 class="form-title">Pilih foto untuk card</h5>
-              <label for="photo1"><img src="{{ asset('assets/img/Savings1.png') }}" width="189px" alt="Photo 1"></label>
-              <input checked type="radio" id="photo1" name="cover" value="Savings1.png">
+            <h5 class="form-title">Pilih foto untuk card</h5>
+            <div class=" d-flex">
+              <div class="d-flex flex-column">
+                <label for="photo1"><img src="{{ asset('assets/img/Savings1.png') }}" width="189px" alt="Photo 1"></label>
+                <input checked type="radio" id="photo1" name="cover" value="Savings1.png">
+              </div>
 
-              <label for="photo2"><img src="{{ asset('assets/img/savings2.png') }}" width="189px" alt="Photo 2"></label>
-              <input type="radio" id="photo2" name="cover" value="savings2.png">
+              <div class="d-flex flex-column">
+                <label for="photo2"><img src="{{ asset('assets/img/savings2.png') }}" width="189px" alt="Photo 2"></label>
+                <input type="radio" id="photo2" name="cover" value="savings2.png">
+              </div>
 
-              <label for="photo3"><img src="{{ asset('assets/img/savings3.png') }}" width="189px" alt="Photo 3"></label>
-              <input type="radio" id="photo3" name="cover" value="savings3.png">
+              <div class="d-flex flex-column">
+                <label for="photo3"><img src="{{ asset('assets/img/savings3.png') }}" width="189px" alt="Photo 3"></label>
+                <input type="radio" id="photo3" name="cover" value="savings3.png">
+              </div>
 
-              <label for="photo4"><img src="{{ asset('assets/img/savings4.png') }}" width="189px" alt="Photo 4"></label>
-              <input type="radio" id="photo4" name="cover" value="savings4.png">
+              <div class="d-flex flex-column">
+                <label for="photo4"><img src="{{ asset('assets/img/savings4.png') }}" width="189px" alt="Photo 4"></label>
+                <input type="radio" id="photo4" name="cover" value="savings4.png">
+              </div>
 
-              <label for="photo5"><img src="{{ asset('assets/img/savings5.png') }}" width="189px" alt="Photo 5"></label>
-              <input type="radio" id="photo5" name="cover" value="savings5.png">
+              <div class="d-flex flex-column">
+                <label for="photo5"><img src="{{ asset('assets/img/savings5.png') }}" width="189px" alt="Photo 5"></label>
+                <input type="radio" id="photo5" name="cover" value="savings5.png">
+              </div>
             </div>
 
             <div class="form-group-item">
@@ -177,15 +187,15 @@
           if (xhr.status === 422) {
             if(xhr.responseJSON.message){
               toastr.error(xhr.responseJSON.message, 'Gagal');
-              window.location.href = "{{ route('savings.index') }}";
+            } else {
+              let errors = xhr.responseJSON.errors;
+              // Reset pesan kesalahan sebelum menambahkan yang baru
+              $('.text-danger').text('');
+              $.each(errors, function(field, messages) {
+                let errorMessage = messages[0]; // Ambil pesan kesalahan pertama
+                $('#' + field + '-error').text(errorMessage);
+              });
             }
-            let errors = xhr.responseJSON.errors;
-            // Reset pesan kesalahan sebelum menambahkan yang baru
-            $('.text-danger').text('');
-            $.each(errors, function(field, messages) {
-              let errorMessage = messages[0]; // Ambil pesan kesalahan pertama
-              $('#' + field + '-error').text(errorMessage);
-            });
             button.innerHTML = /*html*/ `Tambah`
             button.removeAttribute("disabled");
           }

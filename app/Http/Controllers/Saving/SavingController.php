@@ -10,6 +10,7 @@ use App\Models\HistoryTransaction;
 use App\Models\RegularSaving;
 use App\Models\Saving;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -23,27 +24,19 @@ class SavingController extends Controller
    */
   public function index()
   {
-    // $saving = Saving::find(13);
-
-    // $saving->update([
-    //   'title' => 'title',
-    //   'cover' => 'cover',
-    //   'description' => 'description',
-    //   'target_balance' => 10,
-    //   'status' => true,
-    // ]);
-
-    // $saving->regular()->update([
-    //   'amount' => 10,
-    //   'payment_method' => 'payment_method',
-    //   'recurring' => 'recurring',
-    //   'date' => '2022-09-22'
-    // ]);
-
-
+    $s = '';
+    if(request()->get('s')){
+      $s = request()->get('s');
+    }
     $data = [
-      // 'savings' => collect([Auth::user()->savings->sortByDesc('created_at'), Auth::user()->memberOf->sortByDesc('created_at')])->flatten(1)->paginate(8)
-      'savings' => collect([Auth::user()->savings->sortByDesc('created_at'), Auth::user()->memberOf->sortByDesc('created_at')])->flatten(1)
+      // 'savings' => collect([Auth::user()->savings->sortByDesc('created_at'), Auth::user()->memberOf->sortByDesc('created_at')])->flatten(1)->paginate(2)->withQueryString()
+      'savings' => Saving::where(function($q){
+        $q->where('user_id', Auth::user()->id)->orWhereHas('members', function(Builder $q){
+          $q->where('users.id', Auth::user()->id);
+        });
+      })->where(function($q) use($s){
+        $q->where('title', 'like', "%$s%")->orWhere('description', 'like', "%$s%");
+      })->orderBy('created_at', 'DESC')->paginate(8)->withQueryString()
     ];
     return view('User.transaction.savings.index', $data);
   }
@@ -70,7 +63,7 @@ class SavingController extends Controller
       'date' => 'required|date|after:today',
       'payment_method' => 'required|string|in:E-Wallet,Cash,Debit',
       'recurring' => 'required|in:week,month,year',
-      'amount' => 'required',
+      'amount' => 'required|lt:target_balance',
     ], [
       'title.required' => 'Judul harus diisi.',
       'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
@@ -89,6 +82,7 @@ class SavingController extends Controller
       'recurring.required' => 'Jenis Metode harus diisi.',
       'recurring.in' => 'Jenis Metode tidak ada.',
       'amount.required' => 'Jumlah harus diisi.',
+      'amount.lt' => 'Jumlah harus dibawah Target'
     ]);
 
     if ($validator->fails()) {
@@ -210,7 +204,8 @@ class SavingController extends Controller
       'date' => 'required|date|after:today',
       'payment_method' => 'required|string|in:E-Wallet,Cash,Debit',
       'recurring' => 'required|in:week,month,year',
-      'amount' => 'required',
+      'amount' => 'required|lt:target_balance',
+      'status' => 'required|in:0,1',
     ], [
       'title.required' => 'Judul harus diisi.',
       'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
@@ -229,10 +224,26 @@ class SavingController extends Controller
       'recurring.required' => 'Jenis Metode harus diisi.',
       'recurring.in' => 'Jenis Metode tidak ada.',
       'amount.required' => 'Jumlah harus diisi.',
+      'amount.lt' => 'Jumlah harus dibawah Target',
+      'status.required' => 'Status harus diisi.',
+      'status.in' => 'Status harus boolean.',
     ]);
 
     if ($validator->fails()) {
       return response()->json(['errors' => $validator->errors()], 422);
+    }
+
+    $subscribe = Auth::user()->subscribers->where('status', 'active')->first();
+
+    if (!$subscribe && $request->input('status') != $saving->status) {
+      $count = Auth::user()->memberOf->where('status', true)->count() + Auth::user()->savings->where('status', true)->count();
+      if($saving->status == true){
+        $count -= 1;
+      }
+
+      if ($count >= 3) {
+        return response()->json(['message' => 'Anda sudah memiliki 3 tabungan aktif'], 422);
+      }
     }
 
     $saving->update([

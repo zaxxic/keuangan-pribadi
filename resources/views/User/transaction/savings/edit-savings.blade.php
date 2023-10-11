@@ -40,17 +40,17 @@
                   </div>
                   <div class="form-group">
                     <label>Judul</label>
-                    <input type="text" name="title" class="form-control" placeholder="Judul tabungan" value="{{ $saving->title }}" />
+                    <input type="text" name="title" class="form-control" placeholder="Judul tabungan" value="{{ $saving->title }}" {{ ($saving->status == false) ? "disabled" : '' }} />
                     <span id="title-error" class="text-danger"></span>
                   </div>
                   <div class="form-group">
                     <label>Target</label>
-                    <input type="number" name="target_balance" class="form-control" placeholder="Target tabungan" value="{{ $saving->target_balance }}" />
+                    <input type="number" name="target_balance" class="form-control" placeholder="Target tabungan" value="{{ $saving->target_balance }}" {{ ($saving->status == false) ? "disabled" : '' }} />
                     <span id="target_balance-error" class="text-danger"></span>
                   </div>
                   <div class="form-group">
                     <label class="form-control-label">Deskripsi</label>
-                    <textarea class="form-control" name="description" placeholder="Ketikan deskripsi">{{ $saving->description }}</textarea>
+                    <textarea class="form-control" name="description" placeholder="Ketikan deskripsi" {{ ($saving->status == false) ? "disabled" : '' }}>{{ $saving->description }}</textarea>
                     <span id="description-error" class="text-danger"></span>
                   </div>
 
@@ -61,13 +61,13 @@
                   </div>
                   <div class="form-group">
                     <label>Tanggal mulai transaksi</label>
-                    <input type="date" name="date" class="form-control" placeholder="Tanggal Mulai Pembayaran" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" value="{{ $saving->regular->date }}" />
+                    <input type="date" name="date" class="form-control" placeholder="Tanggal Mulai Pembayaran" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" value="{{ $saving->regular->date }}" {{ ($saving->status == false) ? "disabled" : '' }} />
                     <span id="date-error" class="text-danger"></span>
                   </div>
                   <div class="form-group">
                     <div class="form-group">
                       <label>Metode Pembayaran</label>
-                      <select name="payment_method" class="select">
+                      <select name="payment_method" class="select" {{ ($saving->status == false) ? "disabled" : '' }}>
                         <option value="">Pilih Metode Pembayaran</option>
                         <option value="Debit" {{ ($saving->regular->payment_method == 'Debit') ? 'selected' : '' }}>Debit</option>
                         <option value="Cash" {{ ($saving->regular->payment_method == 'Cash') ? 'selected' : '' }}>Cash</option>
@@ -79,7 +79,7 @@
                   <div class="form-group">
                     <div class="form-group">
                       <label>Jenis Metode</label>
-                      <select name="recurring" class="select">
+                      <select name="recurring" class="select" {{ ($saving->status == false) ? "disabled" : '' }}>
                         <option value="week"{{ ($saving->regular->recurring == 'week') ? 'selected' : '' }}>Mingguan</option>
                         <option value="month">{{ ($saving->regular->recurring == 'month') ? 'selected' : '' }}Bulanan</option>
                         <option value="year"{{ ($saving->regular->recurring == 'year') ? 'selected' : '' }}>Tahunan</option>
@@ -90,7 +90,7 @@
 
                   <div class="form-group">
                     <label>Jumlah</label>
-                    <input type="number" name="amount" class="form-control" placeholder="Saldo yang diambil" value="{{ $saving->regular->amount }}" />
+                    <input type="number" name="amount" class="form-control" placeholder="Saldo yang diambil" value="{{ $saving->regular->amount }}" {{ ($saving->status == false) ? "disabled" : '' }} />
                     <span id="amount-error" class="text-danger"></span>
                   </div>
 
@@ -143,13 +143,17 @@
         },
         error: function(xhr) {
           if (xhr.status === 422) {
-            let errors = xhr.responseJSON.errors;
-            // Reset pesan kesalahan sebelum menambahkan yang baru
-            $('.text-danger').text('');
-            $.each(errors, function(field, messages) {
-              let errorMessage = messages[0]; // Ambil pesan kesalahan pertama
-              $('#' + field + '-error').text(errorMessage);
-            });
+            if(xhr.responseJSON.message){
+              toastr.error(xhr.responseJSON.message, 'Gagal');
+            } else {
+              let errors = xhr.responseJSON.errors;
+              // Reset pesan kesalahan sebelum menambahkan yang baru
+              $('.text-danger').text('');
+              $.each(errors, function(field, messages) {
+                let errorMessage = messages[0]; // Ambil pesan kesalahan pertama
+                $('#' + field + '-error').text(errorMessage);
+              });
+            }
             button.innerHTML = /*html*/ `Ubah`
             button.removeAttribute("disabled");
           }

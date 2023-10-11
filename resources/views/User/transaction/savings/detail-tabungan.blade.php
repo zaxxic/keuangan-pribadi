@@ -52,7 +52,7 @@ $progress = intval(round($progress));
                 <div class="col-auto">
                   @can('owner', $saving)
                   <a href="{{ route('savings.edit', $saving->id) }}" class="btn-right btn btn-sm btn-outline-success"> Edit </a>
-                  <a href="javascript:void(0)" class="btn-right btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#inviteModal"> Undang </a>
+                  <button href="javascript:void(0)" class="btn-right btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#inviteModal" {{ ($saving->status == false) ? "disabled" : '' }}> Undang</button>
                   @endcan
                   @cannot('owner', $saving)
                   <a href="javascript:void(0)" class="btn-right btn btn-sm btn-outline-danger" id="keluar"> Keluar </a>
@@ -136,7 +136,7 @@ $progress = intval(round($progress));
                             @endif
                             @can('owner', $saving)
                             @can('notSame', $member->id)
-                            <a href="#" class="btn btn-danger kick" data-id="{{ $member->id }}">Keluarkan</a>
+                            <button href="#" class="btn btn-danger kick" data-id="{{ $member->id }}" {{ ($saving->status == false) ? "disabled" : '' }}>Keluarkan</button>
                             @endcan
                             @endcan
                           </div>
@@ -251,7 +251,8 @@ $progress = intval(round($progress));
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes!'
+        confirmButtonText: 'Ya!',
+        cancelButtonText: 'Batal'
       }).then((result) => {
         if (result.isConfirmed) {
           fetch("{{ route('out', $saving->id) }}")
@@ -284,7 +285,8 @@ $progress = intval(round($progress));
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes!'
+        confirmButtonText: 'Ya!',
+        cancelButtonText: 'Batal'
       }).then((result) => {
         if (result.isConfirmed) {
           fetch("{{ route('kick') }}", {

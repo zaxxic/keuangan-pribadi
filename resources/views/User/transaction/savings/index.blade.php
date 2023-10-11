@@ -6,7 +6,6 @@ use App\Models\HistorySaving;
 @section('content')
 <div class="page-wrapper">
   <div class="content container-fluid">
-
     <div class="page-header">
       <div class="content-page-header">
         <h5>Tabungan</h5>
@@ -14,20 +13,25 @@ use App\Models\HistorySaving;
           <ul class="filter-list">
             <li>
               <div class="input-group" style="max-width: 450px;">
-                <input type="text" class="form-control" placeholder="Cari Tabungan" id="searchCategory">
                 <a class="btn btn-primary" href="{{ route('savings.create') }}"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Tambah Tabungan</a>
               </div>
             </li>
           </ul>
         </div>
       </div>
-
+      <form>
+        <div class="input-group" style="max-width: 450px;">
+          <input type="text" class="form-control" placeholder="Tabungan" name="s" value="{{ request()->get('s') }}">
+          <button class="btn btn-primary"><i class="fa fa-search"></i></button>
+        </div>
+      </form>
     </div>
+
     <div class="row">
       @foreach ($savings as $saving)
       @php
       $now = HistorySaving::where('saving_id', $saving->id)->whereHas('history', function ($q) {
-        $q->where('status', 'paid');
+      $q->where('status', 'paid');
       })->withSum('history', 'amount')->get()->sum('history_sum_amount');
       $progress = $now / $saving->target_balance * 100;
       $progress = intval(round($progress));
@@ -37,7 +41,7 @@ use App\Models\HistorySaving;
           <img alt="Card Image" src="assets/img/{{ $saving->cover }}" class="card-img-top">
           <div class="card-header">
             @if ($saving->status == false)
-              <span class="badge rounded-pill text-bg-danger">Terkunci</span>
+            <span class="badge rounded-pill text-bg-danger">Terkunci</span>
             @endif
             <h5 class="card-title mb-0">{{ $saving->title }}</h5>
             <div class="progress">
@@ -81,7 +85,7 @@ use App\Models\HistorySaving;
 
     </div>
 
-    {{-- {{ $savings->links() }} --}}
+    {{ $savings->links() }}
 
   </div>
 </div>
@@ -89,16 +93,16 @@ use App\Models\HistorySaving;
 @section('script')
 <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/sweetalert/sweetalerts.min.js') }}"></script>
-<script>
+{{-- <script>
   $("#searchCategory").on("keyup", function() {
     var value = $(this).val().toLowerCase();
     $(".row .datakuu").filter(function() {
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
     });
   });
-</script>
+</script> --}}
 <script>
-$(document).on('click', '.delete-saving', function(e) {
+  $(document).on('click', '.delete-saving', function(e) {
   e.preventDefault();
   var id = $(this).data('id');
   var route = $(this).data('route');
@@ -120,7 +124,6 @@ $(document).on('click', '.delete-saving', function(e) {
           data: {"_token": "{{ csrf_token() }}"
         },
         success: function(response) {
-          // Tutup modal
           toastr.success(response.message, 'Sukses');
           location.reload();
         },
