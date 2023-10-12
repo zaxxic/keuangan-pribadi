@@ -30,6 +30,7 @@ class AdminController extends Controller
   public function paidUsers()
   {
     if (request()->ajax()) {
+
       $subscribers = Subscriber::join('users as u', 'subscribers.user_id', '=', 'u.id')->select('subscribers.expire_date', 'subscribers.amount', 'subscribers.status', 'subscribers.created_at as created', 'u.name', 'u.email', 'u.role')->where('role', 'user')->orderBy('created', 'DESC')->get();
       $subscribers->transform(function ($item) {
         $item->amount = 'Rp ' . number_format($item->amount, 0, ',', '.');
