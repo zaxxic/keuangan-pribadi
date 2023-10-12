@@ -22,32 +22,6 @@
                                             <span id="title-error" class="text-danger"></span>
 
                                         </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-md-12 col-sm-12">
-                                        <div class="row">
-                                            <div class="form-group col-12">
-                                                <label for="kategori">Kategori</label>
-                                                <div class="row">
-                                                    <div class="col-10">
-                                                        <select name="category_id" class="select" id="kategori">
-                                                            <option>Pilih kategori</option>
-                                                        </select>
-                                                        <span id="category_id-error" class="text-danger"></span>
-
-                                                    </div>
-                                                    <div class="col-2">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-target="#tambahModal" data-bs-toggle="modal">
-                                                            +
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-md-12 col-sm-12">
                                         <div class="form-group">
                                             <label>Jumlah </label>
                                             <input value="{{ $transaction->amount }}" type="number" name="amount"
@@ -55,9 +29,38 @@
                                             <span id="amount-error" class="text-danger"></span>
 
                                         </div>
+                                        <div class="form-group">
+                                            <label>Tanggal</label>
+                                            <input value="{{ $transaction->date }}" type="date" name="date"
+                                                class="form-control" placeholder="Tanggal Mulai Pembayaran"
+                                                max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" />
+                                            <span id="date-error" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group" id="summernote_container">
+                                            <label class="form-control-label">Deskripsi</label>
+                                            <textarea class="form-control" name="description" placeholder="Ketikan deskripsi">{{ $transaction->description }}</textarea>
+                                        </div>
                                     </div>
 
-                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                        <div class="form-group col-12">
+                                            <label for="kategori">Kategori</label>
+                                            <div class="row">
+                                                <div class="col-10">
+                                                    <select name="category_id" class="select" id="kategori">
+                                                        <option>Pilih kategori</option>
+                                                    </select>
+                                                    <span id="category_id-error" class="text-danger"></span>
+
+                                                </div>
+                                                <div class="col-2">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-target="#tambahModal" data-bs-toggle="modal">
+                                                        +
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                             <label>Metode Pembeyaran</label>
                                             <select name="payment_method" class="select">
@@ -73,27 +76,6 @@
                                             <span id="payment_method-error" class="text-danger"></span>
 
                                         </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-md-6 col-sm-12">
-                                        <div class="form-group">
-                                            <label>Tanggal</label>
-                                            <input value="{{ $transaction->date }}" type="date" name="date"
-                                                class="form-control" placeholder="Tanggal Mulai Pembayaran"
-                                                max="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" />
-                                            <span id="date-error" class="text-danger"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-md-12 col-sm-12 description-box">
-                                        <div class="form-group" id="summernote_container">
-                                            <label class="form-control-label">Deskripsi</label>
-                                            <textarea class="form-control" name="description" placeholder="Ketikan deskripsi">{{ $transaction->description }}</textarea>
-                                        </div>
-    
-                                    </div>
-    
-                                    <div class="col-lg-6 col-md-12 col-sm-12">
                                         <div class="form-group">
                                             <label>Lampiran</label>
                                             <div class="form-group service-upload mb-0">
@@ -114,9 +96,8 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
-
-
                             </div>
                             <div class="text-end">
                                 <a href="{{ Route('income.index') }}" class="btn btn-primary cancel me-2">Batal</a>

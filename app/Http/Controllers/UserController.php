@@ -16,14 +16,18 @@ class UserController extends Controller
   public function index()
   {
     $user = Auth::user();
-    // $histories = HistoryTransaction::where('user_id', $user->id)->orderBy('created_at', 'DESC')->get();
+    $histories = HistoryTransaction::where('user_id', $user->id)->where('status', 'paid')->orderBy('created_at', 'DESC')->get();
     $data = [
       'user' => $user,
-      'expenditures' => HistoryTransaction::where('user_id', $user->id)->where('content', 'expenditure')->orderBy('created_at', 'DESC')->limit(5)->get(),
-      'incomes' => HistoryTransaction::where('user_id', $user->id)->where('content', 'income')->orderBy('created_at', 'DESC')->limit(5)->get(),
+      // 'expenditures' => HistoryTransaction::where('user_id', $user->id)->where('content', 'expenditure')->where('status', 'paid')->orderBy('created_at', 'DESC')->limit(5)->get(),
+      // 'incomes' => HistoryTransaction::where('user_id', $user->id)->where('content', 'income')->where('status', 'paid')->orderBy('created_at', 'DESC')->limit(5)->get(),
       'chartData' => $this->filterDashboard(),
-      // 'expenditures' => $histories->filter(fn ($item) => $item->content === 'expenditure')->slice(0, 5),
-      // 'incomes' => $histories->filter(fn ($item) => $item->content === 'income')->slice(0, 5),
+      'exAmount' => $histories->filter(fn ($item) => $item->content === 'expenditure')->sum('amount'),
+      'inAmount' => $histories->filter(fn ($item) => $item->content === 'income')->sum('amount'),
+      'exCount' => count($histories->filter(fn ($item) => $item->content === 'expenditure')),
+      'inCount' => count($histories->filter(fn ($item) => $item->content === 'income')),
+      'expenditures' => $histories->filter(fn ($item) => $item->content === 'expenditure')->slice(0, 5),
+      'incomes' => $histories->filter(fn ($item) => $item->content === 'income')->slice(0, 5),
       // 'chartData' => $this->filterDashboard($histories)
     ];
 
@@ -186,7 +190,7 @@ class UserController extends Controller
       ],
     ];
 
-    $histories = HistoryTransaction::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get();
+    $histories = HistoryTransaction::where('user_id', Auth::user()->id)->where('status', 'paid')->orderBy('created_at', 'DESC')->get();
 
     $today = Carbon::today()->locale('id');
     $today->settings(['formatFunction' => 'translatedFormat']);

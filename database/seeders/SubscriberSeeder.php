@@ -20,7 +20,8 @@ class SubscriberSeeder extends Seeder
       for ($i = 0; $i < 2; $i++) {
         Subscriber::create([
           'expire_date' => fake()->dateTimeInInterval('-3 months', '+2 months'),
-          'status' => false,
+          'amount' => fake()->randomNumber(5, true),
+          'status' => 'off',
           'user_id' => $user->id
         ]);
       }
@@ -28,7 +29,8 @@ class SubscriberSeeder extends Seeder
 
     Subscriber::create([
       'expire_date' => fake()->dateTimeInInterval('+ 1 month', '+1 day'),
-      'status' => true,
+      'amount' => fake()->randomNumber(5, true),
+      'status' => 'active',
       'user_id' => User::where('role', 'user')->inRandomOrder()->first()->id
     ]);
   }

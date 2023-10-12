@@ -1,5 +1,9 @@
 @extends('Admin.layouts.app')
 
+@section('style')
+<link rel="stylesheet" href="{{ asset('assets/plugins/yearpicker/yearpicker.css') }}">
+@endsection
+
 @section('content')
 <div class="page-wrapper">
   <div class="content container-fluid">
@@ -14,7 +18,7 @@
               <div class="dash-count">
                 <div class="dash-title">Pengguna saat ini</div>
                 <div class="dash-counts">
-                  <p>113</p>
+                  <p>{{ $usersCount }}</p>
                 </div>
               </div>
             </div>
@@ -31,7 +35,7 @@
               <div class="dash-count">
                 <div class="dash-title">Pengguna baru bulan ini</div>
                 <div class="dash-counts">
-                  <p>5</p>
+                  <p>{{ $usersMonth }}</p>
                 </div>
               </div>
             </div>
@@ -48,7 +52,7 @@
               <div class="dash-count">
                 <div class="dash-title">Pengguna Premium</div>
                 <div class="dash-counts">
-                  <p>12</p>
+                  <p>{{ $usersPremium }}</p>
                 </div>
               </div>
             </div>
@@ -62,21 +66,15 @@
           <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
               <h5 class="card-title">Analisa keungan</h5>
-
               <div>
-                <input type="month" class="form-control w-100" id="bulanTahunInput" value="">
+                <input type="text" class="form-control w-100" id="tahunInput" readonly>
               </div>
             </div>
             <div class="card-body">
-              <div class="d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap">
-                <div class="w-md-100 d-flex align-items-center mb-3 flex-wrap flex-md-nowrap">
-
-                </div>
+              <div class="d-flex align-items-center justify-content-center flex-wrap flex-md-nowrap">
+                <span class="spinner-border" role="status"></span>
               </div>
-
               <div id="admin_chart"></div>
-
-
             </div>
           </div>
         </div>
@@ -98,7 +96,6 @@
             </div>
           </div>
           <div class="card-body">
-
             <div class="table-responsive">
               <table class="table table-hover">
                 <thead class="thead-light">
@@ -106,18 +103,20 @@
                     <th>#</th>
                     <th>Nama Pengguna</th>
                     <th>Email</th>
-                    <th>Bulan</th>
-                    <th>Metode Pembayaran</th>
+                    <th>Jumlah</th>
+                    <th>Tanggal</th>
                   </tr>
                 </thead>
                 <tbody>
+                  @foreach ($last as $item)
                   <tr>
-                    <td>1</td>
-                    <td>Surya Ramadhani</td>
-                    <td>suryaramadhani@mail.com</td>
-                    <td>September 2023</td>
-                    <td>GoPay</td>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item->user->name }}</td>
+                    <td>{{ $item->user->email }}</td>
+                    <td>{{ $item->amount }}</td>
+                    <td>{{ date('d M Y', strtotime($item->created_at)) }}</td>
                   </tr>
+                  @endforeach
                 </tbody>
               </table>
             </div>
@@ -126,117 +125,109 @@
       </div>
     </div>
   </div>
+</div>
 @endsection
 
 @section('script')
+<script src="{{ asset('assets/plugins/yearpicker/yearpicker.js') }}"></script>
 <script>
+  const csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
+  const columnCtx = document.getElementById("admin_chart");
+  let columnChart;
+  let data = {
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "Mei",
+      "Jun",
+      "Jul",
+      "Agu",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Des",
+    ]
+  };
+  let columnConfig = {
+    colors: ["#7638ff"],
+    series: [
+      {
+        name: "Pendapatan",
+        type: "column",
+        data: [],
+      },
+    ],
+    chart: {
+      type: "bar",
+      fontFamily: "Poppins, sans-serif",
+      height: 350,
+      toolbar: {
+        show: false,
+      },
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth: "60%",
+        endingShape: "rounded",
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      show: true,
+      width: 2,
+      colors: ["transparent"],
+    },
+    xaxis: {
+      categories: data.labels,
+    },
+    yaxis: {
+      title: {
+        text: "Rp (ribuan)",
+      },
+      labels: {
+        formatter: function (value) {
+          return "Rp " + value.toLocaleString("id-ID");
+        },
+      },
+    },
+    fill: {
+      opacity: 1,
+    },
+    tooltip: {
+      y: {
+        formatter: function (val) {
+          return "Rp " + val.toLocaleString("id-ID");
+        },
+      },
+    },
+  };
+
   const today = new Date();
-
-  let tahun = today.getFullYear();
-  let bulan = (today.getMonth() + 1).toString().padStart(2, '0');
-  let bulanTahun = tahun + "-" + bulan
-
-  document.getElementById("bulanTahunInput").value = bulanTahun;
-
-
-</script>
-<script>
-  if ($("#admin_chart").length > 0) {
-    const columnCtx = document.getElementById("admin_chart");
-    let columnChart;
-
-    let data = {
-      labels: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "Mei",
-        "Jun",
-        "Jul",
-        "Agu",
-        "Sep",
-        "Okt",
-        "Nov",
-        "Des",
-      ],
-      received: [70, 150, 80, 180, 150, 175, 201, 60, 200, 120, 190, 160],
-    };
-
-    let columnConfig = {
-      colors: ["#7638ff"],
-      series: [
-        {
-          name: "Pendapatan",
-          type: "column",
-          data: data.received,
-        },
-      ],
-      chart: {
-        type: "bar",
-        fontFamily: "Poppins, sans-serif",
-        height: 350,
-        toolbar: {
-          show: false,
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: "60%",
-          endingShape: "rounded",
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        show: true,
-        width: 2,
-        colors: ["transparent"],
-      },
-      xaxis: {
-        categories: data.labels,
-      },
-      yaxis: {
-        title: {
-          text: "Rp (ribuan)",
-        },
-        labels: {
-          formatter: function (value) {
-            return "Rp " + value.toLocaleString("id-ID");
-          },
-        },
-      },
-      fill: {
-        opacity: 1,
-      },
-      tooltip: {
-        y: {
-          formatter: function (val) {
-            return "Rp " + val.toLocaleString("id-ID") + " ribu";
-          },
-        },
-      },
-    };
-
-    let updateChart = async function (bulanTahun) {
-      // let received = await fetch(`{{ route('admin-data') }}?bulan=${bulanTahun}`);
-
-      if (columnChart) {
+  $("#tahunInput").yearpicker({
+    year: today.getFullYear(),
+    onChange: async function (value) {
+      if(columnChart){
         columnChart.destroy();
       }
-
+      $(".spinner-border").show();
+      let route = '{{ route("admin-data", ":year") }}';
+      route = route.replace(':year', value);
+      columnConfig.series[0].data = await fetch(route, {
+        method: "post",
+        headers: {
+          'Content-Type': 'application/json',
+          "X-CSRF-Token": csrfToken
+        }
+      }).then(response => response.json());
       columnChart = new ApexCharts(columnCtx, columnConfig);
+      $(".spinner-border").hide();
       columnChart.render();
-    };
-
-    updateChart(bulanTahun);
-
-    $("#bulanTahunInput").on("change", function () {
-      bulanTahun = $(this).val();
-      updateChart(bulanTahun);
-    });
-  }
+    }
+  });
 </script>
 @endsection

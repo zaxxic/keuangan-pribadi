@@ -15,7 +15,7 @@ class RegularSavingSeeder extends Seeder
   public function run(): void
   {
     $savings = Saving::get();
-    $method = [null, 'Cash', 'Kredit', 'E-Wallet'];
+    $method = ['Cash', 'Debit', 'E-Wallet'];
     $recurring = ['week', 'month', 'year'];
 
     foreach ($savings as $saving) {

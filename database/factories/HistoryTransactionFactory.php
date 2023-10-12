@@ -21,12 +21,12 @@ class HistoryTransactionFactory extends Factory
     $content = ['income', 'expenditure'];
     $category = Category::inrandomOrder()->first();
     $content = ($category->content == 'income') ? $content[0] : $content[1];
-    $method = ['Cash', 'Kredit', 'E-Wallet'];
+    $method = ['Cash', 'Debit', 'E-Wallet'];
     return [
       'title' => fake()->sentence(1),
       'amount' => fake()->randomNumber(($content == 'expenditure') ? 4 : 5, true),
       'payment_method' => $method[array_rand($method, 1)],
-      'attachment' => 'evidence.jpg',
+      // 'attachment' => 'evidence.jpg',
       'status' => 'paid',
       'content' => $content,
       'date' => fake()->dateTimeInInterval('-6 months', '+6 months'),

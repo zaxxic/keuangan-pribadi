@@ -11,7 +11,6 @@ use App\Models\RegularTransaction;
 use App\Models\Saving;
 use App\Models\Subscriber;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class ScheduleController extends Controller
@@ -20,7 +19,7 @@ class ScheduleController extends Controller
   {
     $today = Carbon::today();
 
-    $savings = Saving::with(['user', 'histories' => function ($q) {
+    $savings = Saving::where('status', true)->with(['user', 'histories' => function ($q) {
       $q->withSum('history', 'amount');
     }])->get();
 
@@ -110,16 +109,16 @@ class ScheduleController extends Controller
 
           if ($income->recurring === 'weekly') {
             $income->date = $incomeDate->addWeek(); // Tambah 1 minggu
-        } elseif ($income->recurring === 'daily') {
+          } elseif ($income->recurring === 'daily') {
             $income->date = $incomeDate->addDay(); // Tambah 1 hari
-        } elseif ($income->recurring === 'once') {
+          } elseif ($income->recurring === 'once') {
             $income->date = $incomeDate->subDay(); // Kurangi 1 hari
-        } elseif ($income->recurring === 'monthly') {
+          } elseif ($income->recurring === 'monthly') {
             $income->date = $incomeDate->addMonth(); // Tambah 1 bulan
-        } elseif ($income->recurring === 'yearly') {
+          } elseif ($income->recurring === 'yearly') {
             $income->date = $incomeDate->addYear(); // Tambah 1 tahun
-        }
-        
+          }
+
 
 
           $income->count--;

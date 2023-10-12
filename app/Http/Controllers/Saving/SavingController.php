@@ -10,6 +10,7 @@ use App\Models\HistoryTransaction;
 use App\Models\RegularSaving;
 use App\Models\Saving;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -23,26 +24,19 @@ class SavingController extends Controller
    */
   public function index()
   {
-    // $saving = Saving::find(13);
-
-    // $saving->update([
-    //   'title' => 'title',
-    //   'cover' => 'cover',
-    //   'description' => 'description',
-    //   'target_balance' => 10,
-    //   'status' => true,
-    // ]);
-
-    // $saving->regular()->update([
-    //   'amount' => 10,
-    //   'payment_method' => 'payment_method',
-    //   'recurring' => 'recurring',
-    //   'date' => '2022-09-22'
-    // ]);
-
-
+    $s = '';
+    if(request()->get('s')){
+      $s = request()->get('s');
+    }
     $data = [
-      'savings' => collect([Auth::user()->savings->sortByDesc('created_at'), Auth::user()->memberOf->sortByDesc('created_at')])->flatten(1)->paginate(8)
+      // 'savings' => collect([Auth::user()->savings->sortByDesc('created_at'), Auth::user()->memberOf->sortByDesc('created_at')])->flatten(1)->paginate(2)->withQueryString()
+      'savings' => Saving::where(function($q){
+        $q->where('user_id', Auth::user()->id)->orWhereHas('members', function(Builder $q){
+          $q->where('users.id', Auth::user()->id);
+        });
+      })->where(function($q) use($s){
+        $q->where('title', 'like', "%$s%")->orWhere('description', 'like', "%$s%");
+      })->orderBy('created_at', 'DESC')->paginate(8)->withQueryString()
     ];
     return view('User.transaction.savings.index', $data);
   }
@@ -66,10 +60,10 @@ class SavingController extends Controller
       'target_balance' => 'required',
       'description' => 'required|string|max:400',
       'inviteEmail.*' => 'required|email',
-      'date' => 'required|date|after_or_equal:today',
+      'date' => 'required|date|after:today',
       'payment_method' => 'required|string|in:E-Wallet,Cash,Debit',
       'recurring' => 'required|in:week,month,year',
-      'amount' => 'required',
+      'amount' => 'required|lt:target_balance',
     ], [
       'title.required' => 'Judul harus diisi.',
       'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
@@ -81,17 +75,29 @@ class SavingController extends Controller
 
       'date.required' => 'Tanggal harus diisi.',
       'date.date' => 'Tanggal harus berupa tanggal yang valid.',
-      'date.after_or_equal' => 'Tanggal harus setelah hari ini atau hari ini.',
+      'date.after' => 'Tanggal harus setelah hari ini.',
       'payment_method.required' => 'Metode pembayaran harus diisi.',
       'payment_method.string' => 'Metode pembayaran harus berupa teks.',
       'payment_method.in' => 'Metode pembayaran tidak ada.',
       'recurring.required' => 'Jenis Metode harus diisi.',
       'recurring.in' => 'Jenis Metode tidak ada.',
       'amount.required' => 'Jumlah harus diisi.',
+      'amount.lt' => 'Jumlah harus dibawah Target'
     ]);
 
     if ($validator->fails()) {
       return response()->json(['errors' => $validator->errors()], 422);
+    }
+
+    $subscribe = Auth::user()->subscribers->where('status', 'active')->first();
+
+    if (!$subscribe) {
+      $count = Auth::user()->memberOf->where('status', true)->count() + Auth::user()->savings->where('status', true)->count();
+
+
+      if ($count >= 3) {
+        return response()->json(['message' => 'Anda hanya dapat memiliki maksimal 3 tabungan bersama'], 422);
+      }
     }
 
     // $saving = Saving::create([
@@ -130,8 +136,8 @@ class SavingController extends Controller
 
     $emails = $request->input('inviteEmail');
 
-    if($emails > 0){
-      foreach($emails as $email){
+    if ($emails > 0) {
+      foreach ($emails as $email) {
         Mail::to($email)->send(new Invitation(Auth::user()->name, $saving->id, $saving->key));
       }
     }
@@ -195,10 +201,11 @@ class SavingController extends Controller
       'target_balance' => 'required',
       'description' => 'required|string|max:400',
       'inviteEmail.*' => 'required|email',
-      'date' => 'required|date|after_or_equal:today',
+      'date' => 'required|date|after:today',
       'payment_method' => 'required|string|in:E-Wallet,Cash,Debit',
       'recurring' => 'required|in:week,month,year',
-      'amount' => 'required',
+      'amount' => 'required|lt:target_balance',
+      'status' => 'required|in:0,1',
     ], [
       'title.required' => 'Judul harus diisi.',
       'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
@@ -210,24 +217,41 @@ class SavingController extends Controller
 
       'date.required' => 'Tanggal harus diisi.',
       'date.date' => 'Tanggal harus berupa tanggal yang valid.',
-      'date.after_or_equal' => 'Tanggal harus setelah hari ini atau hari ini.',
+      'date.after' => 'Tanggal harus setelah hari ini.',
       'payment_method.required' => 'Metode pembayaran harus diisi.',
       'payment_method.string' => 'Metode pembayaran harus berupa teks.',
       'payment_method.in' => 'Metode pembayaran tidak ada.',
       'recurring.required' => 'Jenis Metode harus diisi.',
       'recurring.in' => 'Jenis Metode tidak ada.',
       'amount.required' => 'Jumlah harus diisi.',
+      'amount.lt' => 'Jumlah harus dibawah Target',
+      'status.required' => 'Status harus diisi.',
+      'status.in' => 'Status harus boolean.',
     ]);
 
     if ($validator->fails()) {
       return response()->json(['errors' => $validator->errors()], 422);
     }
 
+    $subscribe = Auth::user()->subscribers->where('status', 'active')->first();
+
+    if (!$subscribe && $request->input('status') != $saving->status) {
+      $count = Auth::user()->memberOf->where('status', true)->count() + Auth::user()->savings->where('status', true)->count();
+      if($saving->status == true){
+        $count -= 1;
+      }
+
+      if ($count >= 3) {
+        return response()->json(['message' => 'Anda sudah memiliki 3 tabungan aktif'], 422);
+      }
+    }
+
     $saving->update([
       'title' => $request->input('title'),
       'cover' => $request->input('cover'),
       'description' => $request->input('description'),
-      'target_balance' => $request->input('target_balance')
+      'target_balance' => $request->input('target_balance'),
+      'status' => $request->input('status'),
     ]);
 
     $saving->regular()->update([
@@ -285,19 +309,29 @@ class SavingController extends Controller
   public function join(Request $request)
   {
     $saving = Saving::where('id', $request->get('id'))->first();
-    if($request->get('key') == $saving->key){
+    if ($request->get('key') == $saving->key) {
       $user_id = Auth::user()->id;
-      if($user_id == $saving->user_id){
-        return redirect(route('savings.index'));
+      if ($user_id == $saving->user_id) {
+        return redirect(route('savings.show', $saving->id));
       }
 
       $members = [];
-      foreach($saving->members->toArray() as $member){
+      foreach ($saving->members->toArray() as $member) {
         $members[] = $member['id'];
       }
 
-      if(in_array($user_id, $members)){
-        return redirect(route('savings.index'));
+      if (in_array($user_id, $members)) {
+        return redirect(route('savings.show', $saving->id));
+      }
+
+      $subscribe = Auth::user()->subscribers->where('status', 'active')->first();
+
+      if (!$subscribe) {
+        $count = Auth::user()->memberOf->where('status', true)->count() + Auth::user()->savings->where('status', true)->count();
+
+        if ($count > 3) {
+          return abort(401, 'Anda sudah mencapai maksimum tabungan');
+        }
       }
 
       $saving->members()->attach([
@@ -306,18 +340,18 @@ class SavingController extends Controller
 
       return redirect(route('savings.show', $saving->id));
     } else {
-      return redirect(route('savings.index'));
+      return abort(401);
     }
   }
 
   public function out(Saving $saving)
   {
     $user_id = Auth::user()->id;
-    if(Gate::allows('owner', $saving)){
+    if (Gate::allows('owner', $saving)) {
       return response()->json(['message' => 'Anda adalah pemilik tabungan ini'], 422);
     }
 
-    if(Gate::allows('members', $saving)){
+    if (Gate::allows('members', $saving)) {
       $saving->members()->detach($user_id);
       return response()->json(['message' => 'Anda berhasil keluar']);
     }
@@ -330,11 +364,11 @@ class SavingController extends Controller
     $user = $request->post('user_id');
     $user_id = Auth::user()->id;
 
-    if(Gate::denies('owner')){
+    if (Gate::denies('owner')) {
       return response()->json(['message' => 'Anda tidak memiliki akses'], 422);
     }
 
-    if(Gate::allows('owner')){
+    if (Gate::allows('owner')) {
       return response()->json(['message' => 'Anda adalah ketua'], 422);
     }
 
