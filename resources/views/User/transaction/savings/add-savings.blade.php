@@ -2,35 +2,48 @@
 @section('content')
 <script>
   function addInput() {
-    var container = document.getElementById("inputContainer");
-    var inputGroup = document.createElement("div");
-    inputGroup.className = "input-group mb-3";
+    let container = document.getElementById("inputContainer");
+    let inputGroup = document.createElement("div");
+    inputGroup.className = "input-group";
 
-    var input = document.createElement("input");
+    let input = document.createElement("input");
     input.type = "email";
     input.className = "form-control";
     input.placeholder = "Masukkan email teman Anda";
+    input.addEventListener("invalid", function(){
+      this.setCustomValidity('Format email harus benar');
+    });
+    input.addEventListener("input", function(){
+      this.setCustomValidity('');
+    });
 
     // Mengganti nama input dengan array yang dinamis
-    var inputName = "inviteEmail[" + (container.children.length + 1) + "]";
+    let inputName = "inviteEmail[" + (container.children.length + 1) + "]";
     input.name = inputName;
 
-    var inputGroupAppend = document.createElement("div");
-    inputGroupAppend.className = "input-group-append";
-
-    var removeButton = document.createElement("button");
+    let removeButton = document.createElement("button");
     removeButton.type = "button";
     removeButton.className = "btn btn-danger btn-sm";
     removeButton.textContent = "Hapus";
     removeButton.addEventListener("click", function() {
-        container.removeChild(inputGroup);
+        container.removeChild(formG);
     });
 
-    inputGroupAppend.appendChild(removeButton);
-    inputGroup.appendChild(input);
-    inputGroup.appendChild(inputGroupAppend);
+    let formG = document.createElement("div");
+    formG.className = "form-group mb-3";
 
-    container.appendChild(inputGroup);
+    let span = document.createElement("span");
+    span.className = "text-danger";
+    span.setAttribute("id", `inviteEmail.${container.children.length + 1}-error`);
+
+    // inputGroupAppend.appendChild(removeButton);
+    inputGroup.appendChild(input);
+    inputGroup.appendChild(removeButton);
+
+    formG.appendChild(inputGroup);
+    formG.appendChild(span);
+
+    container.appendChild(formG);
   }
 </script>
 <div class="page-wrapper">
@@ -193,10 +206,11 @@
               $('.text-danger').text('');
               $.each(errors, function(field, messages) {
                 let errorMessage = messages[0]; // Ambil pesan kesalahan pertama
-                $('#' + field + '-error').text(errorMessage);
+                // $('#' + field + '-error').text(errorMessage);
+                document.getElementById(field + "-error").textContent = errorMessage;
               });
             }
-            button.innerHTML = /*html*/ `Tambah`
+            button.innerHTML = /*html*/ `Tambah`;
             button.removeAttribute("disabled");
           }
         }
