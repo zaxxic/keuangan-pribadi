@@ -75,7 +75,7 @@
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $category->name }}</td>
-                                                    <td>{{ $category->created_at->toDateString() }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($category->created_at)->translatedFormat('j F Y') }}</td>
                                                     @if ($index >= 3)
                                                         <td class="d-flex align-items-center">
                                                             <div class="dropdown dropdown-action">
