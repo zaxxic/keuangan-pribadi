@@ -23,7 +23,6 @@ class ProfileController extends Controller
         $rules = [
             'email' => 'required|email',
             'gender' => 'in:male,female,none',
-            'birthday' => 'date',
             'image' => 'image|mimes:jpeg,png,jpg|max:5120',
         ];
 
@@ -32,7 +31,6 @@ class ProfileController extends Controller
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
             'gender.in' => 'Pilih salah satu jenis kelamin yang tersedia.',
-            'birthday.date' => 'Format tanggal ulang tahun tidak valid.',
             'image.image' => 'File yang diunggah harus berupa gambar.',
             'image.mimes' => 'File gambar harus memiliki format: jpeg, png dan jpg.',
             'image.max' => 'File gambar tidak boleh lebih dari 5MB.',
@@ -86,7 +84,7 @@ class ProfileController extends Controller
             'new_password.confirmed' => 'Konfirmasi kata sandi baru tidak cocok.',
         ];
 
-        
+
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {

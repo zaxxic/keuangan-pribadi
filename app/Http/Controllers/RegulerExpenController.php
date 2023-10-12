@@ -61,7 +61,7 @@ class RegulerExpenController extends Controller
                     return '<td>' . $row->count . '/' . $row->real . '</td>';
                 })
                 ->addColumn('date', function ($row) {
-                    $formattedDate = Carbon::parse($row->created_at)->format('d F Y');
+                    $formattedDate = Carbon::parse($row->date)->format('d F Y');
                     // Ubah nama bulan dalam bahasa Indonesia
                     $formattedDate = str_replace(
                         ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],

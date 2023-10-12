@@ -86,7 +86,7 @@
                         <span class="text-primary ms-1">browse</span>
                       </h6>
                       @endif
-                      <p class="text-muted">Ukuran maksimal: 50MB</p>
+                      <p class="text-muted">Ukuran maksimal: 5MB</p>
                       <input type="file" name="attachment" multiple id="image_sign" />
                       <div id="frames"></div>
                     </div>

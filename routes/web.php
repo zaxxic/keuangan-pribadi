@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminCategoryExpenditureController;
+use App\Http\Controllers\AdminCategoryIncomeController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -33,12 +35,7 @@ use App\Http\Controllers\ScheduleController;
 Auth::routes(['verify' => true]);
 
 
-// Route::get('/registered', [RegisteredController::class, 'index'])->name('register.home');
-// Route::post('/registered', [RegisteredController::class, 'registerProses'])->name('register.proses');
 
-// Route::get('/email/verify', function () {
-//   return view('auth.verifikasi');
-// })->name('verification.notice');
 Route::group(['middleware' => ['auth']], function () {
   Route::get('/email/verify', [UserController::class, 'indexVerify'])->name('verification.notice');
   Route::post('/verif', [UserController::class, 'verify'])->name('verif');
@@ -65,6 +62,8 @@ Auth::routes();
 
 Route::group(['middleware' => ['verif', 'admin']], function () {
   Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+  Route::resource('income-admin', AdminCategoryIncomeController::class)->except(['show', 'edit', 'create']);
+  Route::resource('expenditure-admin', AdminCategoryExpenditureController::class)->except(['show', 'edit', 'create']);
   Route::get('/paidUsers', [AdminController::class, 'paidUsers'])->name('paid-users');
   Route::post('/getMonthly/{month}', [AdminController::class, 'getMonthly'])->name('admin-data');
 });
@@ -72,14 +71,8 @@ Route::group(['middleware' => ['verif', 'admin']], function () {
 // Route::group(['middleware' => 'user', 'verified'], function () {
 
 Route::group(['middleware' => ['verif', 'user']], function () {
-  Route::get('/', [UserController::class, 'index'])->name('home');
-
+  Route::get('home', [UserController::class, 'index'])->name('home');
   Route::post('subs/', [SubscribController::class, 'store'])->name('subs');
-
-
-
-  //notifikasi
-  // Route::resource('/notif', NotificationController::class);
   Route::get('/notif', [NotificationController::class, 'index'])->name('notif.index');
   Route::post('/accept/{id}', [NotificationController::class, 'accept'])->name('accept.notifikasi');
   Route::post('/update/notif/{id}', [NotificationController::class, 'update'])->name('update.notifikasi');

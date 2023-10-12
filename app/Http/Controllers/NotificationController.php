@@ -36,9 +36,9 @@ class NotificationController extends Controller
             ->where('status', 'paid')
             ->sum('amount');
 
-        $requiredAmount = $notification->historyTransaction->amount;
+        $requiredAmount = $notification->historyTransaction;
 
-        if ($totalAmountSpent < $requiredAmount) {
+        if ($totalAmountSpent < $requiredAmount->amount && $requiredAmount->content === 'expenditure') {
             return response()->json(['message' => 'Saldo tidak mencukupi untuk melakukan transaksi'], 422);
         }
         // dd("bisa");
@@ -81,11 +81,9 @@ class NotificationController extends Controller
                 // Storage::delete($storageDirectory . '/' . $transaction->attachment);
             }
 
-            // Simpan file yang baru diunggah
             $attachmentPath = $newAttachment->store($storageDirectory);
             $attachmentName = basename($attachmentPath);
 
-            // Update nama attachment di model transaksi
             $transaction->attachment = $attachmentName;
             $transaction->save(); // Simpan perubahan ke database
         }
@@ -98,12 +96,10 @@ class NotificationController extends Controller
         $transaction->description = $request->input('description');
         $transaction->save();
 
-        // Update status notifikasi menjadi 'done'
         $notification->update([
             'status' => 'done',
         ]);
 
-        // Jika notifikasi terkait dengan transaksi, perbarui status transaksi menjadi 'paid'
         if ($notification->historyTransaction) {
             $transaction->update([
                 'status' => 'paid',
@@ -123,9 +119,9 @@ class NotificationController extends Controller
             ->where('status', 'paid')
             ->sum('amount');
 
-        $requiredAmount = $notification->historyTransaction->amount;
+        $requiredAmount = $notification->historyTransaction;
 
-        if ($totalAmountSpent < $requiredAmount) {
+        if ($totalAmountSpent < $requiredAmount->amount && $requiredAmount->content === 'expenditure') {
             return response()->json(['message' => 'Saldo tidak mencukupi untuk melakukan transaksi'], 422);
         }
         // dd("bisa");
@@ -134,17 +130,14 @@ class NotificationController extends Controller
             return response()->json(['message' => 'Notifikasi tidak ditemukan'], 404);
         }
 
-        // Pastikan hanya pemilik notifikasi yang dapat memperbarui statusnya
         if ($notification->user_id !== Auth::id()) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        // Update status notifikasi menjadi 'done'
         $notification->update([
             'status' => 'done',
         ]);
 
-        // Jika notifikasi terkait dengan transaksi, maka juga perbarui status transaksi menjadi 'paid'
         if ($notification->historyTransaction) {
             $transaction = $notification->historyTransaction;
             $transaction->update([

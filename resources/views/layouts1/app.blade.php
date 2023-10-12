@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
 
     <title>Save Your Money</title>
 
@@ -233,6 +233,12 @@
                     } else {
                         // Iterasi melalui data notifikasi dan tambahkan ke dalam daftar
                         $.each(notifications, function(index, notification) {
+                            var content = notification.history_transaction.content;
+                            var dataContent = content === 'expenditure' ? 'Pengeluaran' : content ===
+                                'income' ? 'Pemasukan' : content;
+                            var attachment = notification.history_transaction.attachment ? notification
+                                .history_transaction.attachment : 'default.png';
+
                             var notificationItem = `
                                 <li class="notification-message">
                                 <a style="cursor: default;">
@@ -242,14 +248,14 @@
                                         <span class="notification-time">${formatDate(notification.created_at)}</span>
                                         </p>
                                         <p class="noti-details">
-                                        <span class="noti-title">${notification.content}</span>
+                                        <span class="noti-title">${dataContent}</span>
                                         Dari ${notification.history_transaction.title} 
                                         </p>
                                         <span class="noti-title">
                                         <button class="custom-btn edit-btn"  onclick="showEditModal(this)"
                                             data-toggle="modal"
                                             data-target="#myModalEdit"
-                                            data-foto="${notification.history_transaction.attachment}"
+                                            data-foto="${attachment}"
                                             data-amount="${notification.history_transaction.amount}"
                                             data-title="${notification.history_transaction.title}"
                                             data-id-transaction="${notification.id}"
@@ -261,7 +267,7 @@
                                         <button class="custom-btn detail-btn" type="button" id="detail" onclick="showDetailModal(this)"
                                             data-toggle="modal"
                                             data-target="#myModal"
-                                            data-foto="${notification.history_transaction.attachment}"
+                                            data-foto="${attachment}"
                                             data-amount="${notification.history_transaction.amount}"
                                             data-title="${notification.history_transaction.title}"
                                             data-id-transaction="${notification.id}"

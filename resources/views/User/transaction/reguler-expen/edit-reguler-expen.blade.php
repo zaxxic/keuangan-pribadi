@@ -100,6 +100,16 @@
                                             <span id="date-error" class="text-danger"></span>
                                         </div>
                                     </div>
+                                    <div class="col-lg-6 col-md-12 col-sm-12 description-box">
+                                        <div class="form-group" id="summernote_container">
+                                            <label class="form-control-label">Deskripsi</label>
+                                            <textarea class="form-control" style="height: 180px" name="description" placeholder="Ketikan deskripsi">{{ $transaction->description }}</textarea>
+                                            <span id="description-error" class="text-danger"></span>
+                                            <span id="count-error" class="text-danger"></span>
+
+                                        </div>
+
+                                    </div>
 
                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                         <div class="form-group">
@@ -111,17 +121,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-12 col-sm-12 description-box">
-                                        <div class="form-group" id="summernote_container">
-                                            <label class="form-control-label">Deskripsi</label>
-                                            <textarea class="form-control" style="height: 180px" name="description" placeholder="Ketikan deskripsi">{{ $transaction->description }}</textarea>
-                                            <span id="description-error" class="text-danger"></span>
-                                            <span id="count-error" class="text-danger"></span>
 
-                                        </div>
-
-                                    </div>
+                                {{-- <div class="row">
 
                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                         <div class="form-group">
@@ -144,7 +145,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="text-end">
                                 <a href="{{ Route('reguler-expenditure.index') }}"

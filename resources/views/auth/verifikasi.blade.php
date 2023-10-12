@@ -71,8 +71,6 @@
             transition: background-color 0.2s ease;
         }
 
-
-
         .button-container {
             display: flex;
             flex-direction: column;
@@ -82,21 +80,8 @@
 
         .resend-button {
             background-color: #4caf50;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-            text-decoration: none;
         }
 
-        .resend-button:hover {
-            background-color: #45a049;
-        }
-
-        /* CSS untuk tautan Logout */
         .logout-link {
             color: #007bff;
             text-decoration: none;
@@ -110,8 +95,6 @@
         }
 
         @media (max-width: 500px) {
-
-            /* Atur tampilan responsif untuk layar dengan lebar maksimum 500px */
             .otp-input {
                 grid-template-columns: repeat(3, 1fr);
             }
@@ -153,11 +136,11 @@
             <input type="hidden" name="verification_code" id="verification_code" required>
             <div class="button-container">
                 <button type="submit" class="verify-button">Verifikasi</button>
-                <!-- Tombol untuk mengirim ulang OTP -->
-                <a href="{{ route('resended') }}" class="resend-button">Kirim Ulang OTP</a>
+                <a href="{{ route('resended') }}" style="text-decoration: none" class="resend-button">Kirim Ulang
+                    OTP</a>
             </div>
         </form>
-        <a class="logout-button" href="{{ route('logout') }}"
+        <a class="logout-link" href="{{ route('logout') }}"
             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Click untuk log Out</a>
 
         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -165,6 +148,21 @@
         </form>
     </div>
     <script>
+        function validateInput(event) {
+            var keyCode = event.keyCode;
+            if (keyCode < 48 || keyCode > 57) {
+                event.preventDefault();
+            }
+        }
+
+        // Menetapkan event listener untuk setiap input
+        document.getElementById("digit1").addEventListener("keypress", validateInput);
+        document.getElementById("digit2").addEventListener("keypress", validateInput);
+        document.getElementById("digit3").addEventListener("keypress", validateInput);
+        document.getElementById("digit4").addEventListener("keypress", validateInput);
+        document.getElementById("digit5").addEventListener("keypress", validateInput);
+        document.getElementById("digit6").addEventListener("keypress", validateInput);
+
         function combineInputs() {
             var digit1 = document.getElementById("digit1").value;
             var digit2 = document.getElementById("digit2").value;

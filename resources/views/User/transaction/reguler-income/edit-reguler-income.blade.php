@@ -81,7 +81,7 @@
                                                     Sekali</option>
                                                 <option value="weakly" @if ($transaction->recurring == 'weakly') selected @endif>
                                                     Mingguan</option>
-                                                <option value="monthly" @if ($transaction->recurring == 'montly') selected @endif>
+                                                <option value="monthly" @if ($transaction->recurring == 'monthly') selected @endif>
                                                     Bulanan</option>
                                                 <option value="yearly" @if ($transaction->recurring == 'yearly') selected @endif>
                                                     Tahunan</option>
@@ -100,19 +100,6 @@
                                             <span id="date-error" class="text-danger"></span>
                                         </div>
                                     </div>
-
-                                    <div class="col-lg-6 col-md-12 col-sm-12">
-                                        <div class="form-group">
-                                            <label>Total trnsaksi</label>
-                                            <input type="number" value="{{ $transaction->count }}" name="count"
-                                                class="form-control" placeholder="Masukkan judul pemasukan" />
-                                            <span id="count-error" class="text-danger"></span>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
                                     <div class="col-lg-6 col-md-12 col-sm-12 description-box">
                                         <div class="form-group" id="summernote_container">
                                             <label class="form-control-label">Deskripsi</label>
@@ -126,10 +113,23 @@
 
                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                         <div class="form-group">
+                                            <label>Total trnsaksi</label>
+                                            <input type="number" value="{{ $transaction->count }}" name="count"
+                                                class="form-control" placeholder="Masukkan judul pemasukan" />
+                                            <span id="count-error" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- <div class="row">
+
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                        <div class="form-group">
                                             <label>Lampiran</label>
                                             <div class="form-group service-upload mb-0">
                                                 @if (!empty($transaction->attachment))
-                                                    <img src="{{ asset('storage/reguler_income_attachment/' . $transaction->attachment) }}"
+                                                    <img src="{{ asset('storage/reguler_expenditure_attachment/' . $transaction->attachment) }}"
                                                         alt="Lampiran Sebelumnya" />
                                                 @else
                                                     <span><img src="{{ asset('assets/img/icons/drop-icon.svg') }}"
@@ -145,10 +145,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="text-end">
-                                <a href="{{ Route('reguler-income.index') }}"
+                                <a href="{{ Route('reguler-expenditure.index') }}"
                                     class="btn btn-primary cancel me-2">Batal</a>
                                 <button type="submit" class="btn btn-primary" id="buttonSave">Simpan</button>
                                 <div id="loadingIndicator" style="display: none;">
