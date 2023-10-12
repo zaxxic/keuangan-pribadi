@@ -34,7 +34,7 @@
                                     <label class="form-control-label">Nama</label>
                                     <input id="name" type="text"
                                         class="form-control @error('name') is-invalid @enderror" name="name"
-                                        value="{{ old('name') }}"  autocomplete="name" autofocus>
+                                        value="{{ old('name') }}" autocomplete="name" autofocus>
 
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
@@ -44,7 +44,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Alamat email</label>
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email">
+                                    <input id="email" type="text"
+                                        class="form-control @error('email') is-invalid @enderror" name="email"
+                                        value="{{ old('email') }}" autocomplete="email">
 
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
@@ -54,25 +56,37 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Password</label>
-                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password"  autocomplete="new-password">
+                                    <input id="password" type="password"
+                                        class="form-control @error('password') is-invalid @enderror" name="password"
+                                        autocomplete="new-password">
 
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Konfirmasi Password</label>
-                                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation"  autocomplete="new-password">
+                                    <input id="password-confirm" type="password"
+                                        class="form-control @error('password_confirmation') is-invalid @enderror"
+                                        name="password_confirmation" autocomplete="new-password">
+
+                                    @error('password_confirmation')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
+
                                 <div class="form-group mb-0">
                                     <button class="btn btn-lg btn-block btn-primary w-100"
                                         type="submit">Register</button>
                                 </div>
                             </form>
 
-                            <div class="text-center dont-have">Sudah punya akun? <a href="{{Route("login")}}">Login</a>
+                            <div class="text-center dont-have">Sudah punya akun? <a
+                                    href="{{ Route('login') }}">Login</a>
                             </div>
                         </div>
                     </div>

@@ -37,16 +37,14 @@ class UserController extends Controller
 
   public function verify(Request $request)
   {
-    $user = auth()->user(); // Dapatkan pengguna yang saat ini masuk
+    $user = auth()->user();
 
     $verificationCode = $request->input('verification_code');
-    // dd('Verification Code: [' . $verificationCode . ']', 'User Code: [' . $user->verification_code . ']');
 
 
-    // dd($verificationCode, $user->verification_code);
     if ($user && strcmp($user->verification_code, $verificationCode) === 0) {
-      $user->email_verified_at = now(); // Atur waktu verifikasi
-      $user->verification_code = null; // Hapus kode verifikasi
+      $user->email_verified_at = now();
+      $user->verification_code = null;
 
       $user->save();
 
@@ -67,25 +65,19 @@ class UserController extends Controller
       if ($lastVerificationSentTime) {
         $timeDifference = $currentTime->diffInMinutes($lastVerificationSentTime);
 
-        // Cek apakah sudah melewati 3 menit sejak pengiriman kode verifikasi terakhir
         if ($timeDifference < 3) {
           return redirect()->back()->with('error', 'Anda hanya dapat meminta ulang kode verifikasi sekali setiap 3 menit.');
         }
       }
 
-      // Generate kode verifikasi baru
       $newVerificationCode = str_pad(rand(1, 999999), 6, '0', STR_PAD_LEFT);
 
-      // Simpan kode verifikasi baru
       $user->verification_code = $newVerificationCode;
 
-      // Simpan timestamp waktu terakhir kali pengiriman kode verifikasi
       $user->last_verification_request_time = $currentTime;
 
-      // Simpan perubahan
       $user->save();
 
-      // Kirim email
       Mail::to($user->email)->queue(new Verified($newVerificationCode));
 
 

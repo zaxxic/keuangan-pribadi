@@ -50,12 +50,14 @@
         <li class="nav-item dropdown">
             <a href="javascript:void(0)" class="user-link  nav-link" data-bs-toggle="dropdown">
                 <span class="user-img">
-                    <img src="/storage/profile/{{ Auth::user()->image }}" alt="img" class="profilesidebar">
+                    <img src="{{ asset('storage/profile/' . Auth::user()->image) }}" alt="User Photo"
+                        class="profilesidebar">
                     <span class="animate-circle"></span>
                 </span>
                 <span class="user-content">
                     <span class="user-details">{{ ucfirst(Auth::user()->role) }}</span>
-                    <span class="user-name">{{ Auth::user()->name }}</span>
+                    <span
+                        class="user-name">{{ strlen(Auth::user()->name) > 13 ? substr(Auth::user()->name, 0, 13) . '...' : Auth::user()->name }}</span>
                 </span>
             </a>
             <div class="dropdown-menu menu-drop-user">
@@ -63,14 +65,11 @@
                     <div class="subscription-menu">
                         <ul>
                             <li>
-                                <a class="dropdown-item" href="profile.html">Profile</a>
+                                <a href="{{ Route('setting') }}" class="dropdown-item" href="profile.html">Profile</a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="#" data-bs-toggle="modal"
                                     data-bs-target="#planModal">Upgrade</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="settings.html">Settings</a>
                             </li>
                         </ul>
                     </div>
@@ -109,20 +108,22 @@
                             <img id="modal-foto" src="" alt="" class="img-fluid">
                         </div>
                         <div class="col-md-6">
-                            <div><strong>Amount:</strong> <span id="modal-amount"></span></div>
-                            <div><strong>Title:</strong> <span id="modal-title"></span></div>
-                            <div><strong>Description:</strong> <span id="modal-description"></span></div>
-                            <div><strong>Payment Method:</strong> <span id="modal-payment-method"></span></div>
-                            <div><strong>Category:</strong> <span id="modal-category"></span></div>
+                            <div><strong>Jumlah:</strong> <span id="modal-amount"></span></div>
+                            <div class="mt-1"><strong>Judul:</strong> <span id="modal-title"></span></div>
+                            <div class="mt-1"><strong>Deskripsi:</strong> <span id="modal-description"></span></div>
+                            <div class="mt-1"><strong>Metode pembayaran:</strong> <span
+                                    id="modal-payment-method"></span></div>
+                            <div class="mt-1"><strong>Kategori :</strong> <span id="modal-category"></span></div>
+                            <div class="d-flex justify-content-center mt-5">
+                                <button type="button" class="btn me-2 btn-primary paid-cancel-btn"
+                                    data-bs-dismiss="modal">Tutup</button>
+                                <button type="button" class="btn btn-primary paid-continue-btn" id="btn-approve"
+                                    data-notification-id="">Setuju</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn me-2 btn-primary paid-cancel-btn"
-                        data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary paid-continue-btn" id="btn-approve"
-                        data-notification-id="">Setuju</button>
-                </div>
+
             </form>
         </div>
     </div>
@@ -144,21 +145,21 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="modal-amount" class="form-label">Amount:</label>
+                        <label for="modal-amount" class="form-label">Jumlah:</label>
                         <span id="modal-amount"></span>
                     </div>
 
                     <div class="mb-3">
-                        <label for="modal-category" class="form-label">Category:</label>
+                        <label for="modal-category" class="form-label">Kategori:</label>
                         <span id="modal-category"></span>
                     </div>
                     <div class="mb-3">
                         <label>Bukti transaksi</label>
-                        <img id="modal-foto" src="" alt="" class="img-fluid mb-3">
+                        <img id="modal-foto" src="" alt="" class="img-fluid mx-auto d-block mb-3">
                         <input type="file" id="modal-foto" name="attachment" class="form-control mb-3">
                     </div>
                     <div class="mb-3">
-                        <label for="modal-description" class="form-label">Description:</label>
+                        <label for="modal-description" class="form-label">Deskripsi:</label>
                         <textarea class="form-control" name="description" id="modal-description" cols="30" rows="5"></textarea>
                     </div>
 

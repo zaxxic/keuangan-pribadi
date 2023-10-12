@@ -40,7 +40,7 @@
                                 @csrf
                                 <div class="form-group">
                                     <label class="form-control-label">Alamat email</label>
-                                    <input id="email" type="email"
+                                    <input id="email" type="text"
                                         class="form-control @error('email') is-invalid @enderror" name="email"
                                         value="{{ old('email') }}" autocomplete="email" autofocus>
 

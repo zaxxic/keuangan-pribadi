@@ -3,7 +3,7 @@
     <div class="page-wrapper">
         <div class="content container-fluid">
             <div class="content-page-header">
-                <h5>Tambah Pemasukan</h5>
+                <h5>Tambah Pengeluaran</h5>
             </div>
             <form id="createIncomeForm">
                 @csrf
@@ -12,7 +12,7 @@
                         <div class="card-body">
                             <div class="form-group-item border-0 pb-0">
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
                                         <div class="form-group">
                                             <label>Judul</label>
                                             <input type="text" name="title" class="form-control"
@@ -22,7 +22,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
                                         <div class="row">
                                             <div class="form-group col-12">
                                                 <label for="kategori">Kategori</label>
@@ -45,7 +45,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
                                         <div class="form-group">
                                             <label>Jumlah </label>
                                             <input type="number" name="amount" class="form-control"
@@ -78,18 +78,12 @@
                                             <span id="date-error" class="text-danger"></span>
                                         </div>
                                     </div>
-
-
-
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-12 description-box">
+                                    <div class="col-lg-6 col-md-12 col-sm-12 description-box">
                                         <div class="form-group" id="summernote_container">
                                             <label class="form-control-label">Deskripsi</label>
                                             <textarea class="form-control" name="description" placeholder="Ketikan deskripsi"></textarea>
-                                            <span id="date-description" class="text-danger"></span>
+                                            <span id="description-error" class="text-danger"></span>
                                         </div>
-
                                     </div>
 
                                     <div class="col-lg-6 col-md-12 col-sm-12">
@@ -99,8 +93,8 @@
                                                 <span><img src="{{ asset('assets/img/icons/drop-icon.svg') }}"
                                                         alt="upload" /></span>
                                                 <h6 class="drop-browse align-center">
-                                                    Letakan photo bukti trnasksi
-                                                    <span class="text-primary ms-1">disini</span>
+                                                    Letakan file disini atau
+                                                    <span class="text-primary ms-1">browse</span>
                                                 </h6>
                                                 <p class="text-muted">Ukuran maksimal: 5MB</p>
                                                 <input type="file" name="attachment" multiple id="image_sign" />
@@ -108,10 +102,16 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+
+
                                 </div>
+
+
                             </div>
                             <div class="text-end">
-                                <a href="{{ Route('expenditure.index') }}" class="btn btn-primary cancel me-2">Batal</a>
+                                <a href="{{ Route('income.index') }}" class="btn btn-primary cancel me-2">Batal</a>
                                 <button type="submit" class="btn btn-primary" id="buttonSave">Simpan</button>
                                 <div id="loadingIndicator" style="display: none;">
                                     <div class="spinner-border text-primary" role="status">

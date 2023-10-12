@@ -35,8 +35,7 @@
                     <ul class="filter-list">
                         <li>
                             <div class="input-group" style="max-width: 450px;">
-                                <input type="text" class="form-control" placeholder="Cari Pemasukan"
-                                    id="searchCategory">
+
                                 <a class="btn btn-primary" href="{{ Route('reguler-income.create') }}"><i
                                         class="fa fa-plus-circle me-2" aria-hidden="true"></i>Tambah Pemasukan</a>
                             </div>
@@ -64,7 +63,6 @@
                                         <th>Jumlah</th>
                                         <th>Transaksi</th>
                                         <th>Berulang</th>
-                                        <th>Bukti</th>
                                         <th>Mode pembayaran</th>
                                         <th>Kategori</th>
                                         <th>Deskripsi</th>
@@ -165,15 +163,7 @@
                     name: 'recurring',
                     searchable: false,
                 },
-                {
-                    data: 'attachment',
-                    name: 'attachment',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, row) {
-                        return data;
-                    }
-                },
+
                 {
                     data: 'payment_method',
                     name: 'payment_method',

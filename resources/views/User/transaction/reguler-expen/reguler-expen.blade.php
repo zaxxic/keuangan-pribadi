@@ -63,7 +63,6 @@
                                         <th>Jumlah</th>
                                         <th>Transaksi</th>
                                         <th>Berulang</th>
-                                        <th>Bukti</th>
                                         <th>Mode pembayaran</th>
                                         <th>Kategori</th>
                                         <th>Deskripsi</th>
@@ -187,15 +186,6 @@
                     data: 'recurring',
                     name: 'recurring',
                     searchable: false,
-                },
-                {
-                    data: 'attachment',
-                    name: 'attachment',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, row) {
-                        return data;
-                    }
                 },
                 {
                     data: 'payment_method',

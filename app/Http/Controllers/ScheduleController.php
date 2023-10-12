@@ -110,13 +110,17 @@ class ScheduleController extends Controller
 
           if ($income->recurring === 'weekly') {
             $income->date = $incomeDate->addWeek(); // Tambah 1 minggu
-          } elseif ($income->recurring === 'daily') {
+        } elseif ($income->recurring === 'daily') {
             $income->date = $incomeDate->addDay(); // Tambah 1 hari
-          } elseif ($income->recurring === 'monthly') {
+        } elseif ($income->recurring === 'once') {
+            $income->date = $incomeDate->subDay(); // Kurangi 1 hari
+        } elseif ($income->recurring === 'monthly') {
             $income->date = $incomeDate->addMonth(); // Tambah 1 bulan
-          } elseif ($income->recurring === 'yearly') {
+        } elseif ($income->recurring === 'yearly') {
             $income->date = $incomeDate->addYear(); // Tambah 1 tahun
-          }
+        }
+        
+
 
           $income->count--;
           $income->save();
@@ -161,9 +165,7 @@ class ScheduleController extends Controller
 
     foreach ($upcomingExpirySubscribers as $subscriber) {
       // Kirim email notifikasi ke pelanggan
-        Mail::to($subscriber->user->email)->send(new ExpireSubscriber($subscriber));
-
-       
+      Mail::to($subscriber->user->email)->send(new ExpireSubscriber($subscriber));
     }
 
     return "Email notifikasi dikirim kepada pelanggan yang akan segera berakhir langganan.";

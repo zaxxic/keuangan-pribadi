@@ -3,7 +3,7 @@
     <div class="page-wrapper">
         <div class="content container-fluid">
             <div class="content-page-header">
-                <h5>Tambah Pemasukan</h5>
+                <h5>Tambah Pengeluaran</h5>
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -94,7 +94,7 @@
                                         <textarea class="summernote form-control" placeholder="Ketikan deskripsi"></textarea>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                {{-- <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="form-group">
                                         <label>Lampiran</label>
                                         <div class="form-group service-upload mb-0">
@@ -109,7 +109,7 @@
                                             <div id="frames"></div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="text-end">

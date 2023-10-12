@@ -78,38 +78,37 @@
                                             <span id="date-error" class="text-danger"></span>
                                         </div>
                                     </div>
-
-
-
-                                </div>
-                                <div class="row">
-                                  <div class="col-lg-6 col-md-12 col-sm-12 description-box">
-                                    <div class="form-group" id="summernote_container">
-                                        <label class="form-control-label">Deskripsi</label>
-                                        <textarea class="form-control" name="description" placeholder="Ketikan deskripsi"></textarea>
-                                        <span id="description-error" class="text-danger"></span>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="col-lg-6 col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <label>Lampiran</label>
-                                        <div class="form-group service-upload mb-0">
-                                            <span><img src="{{ asset('assets/img/icons/drop-icon.svg') }}"
-                                                    alt="upload" /></span>
-                                            <h6 class="drop-browse align-center">
-                                                Letakan file disini atau
-                                                <span class="text-primary ms-1">browse</span>
-                                            </h6>
-                                            <p class="text-muted">Ukuran maksimal: 50MB</p>
-                                            <input type="file" name="attachment" multiple id="image_sign" />
-                                            <div id="frames"></div>
+                                    <div class="col-lg-6 col-md-12 col-sm-12 description-box">
+                                        <div class="form-group" id="summernote_container">
+                                            <label class="form-control-label">Deskripsi</label>
+                                            <textarea class="form-control" name="description" placeholder="Ketikan deskripsi"></textarea>
+                                            <span id="description-error" class="text-danger"></span>
                                         </div>
                                     </div>
+
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Lampiran</label>
+                                            <div class="form-group service-upload mb-0">
+                                                <span><img src="{{ asset('assets/img/icons/drop-icon.svg') }}"
+                                                        alt="upload" /></span>
+                                                <h6 class="drop-browse align-center">
+                                                    Letakan file disini atau
+                                                    <span class="text-primary ms-1">browse</span>
+                                                </h6>
+                                                <p class="text-muted">Ukuran maksimal: 5MB</p>
+                                                <input type="file" name="attachment" multiple id="image_sign" />
+                                                <div id="frames"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
                                 </div>
-                                </div>
+
+
                             </div>
                             <div class="text-end">
                                 <a href="{{ Route('income.index') }}" class="btn btn-primary cancel me-2">Batal</a>

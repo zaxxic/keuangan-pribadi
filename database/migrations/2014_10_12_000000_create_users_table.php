@@ -15,11 +15,11 @@ return new class extends Migration
       $table->uuid('id')->primary();
       $table->string('name');
       $table->string('email')->unique();
-      $table->string('image')->nullable()->default('default.jpg');
+      $table->string('image')->default('default.jpg');
       $table->string('gender')->nullable();
       $table->date('birthday')->nullable();
       $table->timestamp('last_verification_request_time')->nullable();
-      $table->integer('verification_code')->nullable();
+      $table->string('verification_code')->nullable();
       $table->timestamp('email_verified_at')->nullable();
       $table->string('password');
       $table->string('role')->default('user');

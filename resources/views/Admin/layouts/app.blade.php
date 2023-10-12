@@ -12,6 +12,9 @@
 
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+
     <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
 
@@ -249,10 +252,11 @@
             <div class="sidebar-header">
                 <div class="sidebar-logo">
                     <a href="index.html">
-                        <img src="assets/img/logo-white.png" class="img-fluid logo" alt>
+                        {{-- href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}"> --}}
+                        <img src="{{ asset('assets/img/logo-white.png') }}" class="img-fluid logo" alt>
                     </a>
                     <a href="index.html">
-                        <img src="assets/img/logo-small.png" class="img-fluid logo-small" alt>
+                        <img src="{{ asset('assets/img/logo-small.png') }}" class="img-fluid logo-small" alt>
                     </a>
                 </div>
             </div>
@@ -261,18 +265,26 @@
                     <ul>
                         <li class="menu-title"><span>Dashboard</span></li>
                         <li>
-                            <a class="{{ Route::currentRouteName() == 'admin' ? 'active' : '' }}" href="{{ route('admin') }}">
-                                <i
-                                    class="fe fe-home"></i><span>Dashboard</span></a>
+                            <a class="{{ Route::currentRouteName() == 'admin' ? 'active' : '' }}"
+                                href="{{ route('admin') }}">
+                                <i class="fe fe-home"></i><span>Dashboard</span></a>
                         </li>
+                        <li>
+                            <a class="{{ in_array(Route::currentRouteName(), ['income-admin.index', 'expenditure-admin.index']) ? 'active' : '' }}"
+                            href="{{ route('income-admin.index') }}">
+                            <i class="fe fe-home"></i><span>Category</span></a>
+                        </li>
+                        
+
+                         
                     </ul>
 
                     <ul>
                         <li class="menu-title"><span>Langganan</span></li>
                         <li>
-                            <a class="{{ Route::currentRouteName() == 'paid-users' ? 'active' : '' }}" href="{{ route('paid-users') }}">
-                                <i
-                                    class="fe fe-home"></i><span>Users</span></a>
+                            <a class="{{ Route::currentRouteName() == 'paid-users' ? 'active' : '' }}"
+                                href="{{ route('paid-users') }}">
+                                <i class="fe fe-home"></i><span>Users</span></a>
                         </li>
                     </ul>
 

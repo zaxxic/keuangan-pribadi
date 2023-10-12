@@ -31,7 +31,6 @@ class RegulerIncomeController extends Controller
                 ->get();
 
             $transactions->transform(function ($transaction) {
-                // Jalur lampiran dari folder reguler_expenditure_attachment/
                 $attachmentPath = 'reguler_income_attachment/';
                 $transaction->attachmentUrl = asset('storage/' . $attachmentPath . $transaction->attachment);
                 return $transaction;
@@ -54,6 +53,8 @@ class RegulerIncomeController extends Controller
                         return 'Bulanan';
                     } elseif ($row->recurring === 'weekly') {
                         return 'Mingguan';
+                    } elseif ($row->recurring === 'yearly') {
+                        return 'Tahunan';
                     } else {
                         return 'Tidak Diketahui'; // Teks default jika nilai recurring tidak sesuai dengan yang diharapkan
                     }
@@ -63,7 +64,7 @@ class RegulerIncomeController extends Controller
                     return '<td>' . $row->count . '/' . $row->real . '</td>';
                 })
                 ->addColumn('date', function ($row) {
-                    $formattedDate = Carbon::parse($row->created_at)->format('d F Y');
+                    $formattedDate = Carbon::parse($row->date)->format('d F Y');
                     // Ubah nama bulan dalam bahasa Indonesia
                     $formattedDate = str_replace(
                         ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -94,8 +95,8 @@ class RegulerIncomeController extends Controller
                                     <i class="fas fa-ellipsis-v"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item edit-expenditure" href="' . route('reguler-expenditure.edit', ['reguler_expenditure' => $row->id]) . '">Edit</a>
-                                    <a class="dropdown-item delete-income" href="#" data-id="' . $row->id . '" data-route="' . route('reguler-expenditure.destroy', $row->id) . '">Delete</a>
+                                    <a class="dropdown-item edit-expenditure" href="' . route('reguler-income.edit', ['reguler_income' => $row->id]) . '">Edit</a>
+                                    <a class="dropdown-item delete-income" href="#" data-id="' . $row->id . '" data-route="' . route('reguler-income.destroy', $row->id) . '">Delete</a>
                                 </div>
                             </div>';
                 })
@@ -121,7 +122,7 @@ class RegulerIncomeController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'amount' => 'required',
-            'recurring' => 'required',
+            'recurring' => 'required|in:once,daily,weekly,monthly,yearly',
             'count' => 'required',
             'description' => 'required',
             'payment_method' => 'required|in:E-Wallet,Cash,Debit',
@@ -157,7 +158,7 @@ class RegulerIncomeController extends Controller
                 ->count();
 
             if ($incomeCount >= 3) {
-                return response()->json(['error' => 'Anda hanya dapat membuat maksimal 3 entri pendapatan berencana'], 422);
+                return response()->json(['error' => 'Anda hanya dapat membuat maksimal 3 entri pendapatan berencana'], 421);
             }
         }
 

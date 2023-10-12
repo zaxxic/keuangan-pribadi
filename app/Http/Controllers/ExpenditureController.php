@@ -45,7 +45,7 @@ class ExpenditureController extends Controller
                     class="btn btn-primary attachment-button">Lihat</button>';
                 })
                 ->addColumn('date', function ($row) {
-                    $formattedDate = Carbon::parse($row->created_at)->format('d F Y');
+                    $formattedDate = Carbon::parse($row->date)->format('d F Y');
                     // Ubah nama bulan dalam bahasa Indonesia
                     $formattedDate = str_replace(
                         ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],

@@ -35,8 +35,8 @@
 
                                                     </div>
                                                     <div class="col-2">
-                                                        <button type="button" class="btn btn-secondary" data-bs-target="#tambahModal"
-                                                            data-bs-toggle="modal">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-target="#tambahModal" data-bs-toggle="modal">
                                                             +
                                                         </button>
                                                     </div>
@@ -71,13 +71,13 @@
 
                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                         <div class="form-group">
-                                            <label>Jenis metode</label>
+                                            <label>Jenis metode berencana</label>
                                             <select name="recurring" class="select">
                                                 <option value="once">Sekali</option>
-                                                <option value="daily">Haria</option>
+                                                <option value="daily">Harian</option>
                                                 <option value="weekly">Mingguan</option>
                                                 <option value="monthly">Bulanan</option>
-                                                <option value="year">Tahunan</option>
+                                                <option value="yearly">Tahunan</option>
                                             </select>
                                             <span id="recurring-error" class="text-danger"></span>
 
@@ -93,29 +93,28 @@
                                             <span id="date-error" class="text-danger"></span>
                                         </div>
                                     </div>
+                                    <div class="col-lg-6 col-md-12 col-sm-12 description-box">
+                                        <div class="form-group">
+                                            <label class="form-control-label">Deskripsi</label>
+                                            <textarea class="form-control" name="description" placeholder="Ketikan deskripsi"></textarea>
+                                            <span id="description-error" class="text-danger"></span>
+
+                                        </div>
+
+                                    </div>
 
                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                         <div class="form-group">
                                             <label>Total trnsaksi</label>
-                                            <input type="text" name="count" class="form-control"
-                                                placeholder="Masukkan judul pemasukan" />
+                                            <input type="number" name="count" class="form-control"
+                                                placeholder="masukan berapa kali trnsaksi ingin di lakukan" />
                                             <span id="count-error" class="text-danger"></span>
 
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                  <div class="col-lg-6 col-md-12 col-sm-12 description-box">
-                                    <div class="form-group" id="summernote_container">
-                                        <label class="form-control-label">Deskripsi</label>
-                                        <textarea class="form-control" name="description" placeholder="Ketikan deskripsi"></textarea>
-                                        <span id="date-description" class="text-danger"></span>
 
-                                        <span id="count-error" class="text-danger"></span>
-
-                                    </div>
-
-                                </div>
+                                {{-- <div class="row">
 
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="form-group">
@@ -133,7 +132,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="text-end">
                                 <a href="{{ Route('income.index') }}" class="btn btn-primary cancel me-2">Batal</a>
@@ -217,6 +216,11 @@
                                     0]; // Ambil pesan kesalahan pertama
                                 $('#' + field + '-error').text(errorMessage);
                             });
+                        } else if (xhr.status === 421) {
+                            toastr.error(xhr.responseJSON.error, 'Error');
+                        } else {
+                            toastr.error('Terjadi kesalahan. Silakan coba lagi nanti.',
+                                'Error');
                         }
                     }
                 });
