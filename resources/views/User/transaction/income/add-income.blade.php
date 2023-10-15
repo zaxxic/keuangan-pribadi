@@ -76,8 +76,7 @@
                                         <div class="form-group">
                                             <label>Lampiran</label>
                                             <div class="form-group service-upload mb-0">
-                                                <span><img src="{{ asset('assets/img/icons/drop-icon.svg') }}"
-                                                        alt="upload" /></span>
+                                                <span><img src="{{ asset('assets/img/icons/drop-icon.svg') }}"alt="upload" /></span>
                                                 <h6 class="drop-browse align-center">
                                                     Letakan file disini atau
                                                     <span class="text-primary ms-1">browse</span>
