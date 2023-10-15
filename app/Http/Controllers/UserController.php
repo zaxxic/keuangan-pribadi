@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Verified;
+use App\Models\Saving;
 use Carbon\Carbon;
 
 class UserController extends Controller
