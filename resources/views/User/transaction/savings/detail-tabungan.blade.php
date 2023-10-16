@@ -29,10 +29,14 @@
 @php
 use App\Models\HistorySaving;
 use App\Models\HistoryTransaction;
-$now = HistorySaving::where('saving_id', $saving->id)->whereHas('history', function ($q) {
-  $q->where('status', 'paid');
+$income = HistorySaving::where('saving_id', $saving->id)->whereHas('history', function ($q) {
+$q->where('status', 'paid')->where('content', 'expenditure');
 })->withSum('history', 'amount')->get();
-$progress = $now->sum('history_sum_amount') / $saving->target_balance * 100;
+$expenditure = HistorySaving::where('saving_id', $saving->id)->whereHas('history', function ($q) {
+$q->where('status', 'paid')->where('content', 'income');
+})->withSum('history', 'amount')->get();
+$now = $income->sum('history_sum_amount') - $expenditure->sum('history_sum_amount');
+$progress = $now / $saving->target_balance * 100;
 $progress = intval(round($progress));
 @endphp
 
@@ -65,7 +69,7 @@ $progress = intval(round($progress));
                 </span>
                 <div class="dash-count" style="width: 60%">
                   <div class="dash-counts">
-                    <p>Rp {{ number_format($now->sum('history_sum_amount'), 0, '', '.') }} / Rp {{ number_format($saving->target_balance, 0, '', '.') }}</p>
+                    <p>Rp {{ number_format($now, 0, '', '.') }} / Rp {{ number_format($saving->target_balance, 0, '', '.') }}</p>
                   </div>
                   <div class="progress progress-sm mt-3">
                     <div class="progress-bar" role="progressbar" style="width: {{ $progress }}%" aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100"></div>
@@ -77,14 +81,22 @@ $progress = intval(round($progress));
                   <a href="#deskripsi" data-bs-toggle="tab" aria-expanded="false" class="nav-link active"> Deskripsi </a>
                 </li>
                 <li class="nav-item">
-                  <a href="#anggota" data-bs-toggle="tab" aria-expanded="true" class="nav-link"> Anggota </a>
+                  <a href="#history" data-bs-toggle="tab" aria-expanded="true" class="nav-link"> History </a>
                 </li>
+                <li class="nav-item">
+                  <a href="#tambah" data-bs-toggle="tab" aria-expanded="true" class="nav-link"> Tambah </a>
+                </li>
+                @if (!count($saving->members))
+                <li class="nav-item">
+                  <a href="#tarik" data-bs-toggle="tab" aria-expanded="true" class="nav-link"> Tarik </a>
+                </li>
+                @endif
               </ul>
               <div class="tab-content">
                 <div class="tab-pane show active" id="deskripsi">
                   {{ $saving->description }}
                 </div>
-                <div class="tab-pane" id="anggota">
+                <div class="tab-pane" id="history">
                   <div id="accordion">
                     @foreach ($members as $member)
                     <div class="mb-4">
@@ -123,7 +135,7 @@ $progress = intval(round($progress));
                                 <td>{{ date("d Y M", strtotime($history->date)) }}</td>
                                 <td>Rp {{ number_format($history->amount, 0, '', '.') }}</td>
                                 <td>
-                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal" data-avaible="{{ $history->attachment }}" data-bs-image="{{ asset('storage/income_attachment/' . $history->attachment) }}">Lihat</button>
+                                  <button class="btn btn-primary" data-bs-target="#modalImage" data-bs-toggle="modal" data-avaible="{{ $history->attachment }}" data-bs-image="{{ asset('storage/expenditure_attachment/' . $history->attachment) }}">Lihat</button>
                                 </td>
                                 <td><span class="badge bg-{{ ($history->status == 'paid') ? 'success' : 'danger' }}-light">{{ $history->status }}</span></td>
                               </tr>
@@ -144,7 +156,151 @@ $progress = intval(round($progress));
                       </div>
                     </div>
                     @endforeach
+                    @if (count($pengeluaran))
+                    <div class="mb-4">
+                      <div id="headingPengeluaran">
+                        <h6 class="accordion-faq m-0">
+                          <div class="d-flex justify-content-between">
+                            <a class="text-dark buttonRowCollapse" data-bs-toggle="collapse" href="#collapsePengeluaran" aria-expanded="true">
+                              Pengeluaran
+                            </a>
+                            <p class="text-muted text-small">
+                              Rp. {{ number_format($pengeluaran->sum('amount'), 0, '', '.') }}
+                            </p>
+                          </div>
+                        </h6>
+                      </div>
+                      <div id="collapsePengeluaran" class="collapse" aria-labelledby="headingPengeluaran" data-bs-parent="#accordion">
+                        <div class="card-body">
+                          <table class="table table-stripped table-hover mb-3">
+                            <thead class="thead-light">
+                              <tr>
+                                <th>Jumlah</th>
+                                <th>Tanggal</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              @foreach ($pengeluaran as $keluar)
+                              <tr class="{{ ($loop->index > 2) ? " collapse collapseExamplePengeluaran tableRowCollapse" : '' }}">
+                                <td>Rp {{ number_format($keluar->amount, 0, '', '.') }}</td>
+                                <td>{{ date("d Y M", strtotime($keluar->date)) }}</td>
+                              </tr>
+                              @endforeach
+                            </tbody>
+                          </table>
+                          <div class="d-flex justify-content-between">
+                            @if (count($pengeluaran) > 3)
+                            <button class="btn btn-primary inCollapse" type="button" data-bs-toggle="collapse" data-bs-target=".collapseExampleLainnya" aria-expanded="false" aria-controls="collapseExampleLainnya">Selengkapnya...</button>
+                            @endif
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    @endif
+                    @if (count($lainnya))
+                    <div class="mb-4">
+                      <div id="headingLainnya">
+                        <h6 class="accordion-faq m-0">
+                          <div class="d-flex justify-content-between">
+                            <a class="text-dark buttonRowCollapse" data-bs-toggle="collapse" href="#collapseLainnya" aria-expanded="true">
+                              Lainnya
+                            </a>
+                            <p class="text-muted text-small">
+                              Rp. {{ number_format($lainnya->sum('amount'), 0, '', '.') }}
+                            </p>
+                          </div>
+                        </h6>
+                      </div>
+                      <div id="collapseLainnya" class="collapse" aria-labelledby="headingLainnya" data-bs-parent="#accordion">
+                        <div class="card-body">
+                          <table class="table table-stripped table-hover mb-3">
+                            <thead class="thead-light">
+                              <tr>
+                                <th>Nama</th>
+                                <th>Jumlah</th>
+                                <th>Tanggal</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              @foreach ($lainnya as $lain)
+                              <tr class="{{ ($loop->index > 2) ? " collapse collapseExampleLainnya tableRowCollapse" : '' }}">
+                                <td>{{ $lain->name }}</td>
+                                <td>Rp {{ number_format($lain->amount, 0, '', '.') }}</td>
+                                <td>{{ date("d Y M", strtotime($lain->date)) }}</td>
+                              </tr>
+                              @endforeach
+                            </tbody>
+                          </table>
+                          <div class="d-flex justify-content-between">
+                            @if (count($lainnya) > 3)
+                            <button class="btn btn-primary inCollapse" type="button" data-bs-toggle="collapse" data-bs-target=".collapseExampleLainnya" aria-expanded="false" aria-controls="collapseExampleLainnya">Selengkapnya...</button>
+                            @endif
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    @endif
                   </div>
+                </div>
+                <div class="tab-pane show" id="tambah">
+                  <form class="prosesForm" action="{{ route('setor') }}">
+                    @csrf
+                    <input type="hidden" name="saving_id" value="{{ $saving->id }}">
+                    <div class="mb-3">
+                      <label for="setortitle" class="form-label">Judul</label>
+                      <input type="text" class="form-control" id="setortitle" name="title" value="{{ $saving->title }}">
+                      <span class="text-danger title-error"></span>
+                    </div>
+                    <div class="mb-3">
+                      <label for="setoramount" class="form-label">Jumlah</label>
+                      <input type="number" class="form-control" id="setoramount" name="amount">
+                      <span class="text-danger amount-error"></span>
+                    </div>
+                    <div class="mb-3">
+                      <label for="setordescription" class="form-label">Deskripsi</label>
+                      <textarea class="form-control" id="setordescription" name="description" rows="3">{{ $saving->description }}</textarea>
+                      <span class="text-danger description-error"></span>
+                    </div>
+                    <div class="mb-3">
+                      <div class="form-group">
+                        <label>Gambar</label>
+                        <div class="form-group service-upload mb-0">
+                          <span><img src="{{ asset('assets/img/icons/drop-icon.svg') }}" alt="upload" /></span>
+                          <h6 class="drop-browse align-center">
+                            Letakan file disini atau
+                            <span class="text-primary ms-1">browse</span>
+                          </h6>
+                          <p class="text-muted">Ukuran maksimal: 5MB</p>
+                          <input type="file" name="attachment" id="image_sign" />
+                          <div id="frames"></div>
+                        </div>
+                      </div>
+                      <span class="text-danger attachment-error"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Tambah</button>
+                  </form>
+                </div>
+                <div class="tab-pane show" id="tarik">
+                  <form class="prosesForm" action="{{ route('tarik') }}">
+                    @csrf
+                    <input type="hidden" name="saving_id" value="{{ $saving->id }}">
+                    <div class="mb-3">
+                      <label for="tariktitle" class="form-label">Judul</label>
+                      <input type="text" class="form-control" id="tariktitle" name="title" value="{{ $saving->title }}">
+                      <span class="text-danger title-error"></span>
+                    </div>
+                    <div class="mb-3">
+                      <label for="tarikamount" class="form-label">Jumlah</label>
+                      <input type="number" class="form-control" id="tarikamount" name="amount">
+                      <span class="text-danger amount-error"></span>
+                    </div>
+                    <div class="mb-3">
+                      <label for="tarikdescription" class="form-label">Deskripsi</label>
+                      <textarea class="form-control" id="tarikdescription" name="description" rows="3">{{ $saving->description }}</textarea>
+                      <span class="text-danger description-error"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Tarik</button>
+                  </form>
                 </div>
               </div>
             </div>
@@ -179,7 +335,8 @@ $progress = intval(round($progress));
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <img id="attachmentImage" src="" alt="Attachment" data-filename="">
+        <p>Tidak ada gambar</p>
+        <img id="attachmentImage" src="" data-filename="">
         <i id="downloadIcon" class="fas fa-download"></i>
       </div>
     </div>
@@ -274,7 +431,7 @@ $progress = intval(round($progress));
       })
     });
 
-    $('#anggota').on('click', '.kick', function (e) {
+    $('#history').on('click', '.kick', function (e) {
       const csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
       let user_id = this.dataset.id;
       let member = e.target.parentElement.parentElement.parentElement.parentElement;
@@ -321,10 +478,14 @@ $progress = intval(round($progress));
   $(document).on('click', 'button[data-bs-target="#modalImage"]', function() {
       let imageUrl = $(this).data('bs-image');
       let avaible = $(this).data('avaible');
+      let img = document.getElementById("attachmentImage");
+      $('#attachmentImage').attr('src', imageUrl);
       if(!avaible){
-        document.getElementById("attachmentImage").parentElement.innerHTML = "Tidak ada gambar";
+        img.previousElementSibling.style.display = "block";
+        img.style.display = "none";
       } else {
-        $('#attachmentImage').attr('src', imageUrl);
+        img.previousElementSibling.style.display = "none";
+        img.style.display = "block";
       }
   });
   // Tampilkan ikon download saat gambar dihover
@@ -340,7 +501,7 @@ $progress = intval(round($progress));
       let fileName = $(this).data('filename'); // Ambil nama file dari atribut data
       let link = document.createElement('a');
       link.href = imgSrc;
-      link.download = 'Attachment'; // Gunakan nama file dari atribut data
+      link.download = 'Attachment.jpg'; // Gunakan nama file dari atribut data
       link.click();
   });
 
@@ -397,5 +558,45 @@ $progress = intval(round($progress));
     data: datapie,
     options: optionpie,
   });
+</script>
+<script>
+  $('.prosesForm').submit(function(e) {
+  e.preventDefault();
+  let button = e.target.querySelector("button[type=submit]");
+  button.innerHTML = /*html*/ `<span class="spinner-border spinner-border-sm me-2"></span> Menyimpan...`
+  button.setAttribute("disabled", "");
+
+  let formData = new FormData(this);
+  let uri = e.target.getAttribute("action");
+
+  $.ajax({
+    url: uri,
+    type: 'POST',
+    data: formData,
+    processData: false, // Hindari pemrosesan otomatis data
+    contentType: false, // Hindari pengaturan otomatis tipe konten
+    success: function(response) {
+      toastr.success(response.message, 'Berhasil');
+      location.reload();
+    },
+    error: function(xhr) {
+      if (xhr.status === 422) {
+        if(xhr.responseJSON.message){
+          toastr.error(xhr.responseJSON.message, 'Gagal');
+        } else {
+          let errors = xhr.responseJSON.errors;
+          // Reset pesan kesalahan sebelum menambahkan yang baru
+          $('.text-danger').text('');
+          $.each(errors, function(field, messages) {
+            let errorMessage = messages[0]; // Ambil pesan kesalahan pertama
+            e.target.querySelector("." + field + "-error").textContent = errorMessage;
+          });
+        }
+        button.innerHTML = /*html*/ `Tambah`;
+        button.removeAttribute("disabled");
+      }
+    }
+  });
+});
 </script>
 @endsection

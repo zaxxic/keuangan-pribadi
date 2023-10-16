@@ -19,7 +19,7 @@ class ScheduleController extends Controller
   {
     $today = Carbon::today();
 
-    $savings = Saving::where('status', true)->with(['user', 'histories' => function ($q) {
+    $savings = Saving::doesntHave('members')->where('status', true)->with(['user', 'histories' => function ($q) {
       $q->withSum('history', 'amount');
     }])->get();
 

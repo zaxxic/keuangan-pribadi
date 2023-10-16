@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Saving;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use App\Mail\Invitation;
+use App\Models\Category;
 use App\Models\HistorySaving;
 use App\Models\HistoryTransaction;
 use App\Models\RegularSaving;
@@ -25,16 +26,16 @@ class SavingController extends Controller
   public function index()
   {
     $s = '';
-    if(request()->get('s')){
+    if (request()->get('s')) {
       $s = request()->get('s');
     }
     $data = [
       // 'savings' => collect([Auth::user()->savings->sortByDesc('created_at'), Auth::user()->memberOf->sortByDesc('created_at')])->flatten(1)->paginate(2)->withQueryString()
-      'savings' => Saving::where(function($q){
-        $q->where('user_id', Auth::user()->id)->orWhereHas('members', function(Builder $q){
+      'savings' => Saving::where(function ($q) {
+        $q->where('user_id', Auth::user()->id)->orWhereHas('members', function (Builder $q) {
           $q->where('users.id', Auth::user()->id);
         });
-      })->where(function($q) use($s){
+      })->where(function ($q) use ($s) {
         $q->where('title', 'like', "%$s%")->orWhere('description', 'like', "%$s%");
       })->orderBy('created_at', 'DESC')->paginate(8)->withQueryString()
     ];
@@ -154,12 +155,13 @@ class SavingController extends Controller
     if (Gate::denies('members', $saving)) {
       return abort(401);
     }
+    $histories = HistoryTransaction::whereHas('hasSaving', function ($q) use ($saving) {
+      $q->where('saving_id', $saving->id);
+    })->orderBy('created_at', 'DESC')->get();
     $data = [
       'saving' => $saving,
       'members' => collect([User::where('id', $saving->user_id)->first(), $saving->members])->flatten(1),
-      'allHistories' => HistoryTransaction::whereHas('hasSaving', function ($q) use ($saving) {
-        $q->where('saving_id', $saving->id);
-      })->orderBy('date', 'DESC')->get()
+      'allHistories' => $histories->where('content', 'expenditure')
     ];
     $data['chartData'] = [
       'labels' => [],
@@ -167,7 +169,9 @@ class SavingController extends Controller
       'backgroundColor' => []
     ];
 
+    $anggota = [];
     foreach ($data['members'] as $member) {
+      $anggota[] = $member->id;
       array_push($data['chartData']['labels'], explode(' ', $member->name)[0]);
       $histories = $data['allHistories']->filter(function ($item) use ($member) {
         return $item->user_id == $member->id && $item->status == 'paid';
@@ -175,6 +179,10 @@ class SavingController extends Controller
       array_push($data['chartData']['data'], count($histories));
       array_push($data['chartData']['backgroundColor'], '#' . dechex(mt_rand(0, 16777215)));
     }
+
+    $data['lainnya'] = HistorySaving::where("saving_id", $saving->id)->join('history_transactions as ht', 'history_savings.history_transaction_id', '=', "ht.id")->join("users as u", 'ht.user_id', '=', 'u.id')->select('u.name as name', 'ht.amount as amount', 'ht.date as date', 'ht.user_id as id')->where('ht.user_id', "!=", $anggota)->where('ht.content', 'expenditure')->orderBy('date', 'DESC')->get();
+
+    $data['pengeluaran'] = HistorySaving::where("saving_id", $saving->id)->join('history_transactions as ht', 'history_savings.history_transaction_id', '=', "ht.id")->select('ht.amount as amount', 'ht.date as date')->where('ht.content', 'income')->orderBy('date', 'DESC')->get();
 
     return view('User.transaction.savings.detail-tabungan', $data);
   }
@@ -237,7 +245,7 @@ class SavingController extends Controller
 
     if (!$subscribe && $request->input('status') != $saving->status) {
       $count = Auth::user()->memberOf->where('status', true)->count() + Auth::user()->savings->where('status', true)->count();
-      if($saving->status == true){
+      if ($saving->status == true) {
         $count -= 1;
       }
 
@@ -362,17 +370,127 @@ class SavingController extends Controller
   {
     $saving = Saving::where('id', $request->post('saving_id'))->first();
     $user = $request->post('user_id');
-    $user_id = Auth::user()->id;
 
-    if (Gate::denies('owner')) {
+    if (Gate::denies('owner', $saving)) {
       return response()->json(['message' => 'Anda tidak memiliki akses'], 422);
     }
 
-    if (Gate::allows('owner')) {
+    if ($saving->user_id === $user) {
       return response()->json(['message' => 'Anda adalah ketua'], 422);
     }
 
     $saving->members()->detach($user);
     return response()->json(['message' => 'Kick berhasil'], 200);
+  }
+
+  public function setor(Request $request)
+  {
+    $validator = Validator::make($request->all(), [
+      'title' => 'required|max:255',
+      'amount' => 'required|numeric|lte:' . Auth::user()->total(),
+      'description' => 'required|string|max:400',
+
+      'attachment' => 'image|mimes:jpeg,png,jpg|max:5120',
+    ], [
+      'title.required' => 'Judul harus diisi.',
+      'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
+      'description.required' => 'Deskripsi harus diisi.',
+      'description.string' => 'Deskripsi harus berupa teks.',
+      'description.max' => 'Deskripsi tidak boleh lebih dari 400 karakter.',
+      'amount.required' => 'Jumlah harus diisi.',
+      'amount.numeric' => 'Jumlah harus angka.',
+      'amount.lte' => 'Saldo tidak mencukupi',
+      'attachment.image' => 'Bukti pembayaran harus berupa gambar.',
+      'attachment.mimes' => 'Bukti pembayaran harus berupa JPG, PNG, atau JPEG.',
+      'attachment.max' => 'Bukti pembayaran tidak boleh lebih dari 5 Mb.',
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json(['errors' => $validator->errors()], 422);
+    }
+
+    $saving = Saving::where('id', $request->input('saving_id'))->first();
+
+    if (!$saving || Gate::denies('members', $saving)) {
+      return response()->json(['message' => 'Kesalahan internal'], 422);
+    }
+
+    if ($request->hasFile('attachment')) {
+      $attachmentPath = $request->file('attachment')->store('public/expenditure_attachment');
+      $attachmentName = basename($attachmentPath);
+    } else {
+      $attachmentName = null;
+    }
+
+    $history = HistoryTransaction::create([
+      'title' => $request->input('title'),
+      'amount' => $request->input('amount'),
+      'description' => $request->input('description'),
+      'payment_method' => 'Debit',
+      'attachment' => $attachmentName,
+      'content' => 'expenditure',
+      'source' => 'tabungan',
+      'status' => 'paid',
+      'date' => today()->format("Y-m-d"),
+      'user_id' => Auth::user()->id,
+      'category_id' => Category::where('name', 'Tabungan')->first()->id
+    ]);
+
+    $history->hasSaving()->create([
+      'saving_id' => $saving->id
+    ]);
+
+    return response()->json(['message' => 'Setoran berhasil!']);
+  }
+
+  public function tarik(Request $request)
+  {
+    $saving = Saving::where('id', $request->input('saving_id'))->first();
+
+    if (!$saving || Gate::denies('members', $saving) || count($saving->members)) {
+      return response()->json(['message' => 'Kesalahan internal'], 422);
+    }
+
+    $historySaving = HistorySaving::where('saving_id', $saving->id)->join('history_transactions as ht', 'history_savings.history_transaction_id', '=', 'ht.id')->select('ht.content as content', 'ht.amount as amount')->orderBy('ht.created_at', 'DESC')->get();
+    $now = $historySaving->where('content', 'expenditure')->sum('amount') - $historySaving->where('content', 'income')->sum('amount');
+
+    $validator = Validator::make($request->all(), [
+      'title' => 'required|max:255',
+      'amount' => 'required|numeric|lte:' . $now,
+      'description' => 'required|string|max:400',
+    ], [
+      'title.required' => 'Judul harus diisi.',
+      'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
+      'description.required' => 'Deskripsi harus diisi.',
+      'description.string' => 'Deskripsi harus berupa teks.',
+      'description.max' => 'Deskripsi tidak boleh lebih dari 400 karakter.',
+      'amount.required' => 'Jumlah harus diisi.',
+      'amount.numeric' => 'Jumlah harus angka.',
+      'amount.lte' => 'Saldo tidak mencukupi',
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json(['errors' => $validator->errors()], 422);
+    }
+
+    $history = HistoryTransaction::create([
+      'title' => $request->input('title'),
+      'amount' => $request->input('amount'),
+      'description' => $request->input('description'),
+      'payment_method' => 'Debit',
+      'attachment' => null,
+      'content' => 'income',
+      'source' => 'tabungan',
+      'status' => 'paid',
+      'date' => today()->format("Y-m-d"),
+      'user_id' => Auth::user()->id,
+      'category_id' => Category::where('name', 'Tabungan')->first()->id
+    ]);
+
+    $history->hasSaving()->create([
+      'saving_id' => $saving->id
+    ]);
+
+    return response()->json(['message' => 'Penarikan berhasil!']);
   }
 }

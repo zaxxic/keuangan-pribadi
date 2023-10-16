@@ -53,21 +53,34 @@
                     <textarea class="form-control" name="description" placeholder="Ketikan deskripsi" {{ ($saving->status == false) ? "disabled" : '' }}>{{ $saving->description }}</textarea>
                     <span id="description-error" class="text-danger"></span>
                   </div>
+                  <div class="form-group">
+                    <label>Status</label>
+                    <select name="status" class="select">
+                      <option value="1" {{ ($saving->status == true) ? 'selected' : '' }}>Aktif</option>
+                      <option value="0" {{ ($saving->status == false) ? 'selected' : '' }}>Terkunci</option>
+                    </select>
+                    <span id="status-error" class="text-danger"></span>
+                  </div>
 
                 </div>
                 <div class="col-md-6">
                   <div class="billing-btn mb-2">
-                    <h5 style="color: #f7f8f9" class="form-title">a</h5>
+                    <h5 class="form-title">Berulang</h5>
                   </div>
+                  @if (count($saving->members))
+                  <div class="alert alert-warning" role="alert">
+                    Berulang tidak bisa digunakan ketika anggota lebih dari 1!
+                  </div>
+                  @endif
                   <div class="form-group">
                     <label>Tanggal mulai transaksi</label>
-                    <input type="date" name="date" class="form-control" placeholder="Tanggal Mulai Pembayaran" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" value="{{ $saving->regular->date }}" {{ ($saving->status == false) ? "disabled" : '' }} />
+                    <input type="date" name="date" class="form-control" placeholder="Tanggal Mulai Pembayaran" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" value="{{ $saving->regular->date }}" {{ ($saving->status == false) ? "disabled" : '' }} {{ (count($saving->members)) ? "disabled" : "" }} />
                     <span id="date-error" class="text-danger"></span>
                   </div>
                   <div class="form-group">
                     <div class="form-group">
                       <label>Metode Pembayaran</label>
-                      <select name="payment_method" class="select" {{ ($saving->status == false) ? "disabled" : '' }}>
+                      <select name="payment_method" class="select" {{ ($saving->status == false) ? "disabled" : '' }} {{ (count($saving->members)) ? "disabled" : "" }}>
                         <option value="">Pilih Metode Pembayaran</option>
                         <option value="Debit" {{ ($saving->regular->payment_method == 'Debit') ? 'selected' : '' }}>Debit</option>
                         <option value="Cash" {{ ($saving->regular->payment_method == 'Cash') ? 'selected' : '' }}>Cash</option>
@@ -79,10 +92,10 @@
                   <div class="form-group">
                     <div class="form-group">
                       <label>Jenis Metode</label>
-                      <select name="recurring" class="select" {{ ($saving->status == false) ? "disabled" : '' }}>
-                        <option value="week"{{ ($saving->regular->recurring == 'week') ? 'selected' : '' }}>Mingguan</option>
+                      <select name="recurring" class="select" {{ ($saving->status == false) ? "disabled" : '' }} {{ (count($saving->members)) ? "disabled" : "" }}>
+                        <option value="week" {{ ($saving->regular->recurring == 'week') ? 'selected' : '' }}>Mingguan</option>
                         <option value="month">{{ ($saving->regular->recurring == 'month') ? 'selected' : '' }}Bulanan</option>
-                        <option value="year"{{ ($saving->regular->recurring == 'year') ? 'selected' : '' }}>Tahunan</option>
+                        <option value="year" {{ ($saving->regular->recurring == 'year') ? 'selected' : '' }}>Tahunan</option>
                       </select>
                       <span id="recurring-error" class="text-danger"></span>
                     </div>
@@ -90,19 +103,9 @@
 
                   <div class="form-group">
                     <label>Jumlah</label>
-                    <input type="number" name="amount" class="form-control" placeholder="Saldo yang diambil" value="{{ $saving->regular->amount }}" {{ ($saving->status == false) ? "disabled" : '' }} />
+                    <input type="number" name="amount" class="form-control" placeholder="Saldo yang diambil" value="{{ $saving->regular->amount }}" {{ ($saving->status == false) ? "disabled" : '' }} {{ (count($saving->members)) ? "disabled" : "" }}/>
                     <span id="amount-error" class="text-danger"></span>
                   </div>
-
-                  <div class="form-group">
-                    <label>Status</label>
-                    <select name="status" class="select">
-                      <option value="1" {{ ($saving->status == true) ? 'selected' : '' }}>Aktif</option>
-                      <option value="0" {{ ($saving->status == false) ? 'selected' : '' }}>Terkunci</option>
-                    </select>
-                    <span id="status-error" class="text-danger"></span>
-                  </div>
-
                 </div>
               </div>
             </div>
