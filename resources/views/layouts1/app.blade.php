@@ -98,68 +98,7 @@
 
 
         @yield('content')
-        <div class="modal fade" id="planModal" tabindex="-1" aria-labelledby="planModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <button type="button" class="btn-close float-end" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                        <div class="price-table-main">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="plan-header">
-                                        <span class="plan-widget-icon">
-                                            <img src="assets/img/icons/plan-price-01.svg" alt>
-                                        </span>
-                                        <div class="plan-title">
-                                            <h6>Member Bulanan</h6>
-                                            <h4 class="plan-name">Gratis 1 Bulan</h4>
-                                        </div>
-                                    </div>
-                                    <div class="description-content">
-                                        <p>Dapatkan fitur premium untuk akses penuh</p>
-                                    </div>
-                                    <div class="price-dollar">
-                                        <h1 class="d-flex align-items-center">Rp 90.000,00<span
-                                                class="ms-1">/bulan</span>
-                                        </h1>
-                                    </div>
-                                    <div class="plan-description">
-                                        <h6>Apa yang di dapatkan</h6>
-                                        <ul>
-                                            <li class="mt-2">
-                                                <span class="rounded-circle me-2"><i class="fe fe-check"></i></span>
-                                                Pemasukan Berulang
-                                            </li>
-                                            <li class="mt-2">
-                                                <span class="rounded-circle me-2"><i class="fe fe-check"></i></span>
-                                                Pengeluaran Berulang
-                                            </li>
-                                            <li class="mt-2">
-                                                <span class="rounded-circle me-2"><i class="fe fe-check"></i></span>
-                                                Export transaksi ke excel
-                                            </li>
-                                            <li class="mt-2">
-                                                <span class="rounded-circle me-2"><i class="fe fe-check"></i></span>
-                                                DLL...
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="plan-button">
-                                        <form action="{{ Route('subs') }}" method="POST">
-                                            @csrf
-                                            <button
-                                                class="btn btn-primary d-flex align-items-center justify-content-center"
-                                                type="submit">Mulai Berlangganan</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+       
 
     </div>
 

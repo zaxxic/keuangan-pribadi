@@ -51,12 +51,20 @@
             </ul>
             <ul>
                 <li class="menu-title"><span>Menu</span></li>
+                <li>
+                    <a class="{{ in_array(Route::currentRouteName(), ['subs.index', 'subs']) ? 'active' : '' }}"
+                        href="{{ route('subs.index') }}">
+                        <i class="fe fe-book"></i><span>Member</span></a>
+                </li>
 
 
                 <li>
                     <a class="{{ Route::currentRouteName() == 'total' ? 'active' : '' }}"
                         href="{{ route('total') }}"><i class="fe fe-percent"></i><span>Total</span></a>
                 </li>
+
+
+
                 <li>
                     <a class="{{ in_array(Route::currentRouteName(), ['setting', 'income_category.index', 'expenditure_category.index']) ? 'active' : '' }}"
                         href="{{ route('setting') }}">

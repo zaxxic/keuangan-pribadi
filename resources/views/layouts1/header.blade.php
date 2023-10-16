@@ -68,8 +68,7 @@
                                 <a href="{{ Route('setting') }}" class="dropdown-item" href="profile.html">Profile</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                    data-bs-target="#planModal">Upgrade</a>
+                                <a class="dropdown-item" href="{{Route('subs.index')}}">Upgrade</a>
                             </li>
                         </ul>
                     </div>
