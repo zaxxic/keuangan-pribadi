@@ -22,11 +22,11 @@ class RegulerExpenController extends Controller
             $user = Auth::user();
 
             // Dapatkan transaksi pengeluaran untuk pengguna yang diautentikasi
-             $transactions = RegularTransaction::with(['category', 'histories'])
-            ->where('user_id', $user->id)
-            ->where('content', 'expenditure')
-            ->orderBy('created_at', 'desc')
-            ->get();
+            $transactions = RegularTransaction::with('category')
+                ->where('user_id', $user->id)
+                ->where('content', 'expenditure')
+                ->orderBy('created_at', 'desc')
+                ->get();
 
             $transactions->transform(function ($transaction) {
                 // Jalur lampiran dari folder reguler_expenditure_attachment/
