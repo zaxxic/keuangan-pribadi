@@ -415,6 +415,14 @@ class SavingController extends Controller
       return response()->json(['message' => 'Kesalahan internal'], 422);
     }
 
+    $historySaving = HistorySaving::where('saving_id', $saving->id)->join('history_transactions as ht', 'history_savings.history_transaction_id', '=', 'ht.id')->select('ht.content as content', 'ht.amount as amount')->orderBy('ht.created_at', 'DESC')->get();
+
+    $now = $historySaving->where('content', 'expenditure')->sum('amount') - $historySaving->where('content', 'income')->sum('amount');
+
+    if ($request->input('amount') + $now > $saving->target_balance) {
+      return response()->json(['message' => 'Tidak bisa lebih daritarget tabungan'], 422);
+    }
+
     if ($request->hasFile('attachment')) {
       $attachmentPath = $request->file('attachment')->store('public/expenditure_attachment');
       $attachmentName = basename($attachmentPath);

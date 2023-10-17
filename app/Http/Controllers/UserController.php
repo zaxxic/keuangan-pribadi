@@ -31,6 +31,14 @@ class UserController extends Controller
       'incomes' => $histories->filter(fn ($item) => $item->content === 'income')->slice(0, 5),
       // 'chartData' => $this->filterDashboard($histories)
     ];
+    $data['percentage'] = intval(($data['inAmount'] - $data['exAmount']) / $data['inAmount'] * 100);
+    if($data['percentage'] > 0){
+      $data['percentage'] = '+' . $data['percentage'] . '%';
+    } else if($data['percentage'] < 0) {
+      $data['percentage'] = '-' . $data['percentage'] . '%';
+    } else {
+      $data['percentage'] = $data['percentage'] . '%';
+    }
 
     return view('User.dashboard', $data);
   }

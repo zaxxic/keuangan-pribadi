@@ -563,7 +563,7 @@ $progress = intval(round($progress));
   $('.prosesForm').submit(function(e) {
   e.preventDefault();
   let button = e.target.querySelector("button[type=submit]");
-  button.innerHTML = /*html*/ `<span class="spinner-border spinner-border-sm me-2"></span> Menyimpan...`
+  button.innerHTML = /*html*/ `<span class="spinner-border spinner-border-sm me-2"></span> Memproses...`
   button.setAttribute("disabled", "");
 
   let formData = new FormData(this);
@@ -592,7 +592,7 @@ $progress = intval(round($progress));
             e.target.querySelector("." + field + "-error").textContent = errorMessage;
           });
         }
-        button.innerHTML = /*html*/ `Tambah`;
+        button.innerHTML = /*html*/ `Proses`;
         button.removeAttribute("disabled");
       }
     }

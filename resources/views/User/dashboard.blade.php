@@ -40,7 +40,7 @@
 <div class="page-wrapper">
   <div class="content container-fluid">
     <div class="row">
-      <div class="col-xl-3 col-sm-6 col-12">
+      <div class="col">
         <div class="card">
           <div class="card-body">
             <div class="dash-widget-header">
@@ -58,7 +58,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xl-3 col-sm-6 col-12">
+      <div class="col">
         <div class="card">
           <div class="card-body">
             <div class="dash-widget-header">
@@ -76,7 +76,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xl-3 col-sm-6 col-12">
+      <div class="col">
         <div class="card">
           <div class="card-body">
             <div class="dash-widget-header">
@@ -95,7 +95,7 @@
           </div>
         </div>
       </div>
-      <div class="col-xl-3 col-sm-6 col-12">
+      <div class="col">
         <div class="card">
           <div class="card-body">
             <div class="dash-widget-header">
@@ -140,6 +140,10 @@
                   <div>
                     <span></span>
                     <p class="h3 text-warning me-5" id="periode_pengeluaran"></p>
+                  </div>
+                  <div>
+                    <span></span>
+                    <p class="h3 text-success me-5" id="persentase"></p>
                   </div>
                 </div>
               </div>
@@ -245,6 +249,7 @@
   const columnCtx = document.getElementById("sales_chart");
   const pemasukan = document.getElementById("periode_pemasukan");
   const pengeluaran = document.getElementById("periode_pengeluaran");
+  const persentase = document.getElementById("persentase");
   let columnChart;
 
   let data = @json($chartData);
@@ -324,8 +329,26 @@
     columnConfig.series[1].data = dataTerpilih.pending;
     columnConfig.xaxis.categories = dataTerpilih.labels;
 
+    let income = total(columnConfig.series[0].data);
+    let expenditure = total(columnConfig.series[1].data);
+
     pemasukan.innerHTML = "Rp " + total(dataTerpilih.received).toLocaleString("id-ID");
     pengeluaran.innerHTML = "Rp " + total(dataTerpilih.pending).toLocaleString("id-ID");
+
+    let persen = income - expenditure;
+
+    if( persen > 0 ){
+      persentase.className = "h3 text-success me-5";
+      persen = `+${parseInt(persen / income * 100)}%`;
+    } else if(persen < 0){
+      persentase.className = "h3 text-danger me-5";
+      persen = `${parseInt(persen / expenditure * 100)}%`;
+    } else {
+      persentase.className = "h3 text-secondary me-5";
+      persen = `0%`;
+    }
+
+    persentase.innerHTML = persen;
 
     columnChart = new ApexCharts(columnCtx, columnConfig);
     columnChart.render();
@@ -336,6 +359,7 @@
   updateChart("daily");
   pemasukan.previousElementSibling.innerHTML = "Pemasukan";
   pengeluaran.previousElementSibling.innerHTML = "Pengeluaran";
+  persentase.previousElementSibling.innerHTML = "Persentase";
 
   $("#chart_period_select").on("change", function () {
     let jenisTerpilih = $(this).val();
