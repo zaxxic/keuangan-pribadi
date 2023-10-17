@@ -42,6 +42,8 @@ class DatabaseSeeder extends Seeder
 
     $this->call(SavingMemberSeeder::class);
 
+    $this->call(PackageSeeder::class);
+
     $this->call(RegularSavingSeeder::class);
 
     $this->call(HistorySavingSeeder::class);

@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ExpenditureController;
 use App\Http\Controllers\RegulerIncomeController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\CallBackController;
 use App\Http\Controllers\Saving\SavingController;
 use App\Http\Controllers\IncomeCategoryController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -70,9 +71,17 @@ Route::group(['middleware' => ['verif', 'admin']], function () {
 
 // Route::group(['middleware' => 'user', 'verified'], function () {
 
+Route::post('callback', [CallBackController::class, 'handle']);
 Route::group(['middleware' => ['verif', 'user']], function () {
+  //payment
+  Route::get('subs/{id}', [SubscribController::class, 'subscribe'])->name('subs');
+  // Route::get('transaction/{}', [SubscribController::class, 'subscribe'])->name('subs');
+  Route::get('transaction/{reference}', [SubscribController::class, 'show'])->name('transaction.show');
+  Route::get('index/', [SubscribController::class, 'index'])->name('subs.index');
+  Route::post('transaction/', [SubscribController::class, 'store'])->name('transaction.store');
+
+  //end payment
   Route::get('home', [UserController::class, 'index'])->name('home');
-  Route::post('subs/', [SubscribController::class, 'store'])->name('subs');
   Route::get('/notif', [NotificationController::class, 'index'])->name('notif.index');
   Route::post('/accept/{id}', [NotificationController::class, 'accept'])->name('accept.notifikasi');
   Route::post('/update/notif/{id}', [NotificationController::class, 'update'])->name('update.notifikasi');
