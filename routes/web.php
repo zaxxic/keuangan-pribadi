@@ -71,8 +71,8 @@ Route::group(['middleware' => ['verif', 'admin']], function () {
 
 // Route::group(['middleware' => 'user', 'verified'], function () {
 
+Route::post('callback', [CallBackController::class, 'handle']);
 Route::group(['middleware' => ['verif', 'user']], function () {
-  Route::post('callback', [CallBackController::class, 'handle']);
   //payment
   Route::get('subs/{id}', [SubscribController::class, 'subscribe'])->name('subs');
   // Route::get('transaction/{}', [SubscribController::class, 'subscribe'])->name('subs');

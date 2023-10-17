@@ -12,11 +12,20 @@ use Illuminate\Support\Facades\Mail;
 
 class SubscribController extends Controller
 {
-    function index()
+    public function index()
     {
+        $user = auth()->user();
+
         $packages = Package::all();
 
-        return view('member.member', compact('packages'));
+        $subscribe = $user->subscribers->where('status', 'active')->first();
+
+        if ($subscribe) {
+            // dd($subscribe);
+            return view('member.member-subscribed', compact('packages', 'subscribe'));
+        } else {
+            return view('member.member', compact('packages', 'subscribe'));
+        }
     }
     function subscribe($id)
     {
@@ -39,7 +48,7 @@ class SubscribController extends Controller
         }
 
         $expireDate = Carbon::now()->addMonth();
-        // Mail::to($authenticatedUser->email)->send(new MailSubscriber($authenticatedUser->name, $expireDate));
+        // Mail::to($authenticatedUser->email)->send(new Mai    lSubscriber($authenticatedUser->name, $expireDate));
 
         // Tambahkan langganan baru ke database
         $subscribe = new Subscriber();
@@ -51,10 +60,11 @@ class SubscribController extends Controller
         // return redirect()->back()->with('success', 'Anda berhasil berlangganan.');
     }
 
-    function show($reference) {
+    function show($reference)
+    {
         $tripay = new TripayController();
-        $detail = $tripay -> detail($reference);
-        return view ('member.payment-show', compact('detail'));
+        $detail = $tripay->detail($reference);
+        return view('member.payment-show', compact('detail'));
     }
 
     function store(Request $request)
@@ -66,7 +76,7 @@ class SubscribController extends Controller
 
         $tripay = new TripayController();
         $transaction = $tripay->requestTransaction($method, $package);
-        
+
         return redirect()->Route('transaction.show', ['reference' => $transaction->reference]);
 
 

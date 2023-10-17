@@ -2,15 +2,11 @@
 @section('content')
     <div class="page-wrapper">
         <div class="content container-fluid">
-
             <div class="page-header">
                 <div class="content-page-header ">
                     <h5>Member</h5>
-
                 </div>
             </div>
-
-
             <div class="price-table-main">
                 <div class="row">
                     @foreach ($packages as $key => $package)
@@ -124,8 +120,6 @@
                             @endif
                         </div>
                     @endforeach
-
-
                     {{-- <div class="col-lg-4 col-md-12">
                         <div class="card price-selected">
                             <div class="card-body plan-header-selected">
@@ -232,7 +226,6 @@
                     </div> --}}
                 </div>
             </div>
-
         </div>
     </div>
 @endsection

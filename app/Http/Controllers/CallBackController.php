@@ -60,6 +60,8 @@ class CallBackController extends Controller
                 ->where('status', '=', 'UNPAID')
                 ->first();
 
+            // dd($title);
+
             if (!$transaction) {
                 return Response::json([
                     'success' => false,
@@ -76,6 +78,9 @@ class CallBackController extends Controller
                     $authenticatedUserId = $transaction->user_id;
                     $amount = $transaction->amount;
                     $user = $transaction->user;
+                    $title = $transaction->package->title;
+                    $bonus = $transaction->package->bonus;
+
                     $latestSubscription = Subscriber::where('user_id', $authenticatedUserId)
                         ->where('expire_date', '>', Carbon::now())
                         ->latest('expire_date')
@@ -93,6 +98,8 @@ class CallBackController extends Controller
                     $subscribe->user_id = $authenticatedUserId;
                     $subscribe->expire_date = $expireDate;
                     $subscribe->amount = $amount;
+                    $subscribe->title = $title;
+                    $subscribe->bonus = $bonus;
                     $subscribe->status = 'active';
                     $subscribe->save();
                     break;

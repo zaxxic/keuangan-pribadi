@@ -16,6 +16,8 @@ return new class extends Migration
       $table->date('expire_date');
       $table->integer('amount');
       $table->string('status');
+      $table->string('title')->nullable();
+      $table->string('bonus')->nullable();
       $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
       $table->timestamps();
     });
