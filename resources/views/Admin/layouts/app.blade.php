@@ -104,14 +104,14 @@
             <ul class="nav nav-tabs user-menu">
 
 
-                <li class="nav-item dropdown  flag-nav dropdown-heads">
+                {{-- <li class="nav-item dropdown  flag-nav dropdown-heads">
                     <a class="nav-link" data-bs-toggle="dropdown" href="#" role="button">
                         <i class="fe fe-bell"></i> <span class="badge rounded-pill"></span>
                     </a>
                     <div class="dropdown-menu notifications">
                         <div class="topnav-dropdown-header">
                             <span class="notification-title">Notifications</span>
-                            <a href="javascript:void(0)" class="clear-noti"> Clear All</a>
+                            <a href="javascript:void(0)" class="clear-noti"> </a>
                         </div>
                         <div class="noti-content">
                             <ul class="notification-list">
@@ -197,7 +197,7 @@
                             <a href="notifications.html">View all Notifications</a>
                         </div>
                     </div>
-                </li>
+                </li> --}}
                 <li class="nav-item  has-arrow dropdown-heads ">
                     <a href="javascript:void(0);" class="win-maximize">
                         <i class="fe fe-maximize"></i>
@@ -272,12 +272,12 @@
                         </li>
                         <li>
                             <a class="{{ in_array(Route::currentRouteName(), ['income-admin.index', 'expenditure-admin.index']) ? 'active' : '' }}"
-                            href="{{ route('income-admin.index') }}">
-                            <i class="fe fe-home"></i><span>Category</span></a>
+                                href="{{ route('income-admin.index') }}">
+                                <i class="fa fa-th-large"></i><span>Category</span></a>
                         </li>
-                        
 
-                         
+
+
                     </ul>
 
                     <ul>
@@ -285,7 +285,7 @@
                         <li>
                             <a class="{{ Route::currentRouteName() == 'paid-users' ? 'active' : '' }}"
                                 href="{{ route('paid-users') }}">
-                                <i class="fe fe-home"></i><span>Users</span></a>
+                                <i class="fa fa-user-circle"></i><span>Users</span></a>
                         </li>
                     </ul>
 

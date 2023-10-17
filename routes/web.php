@@ -36,12 +36,12 @@ use App\Http\Controllers\ScheduleController;
 Auth::routes(['verify' => true]);
 
 
-Route::group(['middleware' => ['auth']], function () {
+
+Route::group(['middleware' => ['auth', 'verified']], function () {
   Route::get('/email/verify', [UserController::class, 'indexVerify'])->name('verification.notice');
   Route::post('/verif', [UserController::class, 'verify'])->name('verif');
   Route::get('/resend', [UserController::class, 'resend'])->name('resended');
 });
-
 
 Route::get('/income-recurring', function () {
   return view('User.transaction.income-recurring');
@@ -65,7 +65,7 @@ Route::group(['middleware' => ['verif', 'admin']], function () {
   Route::resource('income-admin', AdminCategoryIncomeController::class)->except(['show', 'edit', 'create']);
   Route::resource('expenditure-admin', AdminCategoryExpenditureController::class)->except(['show', 'edit', 'create']);
   Route::get('/paidUsers', [AdminController::class, 'paidUsers'])->name('paid-users');
-  Route::post('/getMonthly/{year}', [AdminController::class, 'getMonthly'])->name('admin-data');
+  Route::post('/getMonthly/{month}', [AdminController::class, 'getMonthly'])->name('admin-data');
 });
 
 // Route::group(['middleware' => 'user', 'verified'], function () {

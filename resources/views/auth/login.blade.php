@@ -21,17 +21,18 @@
     <div class="main-wrapper login-body">
         <div class="login-wrapper">
             <div class="container">
-                <img class="img-fluid logo-dark mb-2" src="assets/img/logo2.png" alt="Logo" />
+                <img width="300px" class="img-fluid mx-auto d-block mb-2" src="{{ asset('assets/img/pragos.png') }}" alt="Logo">
                 <div class="loginbox">
                     <div class="login-right">
                         <div class="login-right-wrap">
-                            @if (session('success'))
-                                <div class="alert alert-success">
-                                    {{ session('success') }}
-                                </div>
-                            @endif
                             <h1>Login</h1>
                             <p class="account-subtitle">Untuk akses layanan kami</p>
+                            
+                            @if (session('message'))
+                                <div class="alert alert-info">
+                                    {{ session('message') }}
+                                </div>
+                            @endif
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <div class="form-group">
@@ -50,12 +51,13 @@
                                 <div class="form-group">
                                     <label class="form-control-label">Password</label>
                                     <div class="pass-group">
-                                        <input type="password" name="password" class="form-control pass-input @error('password') is-invalid @enderror">
+                                        <input type="password" name="password"
+                                            class="form-control pass-input @error('password') is-invalid @enderror">
                                         @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                         <span class="fas fa-eye toggle-password"></span>
                                     </div>
                                 </div>

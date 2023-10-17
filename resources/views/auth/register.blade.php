@@ -21,7 +21,7 @@
     <div class="main-wrapper login-body">
         <div class="login-wrapper">
             <div class="container">
-                <img class="img-fluid logo-dark mb-2" src="{{ asset('assets/img/logo2.png') }}" alt="Logo">
+                <img width="300px" class="img-fluid mx-auto d-block mb-2" src="assets/img/pragos.png" alt="Logo" />
                 <div class="loginbox">
                     <div class="login-right">
                         <div class="login-right-wrap">

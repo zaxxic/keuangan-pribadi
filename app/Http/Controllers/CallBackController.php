@@ -80,6 +80,8 @@ class CallBackController extends Controller
                     $user = $transaction->user;
                     $title = $transaction->package->title;
                     $bonus = $transaction->package->bonus;
+                    $jenis = $transaction->package->id;
+
 
                     $latestSubscription = Subscriber::where('user_id', $authenticatedUserId)
                         ->where('expire_date', '>', Carbon::now())
@@ -90,7 +92,18 @@ class CallBackController extends Controller
                         return redirect()->back()->with('error', 'Anda sudah memiliki langganan aktif.');
                     }
 
-                    $expireDate = Carbon::now()->addMonth();
+                    if ($jenis == 1) {
+                        $duration = 2; // 2 bulan
+                    } elseif ($jenis == 2) {
+                        $duration = 17; // 1 tahun + 5 bulan
+                    } elseif ($jenis == 3) {
+                        $duration = 9; // 9 bulan
+                    } else {
+                        // Atur durasi default jika jenis tidak valid
+                        $duration = 0;
+                    }
+
+                    $expireDate = Carbon::now()->addMonths($duration);
                     // Mail::to($user->email)->send(new MailSubscriber($user->name, $expireDate));
 
                     // Tambahkan langganan baru ke database
