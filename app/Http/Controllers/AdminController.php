@@ -24,6 +24,7 @@ class AdminController extends Controller
       })->count(),
       'last' => $this->getMonthly(today()->format('Y'), true)
     ];
+
     return view('Admin.dashboard', $data);
   }
 
@@ -52,6 +53,7 @@ class AdminController extends Controller
 
   public function getMonthly($year, $last = false)
   {
+    // dd($year, $last);
     $subscribers = Subscriber::with(['user'])->orderBy('created_at', 'DESC')->get();
     $data = [
       'chart' => [],
@@ -69,6 +71,6 @@ class AdminController extends Controller
       })->sum('amount'));
     }
 
-    return json_encode($data['chart']);
+    return response()->json(['data' => $data['chart']]);
   }
 }

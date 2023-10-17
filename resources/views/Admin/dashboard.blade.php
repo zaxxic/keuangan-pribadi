@@ -223,7 +223,8 @@
           'Content-Type': 'application/json',
           "X-CSRF-Token": csrfToken
         }
-      }).then(response => response.json());
+      }).then(response => response.json())
+      .then(response => response.data);
       columnChart = new ApexCharts(columnCtx, columnConfig);
       $(".spinner-border").hide();
       columnChart.render();
