@@ -253,14 +253,13 @@
             <div class="sidebar-header">
                 <div class="sidebar-logo">
                     <a href="index.html">
-                        {{-- href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}"> --}}
-                        <img src="{{ asset('assets/img/logo-white.png') }}" class="img-fluid logo" alt>
+                        <h3 class="logo" style="color: aliceblue">Tabungan<span style="color: #6434db">Ku</span></h3>
                     </a>
                     <a href="index.html">
-                        <img src="{{ asset('assets/img/logo-small.png') }}" class="img-fluid logo-small" alt>
+                        <h3 class="logo-small" style="color: aliceblue">T<span style="color: #6434db">K</span></h3>
                     </a>
                 </div>
-            </div>
+        </div>
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu sidebar-menu-two">
                     <ul>
