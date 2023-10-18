@@ -209,14 +209,15 @@
                     error: function(xhr) {
                         if (xhr.status === 422) {
                             var errors = xhr.responseJSON.errors;
-                            // Reset pesan kesalahan sebelum menambahkan yang baru
                             $('.text-danger').text('');
                             $.each(errors, function(field, messages) {
                                 var errorMessage = messages[
-                                    0]; // Ambil pesan kesalahan pertama
+                                    0];
                                 $('#' + field + '-error').text(errorMessage);
                             });
                         } else if (xhr.status === 421) {
+                            toastr.error(xhr.responseJSON.error, 'Error');
+                        } else if (xhr.status === 424) {
                             toastr.error(xhr.responseJSON.error, 'Error');
                         } else {
                             toastr.error('Terjadi kesalahan. Silakan coba lagi nanti.',

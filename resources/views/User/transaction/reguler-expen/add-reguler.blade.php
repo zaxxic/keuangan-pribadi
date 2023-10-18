@@ -74,7 +74,7 @@
                                             <label>Jenis metode</label>
                                             <select name="recurring" class="select">
                                                 <option value="once">Sekali</option>
-                                                <option value="daily">Haria</option>
+                                                <option value="daily">Harian</option>
                                                 <option value="weekly">Mingguan</option>
                                                 <option value="monthly">Bulanan</option>
                                                 <option value="year">Tahunan</option>
@@ -212,6 +212,8 @@
                             toastr.error(
                                 'Anda hanya dapat membuat maksimal 3 entri pengeluaran berencana',
                                 'Error');
+                        } else if (xhr.status === 424) {
+                            toastr.error(xhr.responseJSON.error, 'Error');
                         }
                         if (xhr.status === 422) {
                             var errors = xhr.responseJSON.errors;

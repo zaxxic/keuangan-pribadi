@@ -17,9 +17,26 @@
             background-color: #ffffff;
         }
 
+        .card {
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card-img-wrapper {
+            flex-grow: 1;
+        }
+
         .card-img-top {
-            height: 200px;
             object-fit: cover;
+            height: 100%;
+        }
+
+        .card-body {
+            padding: 15px;
         }
 
         .card-title {
@@ -54,29 +71,29 @@
         </div>
 
         <div class="price-table-main">
-            <div class="row">
-                <div class="container">
-                    <div class="row">
-                        @foreach ($channels as $channel)
-                            <div class="col-md-3 mb-4">
-                                <div class="card">
-                                    <img src="{{ $channel->icon_url }}" class="card-img-top" alt="Channel Icon">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $channel->name }}</h5>
-                                        <form action="{{ route('transaction.store') }}" method="POST" target="_blank">
-                                            @csrf
-                                            <input type="hidden" name="package_id" value="{{ $package->id }}">
-                                            <input type="hidden" name="method" value="{{ $channel->code }}">
-                                            <button class="btn btn-primary" type="submit">Bayar Sekarang</button>
-                                        </form>
-                                    </div>
+            <div class="container">
+                <div class="row">
+                    @foreach ($channels as $channel)
+                        <div class="col-md-3 mb-4">
+                            <div class="card h-100">
+                                <div class="card-img-wrapper text-center">
+                                    <img src="{{ $channel->icon_url }}" class="img-fluid mt-2" alt="Channel Icon">
+                                </div>
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <h5 class="card-title">{{ $channel->name }}</h5>
+                                    <form action="{{ route('transaction.store') }}" method="POST" target="_blank">
+                                        @csrf
+                                        <input type="hidden" name="package_id" value="{{ $package->id }}">
+                                        <input type="hidden" name="method" value="{{ $channel->code }}">
+                                        <button class="btn btn-primary mt-auto" type="submit">Bayar Sekarang</button>
+                                    </form>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
-        </div>
+        </div> 
     </div>
 </div>
 @endsection

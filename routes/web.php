@@ -37,7 +37,7 @@ Auth::routes(['verify' => true]);
 
 
 
-Route::group(['middleware' => ['auth', 'verified']], function () {
+Route::group(['middleware' => ['auth']], function () {
   Route::get('/email/verify', [UserController::class, 'indexVerify'])->name('verification.notice');
   Route::post('/verif', [UserController::class, 'verify'])->name('verif');
   Route::get('/resend', [UserController::class, 'resend'])->name('resended');

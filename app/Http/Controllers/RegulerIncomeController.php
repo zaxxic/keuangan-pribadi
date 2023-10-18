@@ -162,6 +162,9 @@ class RegulerIncomeController extends Controller
             }
         }
 
+        if ($request->input('recurring') === 'once' && $request->input('count') !== 1) {
+            return response()->json(['error' => 'Jika berulang sekali, jumlah perulangan harus 1.'], 424);
+        }
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
