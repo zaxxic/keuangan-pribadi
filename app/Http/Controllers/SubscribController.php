@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\Subscriber as MailSubscriber;
 use App\Models\Package;
 use App\Models\Subscriber;
+use App\Models\SubscriberTransaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -64,7 +65,10 @@ class SubscribController extends Controller
     {
         $tripay = new TripayController();
         $detail = $tripay->detail($reference);
-        return view('member.payment-show', compact('detail'));
+        $transaction = SubscriberTransaction::where('reference', $reference)->first();
+        // dd($transaction);
+        // Pass the transaction data and Tripay API response to the view
+        return view('member.payment-show', compact('transaction', 'detail'));
     }
 
     function store(Request $request)
