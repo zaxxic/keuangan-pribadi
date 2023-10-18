@@ -113,7 +113,7 @@ class UserController extends Controller
   {
     if (request()->ajax()) {
 
-      $subscribers = SubscriberTransaction::join('packages as p', 'subscriber_transactions.package_id', '=', 'p.id')->select('subscriber_transactions.amount', 'subscriber_transactions.created_at as created', 'p.title as title')->orderBy('created', 'DESC')->get();
+      $subscribers = SubscriberTransaction::where('user_id', Auth::user()->id)->join('packages as p', 'subscriber_transactions.package_id', '=', 'p.id')->select('subscriber_transactions.amount', 'subscriber_transactions.created_at as created', 'p.title as title')->orderBy('created', 'DESC')->get();
       $subscribers->transform(function ($item) {
         $item->amount = 'Rp ' . number_format($item->amount, 0, ',', '.');
         $item->created = date('d M Y', strtotime($item->created));
