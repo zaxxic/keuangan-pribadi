@@ -230,6 +230,8 @@
                                     0]; // Ambil pesan kesalahan pertama
                                 $('#' + field + '-error').text(errorMessage);
                             });
+                        } else if (xhr.status === 424) {
+                            toastr.error(xhr.responseJSON.error, 'Error');
                         }
                     }
                 });

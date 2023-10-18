@@ -121,7 +121,7 @@ class RegulerIncomeController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
-            'amount' => 'required',
+            'amount' => 'required|numeric|min:1001',
             'recurring' => 'required|in:once,daily,weekly,monthly,yearly',
             'count' => 'required',
             'description' => 'required',
@@ -135,6 +135,8 @@ class RegulerIncomeController extends Controller
             'description.required' => 'Deskripsi harus diisi.',
             'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
             'amount.required' => 'Jumlah harus diisi.',
+            'amount.numeric' => 'Jumlah harus berupa angka.',
+            'amount.min' => 'Jumlah harus lebih dari 1000.',
             'recurring.required' => 'Perulangan harus di isi.',
             'count.required' => 'Jumlah perulangan harus diisi.',
             'payment_method.required' => 'Metode pembayaran harus diisi.',
@@ -152,6 +154,8 @@ class RegulerIncomeController extends Controller
         $user = Auth::user();
         $subscribe = $user->subscribers->where('status', 'active')->first();
 
+
+
         if (!$subscribe) {
             $incomeCount = RegularTransaction::where('user_id', $user->id)
                 ->where('content', 'income')
@@ -162,7 +166,7 @@ class RegulerIncomeController extends Controller
             }
         }
 
-        if ($request->input('recurring') === 'once' && $request->input('count') !== 1) {
+        if ($request->input('recurring') === 'once' && $request->input('count') != 1) {
             return response()->json(['error' => 'Jika berulang sekali, jumlah perulangan harus 1.'], 424);
         }
 
@@ -231,7 +235,7 @@ class RegulerIncomeController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
-            'amount' => 'required',
+            'amount' => 'required|numeric|min:1001',
             'recurring' => 'required',
             'count' => 'required',
             'payment_method' => 'required|in:E-Wallet,Cash,Debit',
@@ -243,6 +247,8 @@ class RegulerIncomeController extends Controller
             'title.string' => 'Judul harus berupa teks.',
             'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
             'amount.required' => 'Jumlah harus diisi.',
+            'amount.numeric' => 'Jumlah harus berupa angka.',
+            'amount.min' => 'Jumlah harus lebih dari 1000.',
             'recurring.required' => 'Perulangan harus di isi.',
             'count.required' => 'Jumlah perulangan harus diisi.',
             'payment_method.required' => 'Metode pembayaran harus diisi.',
@@ -256,6 +262,10 @@ class RegulerIncomeController extends Controller
             'date.date' => 'Tanggal harus berupa tanggal yang valid.',
             'category_id.required' => 'Kategori harus diisi.',
         ]);
+
+        if ($request->input('recurring') === 'once' && $request->input('count') != 1) {
+            return response()->json(['error' => 'Jika berulang sekali, jumlah perulangan harus 1.'], 424);
+        }
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);

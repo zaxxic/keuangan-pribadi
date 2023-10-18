@@ -103,7 +103,7 @@ class ExpenditureController extends Controller
         // Validasi data dengan pesan kustom
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
-            'amount' => 'required',
+            'amount' => 'required|numeric|min:1001',
             'payment_method' => 'required|in:E-Wallet,Cash,Debit',
             'attachment' => 'image|mimes:jpeg,png,jpg|max:5120',
             'date' => ['required', 'date', 'date_before_today'],
@@ -114,6 +114,8 @@ class ExpenditureController extends Controller
             'title.string' => 'Judul harus berupa teks.',
             'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
             'amount.required' => 'Jumlah harus diisi.',
+            'amount.numeric' => 'Jumlah harus berupa angka.',
+            'amount.min' => 'Jumlah harus lebih dari 1000.',
             'payment_method.required' => 'Metode pembayaran harus diisi.',
             'payment_method.string' => 'Metode pembayaran harus berupa teks.',
             'payment_method.in' => 'Metode pembayaran tidak ada.',
@@ -238,7 +240,7 @@ class ExpenditureController extends Controller
         // Validasi data dengan pesan kustom
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
-            'amount' => 'required',
+            'amount' => 'required|numeric|min:1001',
             'payment_method' => 'required|in:E-Wallet,Cash,Debit',
             'attachment' => 'image|mimes:jpeg,png,jpg|max:5120',
             'date' => ['required', 'date', 'date_before_today'],
@@ -250,6 +252,8 @@ class ExpenditureController extends Controller
             'description.required' => 'Deskripsi harus diisi.',
             'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
             'amount.required' => 'Jumlah harus diisi.',
+            'amount.numeric' => 'Jumlah harus berupa angka.',
+            'amount.min' => 'Jumlah harus lebih dari 1000.',
             'payment_method.required' => 'Metode pembayaran harus diisi.',
             'payment_method.string' => 'Metode pembayaran harus berupa teks.',
             'payment_method.in' => 'Metode pembayaran tidak ada.',

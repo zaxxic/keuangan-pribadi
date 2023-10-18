@@ -223,13 +223,14 @@
                     error: function(xhr) {
                         if (xhr.status === 422) {
                             var errors = xhr.responseJSON.errors;
-                            // Reset pesan kesalahan sebelum menambahkan yang baru
                             $('.text-danger').text('');
                             $.each(errors, function(field, messages) {
                                 var errorMessage = messages[
                                     0]; // Ambil pesan kesalahan pertama
                                 $('#' + field + '-error').text(errorMessage);
                             });
+                        } else if (xhr.status === 424) {
+                            toastr.error(xhr.responseJSON.error, 'Error');
                         }
                     }
                 });
