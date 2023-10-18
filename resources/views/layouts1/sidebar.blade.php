@@ -57,6 +57,12 @@
                         <i class="fe fe-book"></i><span>Member</span></a>
                 </li>
 
+                <li>
+                    <a class="{{ Route::currentRouteName() == 'pembelian' ? 'active' : '' }}"
+                        href="{{ route('pembelian') }}">
+                        <i class="fe fe-dollar-sign"></i><span>History Pembelian</span></a>
+                </li>
+
 
                 <li>
                     <a class="{{ Route::currentRouteName() == 'total' ? 'active' : '' }}"

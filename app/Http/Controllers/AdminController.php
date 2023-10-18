@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Package;
 use App\Models\Subscriber;
 use App\Models\User;
 use Carbon\Carbon;
@@ -22,7 +23,8 @@ class AdminController extends Controller
       'usersPremium' => User::where('role', 'user')->whereHas('subscribers', function (Builder $q) {
         $q->where('status', 'active');
       })->count(),
-      'last' => $this->getMonthly(today()->format('Y'), true)
+      'last' => $this->getMonthly(today()->format('Y'), true),
+      'packages' => Package::with('history')->get()
     ];
 
     return view('Admin.dashboard', $data);

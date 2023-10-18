@@ -62,6 +62,7 @@ Auth::routes();
 
 Route::group(['middleware' => ['verif', 'admin']], function () {
   Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+  Route::get('/omset', [AdminController::class, 'omset'])->name('omset');
   Route::resource('income-admin', AdminCategoryIncomeController::class)->except(['show', 'edit', 'create']);
   Route::resource('expenditure-admin', AdminCategoryExpenditureController::class)->except(['show', 'edit', 'create']);
   Route::get('/paidUsers', [AdminController::class, 'paidUsers'])->name('paid-users');
@@ -97,6 +98,8 @@ Route::group(['middleware' => ['verif', 'user']], function () {
   Route::post('/kick', [SavingController::class, 'kick'])->name('kick');
   Route::post('/setor', [SavingController::class, 'setor'])->name('setor');
   Route::post('/tarik', [SavingController::class, 'tarik'])->name('tarik');
+
+  Route::get('/pembelian', [UserController::class, 'pembelian'])->name('pembelian');
 
   Route::get('/profile', [ProfileController::class, 'index'])->name('setting');
   Route::put('/profile.update', [ProfileController::class, 'update'])->name('profile.update');
