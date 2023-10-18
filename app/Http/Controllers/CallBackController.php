@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\MailSubscriber;
+use App\Mail\Package;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 
@@ -105,7 +106,7 @@ class CallBackController extends Controller
 
                     $expireDate = Carbon::now()->addMonths($duration);
                     // Mail::to($user->email)->send(new MailSubscriber($user->name, $expireDate));
-
+                    Mail::to($user->email)->send(new Package($user->name, $expireDate));
                     // Tambahkan langganan baru ke database
                     $subscribe = new Subscriber();
                     $subscribe->user_id = $authenticatedUserId;

@@ -22,16 +22,17 @@
         <div class="card mb-4">
             <div class="card-body">
                 <h5 class="card-title">Informasi Paket</h5>
-                <p class="card-text"><strong>Harga:</strong>Rp. {{ number_format($detail->amount) }}</p>
+                <p class="card-text"><strong>Harga:</strong>Rp. {{ number_format($transaction->amount) }}</p>
             </div>
         </div>
 
         <div class="card mb-4">
             <div class="card-body">
                 <h5 class="card-title">Status Pembayaran</h5>
-                <p class="card-text"><strong>Status:</strong> <span class="text-success">{{ $detail->status }}</span>
+                <p class="card-text"><strong>Status:</strong> <span
+                        class="text-success">{{ $transaction->status }}</span>
                 </p>
-                <p class="card-text"><strong>Referensi transasi:</strong> {{ $detail->reference }}</p>
+                <p class="card-text"><strong>Referensi transaksi:</strong> {{ $detail->reference }}</p>
             </div>
         </div>
 
