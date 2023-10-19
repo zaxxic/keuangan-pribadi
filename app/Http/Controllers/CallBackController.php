@@ -94,11 +94,11 @@ class CallBackController extends Controller
                     }
 
                     if ($jenis == 1) {
-                        $duration = 2; // 2 bulan
+                        $duration = 1;
                     } elseif ($jenis == 2) {
-                        $duration = 17; // 1 tahun + 5 bulan
+                        $duration = 12;
                     } elseif ($jenis == 3) {
-                        $duration = 9; // 9 bulan
+                        $duration = 6;
                     } else {
                         // Atur durasi default jika jenis tidak valid
                         $duration = 0;

@@ -26,9 +26,15 @@ class IncomeCategoryController extends Controller
             ->where('content', 'income')
             ->get();
 
+        $global = Category::where('type', 'default')
+            ->where('content', 'income')
+            ->count();
 
 
-        return view('User.menu.income-category', compact('incomeCategories'));
+
+
+
+        return view('User.menu.income-category', compact('incomeCategories','global'));
     }
 
     /**
@@ -115,8 +121,8 @@ class IncomeCategoryController extends Controller
             return response()->json(['error' => 'Kategori pendapatan tidak ditemukan.'], 404);
         }
 
-        if(count($category->histories) > 0 || count($category->regulars) > 0){
-          return response()->json(['message' => 'Kategori sedang digunakan.'], 403);
+        if (count($category->histories) > 0 || count($category->regulars) > 0) {
+            return response()->json(['message' => 'Kategori sedang digunakan.'], 403);
         }
 
         $category->delete();

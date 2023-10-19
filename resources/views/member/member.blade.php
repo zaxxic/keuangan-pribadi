@@ -21,38 +21,38 @@
                                                     <img src="assets/img/icons/plan-price-02.svg" alt>
                                                 </span>
                                                 <div class="plan-title">
-                                                    <h6 class="text-white">{{ $package->title }}</h6>
-                                                    <h4 class="plan-name text-white">{{ $package->bonus }}</h4>
+                                                    <h4 class="text-white">{{ $package->title }}</h4>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="description-content">
-                                            <p>Dapatkan fitur premium untuk akses penuh </p>
+                                            <p class="text-white">Dapatkan fitur premium untuk akses penuh </p>
                                         </div>
                                         <div class="price-dollar">
-                                            <h1 class="d-flex align-items-center text-white">Rp 400.000<span
-                                                    class="text-white ms-1">/Tahun</span></h1>
+                                            <h1 class="d-flex align-items-center text-white">Rp
+                                                {{ number_format($package->amount, 0, ',', '.') }}<span
+                                                    class="text-white ms-1"></span></h1>
                                         </div>
                                         <div class="plan-description">
                                             <h6 class="text-white">Apa yang di dapatkan
                                             </h6>
                                             <ul>
-                                                <li>
-                                                    <span class="rounded-circle bg-white me-2"><i
+                                                <li class="text-white">
+                                                    <span class="rounded-circle bg-white me-2 "><i
                                                             class="text-primary fe fe-check"></i></span>
                                                     Pemasukan Berulang
                                                 </li>
-                                                <li>
+                                                <li class="text-white">
                                                     <span class="rounded-circle bg-white me-2"><i
                                                             class="text-primary fe fe-check"></i></span>
                                                     Pengeluaran Berulang
                                                 </li>
-                                                <li>
+                                                <li class="text-white">
                                                     <span class="rounded-circle bg-white me-2"><i
                                                             class="text-primary fe fe-check"></i></span>
                                                     Export transaksi ke excel
                                                 </li>
-                                                <li>
+                                                <li class="text-white">
                                                     <span class="rounded-circle bg-white me-2"><i
                                                             class="text-primary fe fe-check"></i></span>
                                                     DLL...
@@ -75,8 +75,7 @@
                                                 <img src="assets/img/icons/plan-price-01.svg" alt>
                                             </span>
                                             <div class="plan-title">
-                                                <h6>{{ $package->title }}</h6>
-                                                <h4 class="plan-name">{{ $package->bonus }}</h4>
+                                                <h4>{{ $package->title }}</h4>
                                             </div>
                                         </div>
                                         <div class="description-content">
@@ -85,7 +84,7 @@
                                         <div class="price-dollar">
                                             <h1 class="d-flex align-items-center">Rp
                                                 {{ number_format($package->amount, 0, ',', '.') }}
-                                                <span class="ms-1">/bulan</span>
+                                                <span class="ms-1"></span>
                                             </h1>
                                         </div>
                                         <div class="plan-description">

@@ -76,7 +76,7 @@
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $category->name }}</td>
                                                     <td>{{ \Carbon\Carbon::parse($category->created_at)->translatedFormat('j F Y') }}</td>
-                                                    @if ($index >= 3)
+                                                    @if ($index >= $global)
                                                         <td class="d-flex align-items-center">
                                                             <div class="dropdown dropdown-action">
                                                                 <a href="#" class="btn-action-icon"

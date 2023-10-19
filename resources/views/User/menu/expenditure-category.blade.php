@@ -74,9 +74,10 @@
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $category->name }}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($category->created_at)->translatedFormat('j F Y') }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($category->created_at)->translatedFormat('j F Y') }}
+                                                    </td>
                                                     <td class="d-flex align-items-center">
-                                                        @if ($index >= 6)
+                                                        @if ($index >= $global)
                                                             <!-- Menampilkan dropdown mulai dari item ke-7 -->
                                                             <div class="dropdown dropdown-action">
                                                                 <a href="#" class="btn-action-icon"

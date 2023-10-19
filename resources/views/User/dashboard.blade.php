@@ -119,7 +119,7 @@
         <div class="card flex-fill">
           <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
-              <h5 class="card-title">Analisa keungan</h5>
+              <h5 class="card-title">Analisa Keuangan</h5>
               <div class="dropdown main">
                 <label for="chart_period_select">Periode:</label>
                 <select id="chart_period_select">

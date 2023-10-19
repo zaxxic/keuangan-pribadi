@@ -26,8 +26,12 @@ class ExpenditureCategoryController extends Controller
             ->where('content', 'expenditure')
             ->get();
 
+        $global = Category::where('type', 'default')
+            ->where('content', 'expenditure')
+            ->count();
 
-        return view('User.menu.expenditure-category', compact('expenditureCategories'));
+
+        return view('User.menu.expenditure-category', compact('expenditureCategories', 'global'));
     }
 
     /**
@@ -112,8 +116,8 @@ class ExpenditureCategoryController extends Controller
             return response()->json(['error' => 'Kategori pendapatan tidak ditemukan.'], 404);
         }
 
-        if(count($category->histories) > 0 || count($category->regulars) > 0){
-          return response()->json(['message' => 'Kategori sedang digunakan.'], 403);
+        if (count($category->histories) > 0 || count($category->regulars) > 0) {
+            return response()->json(['message' => 'Kategori sedang digunakan.'], 403);
         }
 
         $category->delete();

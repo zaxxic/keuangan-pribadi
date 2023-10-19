@@ -66,7 +66,7 @@
         <div class="page-header">
             <div class="content-page-header">
                 <h5>Pilih metode pembayaran</h5>
-                <a href="{{ route('subs.index') }}" class="btn btn-primary">Back</a>
+                <a href="{{ route('subs.index') }}" class="btn btn-primary">Kembali</a>
             </div>
         </div>
 
@@ -79,7 +79,7 @@
                                 <div class="card-img-wrapper text-center">
                                     <img src="{{ $channel->icon_url }}" class="img-fluid mt-2" alt="Channel Icon">
                                 </div>
-                                <div class="card-body d-flex flex-column justify-content-between">
+                                <div class="card-body d-flex flex-column justify-content-between text-center">
                                     <h5 class="card-title">{{ $channel->name }}</h5>
                                     <form action="{{ route('transaction.store') }}" method="POST" target="_blank">
                                         @csrf
