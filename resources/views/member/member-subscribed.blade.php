@@ -4,7 +4,7 @@
         <div class="content container-fluid">
             <div class="page-header">
                 <div class="content-page-header ">
-                    <h5>Member yang sudah anda ambil</h5>
+                    <h5>Member yang sudah di pilih</h5>
                 </div>
             </div>
             <div class="price-table-main">
