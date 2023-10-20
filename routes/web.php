@@ -81,7 +81,7 @@ Route::group(['middleware' => ['verif', 'user']], function () {
   Route::post('transaction/', [SubscribController::class, 'store'])->name('transaction.store');
 
   //end payment
-  Route::get('home', [UserController::class, 'index'])->name('home');
+  Route::get('/', [UserController::class, 'index'])->name('home');
   Route::get('/notif', [NotificationController::class, 'index'])->name('notif.index');
   Route::post('/accept/{id}', [NotificationController::class, 'accept'])->name('accept.notifikasi');
   Route::post('/update/notif/{id}', [NotificationController::class, 'update'])->name('update.notifikasi');

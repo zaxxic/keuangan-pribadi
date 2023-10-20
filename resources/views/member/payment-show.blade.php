@@ -42,10 +42,6 @@
             font-weight: bold;
         }
 
-        .text-success {
-            color: #28a745;
-        }
-
         .card-header button {
             font-size: 16px;
             color: #333;
