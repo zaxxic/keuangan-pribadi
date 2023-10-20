@@ -124,7 +124,7 @@
                                             <span><img src="{{ asset('assets/img/icons/drop-icon.svg') }}"
                                                     alt="upload" /></span>
                                             <h6 class="drop-browse align-center">
-                                                Letakan photo bukti trnasksi 
+                                                Letakan photo bukti trnasksi
                                                 <span class="text-primary ms-1">disini</span>
                                             </h6>
                                             <p class="text-muted">Ukuran maksimal: 5MB</p>
@@ -190,6 +190,9 @@
 
             $('#createIncomeForm').submit(function(e) {
                 e.preventDefault(); // Mencegah pengiriman formulir biasa
+                let button = e.target.querySelector("button[type=submit]");
+                button.innerHTML = /*html*/ `<span class="spinner-border spinner-border-sm me-2"></span> Menyimpan...`
+                button.setAttribute("disabled", "");
 
                 var formData = new FormData(this);
 
@@ -208,6 +211,8 @@
 
                     },
                     error: function(xhr) {
+                        button.innerHTML = /*html*/ `Simpan`
+                        button.removeAttribute("disabled");
                         if (xhr.status === 421) {
                             toastr.error(
                                 'Anda hanya dapat membuat maksimal 3 entri pengeluaran berencana',
@@ -230,6 +235,9 @@
 
             $('#createIncomeCategoryForm').submit(function(event) {
                 event.preventDefault();
+                let button = event.target.querySelector("button[type=submit]");
+                button.innerHTML = /*html*/ `<span class="spinner-border spinner-border-sm me-2"></span> Menyimpan...`
+                button.setAttribute("disabled", "");
                 var formData = $(this).serialize();
                 $.ajax({
                     url: "{{ route('post-category') }}",
@@ -258,6 +266,8 @@
                             'Anda tidak memiliki izin untuk mengubah kategori ini',
                             'Error');
                         console.error(error);
+                        button.innerHTML = /*html*/ `Simpan`
+                        button.removeAttribute("disabled");
                     }
                 });
             });

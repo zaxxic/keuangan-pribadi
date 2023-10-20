@@ -147,6 +147,9 @@
 
             $('#createIncomeForm').submit(function(e) {
                 e.preventDefault(); // Mencegah pengiriman formulir biasa
+                let button = e.target.querySelector("button[type=submit]");
+                button.innerHTML = /*html*/ `<span class="spinner-border spinner-border-sm me-2"></span> Menyimpan...`
+                button.setAttribute("disabled", "");
 
                 var formData = new FormData(this);
 
@@ -174,6 +177,8 @@
                                     0]; // Ambil pesan kesalahan pertama
                                 $('#' + field + '-error').text(errorMessage);
                             });
+                            button.innerHTML = /*html*/ `Simpan`
+                            button.removeAttribute("disabled");
                         }
                     }
                 });
@@ -181,6 +186,9 @@
 
             $('#createExpenditureCategoryForm').submit(function(event) {
                 event.preventDefault();
+                let button = event.target.querySelector("button[type=submit]");
+                button.innerHTML = /*html*/ `<span class="spinner-border spinner-border-sm me-2"></span> Menyimpan...`
+                button.setAttribute("disabled", "");
                 var formData = $(this).serialize();
                 $.ajax({
                     url: "{{ route('post-category') }}",
@@ -209,6 +217,8 @@
                             'Anda tidak memiliki izin untuk mengubah kategori ini',
                             'Error');
                         console.error(error);
+                        button.innerHTML = /*html*/ `Simpan`
+                        button.removeAttribute("disabled");
                     }
                 });
             });

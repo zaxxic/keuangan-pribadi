@@ -24,6 +24,7 @@
                   <th>#</th>
                   <th>Nama Paket</th>
                   <th>Harga</th>
+                  <th>Status</th>
                   <th>Tanggal Pembelian</th>
                 </tr>
               </thead>
@@ -62,10 +63,10 @@
           data: 'amount',
           name: 'amount'
         },
-        // {
-        //   data: 'status',
-        //   name: 'status'
-        // },
+        {
+          data: 'status',
+          name: 'status'
+        },
         {
           data: 'created',
           name: 'created'

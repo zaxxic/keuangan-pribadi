@@ -113,7 +113,7 @@ class UserController extends Controller
   {
     if (request()->ajax()) {
 
-      $subscribers = SubscriberTransaction::where('user_id', Auth::user()->id)->join('packages as p', 'subscriber_transactions.package_id', '=', 'p.id')->select('subscriber_transactions.amount', 'subscriber_transactions.created_at as created', 'p.title as title')->orderBy('created', 'DESC')->get();
+      $subscribers = SubscriberTransaction::where('user_id', Auth::user()->id)->join('packages as p', 'subscriber_transactions.package_id', '=', 'p.id')->select('subscriber_transactions.amount', 'subscriber_transactions.created_at as created', 'subscriber_transactions.status as status', 'p.title as title')->orderBy('created', 'DESC')->get();
       $subscribers->transform(function ($item) {
         $item->amount = 'Rp ' . number_format($item->amount, 0, ',', '.');
         $item->created = date('d M Y', strtotime($item->created));
@@ -121,11 +121,11 @@ class UserController extends Controller
       });
       return DataTables::of($subscribers)
         ->addIndexColumn()
-        // ->addColumn('status', function ($row) {
-        //   $bg = ($row->status === 'active') ? 'success' : 'danger';
-        //   return "<span class='badge bg-$bg-light'>{$row->status}</span>";
-        // })
-        // ->rawColumns(['status'])
+        ->addColumn('status', function ($row) {
+          $bg = ($row->status == 'PAID') ? 'success' : 'danger';
+          return "<span class='badge bg-$bg-light'>{$row->status}</span>";
+        })
+        ->rawColumns(['status'])
         ->make();
     }
     return view('User.menu.pembelian');
