@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\HistoryTransaction;
+use App\Repositories\Category\CategoryRepository;
+use App\Repositories\Income\IncomeRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,18 +19,23 @@ class IncomeController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    private $incomeRepository;
+    private $categoryRepository;
+
+    public function __construct(IncomeRepository $incomeRepository, CategoryRepository $categoryRepository)
+    {
+        $this->incomeRepository = $incomeRepository;
+        $this->categoryRepository = $categoryRepository;
+    }
+
     public function index(Request $request)
     {
         if ($request->ajax()) {
             $user = Auth::user();
 
             // Get income transactions for the authenticated user
-            $transactions = HistoryTransaction::with('category')
-                ->where('user_id', $user->id)
-                ->where('content', 'income')
-                ->where('status', 'paid')
-                ->orderBy('created_at', 'desc')
-                ->get();
+            $transactions =  $this->incomeRepository->getIncome();
 
             $transactions->transform(function ($transaction) {
                 $attachmentPath = $transaction->source === 'reguler' ? 'reguler_income_attachment/' : 'income_attachment/';
@@ -194,15 +201,7 @@ class IncomeController extends Controller
 
         $user = Auth::user();
 
-        $incomeCategories = Category::where(function ($query) use ($user) {
-            $query->where('user_id', $user->id)
-                ->orWhere(function ($query) {
-                    $query->where('type', 'default');
-                });
-        })
-            ->select('id', 'name', 'created_at')
-            ->where('content', 'income')
-            ->get();
+        $incomeCategories = $this->categoryRepository->UserCetegoryIncome();
         return response()->json(['incomeCategories' => $incomeCategories]);
     }
 
