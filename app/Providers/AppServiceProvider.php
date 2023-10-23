@@ -5,6 +5,12 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Models\User;
 use App\Observers\UserObserver;
+use App\Repositories\Category\CategoryRepository;
+use App\Repositories\Category\CategoryRepositoryImplement;
+use App\Repositories\Expenditure\ExpenditureRepository;
+use App\Repositories\Expenditure\ExpenditureRepositoryImplement;
+use App\Repositories\Income\IncomeRepository;
+use App\Repositories\Income\IncomeRepositoryImplement;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -18,7 +24,9 @@ class AppServiceProvider extends ServiceProvider
    */
   public function register(): void
   {
-    //
+    $this->app->bind(IncomeRepository::class, IncomeRepositoryImplement::class);
+    $this->app->bind(CategoryRepository::class, CategoryRepositoryImplement::class);
+    $this->app->bind(ExpenditureRepository::class, ExpenditureRepositoryImplement::class);
   }
 
   /**

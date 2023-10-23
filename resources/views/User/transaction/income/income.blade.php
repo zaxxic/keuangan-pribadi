@@ -239,6 +239,7 @@
         var table = $('.data-table').DataTable({
             processing: true,
             serverSide: true,
+            dataSrc: "",
             ajax: "{{ route('income.index') }}",
             columns: [{
                     data: 'DT_RowIndex',
