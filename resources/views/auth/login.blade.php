@@ -1,106 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- Mirrored from kanakku.dreamguystech.com/html/template/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 31 Aug 2023 03:22:23 GMT -->
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
     <title>Login - Keungan</title>
-
     <link rel="shortcut icon" href="assets/img/favicon.png" />
-
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-
-    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css" />
-    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css" />
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 
 <body>
-    <div class="main-wrapper login-body">
-        <div class="login-wrapper">
-            <div class="container">
-                <img width="300px" class="img-fluid mx-auto d-block mb-2" src="{{ asset('assets/img/pragos.png') }}" alt="Logo">
-                <div class="loginbox">
-                    <div class="login-right">
-                        <div class="login-right-wrap">
-                            <h1>Login</h1>
-                            <p class="account-subtitle">Untuk akses layanan kami</p>
-                            
-                            @if (session('message'))
-                                <div class="alert alert-info">
-                                    {{ session('message') }}
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-md-6 col-lg-4">
+                <div class="text-center mb-4">
+                    <img width="300px" class="img-fluid" src="{{ asset('assets/img/pragos.png') }}" alt="Logo">
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="text-center mb-4">Login</h1>
+                        @if (session('message'))
+                            <div class="alert alert-info">
+                                {{ session('message') }}
+                            </div>
+                        @endif
+                        <form method="POST" action="{{ route('login') }}">
+                            @csrf
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control" name="email" value="{{ old('email') }}"
+                                    autocomplete="email" autofocus required />
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" class="form-control" name="password" required />
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="remember" name="remember"
+                                        {{ old('remember') ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="remember">Remember me</label>
                                 </div>
-                            @endif
-                            <form method="POST" action="{{ route('login') }}">
-                                @csrf
-                                <div class="form-group">
-                                    <label class="form-control-label">Alamat Email</label>
-                                    <input id="email" type="email"
-                                        class="form-control @error('email') is-invalid @enderror" name="email"
-                                        value="{{ old('email') }}" autocomplete="email" autofocus />
-
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-control-label">Password</label>
-                                    <div class="pass-group">
-                                        <input type="password" name="password"
-                                            class="form-control pass-input @error('password') is-invalid @enderror">
-                                        @error('password')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                        <span class="fas fa-eye toggle-password"></span>
-                                    </div>
-                                </div>
-                                {{-- <div class="form-group">
-                                    <label class="form-control-label">Password</label>
-                                    <div class="pass-group">
-                                        <input id="password" type="password"
-                                            class="form-control @error('password') is-invalid @enderror" name="password"
-                                            autocomplete="current-password" />
-
-                                        @error('password')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                        <span class="fas fa-eye toggle-password"></span>
-                                    </div>
-                                </div> --}}
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="custom-control custom-checkbox">
-                                                <input class="form-check-input" type="checkbox" name="remember"
-                                                    id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                                <label class="custom-control-label" for="remember">Remember me</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 text-end">
-                                            <a class="forgot-link" href="{{ route('password.request') }}">Lupa password
-                                                ?</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="btn btn-lg btn-block btn-primary w-100" type="submit">
-                                    Login
-                                </button>
-
-
-                                <div class="text-center dont-have">
-                                    Tidak punya akun?
-                                    <a href="{{ Route('register') }}">Register</a>
-                                </div>
-                            </form>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Login</button>
+                        </form>
+                        <div class="text-center mt-3">
+                            <p>Tidak punya akun? <a href="{{ route('register') }}">Register</a></p>
+                            <a href="{{ route('password.request') }}">Lupa password?</a>
                         </div>
                     </div>
                 </div>
@@ -108,13 +55,9 @@
         </div>
     </div>
 
-    <script src="assets/js/jquery-3.7.0.min.js"></script>
-
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-
-    <script src="assets/js/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-
-<!-- Mirrored from kanakku.dreamguystech.com/html/template/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 31 Aug 2023 03:22:24 GMT -->
 
 </html>
