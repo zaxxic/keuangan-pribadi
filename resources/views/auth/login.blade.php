@@ -21,9 +21,9 @@
                     <div class="card-body">
                         <h1 class="text-center mb-4">Login</h1>
                         @if (session('message'))
-                            <div class="alert alert-info">
-                                {{ session('message') }}
-                            </div>
+                        <div class="alert alert-info">
+                            {{ session('message') }}
+                        </div>
                         @endif
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
