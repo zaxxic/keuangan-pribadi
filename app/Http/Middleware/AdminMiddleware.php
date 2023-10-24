@@ -18,14 +18,7 @@ class AdminMiddleware
     public function handle($request, Closure $next)
     {
         if (Auth::check() && Auth::user()->role === 'admin' && Auth::user()->email_verified_at !== null) {
-            // Jika pengguna adalah admin dan email telah diverifikasi, lanjutkan ke halaman yang diminta
-            return $next($request);
-        } elseif (!Auth::check()) {
-            return redirect('/login');
-        } elseif (Auth::check() && Auth::user()->email_verified_at === null) {
-            return redirect('/email/verify');
-        } else {
-            return redirect('/home');
+            return redirect('/admin');
         }
 
         abort(403, 'Unauthorized');
