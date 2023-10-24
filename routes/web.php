@@ -60,7 +60,7 @@ Route::get('/login', function () {
 
 Auth::routes();
 
-Route::group(['middleware' => ['verif', 'admin']], function () {
+Route::group(['middleware' => ['admin']], function () {
   Route::get('/admin', [AdminController::class, 'index'])->name('admin');
   Route::get('/omset', [AdminController::class, 'omset'])->name('omset');
   Route::resource('income-admin', AdminCategoryIncomeController::class)->except(['show', 'edit', 'create']);
