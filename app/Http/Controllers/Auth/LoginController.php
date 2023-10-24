@@ -40,6 +40,17 @@ class LoginController extends Controller
         return RouteServiceProvider::HOME;
     }
 
+    protected function authenticated($user)
+    {
+        if ($user->role === 'admin') {
+            return redirect()->route('admin');
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            return redirect()->route('home');
+        }
+    }
+
     /**
      * Create a new controller instance.
      *
