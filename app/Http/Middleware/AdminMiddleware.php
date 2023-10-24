@@ -24,10 +24,10 @@ class AdminMiddleware
             return redirect('/login');
         } elseif (Auth::check() && Auth::user()->email_verified_at === null) {
             return redirect('/email/verify');
-        } else {
+        } else {    
             return redirect('/home');
         }
-        
+
         abort(403, 'Unauthorized');
     }
 }
