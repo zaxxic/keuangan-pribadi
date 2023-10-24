@@ -43,8 +43,8 @@
 <body>
     <div class="container">
         <h1>:(</h1><br>
-        <h2>A <span>404</span> error occured, Page not found, check the URL and try again.</h2><br>
-        <h3><a href="{{Route("home")}}">Return to home</a>&nbsp;|&nbsp;<a href="javascript:history.back()">Go Back</a></h3>
+        <h2>A <span>404</span>  Halaman yang dicoba diakses tidak ditemukan. Silakan periksa URL yang dimasukkan dan coba lagi.</h2><br>
+        <h3><a href="{{Route("home")}}">Kembali ke halaman utama</a>&nbsp;|&nbsp;<a href="javascript:history.back()">Kembali</a></h3>
     </div>
 </body>
 
