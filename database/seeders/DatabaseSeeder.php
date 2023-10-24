@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
       'gender' => 'undefined',
       'birthday' => fake()->date(),
       'password' => bcrypt('password'),
+      'email_verified_at' => now(),
       'role' => 'admin',
     ]);
 
