@@ -14,7 +14,7 @@ return new class extends Migration
     Schema::create('history_transactions', function (Blueprint $table) {
       $table->id();
       $table->string('title');
-      $table->integer('amount');
+      $table->bigInteger('amount');
       $table->string('payment_method');
       $table->string('attachment')->nullable();
       $table->string('content');

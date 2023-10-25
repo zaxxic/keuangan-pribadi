@@ -12,6 +12,11 @@
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu sidebar-menu-two">
             <ul>
+                <li class=" align-center">
+                    <span class="badge badge-soft-info fs-6">
+                        Saldo: Rp {{ number_format(Auth::user()->total(), 0, '', '.') }}
+                    </span>
+                </li>
                 <li class="menu-title"><span>Dashboard</span></li>
                 <li>
                     <a class="{{ Route::currentRouteName() == 'home' ? 'active' : '' }}" href="{{ route('home') }}">
