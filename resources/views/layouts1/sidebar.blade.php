@@ -12,8 +12,8 @@
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu sidebar-menu-two">
             <ul>
-                <li class=" align-center">
-                    <span class="badge badge-soft-info fs-6">
+                <li class=" align-center saldo2">
+                    <span class="badge badge-soft-info fs-6 mb-3 mt-2 ">
                         Saldo: Rp {{ number_format(Auth::user()->total(), 0, '', '.') }}
                     </span>
                 </li>

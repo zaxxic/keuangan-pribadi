@@ -81,6 +81,25 @@
         .approve-btn:hover {
             background-color: #218838;
         }
+
+        /* CSS untuk layar dengan lebar lebih besar dari 425px */
+        .saldo1 {
+            display: block;
+         }
+
+        .saldo2 {
+            display: none;
+        }
+
+        @media (max-width: 425px) {
+            .saldo1 {
+                display: none;
+            }
+
+            .saldo2 {
+                display: block;
+            }
+        }
     </style>
 
     @yield('style')
@@ -98,7 +117,7 @@
 
 
         @yield('content')
-       
+
 
     </div>
 

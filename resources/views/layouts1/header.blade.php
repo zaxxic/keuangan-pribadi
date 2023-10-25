@@ -16,11 +16,11 @@
 
 
     <ul class="nav nav-tabs user-menu">
-        {{-- <li class="me-2">
-            <span class="badge badge-soft-primary fs-6">
+        <li class="me-2 saldo1">
+            <span class="badge badge-soft-info fs-6 ">
                 Saldo: Rp {{ number_format(Auth::user()->total(), 0, '', '.') }}
             </span>
-        </li> --}}
+        </li>
 
 
 
@@ -67,7 +67,7 @@
                                 <a href="{{ Route('setting') }}" class="dropdown-item" href="profile.html">Profile</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{Route('subs.index')}}">Upgrade</a>
+                                <a class="dropdown-item" href="{{ Route('subs.index') }}">Upgrade</a>
                             </li>
                         </ul>
                     </div>
