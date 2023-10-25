@@ -675,507 +675,507 @@ Version      : 1.0
     return false;
   });
 
-  var right_side_views =
-    '<div class="right-side-views">' +
-    '<ul class="sticky-sidebar siderbar-view">' +
-    '<li class="sidebar-icons">' +
-    '<a class="toggle tipinfo open-layout open-siderbar" href="#" data-toggle="tooltip" data-placement="left" data-bs-original-title="Tooltip on left">' +
-    '<div class="tooltip-five ">' +
-    '' +
-    '<span class="tooltiptext">Check Layout</span>' +
-    "</div>" +
-    "</a>" +
-    "</li>" +
-    '<li class="sidebar-icons">' +
-    '<a class="toggle tipinfo open-settings open-siderbar" href="#" data-toggle="tooltip" data-placement="left" data-bs-original-title="Tooltip on left">' +
-    '<div class="tooltip-five">' +
-    '' +
-    '<span class="tooltiptext">Demo Settings</span>' +
-    "</div>" +
-    "</a>" +
-    "</li>" +
-    '<li class="sidebar-icons">' +
-    '<a class="toggle tipinfo" target="_blank" href="https://themeforest.net/item/kanakku-bootstrap-admin-html-template/29436291?s_rank=11" data-toggle="tooltip" data-placement="left" title="Tooltip on left">' +
-    '<div class="tooltip-five">' +
-    '' +
-    '<span class="tooltiptext">Buy Now</span>' +
-    "</div>" +
-    "</a>" +
-    "</li>" +
-    "</ul>" +
-    "</div>" +
-    '<div class="sidebar-layout">' +
-    '<div class="sidebar-content">' +
-    '<div class="sidebar-top">' +
-    '<div class="container-fluid">' +
-    '<div class="row align-items-center">' +
-    '<div class="col-xl-6 col-sm-6 col-12">' +
-    '<div class="sidebar-logo">' +
-    '<a href="index.html" class="logo">' +
-    '<img src="assets/img/logo.png" alt="Logo" class="img-flex">' +
-    "</a>" +
-    "</div>" +
-    "</div>" +
-    '<div class="col-xl-6 col-sm-6 col-12">' +
-    '<a class="btn-closed" href="#"><img class="img-fliud"  alt="demo"></a>' +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="container-fluid">' +
-    '<div class="row align-items-center">' +
-    '<h5 class="sidebar-title">Choose layout</h5>' +
-    '<div class="col-xl-6 col-sm-6 col-12">' +
-    '<div class="sidebar-image">' +
-    '<img class="img-fliud" src="assets/img/demo-one.png" alt="demo">' +
-    "</div>" +
-    '<div class="row">' +
-    '<div class="col-lg-6 layout">' +
-    '<h5 class="layout-title">Demo 1</h5>' +
-    "</div>" +
-    '<div class="col-lg-6 layout">' +
-    '<label class="switch">' +
-    '<a href="index.html" id="targetDiv" class="layout-link"></a>' +
-    '<span class="slider round"></span>' +
-    "</label>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="col-xl-6 col-sm-6 col-12">' +
-    '<div class="sidebar-image">' +
-    '<img class="img-fliud" src="assets/img/demo-two.png" alt="demo">' +
-    "</div>" +
-    '<div class="row">' +
-    '<div class="col-lg-6 layout">' +
-    '<h5 class="layout-title">Demo 2</h5>' +
-    "</div>" +
-    '<div class="col-lg-6 layout">' +
-    '<label class="switch">' +
-    '<a href="index-two.html" id="targetDiv2" class="layout-link"></a>' +
-    '<span class="slider round"></span>' +
-    "</label>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="row align-items-center">' +
-    '<h5 class="sidebar-title">Choose layout</h5>' +
-    '<div class="col-xl-6 col-sm-6 col-12">' +
-    '<div class="sidebar-image">' +
-    '<img class="img-fliud" src="assets/img/demo-three.png" alt="demo">' +
-    "</div>" +
-    '<div class="row">' +
-    '<div class="col-lg-6 layout">' +
-    '<h5 class="layout-title">Demo 3</h5>' +
-    "</div>" +
-    '<div class="col-lg-6 layout">' +
-    '<label class="switch">' +
-    '<a href="index-three.html" id="targetDiv3" class="layout-link"></a>' +
-    '<span class="slider round"></span>' +
-    "</label>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="col-xl-6 col-sm-6 col-12">' +
-    '<div class="sidebar-image">' +
-    '<img class="img-fliud" src="assets/img/demo-four.png" alt="demo">' +
-    "</div>" +
-    '<div class="row">' +
-    '<div class="col-lg-6 layout">' +
-    '<h5 class="layout-title">Demo 4</h5>' +
-    "</div>" +
-    '<div class="col-lg-6 layout">' +
-    '<label class="switch">' +
-    '<a href="index-four.html" id="targetDiv4" class="layout-link"></a>' +
-    '<span class="slider round"></span>' +
-    "</label>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="row align-items-center">' +
-    '<div class="col-xl-6 col-sm-6 col-12">' +
-    '<div class="sidebar-image">' +
-    '<img class="img-fliud" src="assets/img/demo-five.png" alt="demo">' +
-    "</div>" +
-    '<div class="row">' +
-    '<div class="col-lg-6 layout">' +
-    '<h5 class="layout-title">Demo 5</h5>' +
-    "</div>" +
-    '<div class="col-lg-6 layout">' +
-    '<label class="switch">' +
-    '<a href="index-five.html" id="targetDiv5" class="layout-link"></a>' +
-    '<span class="slider round"></span>' +
-    "</label>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="row align-items-center">' +
-    '<div class="reset-page text-center">' +
-    '<a href="index.html">' +
-    '<button type="button" class="sidebar-but">' +
-    "<span>Reset Settings</span>" +
-    "</button>" +
-    "</a>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="sidebar-settings">' +
-    '<div class="sidebar-content sticky-sidebar-one">' +
-    '<div class="sidebar-top">' +
-    '<div class="container-fluid">' +
-    '<div class="row align-items-center ">' +
-    '<div class="col-xl-6 col-sm-6 col-12">' +
-    '<div class="sidebar-logo">' +
-    '<a href="index.html" class="logo">' +
-    '<img src="assets/img/logo.png" alt="Logo" class="img-flex">' +
-    "</a>" +
-    "</div>" +
-    "</div>" +
-    '<div class="col-xl-6 col-sm-6 col-12">' +
-    '<a class="btn-closed" href="#"><img class="img-fliud"</a>' +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="container-fluid">' +
-    '<div class="row align-items-center ">' +
-    '<h5 class="sidebar-title">Preview Setting</h5>' +
-    '<h5 class="sidebar-sub-title">Layout Type</h5>' +
-    '<div class="col-xl-3 col-sm-6">' +
-    '<div class="sidebar-image-one">' +
-    '<img class="img-fliud" src="assets/img/layout-one.png" alt="layout">' +
-    "</div>" +
-    '<div class="row">' +
-    '<div class="col-lg-6 setting">' +
-    '<h5 class="setting-title">LTR</h5>' +
-    "</div>" +
-    '<div class="col-lg-6 setting">' +
-    '<label class="switch switch-one">' +
-    '<a href="index.html" class="layout-link"></a>' +
-    '<span class="slider slider-one round"></span>' +
-    "</label>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="col-xl-3 col-sm-6">' +
-    '<div class="sidebar-image-one">' +
-    '<img class="img-fliud" src="assets/img/layout-two.png" alt="layout">' +
-    "</div>" +
-    '<div class="row">' +
-    '<div class="col-lg-6 setting">' +
-    '<h5 class="setting-title">RTL</h5>' +
-    "</div>" +
-    '<div class="col-lg-6 setting">' +
-    '<label class="switch switch-one">' +
-    '<a href="../template-rtl/index.html" class="layout-link"></a>' +
-    '<span class="slider slider-one round"></span>' +
-    "</label>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="col-xl-3 col-sm-6">' +
-    '<div class="sidebar-image-one">' +
-    '<img class="img-fliud" src="assets/img/layout-three.png" alt="layout">' +
-    "</div>" +
-    '<div class="row">' +
-    '<div class="col-lg-6 setting">' +
-    '<h5 class="setting-title">BOX</h5>' +
-    "</div>" +
-    '<div class="col-lg-6 setting">' +
-    '<label class="switch switch-one">' +
-    '<a href="index-three.html" class="layout-link"></a>' +
-    '<span class="slider slider-one round"></span>' +
-    "</label>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="row align-items-center ">' +
-    '<h5 class="sidebar-sub-title">Sidebar Type</h5>' +
-    '<div class="col-xl-3 col-sm-6">' +
-    '<div class="sidebar-image-one">' +
-    '<img src="assets/img/layout-four.png" alt="layout">' +
-    "</div>" +
-    '<div class="row">' +
-    '<div class="col-lg-6 setting">' +
-    '<h5 class="setting-title">Normal</h5>' +
-    "</div>" +
-    '<div class="col-lg-6 setting">' +
-    '<label class="switch switch-one">' +
-    '<a href="index-two.html" class="layout-link"></a>' +
-    '<span class="slider slider-one round"></span>' +
-    "</label>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="col-xl-3 col-sm-6">' +
-    '<div class="sidebar-image-one">' +
-    '<img src="assets/img/layout-five.png" alt="layout">' +
-    "</div>" +
-    '<div class="row">' +
-    '<div class="col-lg-6 setting">' +
-    '<h5 class="setting-title">Compact</h5>' +
-    "</div>" +
-    '<div class="col-lg-6 setting">' +
-    '<label class="switch switch-one">' +
-    '<a href="index-five.html" class="layout-link"></a>' +
-    '<span class="slider slider-one round"></span>' +
-    "</label>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="row align-items-center">' +
-    '<h5 class="sidebar-sub-title">Header & Sidebar Style</h5>' +
-    '<div class="col-xl-3 col-sm-6">' +
-    '<div class="sidebar-color align-center">' +
-    '<span class="color-one"></span>' +
-    "</div>" +
-    '<div class="row">' +
-    '<div class="col setting">' +
-    '<h5 class="setting-title">White</h5>' +
-    "</div>" +
-    '<div class="col-auto setting">' +
-    '<label class="switch switch-one sidebar-type-two">' +
-    '<input type="checkbox">' +
-    '<span class="slider slider-one round"></span>' +
-    "</label>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="col-xl-3 col-sm-6">' +
-    '<div class="sidebar-color align-center">' +
-    '<span class="color-two"></span>' +
-    "</div>" +
-    '<div class="row">' +
-    '<div class="col setting">' +
-    '<h5 class="setting-title">Lite</h5>' +
-    "</div>" +
-    '<div class="col-auto setting">' +
-    '<label class="switch switch-one sidebar-type-three">' +
-    '<input type="checkbox">' +
-    '<span class="slider slider-one round"></span>' +
-    "</label>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="col-xl-3 col-sm-6">' +
-    '<div class="sidebar-color align-center">' +
-    '<span class="color-three"></span>' +
-    "</div>" +
-    '<div class="row">' +
-    '<div class="col setting">' +
-    '<h5 class="setting-title">Dark</h5>' +
-    "</div>" +
-    '<div class="col-auto setting">' +
-    '<label class="switch switch-one sidebar-type-four">' +
-    '<input type="checkbox">' +
-    '<span class="slider slider-one round"></span>' +
-    "</label>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="col-xl-3 col-sm-6">' +
-    '<div class="sidebar-color align-center">' +
-    '<span class="color-eight"></span>' +
-    "</div>" +
-    '<div class="row">' +
-    '<div class="col setting">' +
-    '<h5 class="setting-title">Theme</h5>' +
-    "</div>" +
-    '<div class="col-auto setting">' +
-    '<label class="switch switch-one sidebar-type-five">' +
-    '<input type="checkbox">' +
-    '<span class="slider slider-one round"></span>' +
-    "</label>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="row align-items-center">' +
-    '<h5 class="sidebar-sub-title">Primary Skin</h5>' +
-    '<div class="col-xl-6 col-sm-6">' +
-    '<div class="sidebar-color-one align-center">' +
-    '<span class="color-five"></span>' +
-    '<span class="color-four"></span>' +
-    '<span class="color-six"></span>' +
-    "</div>" +
-    '<div class="row">' +
-    '<div class="col-lg-6 setting">' +
-    '<h5 class="setting-title">Theme</h5>' +
-    "</div>" +
-    '<div class="col-lg-6 setting">' +
-    '<label class="switch switch-one primary-skin-one">' +
-    '<input type="checkbox">' +
-    '<span class="slider slider-one round"></span>' +
-    "</label>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="col-xl-6 col-sm-6">' +
-    '<div class="sidebar-color-one align-center">' +
-    '<span class="color-five"></span>' +
-    '<span class="color-two"></span>' +
-    '<span class="color-six"></span>' +
-    "</div>" +
-    '<div class="row">' +
-    '<div class="col-lg-6 setting">' +
-    '<h5 class="setting-title">Lite</h5>' +
-    "</div>" +
-    '<div class="col-lg-6 setting">' +
-    '<label class="switch switch-one primary-skin-two">' +
-    '<input type="checkbox">' +
-    '<span class="slider slider-one round"></span>' +
-    "</label>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="col-xl-6 col-sm-6">' +
-    '<div class="sidebar-color-one align-center">' +
-    '<span class="color-three"></span>' +
-    '<span class="color-four"></span>' +
-    '<span class="color-seven"></span>' +
-    "</div>" +
-    '<div class="row">' +
-    '<div class="col-lg-6 setting">' +
-    '<h5 class="setting-title">Dark</h5>' +
-    "</div>" +
-    '<div class="col-lg-6 setting">' +
-    '<label class="switch switch-one primary-skin-three">' +
-    '<input type="checkbox">' +
-    '<span class="slider slider-one round"></span>' +
-    "</label>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    '<div class="row align-items-center ">' +
-    '<div class="col-xl-12 col-sm-12">' +
-    '<div class="reset-page text-center">' +
-    '<a href="index.html">' +
-    '<button type="button" class="sidebar-but">' +
-    "<span>Reset Settings</span>" +
-    "</button>" +
-    "</a>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    "</div>" +
-    "</div>";
+  // var right_side_views =
+  //   '<div class="right-side-views">' +
+  //   '<ul class="sticky-sidebar siderbar-view">' +
+  //   '<li class="sidebar-icons">' +
+  //   '<a class="toggle tipinfo open-layout open-siderbar" href="#" data-toggle="tooltip" data-placement="left" data-bs-original-title="Tooltip on left">' +
+  //   '<div class="tooltip-five ">' +
+  //   ' class="feather-five" alt="">' +
+  //   '<span class="tooltiptext">Check Layout</span>' +
+  //   "</div>" +
+  //   "</a>" +
+  //   "</li>" +
+  //   '<li class="sidebar-icons">' +
+  //   '<a class="toggle tipinfo open-settings open-siderbar" href="#" data-toggle="tooltip" data-placement="left" data-bs-original-title="Tooltip on left">' +
+  //   '<div class="tooltip-five">' +
+  //   ' class="feather-five" alt="">' +
+  //   '<span class="tooltiptext">Demo Settings</span>' +
+  //   "</div>" +
+  //   "</a>" +
+  //   "</li>" +
+  //   '<li class="sidebar-icons">' +
+  //   '<a class="toggle tipinfo" target="_blank" href="https://themeforest.net/item/kanakku-bootstrap-admin-html-template/29436291?s_rank=11" data-toggle="tooltip" data-placement="left" title="Tooltip on left">' +
+  //   '<div class="tooltip-five">' +
+  //   ' class="feather-five" alt="">' +
+  //   '<span class="tooltiptext">Buy Now</span>' +
+  //   "</div>" +
+  //   "</a>" +
+  //   "</li>" +
+  //   "</ul>" +
+  //   "</div>" +
+  //   '<div class="sidebar-layout">' +
+  //   '<div class="sidebar-content">' +
+  //   '<div class="sidebar-top">' +
+  //   '<div class="container-fluid">' +
+  //   '<div class="row align-items-center">' +
+  //   '<div class="col-xl-6 col-sm-6 col-12">' +
+  //   '<div class="sidebar-logo">' +
+  //   '<a href="index.html" class="logo">' +
+  //   '<img src="assets/img/logo.png" alt="Logo" class="img-flex">' +
+  //   "</a>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="col-xl-6 col-sm-6 col-12">' +
+  //   '<a class="btn-closed" href="#"><img class="img-fliud"  alt="demo"></a>' +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="container-fluid">' +
+  //   '<div class="row align-items-center">' +
+  //   '<h5 class="sidebar-title">Choose layout</h5>' +
+  //   '<div class="col-xl-6 col-sm-6 col-12">' +
+  //   '<div class="sidebar-image">' +
+  //   '<img class="img-fliud" src="assets/img/demo-one.png" alt="demo">' +
+  //   "</div>" +
+  //   '<div class="row">' +
+  //   '<div class="col-lg-6 layout">' +
+  //   '<h5 class="layout-title">Demo 1</h5>' +
+  //   "</div>" +
+  //   '<div class="col-lg-6 layout">' +
+  //   '<label class="switch">' +
+  //   '<a href="index.html" id="targetDiv" class="layout-link"></a>' +
+  //   '<span class="slider round"></span>' +
+  //   "</label>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="col-xl-6 col-sm-6 col-12">' +
+  //   '<div class="sidebar-image">' +
+  //   '<img class="img-fliud" src="assets/img/demo-two.png" alt="demo">' +
+  //   "</div>" +
+  //   '<div class="row">' +
+  //   '<div class="col-lg-6 layout">' +
+  //   '<h5 class="layout-title">Demo 2</h5>' +
+  //   "</div>" +
+  //   '<div class="col-lg-6 layout">' +
+  //   '<label class="switch">' +
+  //   '<a href="index-two.html" id="targetDiv2" class="layout-link"></a>' +
+  //   '<span class="slider round"></span>' +
+  //   "</label>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="row align-items-center">' +
+  //   '<h5 class="sidebar-title">Choose layout</h5>' +
+  //   '<div class="col-xl-6 col-sm-6 col-12">' +
+  //   '<div class="sidebar-image">' +
+  //   '<img class="img-fliud" src="assets/img/demo-three.png" alt="demo">' +
+  //   "</div>" +
+  //   '<div class="row">' +
+  //   '<div class="col-lg-6 layout">' +
+  //   '<h5 class="layout-title">Demo 3</h5>' +
+  //   "</div>" +
+  //   '<div class="col-lg-6 layout">' +
+  //   '<label class="switch">' +
+  //   '<a href="index-three.html" id="targetDiv3" class="layout-link"></a>' +
+  //   '<span class="slider round"></span>' +
+  //   "</label>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="col-xl-6 col-sm-6 col-12">' +
+  //   '<div class="sidebar-image">' +
+  //   '<img class="img-fliud" src="assets/img/demo-four.png" alt="demo">' +
+  //   "</div>" +
+  //   '<div class="row">' +
+  //   '<div class="col-lg-6 layout">' +
+  //   '<h5 class="layout-title">Demo 4</h5>' +
+  //   "</div>" +
+  //   '<div class="col-lg-6 layout">' +
+  //   '<label class="switch">' +
+  //   '<a href="index-four.html" id="targetDiv4" class="layout-link"></a>' +
+  //   '<span class="slider round"></span>' +
+  //   "</label>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="row align-items-center">' +
+  //   '<div class="col-xl-6 col-sm-6 col-12">' +
+  //   '<div class="sidebar-image">' +
+  //   '<img class="img-fliud" src="assets/img/demo-five.png" alt="demo">' +
+  //   "</div>" +
+  //   '<div class="row">' +
+  //   '<div class="col-lg-6 layout">' +
+  //   '<h5 class="layout-title">Demo 5</h5>' +
+  //   "</div>" +
+  //   '<div class="col-lg-6 layout">' +
+  //   '<label class="switch">' +
+  //   '<a href="index-five.html" id="targetDiv5" class="layout-link"></a>' +
+  //   '<span class="slider round"></span>' +
+  //   "</label>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="row align-items-center">' +
+  //   '<div class="reset-page text-center">' +
+  //   '<a href="index.html">' +
+  //   '<button type="button" class="sidebar-but">' +
+  //   "<span>Reset Settings</span>" +
+  //   "</button>" +
+  //   "</a>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="sidebar-settings">' +
+  //   '<div class="sidebar-content sticky-sidebar-one">' +
+  //   '<div class="sidebar-top">' +
+  //   '<div class="container-fluid">' +
+  //   '<div class="row align-items-center ">' +
+  //   '<div class="col-xl-6 col-sm-6 col-12">' +
+  //   '<div class="sidebar-logo">' +
+  //   '<a href="index.html" class="logo">' +
+  //   '<img src="assets/img/logo.png" alt="Logo" class="img-flex">' +
+  //   "</a>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="col-xl-6 col-sm-6 col-12">' +
+  //   '<a class="btn-closed" href="#"><img class="img-fliud"</a>' +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="container-fluid">' +
+  //   '<div class="row align-items-center ">' +
+  //   '<h5 class="sidebar-title">Preview Setting</h5>' +
+  //   '<h5 class="sidebar-sub-title">Layout Type</h5>' +
+  //   '<div class="col-xl-3 col-sm-6">' +
+  //   '<div class="sidebar-image-one">' +
+  //   '<img class="img-fliud" src="assets/img/layout-one.png" alt="layout">' +
+  //   "</div>" +
+  //   '<div class="row">' +
+  //   '<div class="col-lg-6 setting">' +
+  //   '<h5 class="setting-title">LTR</h5>' +
+  //   "</div>" +
+  //   '<div class="col-lg-6 setting">' +
+  //   '<label class="switch switch-one">' +
+  //   '<a href="index.html" class="layout-link"></a>' +
+  //   '<span class="slider slider-one round"></span>' +
+  //   "</label>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="col-xl-3 col-sm-6">' +
+  //   '<div class="sidebar-image-one">' +
+  //   '<img class="img-fliud" src="assets/img/layout-two.png" alt="layout">' +
+  //   "</div>" +
+  //   '<div class="row">' +
+  //   '<div class="col-lg-6 setting">' +
+  //   '<h5 class="setting-title">RTL</h5>' +
+  //   "</div>" +
+  //   '<div class="col-lg-6 setting">' +
+  //   '<label class="switch switch-one">' +
+  //   '<a href="../template-rtl/index.html" class="layout-link"></a>' +
+  //   '<span class="slider slider-one round"></span>' +
+  //   "</label>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="col-xl-3 col-sm-6">' +
+  //   '<div class="sidebar-image-one">' +
+  //   '<img class="img-fliud" src="assets/img/layout-three.png" alt="layout">' +
+  //   "</div>" +
+  //   '<div class="row">' +
+  //   '<div class="col-lg-6 setting">' +
+  //   '<h5 class="setting-title">BOX</h5>' +
+  //   "</div>" +
+  //   '<div class="col-lg-6 setting">' +
+  //   '<label class="switch switch-one">' +
+  //   '<a href="index-three.html" class="layout-link"></a>' +
+  //   '<span class="slider slider-one round"></span>' +
+  //   "</label>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="row align-items-center ">' +
+  //   '<h5 class="sidebar-sub-title">Sidebar Type</h5>' +
+  //   '<div class="col-xl-3 col-sm-6">' +
+  //   '<div class="sidebar-image-one">' +
+  //   '<img src="assets/img/layout-four.png" alt="layout">' +
+  //   "</div>" +
+  //   '<div class="row">' +
+  //   '<div class="col-lg-6 setting">' +
+  //   '<h5 class="setting-title">Normal</h5>' +
+  //   "</div>" +
+  //   '<div class="col-lg-6 setting">' +
+  //   '<label class="switch switch-one">' +
+  //   '<a href="index-two.html" class="layout-link"></a>' +
+  //   '<span class="slider slider-one round"></span>' +
+  //   "</label>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="col-xl-3 col-sm-6">' +
+  //   '<div class="sidebar-image-one">' +
+  //   '<img src="assets/img/layout-five.png" alt="layout">' +
+  //   "</div>" +
+  //   '<div class="row">' +
+  //   '<div class="col-lg-6 setting">' +
+  //   '<h5 class="setting-title">Compact</h5>' +
+  //   "</div>" +
+  //   '<div class="col-lg-6 setting">' +
+  //   '<label class="switch switch-one">' +
+  //   '<a href="index-five.html" class="layout-link"></a>' +
+  //   '<span class="slider slider-one round"></span>' +
+  //   "</label>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="row align-items-center">' +
+  //   '<h5 class="sidebar-sub-title">Header & Sidebar Style</h5>' +
+  //   '<div class="col-xl-3 col-sm-6">' +
+  //   '<div class="sidebar-color align-center">' +
+  //   '<span class="color-one"></span>' +
+  //   "</div>" +
+  //   '<div class="row">' +
+  //   '<div class="col setting">' +
+  //   '<h5 class="setting-title">White</h5>' +
+  //   "</div>" +
+  //   '<div class="col-auto setting">' +
+  //   '<label class="switch switch-one sidebar-type-two">' +
+  //   '<input type="checkbox">' +
+  //   '<span class="slider slider-one round"></span>' +
+  //   "</label>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="col-xl-3 col-sm-6">' +
+  //   '<div class="sidebar-color align-center">' +
+  //   '<span class="color-two"></span>' +
+  //   "</div>" +
+  //   '<div class="row">' +
+  //   '<div class="col setting">' +
+  //   '<h5 class="setting-title">Lite</h5>' +
+  //   "</div>" +
+  //   '<div class="col-auto setting">' +
+  //   '<label class="switch switch-one sidebar-type-three">' +
+  //   '<input type="checkbox">' +
+  //   '<span class="slider slider-one round"></span>' +
+  //   "</label>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="col-xl-3 col-sm-6">' +
+  //   '<div class="sidebar-color align-center">' +
+  //   '<span class="color-three"></span>' +
+  //   "</div>" +
+  //   '<div class="row">' +
+  //   '<div class="col setting">' +
+  //   '<h5 class="setting-title">Dark</h5>' +
+  //   "</div>" +
+  //   '<div class="col-auto setting">' +
+  //   '<label class="switch switch-one sidebar-type-four">' +
+  //   '<input type="checkbox">' +
+  //   '<span class="slider slider-one round"></span>' +
+  //   "</label>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="col-xl-3 col-sm-6">' +
+  //   '<div class="sidebar-color align-center">' +
+  //   '<span class="color-eight"></span>' +
+  //   "</div>" +
+  //   '<div class="row">' +
+  //   '<div class="col setting">' +
+  //   '<h5 class="setting-title">Theme</h5>' +
+  //   "</div>" +
+  //   '<div class="col-auto setting">' +
+  //   '<label class="switch switch-one sidebar-type-five">' +
+  //   '<input type="checkbox">' +
+  //   '<span class="slider slider-one round"></span>' +
+  //   "</label>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="row align-items-center">' +
+  //   '<h5 class="sidebar-sub-title">Primary Skin</h5>' +
+  //   '<div class="col-xl-6 col-sm-6">' +
+  //   '<div class="sidebar-color-one align-center">' +
+  //   '<span class="color-five"></span>' +
+  //   '<span class="color-four"></span>' +
+  //   '<span class="color-six"></span>' +
+  //   "</div>" +
+  //   '<div class="row">' +
+  //   '<div class="col-lg-6 setting">' +
+  //   '<h5 class="setting-title">Theme</h5>' +
+  //   "</div>" +
+  //   '<div class="col-lg-6 setting">' +
+  //   '<label class="switch switch-one primary-skin-one">' +
+  //   '<input type="checkbox">' +
+  //   '<span class="slider slider-one round"></span>' +
+  //   "</label>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="col-xl-6 col-sm-6">' +
+  //   '<div class="sidebar-color-one align-center">' +
+  //   '<span class="color-five"></span>' +
+  //   '<span class="color-two"></span>' +
+  //   '<span class="color-six"></span>' +
+  //   "</div>" +
+  //   '<div class="row">' +
+  //   '<div class="col-lg-6 setting">' +
+  //   '<h5 class="setting-title">Lite</h5>' +
+  //   "</div>" +
+  //   '<div class="col-lg-6 setting">' +
+  //   '<label class="switch switch-one primary-skin-two">' +
+  //   '<input type="checkbox">' +
+  //   '<span class="slider slider-one round"></span>' +
+  //   "</label>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="col-xl-6 col-sm-6">' +
+  //   '<div class="sidebar-color-one align-center">' +
+  //   '<span class="color-three"></span>' +
+  //   '<span class="color-four"></span>' +
+  //   '<span class="color-seven"></span>' +
+  //   "</div>" +
+  //   '<div class="row">' +
+  //   '<div class="col-lg-6 setting">' +
+  //   '<h5 class="setting-title">Dark</h5>' +
+  //   "</div>" +
+  //   '<div class="col-lg-6 setting">' +
+  //   '<label class="switch switch-one primary-skin-three">' +
+  //   '<input type="checkbox">' +
+  //   '<span class="slider slider-one round"></span>' +
+  //   "</label>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   '<div class="row align-items-center ">' +
+  //   '<div class="col-xl-12 col-sm-12">' +
+  //   '<div class="reset-page text-center">' +
+  //   '<a href="index.html">' +
+  //   '<button type="button" class="sidebar-but">' +
+  //   "<span>Reset Settings</span>" +
+  //   "</button>" +
+  //   "</a>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>" +
+  //   "</div>";
 
-  $("body").append(right_side_views);
+  // $("body").append(right_side_views);
 
-  // Sidebar Visible
+  // // Sidebar Visible
 
-  $(".open-layout").on("click", function (s) {
-    s.preventDefault();
-    $(".sidebar-layout").addClass("show-layout");
-    $(".sidebar-settings").removeClass("show-settings");
-  });
-  $(".layout-link").on("click", function () {
-    $(this).toggleClass("checked");
-  });
-  $(".btn-closed").on("click", function (s) {
-    s.preventDefault();
-    $(".sidebar-layout").removeClass("show-layout");
-  });
-  $(".open-settings").on("click", function (s) {
-    s.preventDefault();
-    $(".sidebar-settings").addClass("show-settings");
-    $(".sidebar-layout").removeClass("show-layout");
-  });
+  // $(".open-layout").on("click", function (s) {
+  //   s.preventDefault();
+  //   $(".sidebar-layout").addClass("show-layout");
+  //   $(".sidebar-settings").removeClass("show-settings");
+  // });
+  // $(".layout-link").on("click", function () {
+  //   $(this).toggleClass("checked");
+  // });
+  // $(".btn-closed").on("click", function (s) {
+  //   s.preventDefault();
+  //   $(".sidebar-layout").removeClass("show-layout");
+  // });
+  // $(".open-settings").on("click", function (s) {
+  //   s.preventDefault();
+  //   $(".sidebar-settings").addClass("show-settings");
+  //   $(".sidebar-layout").removeClass("show-layout");
+  // });
 
-  $(".btn-closed").on("click", function (s) {
-    s.preventDefault();
-    $(".sidebar-settings").removeClass("show-settings");
-  });
+  // $(".btn-closed").on("click", function (s) {
+  //   s.preventDefault();
+  //   $(".sidebar-settings").removeClass("show-settings");
+  // });
 
-  $(".open-siderbar").on("click", function (s) {
-    s.preventDefault();
-    $(".siderbar-view").addClass("show-sidebar");
-  });
+  // $(".open-siderbar").on("click", function (s) {
+  //   s.preventDefault();
+  //   $(".siderbar-view").addClass("show-sidebar");
+  // });
 
-  $(".btn-closed").on("click", function (s) {
-    s.preventDefault();
-    $(".siderbar-view").removeClass("show-sidebar");
-  });
+  // $(".btn-closed").on("click", function (s) {
+  //   s.preventDefault();
+  //   $(".siderbar-view").removeClass("show-sidebar");
+  // });
 
-  // Sidebar Type Two
+  // // Sidebar Type Two
 
-  $(document).on("change", ".sidebar-type-two input", function () {
-    if ($(this).is(":checked")) {
-      $(".sidebar").addClass("sidebar-six");
-      $(".sidebar-menu").addClass("sidebar-menu-six");
-      $(".sidebar-menu-three").addClass("sidebar-menu-six");
-      $(".menu-title").addClass("menu-title-six");
-      $(".menu-title-three").addClass("menu-title-six");
-      $(".header").addClass("header-six");
-      $(".header-left-two").addClass("header-left-six");
-      $(".user-menu").addClass("user-menu-six");
-      $(".dropdown-toggle").addClass("dropdown-toggle-six");
-      $(
-        ".header-two .header-left-two .logo:not(.logo-small), .header-four .header-left-four .logo:not(.logo-small)"
-      ).addClass("hide-logo");
-      $(
-        ".header-two .header-left-two .dark-logo, .header-four .header-left-four .dark-logo"
-      ).addClass("show-logo");
-    } else {
-      $(".sidebar").removeClass("sidebar-six");
-      $(".sidebar-menu").removeClass("sidebar-menu-six");
-      $(".sidebar-menu-three").removeClass("sidebar-menu-six");
-      $(".menu-title").removeClass("menu-title-six");
-      $(".menu-title-three").removeClass("menu-title-six");
-      $(".header").removeClass("header-six");
-      $(".header-left-two").removeClass("header-left-six");
-      $(".user-menu").removeClass("user-menu-six");
-      $(".dropdown-toggle").removeClass("dropdown-toggle-six");
-      $(
-        ".header-two .header-left-two .logo, .header-four .header-left-four .logo:not(.logo-small)"
-      ).removeClass("hide-logo");
-      $(
-        ".header-two .header-left-two .dark-logo, .header-four .header-left-four .dark-logo"
-      ).removeClass("show-logo");
-    }
-  });
+  // $(document).on("change", ".sidebar-type-two input", function () {
+  //   if ($(this).is(":checked")) {
+  //     $(".sidebar").addClass("sidebar-six");
+  //     $(".sidebar-menu").addClass("sidebar-menu-six");
+  //     $(".sidebar-menu-three").addClass("sidebar-menu-six");
+  //     $(".menu-title").addClass("menu-title-six");
+  //     $(".menu-title-three").addClass("menu-title-six");
+  //     $(".header").addClass("header-six");
+  //     $(".header-left-two").addClass("header-left-six");
+  //     $(".user-menu").addClass("user-menu-six");
+  //     $(".dropdown-toggle").addClass("dropdown-toggle-six");
+  //     $(
+  //       ".header-two .header-left-two .logo:not(.logo-small), .header-four .header-left-four .logo:not(.logo-small)"
+  //     ).addClass("hide-logo");
+  //     $(
+  //       ".header-two .header-left-two .dark-logo, .header-four .header-left-four .dark-logo"
+  //     ).addClass("show-logo");
+  //   } else {
+  //     $(".sidebar").removeClass("sidebar-six");
+  //     $(".sidebar-menu").removeClass("sidebar-menu-six");
+  //     $(".sidebar-menu-three").removeClass("sidebar-menu-six");
+  //     $(".menu-title").removeClass("menu-title-six");
+  //     $(".menu-title-three").removeClass("menu-title-six");
+  //     $(".header").removeClass("header-six");
+  //     $(".header-left-two").removeClass("header-left-six");
+  //     $(".user-menu").removeClass("user-menu-six");
+  //     $(".dropdown-toggle").removeClass("dropdown-toggle-six");
+  //     $(
+  //       ".header-two .header-left-two .logo, .header-four .header-left-four .logo:not(.logo-small)"
+  //     ).removeClass("hide-logo");
+  //     $(
+  //       ".header-two .header-left-two .dark-logo, .header-four .header-left-four .dark-logo"
+  //     ).removeClass("show-logo");
+  //   }
+  // });
 
-  // Sidebar Type Three
+  // // Sidebar Type Three
 
-  $(document).on("change", ".sidebar-type-three input", function () {
-    if ($(this).is(":checked")) {
-      $(".sidebar").addClass("sidebar-seven");
-      $(".sidebar-menu").addClass("sidebar-menu-seven");
-      $(".menu-title").addClass("menu-title-seven");
-      $(".header").addClass("header-seven");
-      $(".header-left-two").addClass("header-left-seven");
-      $(".user-menu").addClass("user-menu-seven");
-      $(".dropdown-toggle").addClass("dropdown-toggle-seven");
-      $(
-        ".header-two .header-left-two .logo:not(.logo-small), .header-four .header-left-four .logo:not(.logo-small)"
-      ).addClass("hide-logo");
-      $(
-        ".header-two .header-left-two .dark-logo, .header-four .header-left-four .dark-logo"
-      ).addClass("show-logo");
-    } else {
-      $(".sidebar").removeClass("sidebar-seven");
-      $(".sidebar-menu").removeClass("sidebar-menu-seven");
-      $(".menu-title").removeClass("menu-title-seven");
-      $(".header").removeClass("header-seven");
-      $(".header-left-two").removeClass("header-left-seven");
-      $(".user-menu").removeClass("user-menu-seven");
-      $(".dropdown-toggle").removeClass("dropdown-toggle-seven");
-      $(
-        ".header-two .header-left-two .logo:not(.logo-small), .header-four .header-left-four .logo:not(.logo-small)"
-      ).removeClass("hide-logo");
-      $(
-        ".header-two .header-left-two .dark-logo, .header-four .header-left-four .dark-logo"
-      ).removeClass("show-logo");
-    }
-  });
+  // $(document).on("change", ".sidebar-type-three input", function () {
+  //   if ($(this).is(":checked")) {
+  //     $(".sidebar").addClass("sidebar-seven");
+  //     $(".sidebar-menu").addClass("sidebar-menu-seven");
+  //     $(".menu-title").addClass("menu-title-seven");
+  //     $(".header").addClass("header-seven");
+  //     $(".header-left-two").addClass("header-left-seven");
+  //     $(".user-menu").addClass("user-menu-seven");
+  //     $(".dropdown-toggle").addClass("dropdown-toggle-seven");
+  //     $(
+  //       ".header-two .header-left-two .logo:not(.logo-small), .header-four .header-left-four .logo:not(.logo-small)"
+  //     ).addClass("hide-logo");
+  //     $(
+  //       ".header-two .header-left-two .dark-logo, .header-four .header-left-four .dark-logo"
+  //     ).addClass("show-logo");
+  //   } else {
+  //     $(".sidebar").removeClass("sidebar-seven");
+  //     $(".sidebar-menu").removeClass("sidebar-menu-seven");
+  //     $(".menu-title").removeClass("menu-title-seven");
+  //     $(".header").removeClass("header-seven");
+  //     $(".header-left-two").removeClass("header-left-seven");
+  //     $(".user-menu").removeClass("user-menu-seven");
+  //     $(".dropdown-toggle").removeClass("dropdown-toggle-seven");
+  //     $(
+  //       ".header-two .header-left-two .logo:not(.logo-small), .header-four .header-left-four .logo:not(.logo-small)"
+  //     ).removeClass("hide-logo");
+  //     $(
+  //       ".header-two .header-left-two .dark-logo, .header-four .header-left-four .dark-logo"
+  //     ).removeClass("show-logo");
+  //   }
+  // });
 
   // Sidebar Type Four
 
