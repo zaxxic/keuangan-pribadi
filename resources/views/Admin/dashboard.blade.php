@@ -7,7 +7,7 @@
 @section("content")
   <div class="page-wrapper">
     <div class="content container-fluid">
-      <div class="row d-flex justify-content-evenly">
+      <div class="row">
         <div class="col-xl-3 col-sm-6 col-12">
           <div class="card">
             <div class="card-body">
@@ -59,6 +59,23 @@
             </div>
           </div>
         </div>
+        <div class="col-xl-3 col-sm-6 col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="dash-widget-header">
+                <span class="dash-widget-icon bg-4">
+                  <i class="fa-solid fa-dollar-sign"></i>
+                </span>
+                <div class="dash-count">
+                  <div class="dash-title">Total Pendapatan</div>
+                  <div class="dash-counts">
+                    <p>Rp {{ $total }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="row">
         <div class="col-xl-12 d-flex">
@@ -99,18 +116,18 @@
               $chart = [
                   "labels" => [],
                   "data" => [],
-                  "backgroundColor" => []
+                  "backgroundColor" => [],
               ];
             @endphp
             @foreach ($packages as $package)
               @php
                 array_push($chart["labels"], $package->title);
                 array_push($chart["data"], $package->history->sum("amount"));
-                array_push($chart["backgroundColor"], '#' . dechex(mt_rand(0, 16777215)));
+                array_push($chart["backgroundColor"], "#" . dechex(mt_rand(0, 16777215)));
               @endphp
               <div class="card" style="border-left: solid blue 5px">
                 <div class="card-body">
-                  <p><span class="text-dark" style="font-style: bold;">{{ $package->title }}</span> telah dibeli sebanyak <span class="text-dark" style="font-style: bold;">{{ number_format(count($package->history), 0, ',', '.') }}</span> kali</p>
+                  <p><span class="text-dark" style="font-style: bold;">{{ $package->title }}</span> telah dibeli sebanyak <span class="text-dark" style="font-style: bold;">{{ number_format(count($package->history), 0, ",", ".") }}</span> kali</p>
                 </div>
               </div>
             @endforeach
@@ -254,7 +271,7 @@
       },
     };
 
-    let total = (array = []) => array.reduce((a,c) => a+c);
+    let total = (array = []) => array.reduce((a, c) => a + c);
 
     omset.previousElementSibling.innerHTML = "Omset";
 
