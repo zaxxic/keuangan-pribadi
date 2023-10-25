@@ -29,12 +29,12 @@ class ExpenditureController extends Controller
                 ->where('status', 'paid')
                 ->orderBy('created_at', 'desc')
                 ->get();
-
             $transactions->transform(function ($transaction) {
                 $attachmentPath = $transaction->source === 'reguler' ? 'reguler_expenditure_attachment/' : 'expenditure_attachment/';
                 $transaction->attachmentUrl = asset('storage/' . $attachmentPath . $transaction->attachment);
                 return $transaction;
             });
+
 
             return Datatables::of($transactions)
                 ->addIndexColumn()
