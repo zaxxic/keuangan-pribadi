@@ -681,7 +681,7 @@ Version      : 1.0
     '<li class="sidebar-icons">' +
     '<a class="toggle tipinfo open-layout open-siderbar" href="#" data-toggle="tooltip" data-placement="left" data-bs-original-title="Tooltip on left">' +
     '<div class="tooltip-five ">' +
-    ' class="feather-five" alt="">' +
+    '' +
     '<span class="tooltiptext">Check Layout</span>' +
     "</div>" +
     "</a>" +
@@ -689,7 +689,7 @@ Version      : 1.0
     '<li class="sidebar-icons">' +
     '<a class="toggle tipinfo open-settings open-siderbar" href="#" data-toggle="tooltip" data-placement="left" data-bs-original-title="Tooltip on left">' +
     '<div class="tooltip-five">' +
-    ' class="feather-five" alt="">' +
+    '' +
     '<span class="tooltiptext">Demo Settings</span>' +
     "</div>" +
     "</a>" +
@@ -697,7 +697,7 @@ Version      : 1.0
     '<li class="sidebar-icons">' +
     '<a class="toggle tipinfo" target="_blank" href="https://themeforest.net/item/kanakku-bootstrap-admin-html-template/29436291?s_rank=11" data-toggle="tooltip" data-placement="left" title="Tooltip on left">' +
     '<div class="tooltip-five">' +
-    ' class="feather-five" alt="">' +
+    '' +
     '<span class="tooltiptext">Buy Now</span>' +
     "</div>" +
     "</a>" +
