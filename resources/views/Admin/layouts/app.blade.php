@@ -310,7 +310,7 @@
     <script src="{{ asset('assets/plugins/apexchart/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/apexchart/chart-data.js') }}"></script>
 
-    <script src="{{ asset('assets/plugins/summernote/summernote-lite.min.js') }}"></script>
+ 
 
     <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
 

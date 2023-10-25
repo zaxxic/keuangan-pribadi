@@ -836,7 +836,7 @@ Version      : 1.0
     "</div>" +
     "</div>" +
     '<div class="col-xl-6 col-sm-6 col-12">' +
-    '<a class="btn-closed" href="#"><img class="img-fliud" src="assets/img/icons/sidebar-delete-icon.svg" alt="demo"></a>' +
+    '<a class="btn-closed" href="#"><img class="img-fliud"</a>' +
     "</div>" +
     "</div>" +
     "</div>" +
@@ -1057,7 +1057,7 @@ Version      : 1.0
     '<div class="col-xl-12 col-sm-12">' +
     '<div class="reset-page text-center">' +
     '<a href="index.html">' +
-    '<button type="button" class="sidebar-but"><img src="assets/img/icons/reset-icon.svg" alt="reset" class="reset-icon">' +
+    '<button type="button" class="sidebar-but">' +
     "<span>Reset Settings</span>" +
     "</button>" +
     "</a>" +

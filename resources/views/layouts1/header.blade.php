@@ -203,10 +203,3 @@
     </div>
 </div>
 
-<script>
-    // Ambil nilai dari elemen dengan id "modal-payment-method"
-    var modalPaymentMethodValue = $('#modal-payment-method').text();
-
-    // Setel nilai pilihan dalam elemen <select> dengan nama "payment_method"
-    $('select[name="payment_method"]').val(modalPaymentMethodValue);
-</script>
