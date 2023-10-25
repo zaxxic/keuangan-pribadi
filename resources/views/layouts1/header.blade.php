@@ -49,7 +49,7 @@
         <li class="nav-item dropdown">
             <a href="javascript:void(0)" class="user-link  nav-link" data-bs-toggle="dropdown">
                 <span class="user-img">
-                    <img src="{{ asset('storage/profile/' . Auth::user()->image) }}" alt="User Photo"
+                    <img src="{{ asset('assets/storage/profile/' . Auth::user()->image) }}" alt="User Photo"
                         class="profilesidebar">
                     <span class="animate-circle"></span>
                 </span>
