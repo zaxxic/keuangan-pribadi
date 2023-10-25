@@ -19,12 +19,11 @@
                                         </span>
                                         <div class="plan-title">
                                             <h6 class="text-white">{{ $subscribe->title }}</h6>
-                                            <h4 class="plan-name text-white">{{ $subscribe->bonus }}</h4>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="description-content">
-                                    <p>Dapatkan fitur premium untuk akses penuh </p>
+                                    <p class="text-white">Dapatkan fitur premium untuk akses penuh </p>
                                 </div>
                                 <div class="price-dollar">
                                     <h1 class="d-flex align-items-center text-white">
@@ -35,22 +34,22 @@
                                     <h6 class="text-white">Apa yang di dapatkan
                                     </h6>
                                     <ul>
-                                        <li>
+                                        <li class="text-white">
                                             <span class="rounded-circle bg-white me-2"><i
                                                     class="text-primary fe fe-check"></i></span>
                                             Pemasukan Berulang
                                         </li>
-                                        <li>
+                                        <li class="text-white">
                                             <span class="rounded-circle bg-white me-2"><i
                                                     class="text-primary fe fe-check"></i></span>
                                             Pengeluaran Berulang
                                         </li>
-                                        <li>
+                                        <li class="text-white">
                                             <span class="rounded-circle bg-white me-2"><i
                                                     class="text-primary fe fe-check"></i></span>
                                             Export transaksi ke excel
                                         </li>
-                                        <li>
+                                        <li class="text-white">
                                             <span class="rounded-circle bg-white me-2"><i
                                                     class="text-primary fe fe-check"></i></span>
                                             DLL...
