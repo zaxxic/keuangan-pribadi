@@ -10,6 +10,10 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+
 
 class AdminController extends Controller
 {
@@ -52,6 +56,41 @@ class AdminController extends Controller
         ->make();
     }
     return view('Admin.users');
+  }
+
+  public function prof(Request $request)
+  {
+    $rules = [
+      'current_password' => 'required',
+      'new_password' => 'required|string|min:8|confirmed',
+    ];
+
+    $messages = [
+      'current_password.required' => 'Kata sandi saat ini wajib diisi.',
+      'new_password.required' => 'Kata sandi baru wajib diisi.',
+      'new_password.string' => 'Kata sandi baru harus berupa teks.',
+      'new_password.min' => 'Kata sandi baru minimal 8 karakter.',
+      'new_password.confirmed' => 'Konfirmasi kata sandi baru tidak cocok.',
+    ];
+
+
+    $validator = Validator::make($request->all(), $rules, $messages);
+
+    if ($validator->fails()) {
+      return response()->json($validator->errors()->first(), 422);
+    }
+
+    $user = Auth::user();
+
+    if (!Hash::check($request->input('current_password'), $user->password)) {
+      return response()->json('Kata sandi saat ini salah.', 422);
+    }
+
+    // Mengganti kata sandi pengguna
+    $user->password = Hash::make($request->input('new_password'));
+    $user->save();
+
+    return response()->json(['success' => 'Kata sandi berhasil diperbarui.']);
   }
 
   public function getMonthly($year, $last = false)

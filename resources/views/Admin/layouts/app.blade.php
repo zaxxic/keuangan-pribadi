@@ -220,11 +220,10 @@
                             <div class="subscription-menu">
                                 <ul>
                                     <li>
-                                        <a class="dropdown-item" href="profile.html">Profile</a>
+                                        <a class="dropdown-item" href="#" data-bs-target="#ganti"
+                                            data-bs-toggle="modal">Ganti Password</a>
                                     </li>
-                                    <li>
-                                        <a class="dropdown-item" href="settings.html">Settings</a>
-                                    </li>
+
                                 </ul>
                             </div>
                             <div class="subscription-logout">
@@ -249,17 +248,80 @@
 
         </div>
 
+        <div class="modal custom-modal fade" id="ganti" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body">
+
+                        <div class="modal-btn delete-action">
+                            <div class="row">
+                                <form id="update-password-form" action="{{ Route('prof') }}">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-title">
+                                                <h5>Ganti Password</h5>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-12">
+                                            <div class="form-group">
+                                                <label>Masukkan Password lama</label>
+                                                <input type="Password" class="form-control" name="current_password"
+                                                    placeholder="Masuukan password lama" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-12">
+                                            <div class="form-group">
+                                                <label>Masukkan Password</label>
+                                                <input type="Password" class="form-control" name="new_password"
+                                                    placeholder="Masukkan password baru" />
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-6 col-12">
+                                            <div class="form-group">
+                                                <label>Masukkan Konfirmasi Password</label>
+                                                <input type="Password" class="form-control"
+                                                    name="new_password_confirmation"
+                                                    placeholder="Konfirmasi password" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-12 mt-4">
+                                            <div class="btn-path">
+                                                <button type="submit" id="saveButton"
+                                                    class="w-100 btn btn-primary paid-continue-btn">Simpan</button>
+                                                <div id="loadingIndicator" style="display: none;">
+                                                    <div class="spinner-border text-primary" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="sidebar sidebar-two" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo">
                     <a href="index.html">
-                        <h3 class="logo" style="color: aliceblue">Tabungan<span style="color: #6434db">Ku</span></h3>
+                        <h3 class="logo" style="color: aliceblue">Tabungan<span style="color: #6434db">Ku</span>
+                        </h3>
                     </a>
                     <a href="index.html">
                         <h3 class="logo-small" style="color: aliceblue">T<span style="color: #6434db">K</span></h3>
                     </a>
                 </div>
-        </div>
+            </div>
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu sidebar-menu-two">
                     <ul>
@@ -310,13 +372,54 @@
     <script src="{{ asset('assets/plugins/apexchart/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/apexchart/chart-data.js') }}"></script>
 
- 
+
 
     <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
 
     <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+
+    <script>
+        $('#update-password-form').submit(function(e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+            $('#saveButton').html('Loading...');
+            $('#saveButton').prop('disabled', true);
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success('Password berhasil diperbarui.', 'Sukses');
+                        location.reload();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    if (xhr.status === 422) {
+                        var errorMessage = xhr.responseText.replace(/^"(.*)"$/, '$1');
+                        toastr.error(errorMessage, 'Kesalahan Validasi');
+                        $('#saveButton').html('Simpan');
+                        $('#saveButton').prop('disabled', false);
+                    } else {
+                        toastr.error('Terjadi kesalahan: ' + error, 'Kesalahan');
+                        $('#saveButton').html('Simpan');
+                        $('#saveButton').prop('disabled', false);
+                    }
+                }
+            });
+
+
+
+        });
+    </script>
 
     @yield('script')
 </body>
