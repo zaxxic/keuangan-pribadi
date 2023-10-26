@@ -66,6 +66,7 @@ Route::group(['middleware' => ['admin']], function () {
   Route::resource('income-admin', AdminCategoryIncomeController::class)->except(['show', 'edit', 'create']);
   Route::resource('expenditure-admin', AdminCategoryExpenditureController::class)->except(['show', 'edit', 'create']);
   Route::get('/paidUsers', [AdminController::class, 'paidUsers'])->name('paid-users');
+  Route::put('/prof', [AdminController::class, 'prof'])->name('prof');
   Route::post('/getMonthly/{month}', [AdminController::class, 'getMonthly'])->name('admin-data');
 });
 
