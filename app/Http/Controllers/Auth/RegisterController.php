@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Verified;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -63,12 +67,31 @@ class RegisterController extends Controller
             'email.email' => 'Email harus berupa alamat email yang valid.',
             'email.max' => 'Email tidak boleh lebih dari 255 karakter.',
             'email.unique' => 'Email sudah digunakan.',
-            'password.required' => 'Password wajib diisiiu.',
+            'password.required' => 'Password wajib diisi.',
             'password.string' => 'Password harus berupa teks.',
             'password.min' => 'Password harus memiliki minimal 8 karakter.',
             'password.confirmed' => 'Konfirmasi password tidak sesuai dengan password yang dimasukkan.',
 
         ]);
+    }
+
+    public function register(Request $request)
+    {
+
+        $this->validator($request->all())->validate();
+
+        $verificationCode = str_pad(rand(1, 999999), 6, '0', STR_PAD_LEFT);
+
+        $user = $this->create(array_merge($request->all(), ['verification_code' => $verificationCode]));
+
+        event(new Registered($user));
+
+        // Login the user immediately after registration
+        Auth::login($user);
+
+        Mail::to($request->email)->send(new Verified($verificationCode, $request->email));
+
+        return redirect(route('login'))->with('message', 'Silakan login untuk melanjutkan.');
     }
 
     /**
