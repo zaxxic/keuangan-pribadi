@@ -75,7 +75,8 @@
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $category->name }}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($category->created_at)->translatedFormat('j F Y') }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($category->created_at)->translatedFormat('j F Y') }}
+                                                    </td>
                                                     @if ($index >= $global)
                                                         <td class="d-flex align-items-center">
                                                             <div class="dropdown dropdown-action">
@@ -121,12 +122,12 @@
     </div>
 
 
-    <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel"
+    <div class="modal fade" id="editCategoryModal1" tabindex="-1" aria-labelledby="editCategoryModal1Label"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editCategoryModalLabel">Edit Kategori Pendapatan</h5>
+                    <h5 class="modal-title" id="editCategoryModal1Label">Edit Kategori Pendapatan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -228,21 +229,27 @@
             $('#editCategoryUserId').val(userId);
             $('#deleteCategoryRoute').val(route);
             // Tampilkan modal
-            $('#editCategoryModal').modal('show');
+            $('#editCategoryModal1').modal('show');
         });
 
-        $('#updateCategoryBtn').click(function() {
+        $('#editCategoryForm').submit(function(event) {
+            // Mencegah pengiriman formulir agar tidak dilakukan secara default
+            event.preventDefault();
+
+            // Ambil nilai dari input fields dalam formulir
             var categoryId = $('#editCategoryId').val();
             var categoryName = $('#editCategoryName').val();
             var userId = $('#editCategoryUserId').val();
-            var route = $('#deleteCategoryRoute').val(); // Ambil route dari input tersembunyi
+            var route = $('#deleteCategoryRoute').val();
 
-            $('#updateCategoryBtn').html('Loading...');
+            // Menampilkan loading indicator atau pesan loading lainnya
+            $('#updateCategoryBtn').html('Loading...'); // Mengubah teks tombol menjadi "Loading..."
             $('#updateCategoryBtn').prop('disabled', true);
-            // Kirim permintaan ajax untuk mengupdate data kategori
+
+            // Kirim data menggunakan AJAX
             $.ajax({
-                url: route, // Gunakan route yang diambil dari input tersembunyi
-                type: 'PUT', // Gunakan metode PUT
+                url: route,
+                type: 'PUT',
                 data: {
                     id: categoryId,
                     name: categoryName,
@@ -251,29 +258,24 @@
                 },
                 success: function(response) {
                     // Tutup modal
-                    $('#editCategoryModal').modal('hide');
-                    toastr.success(
-                        'Kategori pendapatan berhasil dihapus',
-                        'Sukses');
-
-                    location
-                        .reload();
-
-                    // Refresh halaman atau lakukan tindakan lain yang diperlukan
+                    $('#editCategoryModal1').modal('hide');
+                    toastr.success('Kategori pendapatan berhasil dirubah', 'Sukses');
+                    location.reload();
                 },
                 error: function(error) {
-                    $('#updateCategoryBtn').html('Ubah');
+                    $('#updateCategoryBtn').html('Simpan'); // Mengembalikan teks tombol ke "Simpan"
                     $('#updateCategoryBtn').prop('disabled', false);
                     if (error.status === 403) {
-                        toastr.error(
-                            'Anda tidak memiliki izin untuk mengubah kategori ini',
-                            'Error');
+                        toastr.error('Anda tidak memiliki izin untuk mengedit kategori ini', 'Error');
                     } else {
-                        toastr.error('Terjadi kesalahan saat edit kategori',
-                            'Error');
+                        toastr.error('Terjadi kesalahan saat menghapus kategori', 'Error');
                     }
                 }
             });
+        });
+
+        $('#tambahModal').on('show.bs.modal', function(event) {
+            $('#addIncomeCategoryForm input[name="name"]').val('');
         });
 
 

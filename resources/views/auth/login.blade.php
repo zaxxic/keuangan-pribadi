@@ -43,12 +43,18 @@
                             </div>
                             <div class="form-group">
                                 <label>Password</label>
-                                <div class="d-flex">
-                                    <input type="password" class="form-control" name="password" id="password"
-                                        required />
-                                    {{-- <span class="fas fa-eye toggle-password"
+
+                                <input id="password" type="text"
+                                    class="form-control @error('password') is-invalid @enderror" name="password"
+                                    value="{{ old('password') }}" autocomplete="password">
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                                {{-- <span class="fas fa-eye toggle-password"
                                         onclick="togglePasswordVisibility()"></span> --}}
-                                </div>
+
                             </div>
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">

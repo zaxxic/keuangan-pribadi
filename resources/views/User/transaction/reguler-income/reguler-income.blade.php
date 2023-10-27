@@ -143,8 +143,7 @@
                 {
                     data: 'date',
                     name: 'date',
-                    searchable: false
-                },
+                 },
                 {
                     data: 'amount',
                     name: 'amount',

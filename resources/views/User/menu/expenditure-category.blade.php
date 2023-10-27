@@ -122,12 +122,12 @@
     </div>
 
 
-    <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel"
+    <div class="modal fade" id="editCategoryModal1" tabindex="-1" aria-labelledby="editCategoryModal1Label"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editCategoryModalLabel">Edit Kategori Pendapatan</h5>
+                    <h5 class="modal-title" id="editCategoryModal1Label">Edit Kategori Pendapatan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -222,21 +222,28 @@
             $('#editCategoryUserId').val(userId);
             $('#deleteCategoryRoute').val(route);
             // Tampilkan modal
-            $('#editCategoryModal').modal('show');
+            $('#editCategoryModal1').modal('show');
         });
 
-        $('#updateCategoryBtn').click(function() {
+        // Tangkap peristiwa pengiriman formulir
+        $('#editCategoryForm').submit(function(event) {
+            // Mencegah pengiriman formulir agar tidak dilakukan secara default
+            event.preventDefault();
+
+            // Ambil nilai dari input fields dalam formulir
             var categoryId = $('#editCategoryId').val();
             var categoryName = $('#editCategoryName').val();
             var userId = $('#editCategoryUserId').val();
-            var route = $('#deleteCategoryRoute').val(); // Ambil route dari input tersembunyi
+            var route = $('#deleteCategoryRoute').val();
 
+            // Menampilkan loading indicator atau pesan loading lainnya
             $('#updateCategoryBtn').html('Loading...');
             $('#updateCategoryBtn').prop('disabled', true);
-            // Kirim permintaan ajax untuk mengupdate data kategori
+
+            // Kirim data menggunakan AJAX
             $.ajax({
-                url: route, // Gunakan route yang diambil dari input tersembunyi
-                type: 'PUT', // Gunakan metode PUT
+                url: route,
+                type: 'PUT',
                 data: {
                     id: categoryId,
                     name: categoryName,
@@ -245,14 +252,9 @@
                 },
                 success: function(response) {
                     // Tutup modal
-                    $('#editCategoryModal').modal('hide');
-                    toastr.success(
-                        'Kategori pendapatan berhasil rubah',
-                        'Sukses');
-
-                    location
-                        .reload();
-
+                    $('#editCategoryModal1').modal('hide');
+                    toastr.success('Kategori pendapatan berhasil dirubah', 'Sukses');
+                    location.reload();
                 },
                 error: function(error) {
                     $('#updateCategoryBtn').html('Ubah');
@@ -273,6 +275,9 @@
             });
         });
 
+        $('#tambahModal').on('show.bs.modal', function(event) {
+            $('#addIncomeCategoryForm input[name="name"]').val('');
+        });
 
 
         $('#addIncomeCategoryForm').submit(function(e) {

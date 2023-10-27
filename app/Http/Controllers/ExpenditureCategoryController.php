@@ -93,7 +93,6 @@ class ExpenditureCategoryController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        // Update data kategori
         $category->update([
             'name' => $request->name,
         ]);
