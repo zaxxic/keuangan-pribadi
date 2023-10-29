@@ -32,6 +32,7 @@ class RegulerExpenController extends Controller
                 // Jalur lampiran dari folder reguler_expenditure_attachment/
                 $attachmentPath = 'reguler_expenditure_attachment/';
                 $transaction->attachmentUrl = asset('storage/' . $attachmentPath . $transaction->attachment);
+                $transaction->amount = 'Rp ' . number_format($transaction->amount, 0, ',', '.');
                 return $transaction;
             });
 

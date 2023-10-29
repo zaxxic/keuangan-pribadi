@@ -33,6 +33,7 @@ class IncomeController extends Controller
             $transactions->transform(function ($transaction) {
                 $attachmentPath = $transaction->source === 'reguler' ? 'reguler_income_attachment/' : 'income_attachment/';
                 $transaction->attachmentUrl = asset('storage/' . $attachmentPath . $transaction->attachment);
+                $transaction->amount = 'Rp ' . number_format($transaction->amount, 0, ',', '.');
                 return $transaction;
             });
 

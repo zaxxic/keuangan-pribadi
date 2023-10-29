@@ -32,6 +32,7 @@ class ExpenditureController extends Controller
             $transactions->transform(function ($transaction) {
                 $attachmentPath = $transaction->source === 'reguler' ? 'reguler_expenditure_attachment/' : 'expenditure_attachment/';
                 $transaction->attachmentUrl = asset('storage/' . $attachmentPath . $transaction->attachment);
+                $transaction->amount = 'Rp ' . number_format($transaction->amount, 0, ',', '.');
                 return $transaction;
             });
 
@@ -103,7 +104,7 @@ class ExpenditureController extends Controller
         // Validasi data dengan pesan kustom
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
-            'amount' => 'required|numeric|min:1001',
+            'amount' => 'required|numeric|min:1000',
             'payment_method' => 'required|in:E-Wallet,Cash,Debit',
             'attachment' => 'image|mimes:jpeg,png,jpg|max:5120',
             'date' => ['required', 'date', 'date_before_today'],
