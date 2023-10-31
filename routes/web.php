@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminCategoryExpenditureController;
 use App\Http\Controllers\AdminCategoryIncomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\OAuthController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -72,7 +73,15 @@ Route::group(['middleware' => ['admin']], function () {
 
 // Route::group(['middleware' => 'user', 'verified'], function () {
 
-Route::group(['middleware' => ['verif', 'user']], function () {
+Route::get('/auth/redirect', [OAuthController::class, 'redirect'])->name('google.redirect');
+Route::get('/google/redirect', [OAuthController::class, 'googleCallback'])->name('google.callback');
+Route::get('/redirect', [OAuthController::class, 'redirectFacebook']);
+Route::get('/callback', [OAuthController::class, 'facebookCallback']);
+Route::get('/kul', function () {
+  return 'asdasd';
+})->name('homi');
+
+Route::group(['middleware' => ['user']], function () {
   //payment
   Route::get('subs/{id}', [SubscribController::class, 'subscribe'])->name('subs');
   // Route::get('transaction/{}', [SubscribController::class, 'subscribe'])->name('subs');

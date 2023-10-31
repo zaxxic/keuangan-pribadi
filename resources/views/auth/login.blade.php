@@ -27,6 +27,11 @@
                                 {{ session('message') }}
                             </div>
                         @endif
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('message') }}
+                            </div>
+                        @endif
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
                             <div class="form-group">
@@ -65,6 +70,14 @@
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
                         </form>
+                        <div class="text-center mt-3">
+                            <p class="mb-3">Atau login dengan:</p>
+                            <a href="{{ url('redirect') }}" class="facebook mr-3"><i
+                                    class="fab fa-facebook-f fa-2x "></i>
+                            </a><a href="{{ Route('google.redirect') }}" class="google"><i
+                                    class="fab fa-google fa-2x"></i></a>
+                        </div>
+
                         <div class="text-center mt-3">
                             <p>Tidak punya akun? <a href="{{ route('register') }}">Register</a></p>
                             <a href="{{ route('password.request') }}">Lupa password?</a>

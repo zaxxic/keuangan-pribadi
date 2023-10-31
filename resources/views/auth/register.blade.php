@@ -7,6 +7,8 @@
     <title>Login - Keungan</title>
     <link rel="shortcut icon" href="assets/img/favicon.png" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
+
     <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 
@@ -75,6 +77,12 @@
                                 <button class="btn btn-lg btn-block btn-primary w-100" type="submit">Register</button>
                             </div>
                         </form>
+                        <div class="text-center mt-3">
+                            <p class="mb-3">Atau Register dengan:</p>
+                            <a href="#" class="facebook mr-3"><i class="fab fa-facebook-f fa-2x "></i>
+                            </a><a href="{{ Route('google.redirect') }}" class="google"><i
+                                    class="fab fa-google fa-2x"></i></a>
+                        </div>
 
                         <div class="text-center mt-3">
                             <p>Sudah punya akun? <a href="{{ route('login') }}">Login</a></p>

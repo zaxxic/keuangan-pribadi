@@ -29,12 +29,12 @@ class UserMiddleware
       }
 
       return $next($request);
-    } else if (!Auth::check()) {
-      if ($request->get('id') && $request->get('key')) {
-        Session::put('saving_id', $request->get('id'));
-        Session::put('saving_key', $request->get('key'));
-        return redirect("/login");
-      }
+      } else if (!Auth::check()) {
+        if ($request->get('id') && $request->get('key')) {
+          Session::put('saving_id', $request->get('id'));
+          Session::put('saving_key', $request->get('key'));
+          return redirect("/login");
+        }
     }
 
     return redirect('/login');
