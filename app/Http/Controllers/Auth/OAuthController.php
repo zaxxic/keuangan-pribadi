@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
 class OAuthController extends Controller
 {
-    public function redirect()
+    public function redirectGoogle()
     {
+        
         return Socialite::driver('google')->redirect();
     }
 
@@ -20,9 +22,6 @@ class OAuthController extends Controller
             $user_google    = Socialite::driver('google')->user();
             $user           = User::where('email', $user_google->getEmail())->first();
 
-            //jika user ada maka langsung di redirect ke halaman home
-            //jika user tidak ada maka simpan ke database
-            //$user_google menyimpan data google account seperti email, foto, dsb
 
             if ($user != null) {
                 \auth()->login($user, true);
@@ -46,12 +45,17 @@ class OAuthController extends Controller
     }
     public function redirectFacebook()
     {
-        return Socialite::driver('facebook')->redirect();
+        // $clientId = config('facebook.client_id');
+        // dd($clientId);
+        return  Socialite::driver('facebook')->redirect();
+        // $user_google    = Socialite::driver('facebook')->user();
+        // dd($user_google);
     }
 
     public function facebookCallback()
     {
         try {
+            dd('asdasd');
 
             $user = Socialite::driver('facebook')->user();
             dd($user);

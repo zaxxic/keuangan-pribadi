@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
       'birthday' => fake()->date(),
       'password' => bcrypt('password'),
       'email_verified_at' => now(),
-      'role' => 'admin',
+      'role' => 'admin',  
     ]);
 
     User::factory(3)->create();
@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
 
     $this->call(ExpenditureCategorySeeder::class);
 
-    HistoryTransaction::factory(10000)->create();
+    HistoryTransaction::factory(10)->create();
 
     RegularTransaction::factory(5)->create();
 

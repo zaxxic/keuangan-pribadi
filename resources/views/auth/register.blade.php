@@ -77,12 +77,10 @@
                                 <button class="btn btn-lg btn-block btn-primary w-100" type="submit">Register</button>
                             </div>
                         </form>
-                        <div class="text-center mt-3">
-                            <p class="mb-3">Atau Register dengan:</p>
-                            <a href="#" class="facebook mr-3"><i class="fab fa-facebook-f fa-2x "></i>
-                            </a><a href="{{ Route('google.redirect') }}" class="google"><i
-                                    class="fab fa-google fa-2x"></i></a>
-                        </div>
+                        {{-- <div class="text-center mt-3">
+                            <p class="mb-3">Atau Register dengan:</p><a href="{{ Route('google.redirect') }}"
+                                class="google"><i class="fab fa-google fa-2x"></i></a>
+                        </div> --}}
 
                         <div class="text-center mt-3">
                             <p>Sudah punya akun? <a href="{{ route('login') }}">Login</a></p>

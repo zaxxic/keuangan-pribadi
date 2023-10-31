@@ -72,9 +72,7 @@
                         </form>
                         <div class="text-center mt-3">
                             <p class="mb-3">Atau login dengan:</p>
-                            <a href="{{ url('redirect') }}" class="facebook mr-3"><i
-                                    class="fab fa-facebook-f fa-2x "></i>
-                            </a><a href="{{ Route('google.redirect') }}" class="google"><i
+                            <a href="{{ Route('google.redirect') }}" class="google"><i
                                     class="fab fa-google fa-2x"></i></a>
                         </div>
 

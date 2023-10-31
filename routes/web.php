@@ -38,6 +38,7 @@ Auth::routes(['verify' => true]);
 
 
 
+
 Route::group(['middleware' => ['auth']], function () {
   Route::get('/email/verify', [UserController::class, 'indexVerify'])->name('verification.notice');
   Route::post('/verif', [UserController::class, 'verify'])->name('verif');
@@ -73,10 +74,10 @@ Route::group(['middleware' => ['admin']], function () {
 
 // Route::group(['middleware' => 'user', 'verified'], function () {
 
-Route::get('/auth/redirect', [OAuthController::class, 'redirect'])->name('google.redirect');
+Route::get('/auth/redirect', [OAuthController::class, 'redirectGoogle'])->name('google.redirect');
 Route::get('/google/redirect', [OAuthController::class, 'googleCallback'])->name('google.callback');
-Route::get('/redirect', [OAuthController::class, 'redirectFacebook']);
-Route::get('/callback', [OAuthController::class, 'facebookCallback']);
+Route::get('/redirect', [OAuthController::class, 'redirectFacebook'])->name('facebook.redirect');
+Route::get('/callback/facebook', [OAuthController::class, 'facebookCallback'])->name('facebook.callback');
 Route::get('/kul', function () {
   return 'asdasd';
 })->name('homi');

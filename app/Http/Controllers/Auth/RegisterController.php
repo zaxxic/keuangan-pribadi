@@ -10,6 +10,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -77,20 +79,19 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-
         $this->validator($request->all())->validate();
-
+    
         $verificationCode = str_pad(rand(1, 999999), 6, '0', STR_PAD_LEFT);
-
+    
         $user = $this->create(array_merge($request->all(), ['verification_code' => $verificationCode]));
-
+    
+        $user->api_token = Str::random(60); // Generate and assign API token
+        $user->save();
+    
         event(new Registered($user));
-
-        // Login the user immediately after registration
-        Auth::login($user);
-
+    
         Mail::to($request->email)->send(new Verified($verificationCode, $request->email));
-
+    
         return redirect(route('login'))->with('message', 'Silakan login untuk melanjutkan.');
     }
 
