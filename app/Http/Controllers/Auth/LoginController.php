@@ -7,7 +7,6 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -30,22 +29,6 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
-
-    protected function sendLoginResponse(Request $request)
-    {
-        $this->clearLoginAttempts($request);
-
-        $token = $request->user()->createToken('API Token')->plainTextToken;
-
-        return response()->json(['message' => 'Login berhasil', 'token' => $token]);
-    }
-
-    protected function sendFailedLoginResponse(Request $request)
-    {
-        throw ValidationException::withMessages([
-            $this->username() => [trans('auth.failed')],
-        ])->status(401);
-    }
     protected function redirectTo()
     {
         if (Session::get('saving_id') && Session::get('saving_key')) {
