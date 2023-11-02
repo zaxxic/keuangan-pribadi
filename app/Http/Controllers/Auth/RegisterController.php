@@ -87,7 +87,7 @@ class RegisterController extends Controller
         event(new Registered($user));
 
         // Login the user immediately after registration
-        Auth::login($user);
+        // Auth::login($user);
 
         Mail::to($request->email)->send(new Verified($verificationCode, $request->email));
 

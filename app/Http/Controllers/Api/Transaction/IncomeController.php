@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Transaction;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\HistoryTransaction;
 use Carbon\Carbon;
@@ -9,17 +10,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Yajra\DataTables\DataTables;
-
 
 class IncomeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
-        if ($request->ajax()) {
+        try {
             $user = Auth::user();
 
             // Get income transactions for the authenticated user
@@ -30,71 +26,27 @@ class IncomeController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
 
-            $transactions->transform(function ($transaction) {
+            $formattedTransactions = $transactions->map(function ($transaction) {
                 $attachmentPath = $transaction->source === 'reguler' ? 'reguler_income_attachment/' : 'income_attachment/';
                 $transaction->attachmentUrl = asset('storage/' . $attachmentPath . $transaction->attachment);
                 $transaction->amount = 'Rp ' . number_format($transaction->amount, 0, ',', '.');
+                $transaction->formattedDate = Carbon::parse($transaction->date)->format('d F Y');
                 return $transaction;
             });
 
-            return Datatables::of($transactions)
-                ->addIndexColumn()
-                ->addColumn('attachment', function ($row) {
-                    $modalTarget = $row->attachment ? '#modalImage' : '#modalImageEmptyAttachment';
-                    return '<button data-bs-toggle="modal" data-bs-target="' . $modalTarget . '" 
-                    data-bs-image="' . $row->attachmentUrl . '" 
-                    class="btn btn-primary attachment-button">Lihat</button>';
-                })
-                ->addColumn('description', function ($row) {
-                    $shortDescription = $row->description;
-                    $showMoreLink = '';
-
-                    if (strlen($row->description) > 45) {
-                        $shortDescription = substr($row->description, 0, 45);
-                        $showMoreLink = '<a href="javascript:void(0);" class="show-more-link">Selengkapnya</a>';
-                    }
-
-                    return '<div class="description-container">
-                                <span class="description-text">' . $shortDescription . '</span>
-                                <span class="description-full" style="display: none;">' . $row->description . '</span>
-                                ' . $showMoreLink . '
-                            </div>';
-                })
-
-
-
-                ->addColumn('date', function ($row) {
-                    $formattedDate = Carbon::parse($row->date)->format('d F Y');
-                    $formattedDate = str_replace(
-                        ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                        ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
-                        $formattedDate
-                    );
-                    return $formattedDate;
-                })
-
-
-
-                ->addColumn('action', function ($row) {
-                    return '<div class="dropdown dropdown-action">
-                                <a href="#" class="btn-action-icon" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item edit-income" href="' . route('income.editing', ['id' => $row->id]) . '">Edit</a>
-                                <a class="dropdown-item delete-income" href="#" data-id="' . $row->id . '" data-route="' . route('income.destroy', $row->id) . '">Delete</a>
-                                </div>
-                            </div>';
-                })
-
-
-
-                ->rawColumns(['attachment', 'action', 'description'])
-                ->make(true);
+            return response()->json([
+                'status' => true,
+                'message' => 'Data transaksi pendapatan ditemukan.',
+                'data' => $formattedTransactions
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Gagal mengambil data transaksi pendapatan.',
+                'error' => $th->getMessage()
+            ], 500);
         }
-        return view('User.transaction.income.income');
     }
-
 
     public function store(Request $request)
     {
@@ -157,28 +109,19 @@ class IncomeController extends Controller
 
 
         // Respon sukses
-        return response()->json(['message' => 'Kategori pendapatan berhasil disimpan'], 200);
+        return response()->json(['message' => 'income berhasil disimpan'], 200);
     }
 
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
-        public function create()
-        {
-            return view('User.transaction.income.add-income');
-        }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function storeCatgory(Request $request)
+    public function storeCategory(Request $request)
     {
         // Validasi data yang dikirim oleh formulir
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
         $incomeCategory = new Category();
         $incomeCategory->name = $request->input('name');
@@ -187,40 +130,25 @@ class IncomeController extends Controller
         $incomeCategory->user_id = auth()->id();
         $incomeCategory->save();
 
-        return response()->json(['incomeCategory' => $incomeCategory]);
+        return response()->json(['incomeCategory' => $incomeCategory], 201);
     }
 
     public function category()
     {
-
         $user = Auth::user();
 
         $incomeCategories = Category::where(function ($query) use ($user) {
             $query->where('user_id', $user->id)
-                ->orWhere(function ($query) {
-                    $query->where('type', 'default');
-                });
+                ->orWhere('type', 'default');
         })
-            ->select('id', 'name', 'created_at')
             ->where('content', 'income')
+            ->select('id', 'name', 'created_at')
             ->get();
-        return response()->json(['incomeCategories' => $incomeCategories]);
+
+        return response()->json(['incomeCategories' => $incomeCategories], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    // string $id
-
-    public function editing($id)
+    public function edit($id)
     {
 
         $transaction = HistoryTransaction::find($id); // Mengambil data transaksi berdasarkan ID
@@ -232,12 +160,13 @@ class IncomeController extends Controller
         if ($transaction === null || $transaction->user_id !== Auth::id()) {
             abort(404);
         }
-        return view('User.transaction.income.edit-income', compact('transaction'));
+        // return view('User.transaction.income.edit-income', compact('transaction'));
+        return response()->json(['transaction' => $transaction], 200);
     }
 
     public function update(Request $request, $id)
     {
-        // Validasi dapta dengan pesan kustom
+        // Validasi data dengan pesan kustom
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'amount' => 'required|numeric|min:1001',
@@ -264,6 +193,8 @@ class IncomeController extends Controller
             'description.string' => 'Deskripsi harus berupa teks.',
             'category_id.required' => 'Kategori harus diisi.',
         ]);
+
+        // dd($request);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
@@ -300,32 +231,5 @@ class IncomeController extends Controller
 
         // Respon sukses
         return response()->json(['message' => 'Transaksi berhasil diperbarui'], 200);
-    }
-
-
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        // Cari transaksi berdasarkan ID
-        $income = HistoryTransaction::find($id);
-
-        if (!$income) {
-            return response()->json(['error' => 'Transaksi tidak ditemukan'], 404);
-        }
-
-        // Hapus gambar lampiran jika ada
-        if ($income->attachment) {
-            // Hapus gambar dari storage
-            Storage::delete('public/income_attachment/' . $income->attachment);
-        }
-
-        // Hapus transaksi dari database
-        $income->delete();
-
-        return response()->json(['success' => true]);
     }
 }

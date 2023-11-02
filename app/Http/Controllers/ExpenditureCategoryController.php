@@ -86,6 +86,7 @@ class ExpenditureCategoryController extends Controller
         $category = Category::findOrFail($id);
 
         if (Auth::user()->id !== $category->user_id) {
+            dd('sukses');
             return response()->json(['message' => 'Anda tidak memiliki izin untuk mengedit kategori ini'], 403);
         }
 
@@ -96,7 +97,7 @@ class ExpenditureCategoryController extends Controller
         $category->update([
             'name' => $request->name,
         ]);
-
+        // dd('gagal');     
         return response()->json(['message' => 'Kategori pendapatan berhasil diperbarui']);
     }
 
@@ -117,7 +118,7 @@ class ExpenditureCategoryController extends Controller
 
         if (count($category->histories) > 0 || count($category->regulars) > 0) {
             return response()->json(['message' => 'Kategori sedang digunakan.'], 403);
-        }
+        }  
 
         $category->delete();
 
