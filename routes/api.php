@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Auth\VerifikasiOtpController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\Transaction\ExpenditureController;
 use App\Http\Controllers\Api\Transaction\IncomeController;
 use App\Http\Controllers\CallBackController;
 use Illuminate\Http\Request;
@@ -34,13 +35,25 @@ Route::middleware(
     'auth:sanctum',
     'userApi'
 )->group(function () {
+    //income 
     Route::get('/income', [IncomeController::class, 'index']);
     Route::get('/income/edit/{id}', [IncomeController::class, 'edit']);
     Route::put('/income/update/{id}', [IncomeController::class, 'update']);
-    // Route::get('/income/create', [IncomeController::class, 'index']);
     Route::post('/income/store', [IncomeController::class, 'store']);
-    Route::get('/income/categor/create', [IncomeController::class, 'category']);
+    Route::get('/income/category/create', [IncomeController::class, 'category']);
     Route::post('/income/category/store', [IncomeController::class, 'storeCategory']);
+    // income done
+
+    // expenditure
+    Route::get('/expenditure', [ExpenditureController::class, 'index']);
+    Route::get('/expenditure/edit/{id}', [ExpenditureController::class, 'edit']);
+    Route::post('/expenditure/store', [ExpenditureController::class, 'store']);
+    Route::put('/expenditure/update/{id}', [ExpenditureController::class, 'update']);
+    Route::get('/expenditure/category', [ExpenditureController::class, 'category']);
+    Route::post('/expenditure/category/store', [ExpenditureController::class, 'storeCategory']);
+
+    // expenditure end
+
 });
 Route::middleware(
     'auth:sanctum',

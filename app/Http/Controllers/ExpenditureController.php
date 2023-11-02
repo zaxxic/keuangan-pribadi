@@ -38,7 +38,7 @@ class ExpenditureController extends Controller
 
 
             return Datatables::of($transactions)
-                ->addIndexColumn()zz
+                ->addIndexColumn()
                 ->addColumn('attachment', function ($row) {
                     $modalTarget = $row->attachment ? '#modalImage' : '#modalImageEmptyAttachment';
                     return '<button data-bs-toggle="modal" data-bs-target="' . $modalTarget . '" 

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class IncomeController extends Controller
+class ExpenditureController extends Controller
 {
     public function index(Request $request)
     {
@@ -21,13 +21,13 @@ class IncomeController extends Controller
             // Get income transactions for the authenticated user
             $transactions = HistoryTransaction::with('category')
                 ->where('user_id', $user->id)
-                ->where('content', 'income')
+                ->where('content', 'expenditure')
                 ->where('status', 'paid')
                 ->orderBy('created_at', 'desc')
                 ->get();
 
             $formattedTransactions = $transactions->map(function ($transaction) {
-                $attachmentPath = $transaction->source === 'reguler' ? 'reguler_income_attachment/' : 'income_attachment/';
+                $attachmentPath = $transaction->source === 'reguler' ? 'reguler_expenditure_attachment/' : 'expenditure_attachment/';
                 $transaction->attachmentUrl = asset('storage/' . $attachmentPath . $transaction->attachment);
                 $transaction->amount = 'Rp ' . number_format($transaction->amount, 0, ',', '.');
                 $transaction->formattedDate = Carbon::parse($transaction->date)->format('d F Y');
@@ -112,6 +112,21 @@ class IncomeController extends Controller
         return response()->json(['message' => 'income berhasil disimpan'], 200);
     }
 
+    public function category()
+    {
+        $user = Auth::user();
+
+        $incomeCategories = Category::where(function ($query) use ($user) {
+            $query->where('user_id', $user->id)
+                ->orWhere('type', 'default');
+        })
+            ->where('content', 'expenditure')
+            ->select('id', 'name', 'created_at')
+            ->get();
+
+        return response()->json(['incomeCategories' => $incomeCategories], 200);
+    }
+
     public function storeCategory(Request $request)
     {
         // Validasi data yang dikirim oleh formulir
@@ -133,21 +148,6 @@ class IncomeController extends Controller
         return response()->json(['incomeCategory' => $incomeCategory], 201);
     }
 
-    public function category()
-    {
-        $user = Auth::user();
-
-        $incomeCategories = Category::where(function ($query) use ($user) {
-            $query->where('user_id', $user->id)
-                ->orWhere('type', 'default');
-        })
-            ->where('content', 'income')
-            ->select('id', 'name', 'created_at')
-            ->get();
-
-        return response()->json(['incomeCategories' => $incomeCategories], 200);
-    }
-
     public function edit($id)
     {
 
@@ -156,13 +156,15 @@ class IncomeController extends Controller
         if (!$transaction) {
         }
 
-        if ($transaction === null || $transaction->user_id !== Auth::id()) {
-            abort(404);
+        if ($transaction->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Anda tidak memiliki akses'], 403);
         }
 
-        if ($transaction->content === 'expenditure') {
-            return response()->json(['message' => 'Akses ditolak untuk transaksi jenis Pengeluaran'], 403);
+        if ($transaction->content === 'income') {
+            return response()->json(['message' => 'Akses ditolak untuk transaksi jenis pendapatan'], 403);
         }
+
+        // return response()->json(['message' => 'income berhasil disimpan'], 200);
         return response()->json(['transaction' => $transaction], 200);
     }
 
@@ -203,33 +205,37 @@ class IncomeController extends Controller
         }
 
         // Cari transaksi berdasarkan ID
-        $income = HistoryTransaction::find($id);
+        $expenditure = HistoryTransaction::find($id);
 
-        if (!$income) {
+        if (!$expenditure) {
             return response()->json(['error' => 'Transaksi tidak ditemukan'], 404);
+        }
+
+        if ($expenditure->content === 'income') {
+            return response()->json(['message' => 'Akses ditolak untuk transaksi jenis pendapatan'], 403);
         }
 
         if ($request->hasFile('attachment')) {
             // Menghapus lampiran lama jika ada
-            if ($income->attachment) {
-                Storage::delete('public/income_attachment/' . $income->attachment);
+            if ($expenditure->attachment) {
+                Storage::delete('public/expenditure_attachment/' . $expenditure->attachment);
             }
             // Simpan lampiran baru
-            $attachmentPath = $request->file('attachment')->store('public/income_attachment');
+            $attachmentPath = $request->file('attachment')->store('public/expenditure_attachment');
             $attachmentName = basename($attachmentPath);
-            $income->attachment = $attachmentName;
+            $expenditure->attachment = $attachmentName;
         }
 
-        $income->title = $request->input('title');
-        $income->amount = $request->input('amount');
-        $income->payment_method = $request->input('payment_method');
-        $income->content = 'income';
-        $income->status = 'paid';
-        $income->source = 'normal';
-        $income->date = $request->input('date');
-        $income->description = $request->input('description');
-        $income->category_id = $request->input('category_id');
-        $income->save();
+        $expenditure->title = $request->input('title');
+        $expenditure->amount = $request->input('amount');
+        $expenditure->payment_method = $request->input('payment_method');
+        $expenditure->content = 'expenditure';
+        $expenditure->status = 'paid';
+        $expenditure->source = 'normal';
+        $expenditure->date = $request->input('date');
+        $expenditure->description = $request->input('description');
+        $expenditure->category_id = $request->input('category_id');
+        $expenditure->save();
 
         // Respon sukses
         return response()->json(['message' => 'Transaksi berhasil diperbarui'], 200);
