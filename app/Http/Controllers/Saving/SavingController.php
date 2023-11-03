@@ -55,12 +55,14 @@ class SavingController extends Controller
    */
   public function store(Request $request)
   {
+    // dd('asd');
     // Validasi data dengan pesan kustom
     $validator = Validator::make($request->all(), [
       'title' => 'required|max:255',
       'target_balance' => 'required',
       'description' => 'required|string|max:400',
       'inviteEmail.*' => 'required|email',
+      'cover' => 'in:savings1.png,savings2.png,savings3.png,savings4.png,savings5.png|required',
       'date' => 'required|date|after:today',
       'payment_method' => 'required|string|in:E-Wallet,Cash,Debit',
       'recurring' => 'required|in:week,month,year',
@@ -73,7 +75,8 @@ class SavingController extends Controller
       'description.string' => 'Deskripsi harus berupa teks.',
       'description.max' => 'Deskripsi tidak boleh lebih dari 400 karakter.',
       'inviteEmail.*.required' => 'Email harus diisi.',
-
+      'cover.in' => 'cover yang anda pilih tidak ada',
+      'cover.required' => 'Cover wajib di isi',
       'date.required' => 'Tanggal harus diisi.',
       'date.date' => 'Tanggal harus berupa tanggal yang valid.',
       'date.after' => 'Tanggal harus setelah hari ini.',

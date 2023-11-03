@@ -211,6 +211,8 @@
                         $('#createExpenditureCategoryForm')[0].reset();
 
                         getExpenditureCategories();
+                        button.innerHTML = /*html*/ `Simpan`
+                        button.removeAttribute("disabled");
                     },
                     error: function(error) {
                         toastr.error(

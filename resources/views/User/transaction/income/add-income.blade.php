@@ -76,7 +76,8 @@
                                         <div class="form-group">
                                             <label>Lampiran</label>
                                             <div class="form-group service-upload mb-0">
-                                                <span><img src="{{ asset('assets/img/icons/drop-icon.svg') }}"alt="upload" /></span>
+                                                <span><img
+                                                        src="{{ asset('assets/img/icons/drop-icon.svg') }}"alt="upload" /></span>
                                                 <h6 class="drop-browse align-center">
                                                     Letakan file disini atau
                                                     <span class="text-primary ms-1">browse</span>
@@ -145,7 +146,8 @@
             $('#createIncomeForm').submit(function(e) {
                 e.preventDefault(); // Mencegah pengiriman formulir biasa
                 let button = e.target.querySelector("button[type=submit]");
-                button.innerHTML = /*html*/ `<span class="spinner-border spinner-border-sm me-2"></span> Menyimpan...`
+                button.innerHTML = /*html*/
+                    `<span class="spinner-border spinner-border-sm me-2"></span> Menyimpan...`
                 button.setAttribute("disabled", "");
 
                 var formData = new FormData(this);
@@ -184,7 +186,8 @@
             $('#createIncomeCategoryForm').submit(function(event) {
                 event.preventDefault();
                 let button = event.target.querySelector("button[type=submit]");
-                button.innerHTML = /*html*/ `<span class="spinner-border spinner-border-sm me-2"></span> Menyimpan...`
+                button.innerHTML = /*html*/
+                    `<span class="spinner-border spinner-border-sm me-2"></span> Menyimpan...`
                 button.setAttribute("disabled", "");
                 var formData = $(this).serialize();
                 $.ajax({
@@ -208,6 +211,8 @@
                         $('#createIncomeCategoryForm')[0].reset();
 
                         getIncomeCategories();
+                        button.innerHTML = /*html*/ `Simpan`
+                        button.removeAttribute("disabled");
                     },
                     error: function(error) {
                         toastr.error(

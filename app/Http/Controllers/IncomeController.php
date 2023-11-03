@@ -165,10 +165,10 @@ class IncomeController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-        public function create()
-        {
-            return view('User.transaction.income.add-income');
-        }
+    public function create()
+    {
+        return view('User.transaction.income.add-income');
+    }
 
     /**
      * Store a newly created resource in storage.

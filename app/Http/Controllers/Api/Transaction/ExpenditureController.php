@@ -17,7 +17,6 @@ class ExpenditureController extends Controller
     {
         try {
             $user = Auth::user();
-
             // Get income transactions for the authenticated user
             $transactions = HistoryTransaction::with('category')
                 ->where('user_id', $user->id)
@@ -239,5 +238,30 @@ class ExpenditureController extends Controller
 
         // Respon sukses
         return response()->json(['message' => 'Transaksi berhasil diperbarui'], 200);
+    }
+
+    public function destroy(string $id)
+    {
+        // Cari transaksi berdasarkan ID
+        $income = HistoryTransaction::find($id);
+
+        if ($income->content === 'income') {
+            return response()->json(['message' => 'Akses ditolak untuk transaksi jenis Pengeluaran'], 403);
+        }
+
+        if (!$income) {
+            return response()->json(['error' => 'Transaksi tidak ditemukan'], 404);
+        }
+
+        // Hapus gambar lampiran jika ada
+        if ($income->attachment) {
+            // Hapus gambar dari storage
+            Storage::delete('public/income_attachment/' . $income->attachment);
+        }
+
+        // Hapus transaksi dari database
+        $income->delete();
+
+        return response()->json(['success' => true]);
     }
 }

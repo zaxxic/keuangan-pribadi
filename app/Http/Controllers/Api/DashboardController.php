@@ -13,7 +13,7 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         try {
-            $user = $request->user();
+            $user = Auth::user();
             $histories = HistoryTransaction::where('user_id', $user->id)
                 ->where('status', 'paid')
                 ->orderBy('created_at', 'DESC')

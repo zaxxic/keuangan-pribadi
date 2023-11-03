@@ -4,8 +4,11 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Auth\VerifikasiOtpController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\Tracsaction\SavingsController;
 use App\Http\Controllers\Api\Transaction\ExpenditureController;
 use App\Http\Controllers\Api\Transaction\IncomeController;
+use App\Http\Controllers\Api\Transaction\RegulerExpenditure;
+use App\Http\Controllers\Api\Transaction\RegulerIncomeController;
 use App\Http\Controllers\CallBackController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,16 +33,17 @@ Route::post('auth/register', [RegisterController::class, 'register']);
 Route::post('auth/login', [LoginController::class, 'login']);
 Route::post('auth/logout', [LoginController::class, 'logout']);
 
-Route::get('dashboard', [DashboardController::class, 'index']);
 Route::middleware(
     'auth:sanctum',
     'userApi'
 )->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'index']);
     //income 
     Route::get('/income', [IncomeController::class, 'index']);
     Route::get('/income/edit/{id}', [IncomeController::class, 'edit']);
     Route::put('/income/update/{id}', [IncomeController::class, 'update']);
     Route::post('/income/store', [IncomeController::class, 'store']);
+    Route::delete('/income/delete/{id}', [IncomeController::class, 'destroy']);
     Route::get('/income/category/create', [IncomeController::class, 'category']);
     Route::post('/income/category/store', [IncomeController::class, 'storeCategory']);
     // income done
@@ -51,8 +55,29 @@ Route::middleware(
     Route::put('/expenditure/update/{id}', [ExpenditureController::class, 'update']);
     Route::get('/expenditure/category', [ExpenditureController::class, 'category']);
     Route::post('/expenditure/category/store', [ExpenditureController::class, 'storeCategory']);
+    Route::delete('/expenditure/delete/{id}', [IncomeController::class, 'destroy']);
 
     // expenditure end
+
+    // expenditure reguler
+    Route::get('/reguler/expenditure', [RegulerExpenditure::class, 'index']);
+    Route::post('/reguler/store/expenditure', [RegulerExpenditure::class, 'store']);
+    Route::get('/reguler/edit/expenditure/{id}', [RegulerExpenditure::class, 'edit']);
+    Route::put('/reguler/update/expenditure/{id}', [RegulerExpenditure::class, 'update']);
+    Route::delete('/reguler/expenditure/delete/{id}', [RegulerExpenditure::class, 'destroy']);
+    //expenditure reguler end
+
+    // income reguler
+    Route::get('/reguler/income', [RegulerIncomeController::class, 'index']);
+    Route::post('/reguler/store/income', [RegulerIncomeController::class, 'store']);
+    Route::get('/reguler/edit/income/{id}', [RegulerIncomeController::class, 'edit']);
+    Route::put('/reguler/update/income/{id}', [RegulerIncomeController::class, 'update']);
+    Route::delete('/reguler/income/delete/{id}', [RegulerIncomeController::class, 'destroy']);
+    //income reguler end
+
+    //savings 
+    Route::resource('/savings', SavingsController::class);
+    //savings end
 
 });
 Route::middleware(

@@ -234,4 +234,29 @@ class IncomeController extends Controller
         // Respon sukses
         return response()->json(['message' => 'Transaksi berhasil diperbarui'], 200);
     }
+
+    public function destroy(string $id)
+    {
+        // Cari transaksi berdasarkan ID
+        $income = HistoryTransaction::find($id);
+
+        if ($income->content === 'expenditure') {
+            return response()->json(['message' => 'Akses ditolak untuk transaksi jenis Pengeluaran'], 403);
+        }
+
+        if (!$income) {
+            return response()->json(['error' => 'Transaksi tidak ditemukan'], 404);
+        }
+
+        // Hapus gambar lampiran jika ada
+        if ($income->attachment) {
+            // Hapus gambar dari storage
+            Storage::delete('public/income_attachment/' . $income->attachment);
+        }
+
+        // Hapus transaksi dari database
+        $income->delete();
+
+        return response()->json(['success' => true]);
+    }
 }
