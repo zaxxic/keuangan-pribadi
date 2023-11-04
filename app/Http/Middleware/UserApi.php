@@ -25,8 +25,8 @@ class UserApi
 
             // Check if the user is a 'user' role and has not verified their email
             if ($user->role === 'user' && $user->email_verified_at === null) {
-                // return response()->json(['message' => 'User email not verified.'], 403);
-                return redirect('api/email/verify');
+                return response()->json(['message' => 'User email not verified.'], 403);
+                // return redirect('api/email/verify');
             }
 
 

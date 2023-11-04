@@ -31,10 +31,15 @@ class LoginController extends Controller
                 ], 401);
             }
             $user = User::where('email', $request->email)->first();
+            $customData = [
+                "name" => $user["name"],
+                "email" => $user["email"],
+                'token' => $user->createToken("API TOKEN")->plainTextToken,
+            ];
             return response()->json([
                 'status' => true,
                 'message' => 'anda berhasil login',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'data' => $customData
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
