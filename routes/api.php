@@ -76,7 +76,13 @@ Route::middleware(
     //income reguler end
 
     //savings 
-    Route::resource('/savings', SavingsController::class);
+    Route::resource('/saving', SavingsController::class);
+    Route::post('/invite', [SavingsController::class, 'invite']);
+    Route::get('/join', [SavingsController::class, 'join'])->name('join.api');
+    Route::get('/out/{saving}', [SavingsController::class, 'out']);
+    Route::post('/kick', [SavingsController::class, 'kick']);
+    Route::post('/setor', [SavingsController::class, 'setor']);
+    Route::post('/tarik', [SavingsController::class, 'tarik']);
     //savings end
 
 });
