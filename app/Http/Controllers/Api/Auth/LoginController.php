@@ -22,7 +22,7 @@ class LoginController extends Controller
                     'status' => false,
                     'message' => 'validasi error',
                     'errors' => $validate->errors()
-                ], 401);
+                ], 422);
             }
             if (!Auth::attempt($request->only(['email', 'password']))) {
                 return response()->json([
