@@ -30,7 +30,7 @@ class RegisterController extends Controller
                     'status' => false,
                     'message' => 'Validasi salah',
                     'errors' => $validateUser->errors()
-                ], 401);
+                ], 422);
             }
 
             $verificationCode = str_pad(rand(1, 999999), 6, '0', STR_PAD_LEFT);

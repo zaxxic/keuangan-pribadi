@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\Api\Auth\SettingsController;
 use App\Http\Controllers\Api\Auth\VerifikasiOtpController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\Tracsaction\SavingsController;
 use App\Http\Controllers\Api\Transaction\ExpenditureController;
 use App\Http\Controllers\Api\Transaction\IncomeController;
@@ -40,6 +42,7 @@ Route::middleware(
     Route::get('dashboard', [DashboardController::class, 'index']);
     //income 
     Route::get('/income', [IncomeController::class, 'index']);
+    Route::post('/income/filter', [IncomeController::class, 'filter']);
     Route::get('/income/edit/{id}', [IncomeController::class, 'edit']);
     Route::put('/income/update/{id}', [IncomeController::class, 'update']);
     Route::post('/income/store', [IncomeController::class, 'store']);
@@ -74,6 +77,18 @@ Route::middleware(
     Route::put('/reguler/update/income/{id}', [RegulerIncomeController::class, 'update']);
     Route::delete('/reguler/income/delete/{id}', [RegulerIncomeController::class, 'destroy']);
     //income reguler end
+
+    // akun setings
+    Route::get('/profile', [SettingsController::class, 'index']);
+    Route::put('/profile/update', [SettingsController::class, 'update']);
+    Route::put('/password/update', [SettingsController::class, 'updatePassword']);
+    // akun settings end
+
+    // notifikasi
+    Route::get('/notif', [NotificationController::class, 'index']);
+    Route::post('/accept/{id}', [NotificationController::class, 'accept']);
+    Route::post('/update/notif/{id}', [NotificationController::class, 'update']);
+    // notifikasi end
 
     //savings 
     Route::resource('/saving', SavingsController::class);

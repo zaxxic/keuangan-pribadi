@@ -315,7 +315,7 @@ class SavingsController extends Controller
         $saving = Saving::where('id', $request->input('saving'))->first();
         $email = $request->input('email');
 
-        Mail::to($email)->send(new Invitation(Auth::user()->name, $saving->id, $saving->key));
+        Mail::to($email)->send(new InvitationApi(Auth::user()->name, $saving->id, $saving->key));
         // error bangsat
         return response()->json([
             'message' => 'Email undangan telah terkirim'

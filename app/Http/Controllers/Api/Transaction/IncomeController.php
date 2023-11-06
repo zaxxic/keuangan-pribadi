@@ -48,6 +48,49 @@ class IncomeController extends Controller
         }
     }
 
+    public function filter(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $startDate = $request->input('start_date');
+            $endDate = $request->input('end_date');
+
+            $transactions = HistoryTransaction::with('category')
+                ->where('user_id', $user->id)
+                ->where('content', 'income')
+                ->where('status', 'paid')
+                ->when($startDate, function ($query) use ($startDate) {
+                    return $query->whereDate('created_at', '>=', $startDate);
+                })
+                ->when($endDate, function ($query) use ($endDate) {
+                    return $query->whereDate('created_at', '<=', $endDate);
+                })
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            $formattedTransactions = $transactions->map(function ($transaction) {
+                $attachmentPath = $transaction->source === 'reguler' ? 'reguler_income_attachment/' : 'income_attachment/';
+                $transaction->attachmentUrl = asset('storage/' . $attachmentPath . $transaction->attachment);
+                $transaction->amount = 'Rp ' . number_format($transaction->amount, 0, ',', '.');
+                $transaction->formattedDate = Carbon::parse($transaction->date)->format('d F Y');
+                return $transaction;
+            });
+            // dd($transaction);
+            return response()->json([
+                'status' => true,
+                'message' => 'Data transaksi pendapatan ditemukan.',
+                'data' => $formattedTransactions
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Gagal mengambil data transaksi pendapatan.',
+                'error' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+
     public function store(Request $request)
     {
         // Validasi data dengan pesan kustom
