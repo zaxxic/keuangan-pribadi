@@ -28,7 +28,7 @@ class LoginController extends Controller
                 return response()->json([
                     'status' => false,
                     'message' => 'Email atau password salah.',
-                ], 401);
+                ], 422);
             }
             $user = User::where('email', $request->email)->first();
             $customData = [
