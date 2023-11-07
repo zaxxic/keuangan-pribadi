@@ -110,6 +110,6 @@ class SettingsController extends Controller
         $user->password = Hash::make($request->input('new_password'));
         $user->save();
 
-        return response()->json(['success' => 'Kata sandi berhasil diperbarui.']);
+        return response()->json(['success' => 'Kata sandi berhasil diperbarui.'],200);
     }
 }

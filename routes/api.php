@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\Auth\SettingsController;
 use App\Http\Controllers\Api\Auth\VerifikasiOtpController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\SubscriberController;
+use App\Http\Controllers\Api\TotalController;
 use App\Http\Controllers\Api\Tracsaction\SavingsController;
 use App\Http\Controllers\Api\Transaction\ExpenditureController;
 use App\Http\Controllers\Api\Transaction\IncomeController;
@@ -50,6 +52,10 @@ Route::middleware(
     Route::get('/income/category/create', [IncomeController::class, 'category']);
     Route::post('/income/category/store', [IncomeController::class, 'storeCategory']);
     // income done
+
+    // subs
+    Route::get('/subs/{id}', [SubscriberController::class, 'subscribe']);
+    // subs end
 
     // expenditure
     Route::get('/expenditure', [ExpenditureController::class, 'index']);
@@ -99,6 +105,11 @@ Route::middleware(
     Route::post('/setor', [SavingsController::class, 'setor']);
     Route::post('/tarik', [SavingsController::class, 'tarik']);
     //savings end
+
+    // total 
+    Route::get('/bukti', [TotalController::class, 'pembelian']);
+
+    // total end
 
 });
 Route::middleware(

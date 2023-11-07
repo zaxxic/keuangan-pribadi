@@ -67,7 +67,6 @@ class SubscribController extends Controller
         $detail = $tripay->detail($reference);
         $transaction = SubscriberTransaction::where('reference', $reference)->first();
         // dd($transaction);
-        // Pass the transaction data and Tripay API response to the view
         return view('member.payment-show', compact('transaction', 'detail'));
     }
 
