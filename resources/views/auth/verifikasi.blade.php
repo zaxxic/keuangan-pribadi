@@ -136,7 +136,7 @@
             @csrf
             <div class="otp-input-container">
 
-                <input class="form-control shadow border border border-2" type="text" name="verification_code"
+                <input class="form-control shadow-sm border border border-2" type="text" name="verification_code"
                     id="verification_code">
             </div>
 
