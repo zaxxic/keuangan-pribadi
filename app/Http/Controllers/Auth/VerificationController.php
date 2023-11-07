@@ -45,19 +45,16 @@ class VerificationController extends Controller
 
     // public function verify(Request $request)
     // {
-    //     // Memeriksa apakah URL verifikasi valid
-    //     if (! hash_equals((string) $request->route('id'), (string) $request->user()->getKey())) {
+     //     if (! hash_equals((string) $request->route('id'), (string) $request->user()->getKey())) {
     //         return redirect('/login')->with('error', 'URL verifikasi tidak valid.');
     //     }
 
-    //     // Memeriksa apakah pengguna telah memverifikasi alamat email mereka sebelumnya
-    //     if ($request->user()->hasVerifiedEmail()) {
+     //     if ($request->user()->hasVerifiedEmail()) {
     //         // Pengguna sudah memverifikasi alamat email mereka, Anda dapat mengarahkan pengguna atau memberikan pesan sesuai kebutuhan Anda
     //         return redirect('/dashboard')->with('info', 'Alamat email sudah diverifikasi sebelumnya.');
     //     }
 
-    //     // Memeriksa apakah email berhasil diverifikasi
-    //     if ($request->user()->markEmailAsVerified()) {
+     //     if ($request->user()->markEmailAsVerified()) {
     //         // Email berhasil diverifikasi, Anda dapat memicu event Verified jika perlu
     //         event(new Verified($request->user()));
 

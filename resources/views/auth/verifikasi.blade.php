@@ -38,7 +38,7 @@
             margin-bottom: 20px;
         }
 
-        .otp-input {
+        /* .otp-input {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             gap: 5px;
@@ -54,7 +54,9 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             margin-right: 5px;
-        }
+        } */
+
+
 
         button,
         .resend-button {
@@ -117,6 +119,13 @@
             </div>
         @endif
 
+        @if ($errors->has('verification_code'))
+            <div class="alert alert-danger">
+                {{ $errors->first('verification_code') }}
+            </div>
+        @endif
+
+
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -125,15 +134,11 @@
         <p>Masukkan kode verifikasi 6 digit yang telah dikirimkan ke email {{ Auth::user()->email }}.</p>
         <form action="{{ Route('verif') }}" method="POST" onsubmit="combineInputs()">
             @csrf
-            <div class="otp-input">
-                <input type="text" id="digit1" maxlength="1" required>
-                <input type="text" id="digit2" maxlength="1" required>
-                <input type="text" id="digit3" maxlength="1" required>
-                <input type="text" id="digit4" maxlength="1" required>
-                <input type="text" id="digit5" maxlength="1" required>
-                <input type="text" id="digit6" maxlength="1" required>
+            <div class="otp-input-container">
+
+                <input class="form-control" type="text" name="verification_code" id="verification_code">
             </div>
-            <input type="hidden" name="verification_code" id="verification_code" required>
+
             <div class="button-container">
                 <button type="submit" class="verify-button">Verifikasi</button>
                 <a href="{{ route('resended') }}" style="text-decoration: none" class="resend-button">Kirim Ulang
@@ -147,7 +152,7 @@
             @csrf
         </form>
     </div>
-    <script>
+    {{-- <script>
         function validateInput(event) {
             var keyCode = event.keyCode;
             if (keyCode < 48 || keyCode > 57) {
@@ -210,6 +215,22 @@
                     }
                 });
             });
+        });
+    </script> --}}
+    <script>
+        // Mengambil elemen input dengan ID "verification_code"
+        var verificationCodeInput = document.getElementById("verification_code");
+
+        // Menambahkan event listener untuk membatasi input hanya menerima angka
+        verificationCodeInput.addEventListener("input", function(event) {
+            // Mengambil nilai input
+            var inputValue = event.target.value;
+
+            // Menghapus karakter selain angka menggunakan regular expression
+            var numericValue = inputValue.replace(/\D/g, '');
+
+            // Memperbarui nilai input dengan hanya angka yang diterima
+            event.target.value = numericValue;
         });
     </script>
 </body>

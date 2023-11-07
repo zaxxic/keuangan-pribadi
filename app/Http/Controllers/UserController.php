@@ -44,9 +44,19 @@ class UserController extends Controller
 
   public function verify(Request $request)
   {
+    $request->validate([
+      'verification_code' => 'required|max:6|min:6',
+    ], [
+      'verification_code.required' => 'Verifikasi email harus di isi',
+      'verification_code.max'=>'Verifikasi maximal 6 angka',
+      'verification_code.min'=>'Verifikasi minimal 6 angka'
+    ]);
     $user = auth()->user();
 
+
+
     $verificationCode = $request->input('verification_code');
+
 
 
     if ($user && strcmp($user->verification_code, $verificationCode) === 0) {
