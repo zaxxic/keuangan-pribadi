@@ -61,8 +61,8 @@
                                         <th>Tangal</th>
                                         <th>Amount</th>
                                         <th>lampiran</th>
-                                        <th>Kategori</th>
                                         <th>Metode pembayaran</th>
+                                        <th>Kategori</th>
                                         <th>Deskripsi</th>
                                         <th class="text-end">Action</th>
                                     </tr>
@@ -233,7 +233,6 @@
                 {
                     data: 'payment_method',
                     name: 'payment_method',
-                    searchable: false,
                 },
                 {
                     data: 'category.name',

@@ -16,14 +16,14 @@
                                         <div class="form-group">
                                             <label>Judul</label>
                                             <input type="text" name="title" class="form-control"
-                                                placeholder="Masukkan judul pemasukan" />
+                                                placeholder="Masukkan judul peneluaran" />
                                             <span id="title-error" class="text-danger"></span>
 
                                         </div>
                                         <div class="form-group">
                                             <label>Jumlah </label>
                                             <input type="number" name="amount" class="form-control"
-                                                placeholder="Masukkan jumlah pemasukkan" />
+                                                placeholder="Masukkan jumlah peneluaran" />
                                             <span id="amount-error" class="text-danger"></span>
 
                                         </div>
@@ -148,7 +148,8 @@
             $('#createIncomeForm').submit(function(e) {
                 e.preventDefault(); // Mencegah pengiriman formulir biasa
                 let button = e.target.querySelector("button[type=submit]");
-                button.innerHTML = /*html*/ `<span class="spinner-border spinner-border-sm me-2"></span> Menyimpan...`
+                button.innerHTML = /*html*/
+                    `<span class="spinner-border spinner-border-sm me-2"></span> Menyimpan...`
                 button.setAttribute("disabled", "");
 
                 var formData = new FormData(this);
@@ -187,7 +188,8 @@
             $('#createExpenditureCategoryForm').submit(function(event) {
                 event.preventDefault();
                 let button = event.target.querySelector("button[type=submit]");
-                button.innerHTML = /*html*/ `<span class="spinner-border spinner-border-sm me-2"></span> Menyimpan...`
+                button.innerHTML = /*html*/
+                    `<span class="spinner-border spinner-border-sm me-2"></span> Menyimpan...`
                 button.setAttribute("disabled", "");
                 var formData = $(this).serialize();
                 $.ajax({
