@@ -24,23 +24,23 @@ class RegulerExpenditure extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
 
-            $formattedTransactions = $transactions->transform(function ($transaction) {
-                // Format data sesuai kebutuhan Anda di sini
-                return [
-                    'id' => $transaction->id,
-                    'attachmentUrl' => asset('storage/reguler_expenditure_attachment/' . $transaction->attachment),
-                    'amount' => 'Rp ' . number_format($transaction->amount, 0, ',', '.'),
-                    'description' => $transaction->description,
-                    'date' => Carbon::parse($transaction->date)->format('d F Y'),
-                    'recurring' => $transaction->recurring,
-                    // tambahkan kolom lainnya sesuai kebutuhan Anda
-                ];
-            });
+            // $formattedTransactions = $transactions->transform(function ($transaction) {
+            //     // Format data sesuai kebutuhan Anda di sini
+            //     return [
+            //         'id' => $transaction->id,
+            //         'attachmentUrl' => asset('storage/reguler_expenditure_attachment/' . $transaction->attachment),
+            //         'amount' => 'Rp ' . number_format($transaction->amount, 0, ',', '.'),
+            //         'description' => $transaction->description,
+            //         'date' => Carbon::parse($transaction->date)->format('d F Y'),
+            //         'recurring' => $transaction->recurring,
+            //         // tambahkan kolom lainnya sesuai kebutuhan Anda
+            //     ];
+            // });
 
             return response()->json([
                 'status' => true,
                 'message' => 'Data transaksi pengeluaran ditemukan.',
-                'data' => $formattedTransactions
+                'data' => $transactions
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
