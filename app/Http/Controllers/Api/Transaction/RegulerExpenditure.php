@@ -24,6 +24,14 @@ class RegulerExpenditure extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
 
+            $formattedTransactions = $transactions->map(function ($transaction) {
+
+                $transaction->attachmentUrl = asset('storage/reguler_expenditure_attachment'  . $transaction->attachment);
+                $transaction->amount = 'Rp ' . number_format($transaction->amount, 0, ',', '.');
+                $transaction->formattedDate = Carbon::parse($transaction->date)->format('d F Y');
+                return $transaction;
+            });
+
             // $formattedTransactions = $transactions->transform(function ($transaction) {
             //     // Format data sesuai kebutuhan Anda di sini
             //     return [
@@ -40,7 +48,7 @@ class RegulerExpenditure extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Data transaksi pengeluaran ditemukan.',
-                'data' => $transactions
+                'data' => $formattedTransactions
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

@@ -37,11 +37,18 @@ class RegulerIncomeController extends Controller
             //         'recurring' => $transaction->recurring,
             //      ];
             // });
+            $formattedTransactions = $transactions->map(function ($transaction) {
+
+                $transaction->attachmentUrl = asset('storage/reguler_income_attachment'  . $transaction->attachment);
+                $transaction->amount = 'Rp ' . number_format($transaction->amount, 0, ',', '.');
+                $transaction->formattedDate = Carbon::parse($transaction->date)->format('d F Y');
+                return $transaction;
+            });
 
             return response()->json([
                 'status' => true,
-                'message' => 'Data transaksi pengeluaran ditemukan.',
-                'data' => $transactions
+                'message' => 'Data transaksi pemasukan ditemukan.',
+                'data' => $formattedTransactions
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
