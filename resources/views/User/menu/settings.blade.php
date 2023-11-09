@@ -60,7 +60,7 @@
                                 <div class="profile-picture">
                                     <div class="upload-profile me-2">
                                         <div class="profile-img">
-                                            <img id="blah" class="avatar"
+                                            <img id="blah" class="avatar object-fit-cover"
                                                 src="{{ asset('storage/profile/' . Auth::user()->image) }}"
                                                 alt="User Photo">
                                         </div>
@@ -87,7 +87,7 @@
                                     <div class="form-group mb-0">
                                         <label>Gender</label>
                                         <select name="gender" class="select">
-                                            <option value="none">Pilih Jeis Kelamain</option>
+                                            <option value="none">Pilih Jenis Kelamin</option>
                                             <option value="male" {{ Auth::user()->gender === 'male' ? 'selected' : '' }}>
                                                 Laki Laki</option>
                                             <option value="female"
