@@ -135,7 +135,7 @@ class IncomeController extends Controller
         }
 
         $user_id = Auth::id();
-
+        $data = $request->all();
         $income = new HistoryTransaction();
         $income->title = $request->input('title');
         $income->amount = $request->input('amount');
@@ -152,7 +152,10 @@ class IncomeController extends Controller
 
 
         // Respon sukses
-        return response()->json(['message' => 'income berhasil disimpan'], 200);
+        return response()->json([
+            'message' => 'income berhasil disimpan',
+            'data' =>    $data
+        ], 200);
     }
 
     public function storeCategory(Request $request)
@@ -173,7 +176,12 @@ class IncomeController extends Controller
         $incomeCategory->user_id = auth()->id();
         $incomeCategory->save();
 
-        return response()->json(['incomeCategory' => $incomeCategory], 201);
+        $data = $request->all();
+
+        return response()->json([
+            'message' => 'kategori berhasil disimpan',
+            'data' =>    $data
+        ], 200);
     }
 
     public function category()
@@ -274,8 +282,12 @@ class IncomeController extends Controller
         $income->category_id = $request->input('category_id');
         $income->save();
 
-        // Respon sukses
-        return response()->json(['message' => 'Transaksi berhasil diperbarui'], 200);
+        $data = $request->all();
+
+        return response()->json([
+            'message' => 'income berhasil disimpan',
+            'data' =>    $data
+        ], 200);
     }
 
     public function destroy(string $id)
