@@ -105,10 +105,13 @@ class ExpenditureController extends Controller
         $income->attachment = $attachmentName;
         $income->save();
 
-
+        $data = $request->all();
 
         // Respon sukses
-        return response()->json(['message' => 'income berhasil disimpan'], 200);
+        return response()->json([
+            'message' => 'pengeluaran berhasil disimpan',
+            'data' =>    $data
+        ], 200);
     }
 
     public function category()
@@ -144,7 +147,12 @@ class ExpenditureController extends Controller
         $incomeCategory->user_id = auth()->id();
         $incomeCategory->save();
 
-        return response()->json(['incomeCategory' => $incomeCategory], 201);
+        $data = $request->all();
+
+        return response()->json([
+            'message' => 'kategori pengeluaran berhasil disimpan',
+            'data' =>    $data
+        ], 200);
     }
 
     public function edit($id)
@@ -237,7 +245,12 @@ class ExpenditureController extends Controller
         $expenditure->save();
 
         // Respon sukses
-        return response()->json(['message' => 'Transaksi berhasil diperbarui'], 200);
+        $data = $request->all();
+
+        return response()->json([
+            'message' => 'pengeluaran berhasil di edit',
+            'data' =>    $data
+        ], 200);
     }
 
     public function destroy(string $id)

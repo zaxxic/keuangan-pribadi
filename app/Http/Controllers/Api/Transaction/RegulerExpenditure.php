@@ -142,7 +142,12 @@ class RegulerExpenditure extends Controller
 
 
         // Respon sukses
-        return response()->json(['message' => 'Berhasil menmbah data'], 200);
+        $data = $request->all();
+
+        return response()->json([
+            'message' => 'Penngeluaran berencana berhasil disimpan',
+            'data' =>    $data
+        ], 200);
     }
 
     public function edit(string $id)
@@ -238,7 +243,12 @@ class RegulerExpenditure extends Controller
         $expenditure->attachment = $attachmentName;
         $expenditure->save();
 
-        return response()->json(['message' => 'Transaksi berhasil diperbarui'], 200);
+        $data = $request->all();
+
+        return response()->json([
+            'message' => 'Penngeluaran berencana berhasil di edit',
+            'data' =>    $data
+        ], 200);
     }
 
     public function destroy(string $id)

@@ -153,7 +153,7 @@ class IncomeController extends Controller
 
         // Respon sukses
         return response()->json([
-            'message' => 'income berhasil disimpan',
+            'message' => 'Pemasukan berhasil disimpan',
             'data' =>    $data
         ], 200);
     }
@@ -285,7 +285,7 @@ class IncomeController extends Controller
         $data = $request->all();
 
         return response()->json([
-            'message' => 'income berhasil disimpan',
+            'message' => 'Pemasukan berhasil di edit',
             'data' =>    $data
         ], 200);
     }

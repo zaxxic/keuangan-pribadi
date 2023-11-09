@@ -142,8 +142,12 @@ class RegulerIncomeController extends Controller
 
 
         // Respon sukses
-        return response()->json(['message' => 'Berhasil menmbah data'], 200);
-    }
+        $data = $request->all();
+
+        return response()->json([
+            'message' => 'Pemasukan berencana berhasil disimpan',
+            'data' =>    $data
+        ], 200);         }
 
     public function edit(string $id)
     {
@@ -238,8 +242,12 @@ class RegulerIncomeController extends Controller
         $expenditure->attachment = $attachmentName;
         $expenditure->save();
 
-        return response()->json(['message' => 'Transaksi berhasil diperbarui'], 200);
-    }
+        $data = $request->all();
+
+        return response()->json([
+            'message' => 'Pemasukan berencana berhasil di edit',
+            'data' =>    $data
+        ], 200);         }
 
     public function destroy(string $id)
     {
