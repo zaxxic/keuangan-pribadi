@@ -135,19 +135,31 @@ class IncomeController extends Controller
         }
 
         $user_id = Auth::id();
-        $data = $request->all();
+
         $income = new HistoryTransaction();
         $income->title = $request->input('title');
         $income->amount = $request->input('amount');
         $income->payment_method = $request->input('payment_method');
-        $income->content = ('income');
         $income->date = $request->input('date');
         $income->description = $request->input('description');
         $income->category_id = $request->input('category_id');
         $income->user_id = $user_id;
+        $income->content = ('income');
         $income->status = 'paid';
         $income->attachment = $attachmentName;
         $income->save();
+        $data = [
+            'title' => $request->input('title'),
+            'amount' => $request->input('amount'),
+            'payment_method' => $request->input('payment_method'),
+            'date' => $request->input('date'),
+            'description' => $request->input('description'),
+            'category_id' => $request->input('category_id'),
+            'user_id' => $user_id,
+            'content' => 'income',
+            'status' => 'paid',
+            'attachment' => $attachmentName,
+        ];
 
 
 
